@@ -3,7 +3,7 @@
   "compilerOptions": {
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strict": true,
+    // "strict": true,
     "module": "commonjs",
     "target": "es5"
   },
