@@ -1,4 +1,9 @@
 <template>
   <require from="./app.css"></require>
-  ${message}
+  <require from="./demo-component/ol-map"></require>
+
+  <ol-map class="map-container"
+          view-model.ref="$this.map"
+          loaded.delegate="onMapLoaded($event)">
+  </ol-map>
 </template>

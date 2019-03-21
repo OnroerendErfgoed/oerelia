@@ -1,3 +1,7 @@
 export class App {
-  public message: string = 'Hello world!';
+  private map: any;
+
+  public onMapLoaded(e) {
+    // console.log(e);
+  }
 }
