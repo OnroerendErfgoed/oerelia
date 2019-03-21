@@ -2,8 +2,8 @@ import { bindable, inject } from 'aurelia-framework';
 import * as ol from 'openlayers';
 import proj4 from 'proj4';
 import * as toastr from 'toastr';
-import { Boundingbox } from './models/boundingbox';
-import { Contour } from './models/contour';
+import { Boundingbox } from '../models/boundingbox';
+import { Contour } from '../models/contour';
 import { Layerswitcher } from './ol-layerswitcher';
 // import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 
