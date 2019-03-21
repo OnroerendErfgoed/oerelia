@@ -39,6 +39,7 @@ export class CrabService {
           this.landen.sort(this.compare);
           return this.landen;
         }
+        return undefined;
       }).catch(error => {
         console.debug(error);
       });
@@ -57,6 +58,7 @@ export class CrabService {
           this.provincies.sort(this.compare);
           return this.provincies;
         }
+        return undefined;
       }).catch(error => {
         console.debug(error);
       });
@@ -66,12 +68,13 @@ export class CrabService {
   public getGemeentenByProvincie(provincie): Promise<void | any[]> {
     return this.crabGet(`crab/provincies/${provincie}/gemeenten`).then(response => {
       if (response.isSuccess) {
-        let gemeenten: Gemeente[] = response.content.map(el => {
+        const gemeenten: Gemeente[] = response.content.map(el => {
           return new Gemeente(el.id, el.niscode, el.naam);
         });
         gemeenten.sort(this.compare);
         return gemeenten;
       }
+      return undefined;
     }).catch(error => {
       console.debug(error);
     });
@@ -93,6 +96,7 @@ export class CrabService {
           });
           return this.gemeenten;
         }
+        return undefined;
       }).catch(error => {
         console.debug(error);
       });
@@ -140,7 +144,7 @@ export class CrabService {
     return this.crabGet(`crab/straten/${straat}/huisnummers`)
       .then(huisnrs => {
         if (huisnrs.isSuccess) {
-          let data = huisnrs.content.sort((a, b) => {
+          const data = huisnrs.content.sort((a, b) => {
             return parseInt(a.label, 0) - parseInt(b.label, 0);
           });
           const tempL: Huisnummer[] = [];
@@ -172,7 +176,7 @@ export class CrabService {
     return this.crabGet('geolocation/' + value)
       .then(response => {
         if (response.isSuccess) {
-          return <GeolocationResponse> response.content;
+          return (response.content as GeolocationResponse);
         } else {
           return null;
         }
