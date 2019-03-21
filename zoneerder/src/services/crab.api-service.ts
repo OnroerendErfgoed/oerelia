@@ -1,17 +1,19 @@
+import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import * as toastr from 'toastr';
 import { GeolocationResponse } from '../models/geolocationresponse';
 import { Gemeente, Huisnummer, Straat } from '../models/locatie';
 
+@inject(HttpClient)
 export class CrabService {
   private landen: any[] = [];
   private provincies: any[] = [];
   private gemeenten: Gemeente[] = [];
+  private crabpyUrl: string = 'https://geo.onroerenderfgoed.be';
+
   constructor(
-    private http: HttpClient,
-    private crabpyUrl: string
+    private http: HttpClient
   ) {
-    this.http = http;
     this.http.configure(x => {
       x.withBaseUrl(this.crabpyUrl);
       x.withHeader('Accept', 'application/json');

@@ -1,11 +1,15 @@
+import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import * as ol from 'openlayers';
 import * as toastr from 'toastr';
 
+@inject(HttpClient)
 export class GeozoekdienstApiService {
+  private crabpyUrl: string = 'https://geo.onroerenderfgoed.be';
+  private agivGrbUrl: string = 'https://geoservices.informatievlaanderen.be/overdrachtdiensten/GRB/wfs';
+
   constructor(
-    private http: HttpClient,
-    private config: any
+    private http: HttpClient
   ) {
     this.http = new HttpClient();
     this.http.configure(x => {
@@ -30,7 +34,7 @@ export class GeozoekdienstApiService {
       geometrie: geometrie
     };
 
-    return this.http.createRequest(this.config.geozoekdienstUrl)
+    return this.http.createRequest(`${this.crabpyUrl}/zoekdiensten/afbakeningen`)
       .asPost()
       .withContent(content)
       .send()
@@ -57,7 +61,7 @@ export class GeozoekdienstApiService {
     params += '&typename=' + featureTypes.join(',');
     params += '&outputFormat=application/json';
 
-    return this.http.createRequest(`${this.config.beschermingWfsUrl}?${params}`)
+    return this.http.createRequest(`${this.crabpyUrl}/geoserver/wms?${params}`)
       .asGet()
       .send()
       .then((response) => {
@@ -88,7 +92,7 @@ export class GeozoekdienstApiService {
       filter: filter
     });
 
-    return this.http.createRequest(this.config.agivGrbUrl)
+    return this.http.createRequest(this.agivGrbUrl)
       .asPost()
       .withContent(new XMLSerializer().serializeToString(featureRequest))
       .withHeader('Content-Type', 'application/xml')
