@@ -2,12 +2,12 @@ import { bindable, inject } from 'aurelia-framework';
 import * as ol from 'openlayers';
 import proj4 from 'proj4';
 import * as toastr from 'toastr';
-import { Boundingbox } from './models/boundingbox';
-import { Contour } from './models/contour';
+import { Boundingbox } from '../models/boundingbox';
+import { Contour } from '../models/contour';
+import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
-// import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 
-@inject(Element/*, GeozoekdienstApiService*/)
+@inject(Element, GeozoekdienstApiService)
 export class OlMap {
   @bindable public disabled: boolean;
   @bindable public zone: any;
@@ -29,8 +29,8 @@ export class OlMap {
   private polygonIndex: number = 1;
 
   constructor(
-    private element: Element/*,
-    private apiService: GeozoekdienstApiService*/
+    private element: Element,
+    private apiService: GeozoekdienstApiService
   ) {
     console.debug('olMap::constructor', this.zone);
     this._defineProjections();
@@ -139,9 +139,9 @@ export class OlMap {
     this.map.once('click', (evt: any) => {
       console.debug('Perceelselect', evt);
       this.selectPerceel = false;
-      /*this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then( (result: any) => {
+      this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then( (result: any) => {
         this.geoJsonFormatter.readFeatures(result).forEach((perceel) => { this.drawPerceel(perceel); });
-      });*/
+      });
     });
   }
 
