@@ -2,10 +2,10 @@ import { bindable, inject } from 'aurelia-framework';
 import { OlMap } from './components/ol-map';
 import { CrabService } from './services/crab.api-service';
 
-inject(CrabService)
+@inject(CrabService)
 export class Zoneerder {
   @bindable public locatie: any;
-  @bindable public disabled: boolean;
+  @bindable public disabled: boolean = false;
   protected suggest: any;
   private map: OlMap;
 

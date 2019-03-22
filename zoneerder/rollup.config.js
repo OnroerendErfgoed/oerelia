@@ -19,7 +19,11 @@ function output(target, format, opts = {}) {
     plugins: [
       resolve(),
       commonJS({
-        include: 'node_modules/**'
+        include: 'node_modules/**',
+        namedExports: {
+          'node_modules/aurelia-framework/dist/commonjs/aurelia-framework.js': ['bindable', 'inject'],
+          'node_modules/toastr/toastr.js': ['error']
+        }
       }),
       ts({
         tsconfig: `configs/tsconfig-build-${mod}.json`,

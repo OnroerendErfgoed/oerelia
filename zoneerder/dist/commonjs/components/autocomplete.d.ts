@@ -1,0 +1,30 @@
+export declare class Autocomplete {
+    inputValue: string;
+    service: any;
+    value: string;
+    placeholder: string;
+    delay: number;
+    label: string;
+    disabled: boolean;
+    onEnter: any;
+    id: number;
+    expanded: boolean;
+    updatingInput: boolean;
+    suggestions: string[];
+    index: number;
+    suggestionsUL: any;
+    userInput: string;
+    element: Element;
+    constructor(element: Element);
+    display(name: any): void;
+    getName(suggestion: any): any;
+    collapse(): void;
+    select(suggestion: any): void;
+    valueChanged(): void;
+    inputValueChanged(value: any): void;
+    scroll(): void;
+    keydown(e: any): boolean;
+    blur(): void;
+    suggestionClicked(suggestion: any): void;
+    focus(): void;
+}

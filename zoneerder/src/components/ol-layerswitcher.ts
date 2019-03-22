@@ -1,7 +1,7 @@
 import * as ol from 'openlayers';
 
 /**
- * VERY EXPERIMENTAL! 
+ * VERY EXPERIMENTAL!
  * JS Openlayers 3+ layerswitcher with TS compatibilty, but not in TS!
  * Should be refactored to full TS/Aurelia support, tslint is fine.
  */
@@ -53,16 +53,16 @@ export class Layerswitcher extends ol.control.Control {
     this.panel.className = 'panel';
     this.element.appendChild(this.panel);
 
-    let self = this;
+    const self = this;
 
-    this.button.onclick = function (e) {
+    this.button.onclick = () => {
       self.showPanel();
       self.isShown = true;
       self.button.style.display = 'none';
       self.closeButton.style.display = 'inline-block';
     };
 
-    this.closeButton.onclick = function (e) {
+    this.closeButton.onclick = () => {
       self.hidePanel();
       self.isShown = false;
       self.button.style.display = 'inline-block';
@@ -104,10 +104,10 @@ export class Layerswitcher extends ol.control.Control {
       this.panel.removeChild(this.panel.firstChild);
     }
 
-    let p = document.createElement('p');
+    const p = document.createElement('p');
     p.innerHTML = this.panelTitle;
     this.panel.appendChild(p);
-    let ul = document.createElement('ul');
+    const ul = document.createElement('ul');
     this.panel.appendChild(ul);
     this.renderLayers_(this.getMap(), ul);
   }
@@ -118,18 +118,17 @@ export class Layerswitcher extends ol.control.Control {
    */
   public setMap(map: any) {
     // Clean up listeners associated with the previous map
-    for (let i = 0; i < this.mapListeners.length; i++) {
-      this.getMap().unset(this.mapListeners[i]);
+    for (const mapListener of this.mapListeners) {
+      this.getMap().unset(mapListener);
     }
     this.mapListeners.length = 0;
     // Wire up listeners etc. and store reference to new map
     ol.control.Control.prototype.setMap.call(this, map);
     if (map) {
-      let self = this;
       this.mapListeners.push(map.on('pointerdown', () => {
-        self.hidePanel();
-        self.button.style.display = 'inline-block';
-        self.closeButton.style.display = 'none';
+        this.hidePanel();
+        this.button.style.display = 'inline-block';
+        this.closeButton.style.display = 'none';
       }));
       this.renderPanel();
     }
@@ -156,7 +155,7 @@ export class Layerswitcher extends ol.control.Control {
    * @param {ol.layer.Base} The layer whos visibility will be toggled.
    */
   public setVisible_(lyr: any, visible: boolean) {
-    let map = this.getMap();
+    const map = this.getMap();
     lyr.setVisible(visible);
     if (visible && lyr.get('type') === 'base') {
       // Hide all other base layers regardless of grouping
@@ -185,11 +184,11 @@ export class Layerswitcher extends ol.control.Control {
       li.className = 'group';
       label.innerHTML = lyrTitle;
       li.appendChild(label);
-      let ul = document.createElement('ul');
+      const ul = document.createElement('ul');
       li.appendChild(ul);
       this.renderLayers_(lyr, ul);
     } else {
-      let input = document.createElement('input');
+      const input = document.createElement('input');
       if (lyr.get('type') === 'base') {
         input.type = 'radio';
         input.name = 'base';

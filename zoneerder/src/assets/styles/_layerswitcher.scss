@@ -1,0 +1,70 @@
+
+/*
+*   Layer switcher CSS
+*/
+.layer-switcher {
+    position: absolute;
+    top: 6.225em;
+    left: 0.5em;
+    text-align: left;
+  }
+  
+  .layer-switcher .panel {
+    padding: 0 !important;
+    border: 1px solid #cccccc;
+    background-color: rgba($fresh-blue, 0.5);
+  }
+  
+  .layer-switcher .panel {
+    display: none;
+  }
+  
+  .layer-switcher.shown .panel {
+    display: block;
+    margin: 0;
+  }
+  
+  .layer-switcher button {
+    float: right;
+    width: 1.375em;
+    height: 1.375em;
+    background-color: rgba($fresh-blue,0.5);
+    border: none;
+    padding-top: 2px;
+    font-size: 12px
+  }
+  
+  .layer-switcher button:hover {
+    background-color: rgba($fresh-blue, 0.65);
+  }
+  
+  .layer-switcher p {
+    margin-left: 1em;
+    font-size: 14px;
+    color: white;
+    margin: 0;
+    margin-left: 10px;
+  }
+  
+  .layer-switcher ul {
+    list-style: none;
+  }
+  
+  .layer-switcher li input {
+    display: inline;
+    margin: 0;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  
+  .layer-switcher li label {
+    font-size: 12px;
+    display: inline;
+    color: white;
+    margin-right: 10px;
+  }
+  
+  .layer-switcher li.group {
+    padding-bottom: 10px;
+  }
+  
