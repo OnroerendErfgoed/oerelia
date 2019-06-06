@@ -125,8 +125,8 @@
       "dependencies": [
         {
           "name": "zoneerder",
-          "path": "../node_modules/zoneerder/dist/amd",
-          "main": "zoneerder"
+          "path": "../node_modules/oerelia/zoneerder/dist/amd",
+          "main": "index"
         }
       ]
     }
