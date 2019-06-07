@@ -1,5 +1,9 @@
 import { FrameworkConfiguration, PLATFORM } from 'aurelia-framework';
 
+export * from './hello-world';
+
 export function configure(config: FrameworkConfiguration) {
-  config.feature(PLATFORM.moduleName('oerelia/testplugin/elements/index'));
+  config.globalResources([
+    PLATFORM.moduleName('./hello-world')
+  ]);
 }
