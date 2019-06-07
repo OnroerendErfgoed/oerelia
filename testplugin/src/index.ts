@@ -1,8 +1,9 @@
-import {FrameworkConfiguration} from 'aurelia-framework';
-import {PLATFORM} from 'aurelia-pal';
+import { FrameworkConfiguration, PLATFORM } from 'aurelia-framework';
+
+export * from './hello-world';
 
 export function configure(config: FrameworkConfiguration) {
   config.globalResources([
-    PLATFORM.moduleName('oerelia/testplugin/hello-world')
+    PLATFORM.moduleName('./hello-world')
   ]);
 }
