@@ -2,5 +2,7 @@ import {FrameworkConfiguration} from 'aurelia-framework';
 import {PLATFORM} from 'aurelia-pal';
 
 export function configure(config: FrameworkConfiguration) {
-  config.feature(PLATFORM.moduleName('testplugin/hello-world'));
+  config.globalResources([
+    PLATFORM.moduleName('oerelia/testplugin/hello-world')
+  ]);
 }
