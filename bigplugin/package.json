@@ -58,7 +58,7 @@
   "aurelia": {
     "build": {
       "resources": [
-        "bigplugin/elements/hello-world"
+        "oerelia/bigplugin/elements/hello-world"
       ]
     }
   },
