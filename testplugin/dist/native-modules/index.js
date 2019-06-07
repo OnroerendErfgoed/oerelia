@@ -1,6 +1,4 @@
 import { PLATFORM } from 'aurelia-pal';
 export function configure(config) {
-    config.globalResources([
-        PLATFORM.moduleName('./hello-world')
-    ]);
+    config.feature(PLATFORM.moduleName('testplugin/hello-world'));
 }
