@@ -7,15 +7,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+import { bindingMode } from 'aurelia-binding';
 import { bindable } from 'aurelia-framework';
-var HelloWorld = (function () {
-    function HelloWorld() {
-        this.message = '';
+var TabsHeader = (function () {
+    function TabsHeader() {
     }
+    TabsHeader.prototype.click = function (id, event) {
+        console.debug('tab-headers::click', event);
+        event.stopPropagation();
+        event.preventDefault();
+        this.tabs = this.tabs.filter(function (tab) {
+            tab.active = tab.id === id;
+            return tab;
+        });
+    };
     __decorate([
-        bindable,
-        __metadata("design:type", String)
-    ], HelloWorld.prototype, "message", void 0);
-    return HelloWorld;
+        bindable({ defaultBindingMode: bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], TabsHeader.prototype, "tabs", void 0);
+    return TabsHeader;
 }());
-export { HelloWorld };
+export { TabsHeader };
