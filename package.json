@@ -1,0 +1,19 @@
+{
+  "name": "oerelia",
+  "version": "1.0.0",
+  "description": "Onroerend Erfgoed library of common Aurelia components",
+  "scripts": {
+    "postinstall": "mv ./bigplugin/dist/native-modules/* ./bigplugin && rmdir ./bigplugin/dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OnroerendErfgoed/oerelia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OnroerendErfgoed/oerelia/issues"
+  },
+  "homepage": "https://github.com/OnroerendErfgoed/oerelia#readme"
+}
