@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Onroerend Erfgoed library of common Aurelia components",
   "scripts": {
-    "postinstall": "mv ./bigplugin/dist/native-modules/* ./bigplugin && rmdir ./bigplugin/dist"
+    "postinstall": "mv ./bigplugin/dist/* ./bigplugin && rmdir ./bigplugin/dist"
   },
   "repository": {
     "type": "git",
