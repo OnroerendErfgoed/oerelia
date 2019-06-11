@@ -87,25 +87,25 @@ By default, the `dist/` folder is not committed to git. (We have `/dist` in `.gi
 
 You can consume this plugin directly by:
 ```shell
-npm i github:your_github_username/bigplugin
+npm i github:your_github_username/tabs
 # or if you use bitbucket
-npm i bitbucket:your_github_username/bigplugin
+npm i bitbucket:your_github_username/tabs
 # or if you use gitlab
-npm i gitlab:your_github_username/bigplugin
+npm i gitlab:your_github_username/tabs
 # or plain url
-npm i https:/github.com/your_github_username/bigplugin.git
+npm i https:/github.com/your_github_username/tabs.git
 ```
 
 Then load the plugin in app's `main.ts` like this.
 ```js
-aurelia.use.plugin('bigplugin');
+aurelia.use.plugin('tabs');
 // for webpack user, use PLATFORM.moduleName wrapper
-aurelia.use.plugin(PLATFORM.moduleName('bigplugin'));
+aurelia.use.plugin(PLATFORM.moduleName('tabs'));
 ```
 
 The missing `dist/` files will be filled up by npm through `"prepare": "npm run build"` (in `"scripts"` section of package.json).
 
-Yarn has a [bug](https://github.com/yarnpkg/yarn/issues/5235) that ignores `"prepare"` script. If you want to use yarn to consume your plugin through direct git reference, remove `/dist` from `.gitignore` and commit all the files. Note you don't need to commit `dist/` files if you only use yarn to consume this plugin through published npm package (`npm i bigplugin`).
+Yarn has a [bug](https://github.com/yarnpkg/yarn/issues/5235) that ignores `"prepare"` script. If you want to use yarn to consume your plugin through direct git reference, remove `/dist` from `.gitignore` and commit all the files. Note you don't need to commit `dist/` files if you only use yarn to consume this plugin through published npm package (`npm i tabs`).
 
 ## Publish npm package
 
