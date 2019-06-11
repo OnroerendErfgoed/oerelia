@@ -1,5 +1,5 @@
 {
-  "name": "bigplugin",
+  "name": "tabs",
   "type": "project:plugin",
   "paths": {
     "root": "dev-app",
