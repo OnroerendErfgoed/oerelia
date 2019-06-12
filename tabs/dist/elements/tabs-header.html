@@ -1,1 +1,0 @@
-<template><ul class="tabs"><li class="tab-title ${tab.active ? 'active' : ''} ${tab.disabled ? 'tab-disabled' : ''}" repeat.for="tab of tabs" data-id="${tab.id}"><a click.delegate="!tab.disabled ? click(tab.id, $event) : null"><span class="index">${$index + 1}</span> ${tab.label}</a></li></ul></template>
