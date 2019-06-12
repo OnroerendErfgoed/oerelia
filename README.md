@@ -15,6 +15,9 @@ aurelia.use.plugin(PLATFORM.moduleName('oerelia'));
 OR
 aurelia.use.plugin(PLATFORM.moduleName('oerelia/tabs'));
 ```
+___
+
+# Bootstrap instructions
 
 This project is bootstrapped by [aurelia-cli](https://github.com/aurelia/cli).
 
