@@ -8,14 +8,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { bindable } from 'aurelia-framework';
-var HelloWorld = (function () {
-    function HelloWorld() {
+var Zoneerder = (function () {
+    function Zoneerder() {
         this.message = '';
     }
     __decorate([
         bindable,
         __metadata("design:type", String)
-    ], HelloWorld.prototype, "message", void 0);
-    return HelloWorld;
+    ], Zoneerder.prototype, "message", void 0);
+    return Zoneerder;
 }());
-export { HelloWorld };
+export { Zoneerder };

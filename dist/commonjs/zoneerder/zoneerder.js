@@ -10,14 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
-var HelloWorld = (function () {
-    function HelloWorld() {
+var Zoneerder = (function () {
+    function Zoneerder() {
         this.message = '';
     }
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", String)
-    ], HelloWorld.prototype, "message", void 0);
-    return HelloWorld;
+    ], Zoneerder.prototype, "message", void 0);
+    return Zoneerder;
 }());
-exports.HelloWorld = HelloWorld;
+exports.Zoneerder = Zoneerder;
