@@ -2,11 +2,18 @@
 Onroerend Erfgoed library of common Aurelia components
 
 ## Available components
-Tabs
+### Tabs
 ```
 <tabs-header></tabs-header>
 <tabs-pane></tabs-pane>
 <tabs-content></tabs-content>
+```
+
+### Import all plugins at once or seperately
+```
+aurelia.use.plugin(PLATFORM.moduleName('oerelia'));
+OR
+aurelia.use.plugin(PLATFORM.moduleName('oerelia/tabs'));
 ```
 
 This project is bootstrapped by [aurelia-cli](https://github.com/aurelia/cli).
