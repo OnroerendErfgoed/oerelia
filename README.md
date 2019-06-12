@@ -1,6 +1,14 @@
 # `Oerelia`
 Onroerend Erfgoed library of common Aurelia components
 
+## Available components
+Tabs
+```
+<tabs-header></tabs-header>
+<tabs-pane></tabs-pane>
+<tabs-content></tabs-content>
+```
+
 This project is bootstrapped by [aurelia-cli](https://github.com/aurelia/cli).
 
 This Aurelia plugin project has a built-in dev app (with CLI built-in bundler and RequireJS) to simplify development.
