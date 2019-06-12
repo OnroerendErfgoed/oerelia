@@ -1,11 +1,6 @@
-import {FrameworkConfiguration} from 'aurelia-framework';
-import {PLATFORM} from 'aurelia-pal';
+import { FrameworkConfiguration, PLATFORM } from 'aurelia-framework';
 
 export function configure(config: FrameworkConfiguration) {
-  config.globalResources([
-    PLATFORM.moduleName('./elements/hello-world'),
-    PLATFORM.moduleName('./tabs/tabs-header'),
-    PLATFORM.moduleName('./tabs/tabs-pane'),
-    PLATFORM.moduleName('./tabs/tabs-content')
-  ]);
+  config
+    .feature(PLATFORM.moduleName('oerelia/tabs/index'));
 }

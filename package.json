@@ -60,5 +60,21 @@
   "private": true,
   "files": [
     "dist"
-  ]
+  ],
+  "aurelia": {
+    "usedBy": [],
+    "build": {
+      "resources": [
+        "oerelia",
+        "oerelia/index"
+      ]
+    },
+    "import": {
+      "dependencies": [
+        {
+          "name": "oerelia"
+        }
+      ]
+    }
+  }
 }

@@ -1,12 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var aurelia_pal_1 = require("aurelia-pal");
+var aurelia_framework_1 = require("aurelia-framework");
 function configure(config) {
-    config.globalResources([
-        aurelia_pal_1.PLATFORM.moduleName('./elements/hello-world'),
-        aurelia_pal_1.PLATFORM.moduleName('./tabs/tabs-header'),
-        aurelia_pal_1.PLATFORM.moduleName('./tabs/tabs-pane'),
-        aurelia_pal_1.PLATFORM.moduleName('./tabs/tabs-content')
-    ]);
+    config
+        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/tabs/index'));
 }
 exports.configure = configure;
