@@ -1,4 +1,4 @@
-# `Oerelia`
+# Oerelia
 Onroerend Erfgoed library of common Aurelia components
 
 ## Available components
