@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_binding_1 = require("aurelia-binding");
 var aurelia_framework_1 = require("aurelia-framework");
 var ol = require("openlayers");
-var proj4 = require("proj4");
+var proj4_1 = require("proj4");
 var toastr = require("toastr");
 var contour_1 = require("../models/contour");
 var geozoekdienst_api_service_1 = require("../services/geozoekdienst.api-service");
@@ -289,17 +289,17 @@ var OlMap = (function () {
         this.map.addLayer(this.drawLayer);
     };
     OlMap.prototype._defineProjections = function () {
-        proj4.defs('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 ' +
+        proj4_1.default.defs('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 ' +
             '+lon_0=4.367486666666666 +x_0=150000.013 +y_0=5400088.438 +ellps=intl ' +
             '+towgs84=-106.869,52.2978,-103.724,0.3366,-0.457,1.8422,-1.2747 +units=m +no_defs');
-        proj4.defs('urn:ogc:def:crs:EPSG::31370', proj4.defs('EPSG:31370'));
-        proj4.defs('urn:ogc:def:crs:EPSG:6.9:31370', proj4.defs('EPSG:31370'));
-        proj4.defs('urn:x-ogc:def:crs:EPSG:31370', proj4.defs('EPSG:31370'));
-        proj4.defs('http://www.opengis.net/gml/srs/epsg.xml#31370', proj4.defs('EPSG:31370'));
-        proj4.defs('EPSG:3812', '+proj=lcc +lat_1=49.83333333333334 +lat_2=51.16666666666666 ' +
+        proj4_1.default.defs('urn:ogc:def:crs:EPSG::31370', proj4_1.default.defs('EPSG:31370'));
+        proj4_1.default.defs('urn:ogc:def:crs:EPSG:6.9:31370', proj4_1.default.defs('EPSG:31370'));
+        proj4_1.default.defs('urn:x-ogc:def:crs:EPSG:31370', proj4_1.default.defs('EPSG:31370'));
+        proj4_1.default.defs('http://www.opengis.net/gml/srs/epsg.xml#31370', proj4_1.default.defs('EPSG:31370'));
+        proj4_1.default.defs('EPSG:3812', '+proj=lcc +lat_1=49.83333333333334 +lat_2=51.16666666666666 ' +
             '+lat_0=50.797815 +lon_0=4.359215833333333 +x_0=649328 +y_0=665262 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 ' +
             '+units=m +no_defs');
-        ol.proj.setProj4(proj4);
+        ol.proj.setProj4(proj4_1.default);
         var projection = ol.proj.get('EPSG:31370');
         projection.setExtent(this.extentVlaanderen);
         this.mapProjection = projection;

@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { bindingMode } from 'aurelia-binding';
 import { bindable, inject } from 'aurelia-framework';
 import * as ol from 'openlayers';
-import * as proj4 from 'proj4';
+import proj4 from 'proj4';
 import * as toastr from 'toastr';
 import { Contour } from '../models/contour';
 import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';

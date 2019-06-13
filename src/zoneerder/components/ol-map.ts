@@ -1,7 +1,7 @@
 import { bindingMode } from 'aurelia-binding';
 import { bindable, inject } from 'aurelia-framework';
 import * as ol from 'openlayers';
-import * as proj4 from 'proj4';
+import proj4 from 'proj4';
 import * as toastr from 'toastr';
 import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
