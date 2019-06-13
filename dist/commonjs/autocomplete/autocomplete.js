@@ -10,7 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_binding_1 = require("aurelia-binding");
-var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
+var autocomplete_type_1 = require("./autocomplete-type");
 var nextID = 0;
 var Autocomplete = (function () {
     function Autocomplete(element) {
@@ -18,7 +20,8 @@ var Autocomplete = (function () {
         this.placeholder = '';
         this.delay = 300;
         this.label = 'name';
-        this.onEnter = null;
+        this.minlength = 2;
+        this.type = autocomplete_type_1.autocompleteType.Auto;
         this.expanded = false;
         this.updatingInput = false;
         this.suggestions = [];
@@ -26,9 +29,16 @@ var Autocomplete = (function () {
         this.suggestionsUL = null;
         this.userInput = '';
         this.element = null;
+        this.loaded = false;
         this.element = element;
         this.id = nextID++;
     }
+    Autocomplete.prototype.attached = function () {
+        this.loaded = true;
+        if (this.value) {
+            this.valueChanged();
+        }
+    };
     Autocomplete.prototype.display = function (name) {
         this.updatingInput = true;
         this.inputValue = name;
@@ -38,7 +48,12 @@ var Autocomplete = (function () {
         if (suggestion == null) {
             return '';
         }
-        return suggestion[this.label];
+        else if (this.labelParser) {
+            return this.labelParser(suggestion);
+        }
+        else {
+            return suggestion[this.label];
+        }
     };
     Autocomplete.prototype.collapse = function () {
         this.expanded = false;
@@ -52,7 +67,9 @@ var Autocomplete = (function () {
         this.collapse();
     };
     Autocomplete.prototype.valueChanged = function () {
-        this.select(this.value);
+        if (this.loaded) {
+            this.select(this.value);
+        }
     };
     Autocomplete.prototype.inputValueChanged = function (value) {
         var _this = this;
@@ -65,21 +82,23 @@ var Autocomplete = (function () {
             this.collapse();
             return;
         }
-        this.service.suggest(value)
-            .then(function (suggestions) {
-            var _a;
-            _this.index = -1;
-            (_a = _this.suggestions).splice.apply(_a, [0, _this.suggestions.length].concat(suggestions));
-            if (suggestions.length === 1) {
-                _this.select(suggestions[0]);
-            }
-            else if (suggestions.length === 0) {
-                _this.collapse();
-            }
-            else {
-                _this.expanded = true;
-            }
-        });
+        if (value.length >= this.minlength) {
+            this.service.suggest(value)
+                .then(function (suggestions) {
+                var _a;
+                _this.index = -1;
+                (_a = _this.suggestions).splice.apply(_a, [0, _this.suggestions.length].concat(suggestions));
+                if (suggestions.length === 1 && _this.type !== autocomplete_type_1.autocompleteType.Suggest) {
+                    _this.select(suggestions[0]);
+                }
+                else if (suggestions.length === 0) {
+                    _this.collapse();
+                }
+                else {
+                    _this.expanded = true;
+                }
+            });
+        }
     };
     Autocomplete.prototype.scroll = function () {
         var ul = this.suggestionsUL;
@@ -110,7 +129,7 @@ var Autocomplete = (function () {
                 this.display(this.userInput);
             }
             this.scroll();
-            return false;
+            return;
         }
         if (key === 38) {
             if (this.index === -1) {
@@ -126,25 +145,31 @@ var Autocomplete = (function () {
                 this.display(this.userInput);
             }
             this.scroll();
-            return false;
+            return;
         }
         if (key === 27) {
             this.display(this.userInput);
             this.collapse();
-            return false;
+            return;
         }
         if (key === 13) {
             if (this.index >= 0) {
                 this.select(this.suggestions[this.index]);
             }
-            return false;
+            return;
         }
         return true;
     };
     Autocomplete.prototype.blur = function () {
-        this.select(this.value);
-        var event = new CustomEvent('blur');
-        this.element.dispatchEvent(event);
+        if ((this.getName(this.value) === this.inputValue) || (this.type !== autocomplete_type_1.autocompleteType.Suggest)) {
+            this.select(this.value);
+            var event_1 = new CustomEvent('blur');
+            this.element.dispatchEvent(event_1);
+        }
+        else {
+            var customValue = this.parser ? this.parser(this.inputValue) : this.defaultParser(this.inputValue);
+            this.select(customValue);
+        }
     };
     Autocomplete.prototype.suggestionClicked = function (suggestion) {
         this.select(suggestion);
@@ -152,40 +177,59 @@ var Autocomplete = (function () {
     Autocomplete.prototype.focus = function () {
         this.element.firstElementChild.focus();
     };
+    Autocomplete.prototype.defaultParser = function (value) {
+        return value.trim();
+    };
     __decorate([
         aurelia_binding_1.observable,
         __metadata("design:type", String)
     ], Autocomplete.prototype, "inputValue", void 0);
     __decorate([
-        aurelia_framework_1.bindable,
+        aurelia_templating_1.bindable,
         __metadata("design:type", Object)
     ], Autocomplete.prototype, "service", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
         __metadata("design:type", String)
     ], Autocomplete.prototype, "value", void 0);
     __decorate([
-        aurelia_framework_1.bindable,
+        aurelia_templating_1.bindable,
         __metadata("design:type", String)
     ], Autocomplete.prototype, "placeholder", void 0);
     __decorate([
-        aurelia_framework_1.bindable,
+        aurelia_templating_1.bindable,
         __metadata("design:type", Number)
     ], Autocomplete.prototype, "delay", void 0);
     __decorate([
-        aurelia_framework_1.bindable,
+        aurelia_templating_1.bindable,
         __metadata("design:type", String)
     ], Autocomplete.prototype, "label", void 0);
     __decorate([
-        aurelia_framework_1.bindable,
+        aurelia_templating_1.bindable,
         __metadata("design:type", Boolean)
     ], Autocomplete.prototype, "disabled", void 0);
     __decorate([
-        aurelia_framework_1.bindable,
-        __metadata("design:type", Object)
+        aurelia_templating_1.bindable,
+        __metadata("design:type", Function)
+    ], Autocomplete.prototype, "labelParser", void 0);
+    __decorate([
+        aurelia_templating_1.bindable,
+        __metadata("design:type", Function)
     ], Autocomplete.prototype, "onEnter", void 0);
+    __decorate([
+        aurelia_templating_1.bindable,
+        __metadata("design:type", Number)
+    ], Autocomplete.prototype, "minlength", void 0);
+    __decorate([
+        aurelia_templating_1.bindable,
+        __metadata("design:type", Number)
+    ], Autocomplete.prototype, "type", void 0);
+    __decorate([
+        aurelia_templating_1.bindable,
+        __metadata("design:type", Object)
+    ], Autocomplete.prototype, "parser", void 0);
     Autocomplete = __decorate([
-        aurelia_framework_1.inject(Element),
+        aurelia_dependency_injection_1.inject(Element),
         __metadata("design:paramtypes", [Element])
     ], Autocomplete);
     return Autocomplete;

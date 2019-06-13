@@ -1,8 +1,10 @@
 /*
 original source: https://gist.github.com/jdanyow/abe2b8c1587f1853106079dc74701aeb
 * */
-import { bindingMode, observable } from 'aurelia-binding';
-import { bindable, inject } from 'aurelia-framework';
+import {bindingMode, observable} from 'aurelia-binding';
+import {bindable} from 'aurelia-templating';
+import {inject} from 'aurelia-dependency-injection';
+import {autocompleteType} from './autocomplete-type';
 
 let nextID: number = 0;
 
@@ -15,7 +17,11 @@ export class Autocomplete {
   @bindable public delay: number = 300;
   @bindable public label: string = 'name';
   @bindable public disabled: boolean;
-  @bindable public onEnter: any = null;
+  @bindable public labelParser: Function;
+  @bindable public onEnter: Function;
+  @bindable public minlength: number = 2;
+  @bindable public type: autocompleteType = autocompleteType.Auto;
+  @bindable public parser;
   public id: number;
   public expanded: boolean = false;
   public updatingInput: boolean = false;
@@ -25,9 +31,19 @@ export class Autocomplete {
   public userInput: string = '';
   public element: Element = null;
 
+  private loaded: boolean = false;
+
   constructor(element: Element) {
     this.element = element;
     this.id = nextID++;
+  }
+
+  public attached() {
+    // all bindable properties are loaded
+    this.loaded = true;
+    if (this.value) {
+      this.valueChanged();
+    }
   }
 
   public display(name) {
@@ -39,8 +55,11 @@ export class Autocomplete {
   public getName(suggestion) {
     if (suggestion == null) {
       return '';
+    } else if (this.labelParser) {
+      return this.labelParser(suggestion);
+    } else {
+      return suggestion[this.label];
     }
-    return suggestion[this.label];
   }
 
   public collapse() {
@@ -57,7 +76,9 @@ export class Autocomplete {
   }
 
   public valueChanged() {
-    this.select(this.value);
+    if (this.loaded) {
+      this.select(this.value);
+    }
   }
 
   public inputValueChanged(value) {
@@ -70,18 +91,20 @@ export class Autocomplete {
       this.collapse();
       return;
     }
-    this.service.suggest(value)
-      .then(suggestions => {
-        this.index = -1;
-        this.suggestions.splice(0, this.suggestions.length, ...suggestions);
-        if (suggestions.length === 1) {
-          this.select(suggestions[0]);
-        } else if (suggestions.length === 0) {
-          this.collapse();
-        } else {
-          this.expanded = true;
-        }
-      });
+    if (value.length >= this.minlength) {
+      this.service.suggest(value)
+        .then(suggestions => {
+          this.index = -1;
+          this.suggestions.splice(0, this.suggestions.length, ...suggestions);
+          if (suggestions.length === 1 && this.type !== autocompleteType.Suggest) {
+            this.select(suggestions[0]);
+          } else if (suggestions.length === 0) {
+            this.collapse();
+          } else {
+            this.expanded = true;
+          }
+        });
+    }
   }
 
   public scroll() {
@@ -95,7 +118,7 @@ export class Autocomplete {
   }
 
   public keydown(e) {
-    const key = e.which;
+    let key = e.which;
 
     if (this.value && this.onEnter && key === 13) {
       e.preventDefault();
@@ -115,7 +138,7 @@ export class Autocomplete {
         this.display(this.userInput);
       }
       this.scroll();
-      return false;
+      return;
     }
 
     // up
@@ -131,14 +154,14 @@ export class Autocomplete {
         this.display(this.userInput);
       }
       this.scroll();
-      return false;
+      return;
     }
 
     // escape
     if (key === 27) {
       this.display(this.userInput);
       this.collapse();
-      return false;
+      return;
     }
 
     // enter
@@ -146,16 +169,21 @@ export class Autocomplete {
       if (this.index >= 0) {
         this.select(this.suggestions[this.index]);
       }
-      return false;
+      return;
     }
 
     return true;
   }
 
   public blur() {
-    this.select(this.value);
-    const event = new CustomEvent('blur');
-    this.element.dispatchEvent(event);
+    if ((this.getName(this.value) === this.inputValue) || (this.type !== autocompleteType.Suggest)) {
+      this.select(this.value);
+      let event = new CustomEvent('blur');
+      this.element.dispatchEvent(event);
+    } else {
+      const customValue = this.parser ? this.parser(this.inputValue) : this.defaultParser(this.inputValue);
+      this.select(customValue);
+    }
   }
 
   public suggestionClicked(suggestion) {
@@ -163,7 +191,11 @@ export class Autocomplete {
   }
 
   public focus() {
-    (this.element.firstElementChild as HTMLElement).focus();
+    (<HTMLElement> this.element.firstElementChild).focus();
+  }
+
+  private defaultParser(value) {
+    return value.trim();
   }
 }
 

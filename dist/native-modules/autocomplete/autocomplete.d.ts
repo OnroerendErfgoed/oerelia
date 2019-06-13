@@ -1,3 +1,4 @@
+import { autocompleteType } from './autocomplete-type';
 export declare class Autocomplete {
     inputValue: string;
     service: any;
@@ -6,7 +7,11 @@ export declare class Autocomplete {
     delay: number;
     label: string;
     disabled: boolean;
-    onEnter: any;
+    labelParser: Function;
+    onEnter: Function;
+    minlength: number;
+    type: autocompleteType;
+    parser: any;
     id: number;
     expanded: boolean;
     updatingInput: boolean;
@@ -15,7 +20,9 @@ export declare class Autocomplete {
     suggestionsUL: any;
     userInput: string;
     element: Element;
+    private loaded;
     constructor(element: Element);
+    attached(): void;
     display(name: any): void;
     getName(suggestion: any): any;
     collapse(): void;
@@ -27,4 +34,5 @@ export declare class Autocomplete {
     blur(): void;
     suggestionClicked(suggestion: any): void;
     focus(): void;
+    private defaultParser;
 }
