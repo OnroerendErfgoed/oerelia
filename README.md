@@ -9,6 +9,35 @@ Onroerend Erfgoed library of common Aurelia components
 <tabs-content></tabs-content>
 ```
 
+### Zoneerder
+```
+<autocomplete service.bind="suggestService"
+              value.bind="value"
+              placeholder="Placeholder"
+              label="labelProperty"
+              disabled.bind="disabledBoolean">
+  <template replace-part="suggestion">
+    ${suggestion.property}
+  </template>
+</autocomplete>
+
+suggestService = { suggest: (value) => this.service.someFunction(value) }
+```
+
+### Zoneerder
+```
+<zoneerder zone.bind="contour" 
+           adrespunten.bind="adrespunten"
+           service-config.bind="serviceConfig"
+           disabled.bind="disabledBoolean">
+</zoneerder>
+
+serviceConfig = {
+  crabpyUrl: string,
+  agivGrbUrl: string
+}
+```
+
 ### Import all plugins at once or seperately
 ```
 aurelia.use.plugin(PLATFORM.moduleName('oerelia'));
