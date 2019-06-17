@@ -9,7 +9,7 @@ Onroerend Erfgoed library of common Aurelia components
 <tabs-content></tabs-content>
 ```
 
-### Zoneerder
+### Autocomplete
 ```
 <autocomplete service.bind="suggestService"
               value.bind="value"
