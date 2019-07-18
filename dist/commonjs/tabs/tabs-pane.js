@@ -13,16 +13,6 @@ var aurelia_templating_1 = require("aurelia-templating");
 var TabsPane = (function () {
     function TabsPane() {
     }
-    TabsPane.prototype.activeChanged = function (value) {
-        if (this.tabViewModel) {
-            if (value && this.tabViewModel.currentViewModel.activate) {
-                this.tabViewModel.currentViewModel.activate();
-            }
-            else if (!value && this.tabViewModel.currentViewModel.deactivate) {
-                this.tabViewModel.currentViewModel.deactivate();
-            }
-        }
-    };
     __decorate([
         aurelia_templating_1.bindable,
         __metadata("design:type", Object)

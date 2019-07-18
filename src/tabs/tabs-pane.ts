@@ -8,6 +8,7 @@ export class TabsPane {
   @bindable public active?: boolean;
   @bindable public tabViewModel?: any;
 
+  /* Comment for possible future use
   public activeChanged(value: boolean) {
     if (this.tabViewModel) {
       if (value && this.tabViewModel.currentViewModel.activate) {
@@ -16,5 +17,5 @@ export class TabsPane {
         this.tabViewModel.currentViewModel.deactivate();
       }
     }
-  }
+  }*/
 }

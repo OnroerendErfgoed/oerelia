@@ -4,5 +4,4 @@ export declare class TabsPane {
     viewModel: any;
     active?: boolean;
     tabViewModel?: any;
-    activeChanged(value: boolean): void;
 }
