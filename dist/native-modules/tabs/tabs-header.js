@@ -21,6 +21,17 @@ var TabsHeader = (function () {
             return tab;
         });
     };
+    TabsHeader.prototype.closeTab = function (id, event) {
+        console.debug('tab-headers::closeTab', event);
+        event.stopPropagation();
+        event.preventDefault();
+        this.tabs = this.tabs.filter(function (tab) {
+            if (tab.id !== id) {
+                tab.active = tab.id === 'overzicht';
+                return tab;
+            }
+        });
+    };
     __decorate([
         bindable({ defaultBindingMode: bindingMode.twoWay }),
         __metadata("design:type", Object)

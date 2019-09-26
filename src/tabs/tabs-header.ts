@@ -13,4 +13,17 @@ export class TabsHeader {
       return tab;
     });
   }
+
+  public closeTab(id, event) {
+    console.debug('tab-headers::closeTab', event);
+    event.stopPropagation();
+    event.preventDefault();
+
+    this.tabs = this.tabs.filter(tab => {
+      if (tab.id !== id) {
+        tab.active = tab.id === 'overzicht';
+        return tab;
+      }
+    });
+  }
 }
