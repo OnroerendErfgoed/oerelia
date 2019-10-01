@@ -2,7 +2,7 @@
 // import * as moment from 'moment';
 // import { ISystemFields, IStatus } from '../models/apiModel';
 
-// export class Systemfields {
+export class Systemfields {
 //   @bindable public systemfields: ISystemFields;
 //   @bindable public status: IStatus;
 //   public createdBy: string;
@@ -21,4 +21,4 @@
 //     this.updatedAt = this.formatDate(this.systemfields.updated_at);
 //     this.updatedBy = this.systemfields.updated_by.description;
 //   }
-// }
+}
