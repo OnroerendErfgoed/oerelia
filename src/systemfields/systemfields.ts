@@ -16,10 +16,10 @@ export class Systemfields {
   }
 
   public attached() {
-    this.createdAt = this.formatDate(this.systemfields.created_at);
+    // this.createdAt = this.formatDate(this.systemfields.created_at);
     this.createdBy = this.systemfields.created_by.description;
 
-    this.updatedAt = this.formatDate(this.systemfields.updated_at);
+    // this.updatedAt = this.formatDate(this.systemfields.updated_at);
     this.updatedBy = this.systemfields.updated_by.description;
   }
 }
