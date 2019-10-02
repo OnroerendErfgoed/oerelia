@@ -1,19 +1,19 @@
 import { bindable } from 'aurelia-framework';
-import * as moment from 'moment';
+// import * as moment from 'moment';
 import { ISystemFields } from './models/ISystemFields';
-import { IStatus } from './models/IStatus';
+// import { IStatus } from './models/IStatus';
 
 export class Systemfields {
   @bindable public systemfields: ISystemFields;
-  @bindable public status: IStatus;
+  // @bindable public status: IStatus;
   public createdBy: string;
-  public createdAt: string;
+  // public createdAt: string;
   public updatedBy: string;
-  public updatedAt: string;
+  // public updatedAt: string;
 
-  public formatDate(date) {
-    return moment(date).format('DD/MM/YYYY [om] HH:mm');
-  }
+  // public formatDate(date) {
+  //   return moment(date).format('DD/MM/YYYY [om] HH:mm');
+  // }
 
   public attached() {
     // this.createdAt = this.formatDate(this.systemfields.created_at);
