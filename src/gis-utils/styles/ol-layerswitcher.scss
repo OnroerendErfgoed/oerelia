@@ -1,0 +1,77 @@
+
+/*
+*   Layer switcher CSS
+*/
+.layer-switcher {
+  position: absolute;
+  top: 9em;
+  left: 0.5em;
+  text-align: left;
+
+  button.open-button {
+    &.selected,
+    &:hover,
+    &:focus {
+      background-color: rgba(0,60,136, 0.65);
+    }
+  }
+
+  button.close-button {
+    background-color: rgba(#753F7F, 0.7);
+
+    &:hover,
+    &:focus {
+      background-color: darken(rgba(#753F7F, 0.7), 10%);
+    }
+  }
+
+  &.panel-container {
+    position: absolute;
+    top: .5em;
+    left: 2.5em;
+    background-color: #FFF;
+    width: 300px;
+    overflow: auto;
+    cursor: auto;
+    padding: 10px;
+
+    hr {
+      margin: 8px 0 8px 0;
+    }
+
+    h5 {
+      display: inline-block;
+    }
+
+    button.close-button {
+      float: right;
+      margin: 3px 3px 0 0;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+    }
+
+    li.group ul {
+      padding-left: 1em;
+    }
+
+    .legend-layer {
+      display: block;
+      padding-left: 25px;
+    }
+
+    li input {
+      display: inline;
+      margin: 0 5px 0 0;
+      vertical-align: middle;
+    }
+
+    li label {
+      font-size: 12px;
+      display: inline;
+      margin-right: 10px;
+    }
+  }
+}

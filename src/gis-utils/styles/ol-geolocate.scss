@@ -1,0 +1,18 @@
+/*
+*   Geolocate button CSS
+*/
+.ol-geolocate {
+  top: 4.5em;
+  left: .5em;
+  button {
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}
+
+.ol-marker {
+  color: #2da3ce;
+  text-shadow: 3px 7px 10px #3F3840;
+}
