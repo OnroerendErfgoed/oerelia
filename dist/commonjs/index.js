@@ -1,6 +1,11 @@
 "use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
+__export(require("./gis-utils/projection-util"));
+__export(require("./gis-utils/map-util"));
 function configure(config) {
     config
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/tabs/index'))
