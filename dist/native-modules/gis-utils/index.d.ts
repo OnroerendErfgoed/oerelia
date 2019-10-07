@@ -1,4 +1,4 @@
 import { FrameworkConfiguration } from 'aurelia-framework';
-export * from './gis-utils/projection-util';
-export * from './gis-utils/map-util';
+export * from './projection-util';
+export * from './map-util';
 export declare function configure(config: FrameworkConfiguration): void;
