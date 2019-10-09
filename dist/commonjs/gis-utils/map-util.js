@@ -16,7 +16,7 @@ var MapUtil = (function () {
         var point = new ol.geom.Point([lon, lat]);
         return point.transform('EPSG:4326', 'EPSG:31370');
     };
-    MapUtil.createGrbLayer = function (grbLayerId, title, isBaseLayer, mapProjection) {
+    MapUtil.createGrbLayer = function (grbLayerId, title, isBaseLayer, visible, mapProjection) {
         var resolutions = [];
         var matrixIds = [];
         var maxResolution = ol.extent.getWidth(mapProjection.getExtent()) / 256;
@@ -46,7 +46,8 @@ var MapUtil = (function () {
         });
         var layer = new ol.layer.Tile({
             source: grbSource,
-            extent: mapProjection.getExtent()
+            extent: mapProjection.getExtent(),
+            visible: visible
         });
         layer.set('title', title);
         layer.set('type', isBaseLayer ? 'base' : 'overlay');
