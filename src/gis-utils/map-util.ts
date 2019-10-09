@@ -19,7 +19,7 @@ export class MapUtil {
     return (point.transform('EPSG:4326', 'EPSG:31370') as ol.geom.Point);
   }
 
-  public static createGrbLayer(grbLayerId: string, title: string, isBaseLayer: boolean,
+  public static createGrbLayer(grbLayerId: string, title: string, isBaseLayer: boolean, visible: boolean,
                                mapProjection: ol.proj.Projection) {
     const resolutions: number[] = [];
     const matrixIds: string[] = [];
@@ -54,7 +54,8 @@ export class MapUtil {
 
     const layer: ol.layer.Layer = new ol.layer.Tile({
       source: grbSource,
-      extent: mapProjection.getExtent()
+      extent: mapProjection.getExtent(),
+      visible: visible
     });
 
     layer.set('title', title);
