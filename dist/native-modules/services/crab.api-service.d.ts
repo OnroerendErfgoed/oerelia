@@ -3,7 +3,6 @@ import { Huisnummer, Straat } from './models/locatie';
 import { GeolocationResponse } from './models/geolocationresponse';
 export declare class CrabService {
     private http;
-    private config;
     private landen;
     private provincies;
     private gemeenten;
@@ -20,7 +19,4 @@ export declare class CrabService {
     geolocate(value: number): Promise<GeolocationResponse>;
     private compare;
     private crabGet;
-}
-export declare class Configuration {
-    crabpyUrl: string;
 }

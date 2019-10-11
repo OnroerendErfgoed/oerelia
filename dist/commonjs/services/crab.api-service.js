@@ -16,14 +16,12 @@ var restMessage_1 = require("../message/restMessage");
 var messageParser_1 = require("../message/messageParser");
 var CrabService = (function () {
     function CrabService(http) {
-        var _this = this;
         this.http = http;
         this.landen = [];
         this.provincies = [];
         this.gemeenten = [];
-        this.config = aurelia_framework_1.Container.instance.get(Configuration);
         this.http.configure(function (x) {
-            x.withBaseUrl(_this.config.crabpyUrl);
+            x.withBaseUrl(oeAppConfig.crabpyUrl);
             x.withHeader('Accept', 'application/json');
             x.withHeader('X-Requested-With', '');
             x.withInterceptor({
@@ -193,9 +191,3 @@ var CrabService = (function () {
     return CrabService;
 }());
 exports.CrabService = CrabService;
-var Configuration = (function () {
-    function Configuration() {
-    }
-    return Configuration;
-}());
-exports.Configuration = Configuration;
