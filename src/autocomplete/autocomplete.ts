@@ -4,7 +4,7 @@ original source: https://gist.github.com/jdanyow/abe2b8c1587f1853106079dc74701ae
 import {bindingMode, observable} from 'aurelia-binding';
 import {bindable} from 'aurelia-templating';
 import {inject} from 'aurelia-dependency-injection';
-import {autocompleteType} from './autocomplete-type';
+import {autocompleteType} from './models/autocomplete-type';
 
 let nextID: number = 0;
 

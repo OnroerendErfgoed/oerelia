@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { bindingMode, observable } from 'aurelia-binding';
 import { bindable } from 'aurelia-templating';
 import { inject } from 'aurelia-dependency-injection';
-import { autocompleteType } from './autocomplete-type';
+import { autocompleteType } from './models/autocomplete-type';
 var nextID = 0;
 var Autocomplete = (function () {
     function Autocomplete(element) {

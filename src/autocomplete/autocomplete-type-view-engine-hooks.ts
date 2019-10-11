@@ -1,6 +1,5 @@
 import { ViewEngineHooks, View } from 'aurelia-framework';
-// import { viewEngineHooks } from 'aurelia-binding';
-import {autocompleteType} from './autocomplete-type';
+import { autocompleteType } from './models/autocomplete-type';
 
 // By convention, Aurelia will look for any classes of the form
 // {name}ViewEngineHooks and load them as a ViewEngineHooks resource. We can

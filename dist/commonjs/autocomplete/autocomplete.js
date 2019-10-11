@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_binding_1 = require("aurelia-binding");
 var aurelia_templating_1 = require("aurelia-templating");
 var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
-var autocomplete_type_1 = require("./autocomplete-type");
+var autocomplete_type_1 = require("./models/autocomplete-type");
 var nextID = 0;
 var Autocomplete = (function () {
     function Autocomplete(element) {
