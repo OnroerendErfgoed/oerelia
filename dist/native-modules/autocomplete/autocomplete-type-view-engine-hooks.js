@@ -1,4 +1,4 @@
-import { autocompleteType } from './autocomplete-type';
+import { autocompleteType } from './models/autocomplete-type';
 var AutocompleteTypeViewEngineHooks = (function () {
     function AutocompleteTypeViewEngineHooks() {
     }

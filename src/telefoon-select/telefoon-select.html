@@ -1,4 +1,5 @@
 <template>
+  <require from="./styles/telefoon-select.css"></require>
   <input type="text" class="landcode" ref="landcodeInput" value.bind="telefoon.landcode"
       keyup.delegate="landcodeChanged($event)" keydown.delegate="keydown($event)" blur.trigger="blur()" disabled.bind="disabled">
   <div class="arrow" click.delegate="toggleSuggestions()"></div>

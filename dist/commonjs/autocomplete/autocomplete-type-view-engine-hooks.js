@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var autocomplete_type_1 = require("./autocomplete-type");
+var autocomplete_type_1 = require("./models/autocomplete-type");
 var AutocompleteTypeViewEngineHooks = (function () {
     function AutocompleteTypeViewEngineHooks() {
     }

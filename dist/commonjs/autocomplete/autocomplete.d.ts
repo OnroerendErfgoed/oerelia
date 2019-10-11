@@ -1,4 +1,4 @@
-import { autocompleteType } from './autocomplete-type';
+import { autocompleteType } from './models/autocomplete-type';
 export declare class Autocomplete {
     inputValue: string;
     service: any;
