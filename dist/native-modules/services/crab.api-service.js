@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { Gemeente, Huisnummer, Straat } from './models/locatie';
-import { RestMessage } from '../message/restMessage';
-import { MessageParser } from '../message/messageParser';
+import { RestMessage } from '../utilities/message/restMessage';
+import { MessageParser } from '../utilities/message/messageParser';
 var CrabService = (function () {
     function CrabService(http) {
         this.http = http;

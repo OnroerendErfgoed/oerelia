@@ -6,6 +6,7 @@ import { CrabService } from '../services/crab.api-service';
 
 @inject(ValidationController, ValidationControllerFactory, CrabService, BindingEngine)
 export class AdresCrab {
+  @bindable public disabled: boolean;
   @bindable public data: Adres;
   public landen: any[] = [];
   public gemeente: string;

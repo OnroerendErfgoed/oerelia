@@ -16,9 +16,9 @@ export * from './adres-crab/adres-crab';
 export * from './gis-utils/projection-util';
 export * from './gis-utils/map-util';
 
-export * from './message/message';
-export * from './message/messageParser';
-export * from './message/restMessage';
+export * from './utilities/message/message';
+export * from './utilities/message/messageParser';
+export * from './utilities/message/restMessage';
 
 export * from './foundation-validation-renderer/foundation-validation-renderer';
 

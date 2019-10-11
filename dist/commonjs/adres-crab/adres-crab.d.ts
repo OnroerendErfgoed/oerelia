@@ -7,6 +7,7 @@ export declare class AdresCrab {
     private controllerFactory;
     private crabService;
     private bindingEngine;
+    disabled: boolean;
     data: Adres;
     landen: any[];
     gemeente: string;

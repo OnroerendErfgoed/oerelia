@@ -1,4 +1,4 @@
-import { Message } from '../message/message';
+import { Message } from '../utilities/message/message';
 var FoundationValidationRenderer = (function () {
     function FoundationValidationRenderer() {
     }

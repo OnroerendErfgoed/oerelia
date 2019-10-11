@@ -153,6 +153,10 @@ var AdresCrab = (function () {
     };
     __decorate([
         aurelia_framework_1.bindable,
+        __metadata("design:type", Boolean)
+    ], AdresCrab.prototype, "disabled", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
         __metadata("design:type", locatie_1.Adres)
     ], AdresCrab.prototype, "data", void 0);
     AdresCrab = __decorate([

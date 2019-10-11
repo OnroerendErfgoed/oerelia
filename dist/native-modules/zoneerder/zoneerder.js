@@ -10,19 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { bindable, bindingMode, inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { CrabService } from '../services/crab.api-service';
-import { GeozoekdienstApiService } from './services/geozoekdienst.api-service';
+import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
 var Zoneerder = (function () {
-    function Zoneerder(http, crabService) {
+    function Zoneerder(http, crabService, geozoekdienstApiService) {
+        var _this = this;
         this.http = http;
         this.crabService = crabService;
+        this.geozoekdienstApiService = geozoekdienstApiService;
         this.disabled = false;
-    }
-    Zoneerder.prototype.attached = function () {
-        var _this = this;
-        this.geozoekdienstApiService = new GeozoekdienstApiService(this.http, this.serviceConfig.crabpyUrl, this.serviceConfig.agivGrbUrl);
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
-    };
+    }
     Zoneerder.prototype.onMapLoaded = function ($event) {
         console.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
     };
@@ -60,14 +58,11 @@ var Zoneerder = (function () {
         bindable,
         __metadata("design:type", Array)
     ], Zoneerder.prototype, "adrespunten", void 0);
-    __decorate([
-        bindable,
-        __metadata("design:type", Object)
-    ], Zoneerder.prototype, "serviceConfig", void 0);
     Zoneerder = __decorate([
-        inject(HttpClient, CrabService),
+        inject(HttpClient, CrabService, GeozoekdienstApiService),
         __metadata("design:paramtypes", [HttpClient,
-            CrabService])
+            CrabService,
+            GeozoekdienstApiService])
     ], Zoneerder);
     return Zoneerder;
 }());

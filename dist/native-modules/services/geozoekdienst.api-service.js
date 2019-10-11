@@ -10,18 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import * as ol from 'openlayers';
-import * as toastr from 'toastr';
+import { RestMessage } from '../utilities/message/restMessage';
+import { MessageParser } from '../utilities/message/messageParser';
 var GeozoekdienstApiService = (function () {
-    function GeozoekdienstApiService(http, crabpyUrl, agivGrbUrl) {
+    function GeozoekdienstApiService(http) {
         this.http = http;
-        this.crabpyUrl = crabpyUrl;
-        this.agivGrbUrl = agivGrbUrl;
         this.http = new HttpClient();
         this.http.configure(function (x) {
             x.withHeader('Accept', 'application/json');
             x.withInterceptor({
                 responseError: function (res) {
-                    toastr.error(res.content.message);
+                    RestMessage.display({ result: MessageParser.parseHttpResponseMessage(res) });
                     return res;
                 }
             });
@@ -32,7 +31,7 @@ var GeozoekdienstApiService = (function () {
             categorie: 'aanduidingsobjecten',
             geometrie: geometrie
         };
-        return this.http.createRequest(this.crabpyUrl + "/zoekdiensten/afbakeningen")
+        return this.http.createRequest(oeAppConfig.crabpyUrl + "/zoekdiensten/afbakeningen")
             .asPost()
             .withContent(content)
             .send()
@@ -55,7 +54,7 @@ var GeozoekdienstApiService = (function () {
             outputFormat: 'application/json',
             filter: filter
         });
-        return this.http.createRequest(this.agivGrbUrl)
+        return this.http.createRequest(oeAppConfig.agivGrbUrl)
             .asPost()
             .withContent(new XMLSerializer().serializeToString(featureRequest))
             .withHeader('Content-Type', 'application/xml')
@@ -68,7 +67,7 @@ var GeozoekdienstApiService = (function () {
     };
     GeozoekdienstApiService = __decorate([
         inject(HttpClient),
-        __metadata("design:paramtypes", [HttpClient, String, String])
+        __metadata("design:paramtypes", [HttpClient])
     ], GeozoekdienstApiService);
     return GeozoekdienstApiService;
 }());

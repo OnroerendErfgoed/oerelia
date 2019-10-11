@@ -2,10 +2,10 @@ import { bindable, bindingMode, inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { OlMap } from './components/ol-map';
 import { CrabService } from '../services/crab.api-service';
-import { GeozoekdienstApiService } from './services/geozoekdienst.api-service';
+import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
 
-@inject(HttpClient, CrabService)
+@inject(HttpClient, CrabService, GeozoekdienstApiService)
 export class Zoneerder {
   @bindable public locatie: any;
   @bindable public disabled: boolean = false;
@@ -14,17 +14,12 @@ export class Zoneerder {
 
   protected suggest: { suggest: Function };
   private map: OlMap;
-  private geozoekdienstApiService: GeozoekdienstApiService;
-  @bindable private serviceConfig: { crabpyUrl: string, agivGrbUrl: string };
 
   constructor(
     private http: HttpClient,
-    private crabService: CrabService
-  ) {}
-
-  public attached() {
-    this.geozoekdienstApiService = new GeozoekdienstApiService(this.http,
-      this.serviceConfig.crabpyUrl, this.serviceConfig.agivGrbUrl);
+    private crabService: CrabService,
+    private geozoekdienstApiService: GeozoekdienstApiService
+  ) {
     this.suggest = { suggest: (value) => this.crabService.suggestLocatie(value) };
   }
 

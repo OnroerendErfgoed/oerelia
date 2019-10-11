@@ -12,18 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_http_client_1 = require("aurelia-http-client");
 var ol = require("openlayers");
-var toastr = require("toastr");
+var restMessage_1 = require("../utilities/message/restMessage");
+var messageParser_1 = require("../utilities/message/messageParser");
 var GeozoekdienstApiService = (function () {
-    function GeozoekdienstApiService(http, crabpyUrl, agivGrbUrl) {
+    function GeozoekdienstApiService(http) {
         this.http = http;
-        this.crabpyUrl = crabpyUrl;
-        this.agivGrbUrl = agivGrbUrl;
         this.http = new aurelia_http_client_1.HttpClient();
         this.http.configure(function (x) {
             x.withHeader('Accept', 'application/json');
             x.withInterceptor({
                 responseError: function (res) {
-                    toastr.error(res.content.message);
+                    restMessage_1.RestMessage.display({ result: messageParser_1.MessageParser.parseHttpResponseMessage(res) });
                     return res;
                 }
             });
@@ -34,7 +33,7 @@ var GeozoekdienstApiService = (function () {
             categorie: 'aanduidingsobjecten',
             geometrie: geometrie
         };
-        return this.http.createRequest(this.crabpyUrl + "/zoekdiensten/afbakeningen")
+        return this.http.createRequest(oeAppConfig.crabpyUrl + "/zoekdiensten/afbakeningen")
             .asPost()
             .withContent(content)
             .send()
@@ -57,7 +56,7 @@ var GeozoekdienstApiService = (function () {
             outputFormat: 'application/json',
             filter: filter
         });
-        return this.http.createRequest(this.agivGrbUrl)
+        return this.http.createRequest(oeAppConfig.agivGrbUrl)
             .asPost()
             .withContent(new XMLSerializer().serializeToString(featureRequest))
             .withHeader('Content-Type', 'application/xml')
@@ -70,7 +69,7 @@ var GeozoekdienstApiService = (function () {
     };
     GeozoekdienstApiService = __decorate([
         aurelia_framework_1.inject(aurelia_http_client_1.HttpClient),
-        __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient, String, String])
+        __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient])
     ], GeozoekdienstApiService);
     return GeozoekdienstApiService;
 }());

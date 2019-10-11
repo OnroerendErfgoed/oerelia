@@ -2,8 +2,8 @@ import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { Gemeente, Huisnummer, Straat } from './models/locatie';
 import { GeolocationResponse } from './models/geolocationresponse';
-import { RestMessage } from '../message/restMessage';
-import { MessageParser } from '../message/messageParser';
+import { RestMessage } from '../utilities/message/restMessage';
+import { MessageParser } from '../utilities/message/messageParser';
 
 declare const oeAppConfig: any;
 

@@ -151,6 +151,10 @@ var AdresCrab = (function () {
     };
     __decorate([
         bindable,
+        __metadata("design:type", Boolean)
+    ], AdresCrab.prototype, "disabled", void 0);
+    __decorate([
+        bindable,
         __metadata("design:type", Adres)
     ], AdresCrab.prototype, "data", void 0);
     AdresCrab = __decorate([

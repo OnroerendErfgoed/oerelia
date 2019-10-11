@@ -1,9 +1,11 @@
 import { HttpClient } from 'aurelia-http-client';
 import { CrabService } from '../services/crab.api-service';
+import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
 export declare class Zoneerder {
     private http;
     private crabService;
+    private geozoekdienstApiService;
     locatie: any;
     disabled: boolean;
     zone: Contour;
@@ -12,10 +14,7 @@ export declare class Zoneerder {
         suggest: Function;
     };
     private map;
-    private geozoekdienstApiService;
-    private serviceConfig;
-    constructor(http: HttpClient, crabService: CrabService);
-    attached(): void;
+    constructor(http: HttpClient, crabService: CrabService, geozoekdienstApiService: GeozoekdienstApiService);
     onMapLoaded($event: any): void;
     resize(): void;
     locatieChanged(): void;

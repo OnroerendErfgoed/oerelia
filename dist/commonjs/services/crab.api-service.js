@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_http_client_1 = require("aurelia-http-client");
 var locatie_1 = require("./models/locatie");
-var restMessage_1 = require("../message/restMessage");
-var messageParser_1 = require("../message/messageParser");
+var restMessage_1 = require("../utilities/message/restMessage");
+var messageParser_1 = require("../utilities/message/messageParser");
 var CrabService = (function () {
     function CrabService(http) {
         this.http = http;

@@ -1,5 +1,5 @@
 import { RenderInstruction, ValidateResult } from 'aurelia-validation';
-import { Message } from '../message/message';
+import { Message } from '../utilities/message/message';
 
 export class FoundationValidationRenderer {
   public render(instruction: RenderInstruction) {
