@@ -13,13 +13,13 @@ import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from './services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
 var Zoneerder = (function () {
-    function Zoneerder(http) {
+    function Zoneerder(http, crabService) {
         this.http = http;
+        this.crabService = crabService;
         this.disabled = false;
     }
     Zoneerder.prototype.attached = function () {
         var _this = this;
-        this.crabService = new CrabService(this.serviceConfig.crabpyUrl);
         this.geozoekdienstApiService = new GeozoekdienstApiService(this.http, this.serviceConfig.crabpyUrl, this.serviceConfig.agivGrbUrl);
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     };
@@ -65,8 +65,9 @@ var Zoneerder = (function () {
         __metadata("design:type", Object)
     ], Zoneerder.prototype, "serviceConfig", void 0);
     Zoneerder = __decorate([
-        inject(HttpClient),
-        __metadata("design:paramtypes", [HttpClient])
+        inject(HttpClient, CrabService),
+        __metadata("design:paramtypes", [HttpClient,
+            CrabService])
     ], Zoneerder);
     return Zoneerder;
 }());

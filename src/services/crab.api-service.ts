@@ -1,4 +1,4 @@
-import { inject } from 'aurelia-framework';
+import { inject, Container } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { Gemeente, Huisnummer, Straat } from './models/locatie';
 import { GeolocationResponse } from './models/geolocationresponse';
@@ -7,16 +7,17 @@ import { MessageParser } from '../message/messageParser';
 
 @inject(HttpClient)
 export class CrabService {
+  private config: Configuration;
   private landen: any[] = [];
   private provincies: any[] = [];
   private gemeenten: Gemeente[] = [];
 
   constructor(
-    private crabpyUrl: string,
-    private http?: HttpClient
+    private http: HttpClient
   ) {
+    this.config = Container.instance.get(Configuration);
     this.http.configure(x => {
-      x.withBaseUrl(this.crabpyUrl);
+      x.withBaseUrl(this.config.crabpyUrl);
       x.withHeader('Accept', 'application/json');
       x.withHeader('X-Requested-With', '');
       x.withInterceptor({
@@ -186,4 +187,8 @@ export class CrabService {
   private crabGet(endpoint) {
     return this.http.get(endpoint);
   }
+}
+
+export class Configuration {
+  public crabpyUrl: string;
 }

@@ -15,13 +15,13 @@ var crab_api_service_1 = require("../services/crab.api-service");
 var geozoekdienst_api_service_1 = require("./services/geozoekdienst.api-service");
 var contour_1 = require("./models/contour");
 var Zoneerder = (function () {
-    function Zoneerder(http) {
+    function Zoneerder(http, crabService) {
         this.http = http;
+        this.crabService = crabService;
         this.disabled = false;
     }
     Zoneerder.prototype.attached = function () {
         var _this = this;
-        this.crabService = new crab_api_service_1.CrabService(this.serviceConfig.crabpyUrl);
         this.geozoekdienstApiService = new geozoekdienst_api_service_1.GeozoekdienstApiService(this.http, this.serviceConfig.crabpyUrl, this.serviceConfig.agivGrbUrl);
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     };
@@ -67,8 +67,9 @@ var Zoneerder = (function () {
         __metadata("design:type", Object)
     ], Zoneerder.prototype, "serviceConfig", void 0);
     Zoneerder = __decorate([
-        aurelia_framework_1.inject(aurelia_http_client_1.HttpClient),
-        __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient])
+        aurelia_framework_1.inject(aurelia_http_client_1.HttpClient, crab_api_service_1.CrabService),
+        __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient,
+            crab_api_service_1.CrabService])
     ], Zoneerder);
     return Zoneerder;
 }());

@@ -7,21 +7,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { inject } from 'aurelia-framework';
+import { inject, Container } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { Gemeente, Huisnummer, Straat } from './models/locatie';
 import { RestMessage } from '../message/restMessage';
 import { MessageParser } from '../message/messageParser';
 var CrabService = (function () {
-    function CrabService(crabpyUrl, http) {
+    function CrabService(http) {
         var _this = this;
-        this.crabpyUrl = crabpyUrl;
         this.http = http;
         this.landen = [];
         this.provincies = [];
         this.gemeenten = [];
+        this.config = Container.instance.get(Configuration);
         this.http.configure(function (x) {
-            x.withBaseUrl(_this.crabpyUrl);
+            x.withBaseUrl(_this.config.crabpyUrl);
             x.withHeader('Accept', 'application/json');
             x.withHeader('X-Requested-With', '');
             x.withInterceptor({
@@ -186,8 +186,14 @@ var CrabService = (function () {
     };
     CrabService = __decorate([
         inject(HttpClient),
-        __metadata("design:paramtypes", [String, HttpClient])
+        __metadata("design:paramtypes", [HttpClient])
     ], CrabService);
     return CrabService;
 }());
 export { CrabService };
+var Configuration = (function () {
+    function Configuration() {
+    }
+    return Configuration;
+}());
+export { Configuration };

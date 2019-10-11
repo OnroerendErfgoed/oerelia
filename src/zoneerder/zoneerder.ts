@@ -5,7 +5,7 @@ import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from './services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
 
-@inject(HttpClient)
+@inject(HttpClient, CrabService)
 export class Zoneerder {
   @bindable public locatie: any;
   @bindable public disabled: boolean = false;
@@ -14,14 +14,15 @@ export class Zoneerder {
 
   protected suggest: { suggest: Function };
   private map: OlMap;
-  private crabService: CrabService;
   private geozoekdienstApiService: GeozoekdienstApiService;
   @bindable private serviceConfig: { crabpyUrl: string, agivGrbUrl: string };
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private crabService: CrabService
+  ) {}
 
   public attached() {
-    this.crabService = new CrabService(this.serviceConfig.crabpyUrl);
     this.geozoekdienstApiService = new GeozoekdienstApiService(this.http,
       this.serviceConfig.crabpyUrl, this.serviceConfig.agivGrbUrl);
     this.suggest = { suggest: (value) => this.crabService.suggestLocatie(value) };

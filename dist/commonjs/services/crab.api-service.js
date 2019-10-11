@@ -15,15 +15,15 @@ var locatie_1 = require("./models/locatie");
 var restMessage_1 = require("../message/restMessage");
 var messageParser_1 = require("../message/messageParser");
 var CrabService = (function () {
-    function CrabService(crabpyUrl, http) {
+    function CrabService(http) {
         var _this = this;
-        this.crabpyUrl = crabpyUrl;
         this.http = http;
         this.landen = [];
         this.provincies = [];
         this.gemeenten = [];
+        this.config = aurelia_framework_1.Container.instance.get(Configuration);
         this.http.configure(function (x) {
-            x.withBaseUrl(_this.crabpyUrl);
+            x.withBaseUrl(_this.config.crabpyUrl);
             x.withHeader('Accept', 'application/json');
             x.withHeader('X-Requested-With', '');
             x.withInterceptor({
@@ -188,8 +188,14 @@ var CrabService = (function () {
     };
     CrabService = __decorate([
         aurelia_framework_1.inject(aurelia_http_client_1.HttpClient),
-        __metadata("design:paramtypes", [String, aurelia_http_client_1.HttpClient])
+        __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient])
     ], CrabService);
     return CrabService;
 }());
 exports.CrabService = CrabService;
+var Configuration = (function () {
+    function Configuration() {
+    }
+    return Configuration;
+}());
+exports.Configuration = Configuration;
