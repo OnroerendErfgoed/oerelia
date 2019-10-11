@@ -1,5 +1,8 @@
-import * as toastr from 'toastr';
-import { Gemeente, Huisnummer, Straat } from '../models/locatie';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var locatie_1 = require("./models/locatie");
+var restMessage_1 = require("../message/restMessage");
+var messageParser_1 = require("../message/messageParser");
 var CrabService = (function () {
     function CrabService(http, crabpyUrl) {
         var _this = this;
@@ -14,7 +17,7 @@ var CrabService = (function () {
             x.withHeader('X-Requested-With', '');
             x.withInterceptor({
                 responseError: function (res) {
-                    toastr.error(res.content.message);
+                    restMessage_1.RestMessage.display({ result: messageParser_1.MessageParser.parseHttpResponseMessage(res) });
                     return res;
                 }
             });
@@ -34,9 +37,7 @@ var CrabService = (function () {
                     _this.landen.sort(_this.compare);
                     return _this.landen;
                 }
-                return undefined;
-            }).catch(function (error) {
-                console.debug(error);
+                return [];
             });
         }
     };
@@ -54,9 +55,7 @@ var CrabService = (function () {
                     _this.provincies.sort(_this.compare);
                     return _this.provincies;
                 }
-                return undefined;
-            }).catch(function (error) {
-                console.debug(error);
+                return [];
             });
         }
     };
@@ -65,14 +64,12 @@ var CrabService = (function () {
         return this.crabGet("crab/provincies/" + provincie + "/gemeenten").then(function (response) {
             if (response.isSuccess) {
                 var gemeenten = response.content.map(function (el) {
-                    return new Gemeente(el.id, el.niscode, el.naam);
+                    return new locatie_1.Gemeente(el.naam, el.id, el.niscode);
                 });
                 gemeenten.sort(_this.compare);
                 return gemeenten;
             }
-            return undefined;
-        }).catch(function (error) {
-            console.debug(error);
+            return [];
         });
     };
     CrabService.prototype.getGemeenten = function () {
@@ -83,75 +80,62 @@ var CrabService = (function () {
             });
         }
         else {
-            return this.crabGet('crab/gewesten/2/gemeenten').then(function (responses) {
-                if (responses.isSuccess) {
-                    var tempL = void 0;
-                    tempL = JSON.parse(responses.response);
-                    tempL.sort(_this.compare);
-                    tempL.forEach(function (el) {
-                        _this.gemeenten.push(new Gemeente(el.id, el.niscode, el.naam));
+            return Promise.all([
+                this.crabGet('crab/gewesten/1/gemeenten'),
+                this.crabGet('crab/gewesten/2/gemeenten'),
+                this.crabGet('crab/gewesten/3/gemeenten')
+            ]).then(function (responses) {
+                if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
+                    _this.gemeenten = _this.gemeenten.concat(responses[0].content, responses[1].content, responses[2].content);
+                    _this.gemeenten = _this.gemeenten.map(function (el) {
+                        return new locatie_1.Gemeente(el.id, el.naam, el.niscode);
                     });
+                    _this.gemeenten.sort(_this.compare);
                     return _this.gemeenten;
                 }
-                return undefined;
-            }).catch(function (error) {
-                console.debug(error);
+                return [];
             });
         }
     };
     CrabService.prototype.getDeelgemeenten = function (gemeente) {
-        return this.crabGet("crab/gemeenten/" + gemeente + "/deelgemeenten")
-            .then(function (deelgemeenten) {
-            if (deelgemeenten.isSuccess) {
-                return deelgemeenten.content;
+        return this.crabGet("crab/gemeenten/" + gemeente + "/deelgemeenten").then(function (response) {
+            if (response.isSuccess) {
+                return response.content;
             }
-            else {
-                return [];
-            }
+            return [];
         });
     };
     CrabService.prototype.getPostcodes = function (gemeente) {
-        return this.crabGet("crab/gemeenten/" + gemeente + "/postkantons")
-            .then(function (postcodes) {
-            if (postcodes.isSuccess) {
-                return postcodes.content;
+        return this.crabGet("crab/gemeenten/" + gemeente + "/postkantons").then(function (response) {
+            if (response.isSuccess) {
+                return response.content;
             }
-            else {
-                return [];
-            }
+            return [];
         });
     };
     CrabService.prototype.getStraten = function (gemeente) {
-        return this.crabGet("crab/gemeenten/" + gemeente + "/straten")
-            .then(function (straten) {
-            if (straten.isSuccess) {
-                var tempL_1 = [];
-                straten.content.forEach(function (element) {
-                    tempL_1.push(new Straat(element));
+        return this.crabGet("crab/gemeenten/" + gemeente + "/straten").then(function (response) {
+            if (response.isSuccess) {
+                var straten = response.content.map(function (el) {
+                    return new locatie_1.Straat(el.id, el.label);
                 });
-                return tempL_1;
+                return straten;
             }
-            else {
-                return [];
-            }
+            return [];
         });
     };
     CrabService.prototype.getHuisnrs = function (straat) {
-        return this.crabGet("crab/straten/" + straat + "/huisnummers")
-            .then(function (huisnrs) {
-            if (huisnrs.isSuccess) {
-                var data = huisnrs.content.sort(function (a, b) {
-                    return parseInt(a.label, 0) - parseInt(b.label, 0);
+        return this.crabGet("crab/straten/" + straat + "/huisnummers").then(function (response) {
+            if (response.isSuccess) {
+                var huisnummers = response.content.map(function (el) {
+                    return new locatie_1.Huisnummer(el.id, el.label);
                 });
-                var tempL_2 = [];
-                data.forEach(function (element) {
-                    tempL_2.push(new Huisnummer(element));
+                huisnummers.sort(function (a, b) {
+                    return parseInt(a.naam, 0) - parseInt(b.naam, 0);
                 });
-                return tempL_2;
+                return huisnummers;
             }
-            else {
-                return [];
-            }
+            return [];
         });
     };
     CrabService.prototype.suggestLocatie = function (value) {
@@ -163,9 +147,7 @@ var CrabService = (function () {
             if (response.isSuccess) {
                 return response.content;
             }
-            else {
-                return [];
-            }
+            return [];
         });
     };
     CrabService.prototype.geolocate = function (value) {
@@ -195,4 +177,4 @@ var CrabService = (function () {
     };
     return CrabService;
 }());
-export { CrabService };
+exports.CrabService = CrabService;

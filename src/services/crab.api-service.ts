@@ -1,7 +1,8 @@
 import { HttpClient } from 'aurelia-http-client';
-import * as toastr from 'toastr';
-import { GeolocationResponse } from '../models/geolocationresponse';
-import { Gemeente, Huisnummer, Straat } from '../models/locatie';
+import { Gemeente, Huisnummer, Straat } from './models/locatie';
+import { GeolocationResponse } from './models/geolocationresponse';
+import { RestMessage } from '../message/restMessage';
+import { MessageParser } from '../message/messageParser';
 
 export class CrabService {
   private landen: any[] = [];
@@ -18,7 +19,7 @@ export class CrabService {
       x.withHeader('X-Requested-With', '');
       x.withInterceptor({
         responseError(res) {
-          toastr.error(res.content.message);
+          RestMessage.display({ result: MessageParser.parseHttpResponseMessage(res) });
           return res;
         }
       });
@@ -37,9 +38,7 @@ export class CrabService {
           this.landen.sort(this.compare);
           return this.landen;
         }
-        return undefined;
-      }).catch(error => {
-        console.debug(error);
+        return [];
       });
     }
   }
@@ -56,25 +55,21 @@ export class CrabService {
           this.provincies.sort(this.compare);
           return this.provincies;
         }
-        return undefined;
-      }).catch(error => {
-        console.debug(error);
+        return [];
       });
     }
   }
 
-  public getGemeentenByProvincie(provincie): Promise<void | any[]> {
+  public getGemeentenByProvincie(provincie: number): Promise<void | any[]> {
     return this.crabGet(`crab/provincies/${provincie}/gemeenten`).then(response => {
       if (response.isSuccess) {
         const gemeenten: Gemeente[] = response.content.map(el => {
-          return new Gemeente(el.id, el.niscode, el.naam);
+          return new Gemeente(el.naam, el.id, el.niscode);
         });
         gemeenten.sort(this.compare);
         return gemeenten;
       }
-      return undefined;
-    }).catch(error => {
-      console.debug(error);
+      return [];
     });
   }
 
@@ -84,79 +79,70 @@ export class CrabService {
         resolve(this.gemeenten);
       });
     } else {
-      return this.crabGet('crab/gewesten/2/gemeenten').then(responses => {
-        if (responses.isSuccess) {
-          let tempL: Gemeente[];
-          tempL = JSON.parse(responses.response);
-          tempL.sort(this.compare);
-          tempL.forEach(el => {
-            this.gemeenten.push(new Gemeente(el.id, el.niscode, el.naam));
+      return Promise.all([
+        this.crabGet('crab/gewesten/1/gemeenten'),
+        this.crabGet('crab/gewesten/2/gemeenten'),
+        this.crabGet('crab/gewesten/3/gemeenten')
+      ]).then(responses => {
+        if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
+          this.gemeenten = this.gemeenten.concat(responses[0].content, responses[1].content, responses[2].content);
+          this.gemeenten = this.gemeenten.map(el => {
+            return new Gemeente(el.id, el.naam, el.niscode);
           });
+          this.gemeenten.sort(this.compare);
           return this.gemeenten;
         }
-        return undefined;
-      }).catch(error => {
-        console.debug(error);
+        return [];
       });
     }
   }
 
-  public getDeelgemeenten(gemeente) {
-    return this.crabGet(`crab/gemeenten/${gemeente}/deelgemeenten`)
-      .then(deelgemeenten => {
-        if (deelgemeenten.isSuccess) {
-          return deelgemeenten.content;
-        } else {
-          return [];
-        }
-      });
+  public getDeelgemeenten(gemeente: number) {
+    return this.crabGet(`crab/gemeenten/${gemeente}/deelgemeenten`).then(response => {
+      if (response.isSuccess) {
+        return response.content;
+      }
+      return [];
+    });
   }
 
-  public getPostcodes(gemeente) {
-    return this.crabGet(`crab/gemeenten/${gemeente}/postkantons`)
-      .then(postcodes => {
-        if (postcodes.isSuccess) {
-          return postcodes.content;
-        } else {
-          return [];
-        }
-      });
+  public getPostcodes(gemeente: number) {
+    return this.crabGet(`crab/gemeenten/${gemeente}/postkantons`).then(response => {
+      if (response.isSuccess) {
+        return response.content;
+      }
+      return [];
+    });
   }
 
-  public getStraten(gemeente) {
-    return this.crabGet(`crab/gemeenten/${gemeente}/straten`)
-      .then(straten => {
-        if (straten.isSuccess) {
-          const tempL: Straat[] = [];
-          straten.content.forEach(element => {
-            tempL.push(new Straat(element));
-          });
-          return tempL;
-        } else {
-          return [];
-        }
-      });
+  public getStraten(gemeente: number) {
+    return this.crabGet(`crab/gemeenten/${gemeente}/straten`).then(response => {
+      if (response.isSuccess) {
+        const straten: Straat[] = response.content.map(el => {
+          return new Straat(el.id, el.label);
+        });
+        return straten;
+      }
+      return [];
+    });
   }
 
-  public getHuisnrs(straat) {
-    return this.crabGet(`crab/straten/${straat}/huisnummers`)
-      .then(huisnrs => {
-        if (huisnrs.isSuccess) {
-          const data = huisnrs.content.sort((a, b) => {
-            return parseInt(a.label, 0) - parseInt(b.label, 0);
-          });
-          const tempL: Huisnummer[] = [];
-          data.forEach(element => {
-            tempL.push(new Huisnummer(element));
-          });
-          return tempL;
-        } else {
-          return [];
-        }
-      });
+  public getHuisnrs(straat: number) {
+    return this.crabGet(`crab/straten/${straat}/huisnummers`).then(response => {
+      if (response.isSuccess) {
+        const huisnummers: Huisnummer[] = response.content.map(el => {
+          return new Huisnummer(el.id, el.label);
+        });
+        huisnummers.sort((a, b) => {
+          return parseInt(a.naam, 0) - parseInt(b.naam, 0);
+        });
+        return huisnummers;
+      }
+      return [];
+    });
   }
 
-  public suggestLocatie(value) {
+  public suggestLocatie(value: string) {
     if (value === '') {
       return Promise.resolve([]);
     }
@@ -164,13 +150,12 @@ export class CrabService {
       .then(response => {
         if (response.isSuccess) {
           return response.content;
-        } else {
-          return [];
         }
+        return [];
       });
   }
 
-  public geolocate(value: string) {
+  public geolocate(value: number) {
     return this.crabGet('geolocation/' + value)
       .then(response => {
         if (response.isSuccess) {
@@ -186,7 +171,7 @@ export class CrabService {
    * @param a gemeente
    * @param b gemeente
    */
-  private compare(a, b) {
+  private compare(a: any, b: any) {
     if (a.naam < b.naam) {
       return -1;
     } else if (a.naam > b.naam) {

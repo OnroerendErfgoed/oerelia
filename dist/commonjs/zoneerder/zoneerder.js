@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_http_client_1 = require("aurelia-http-client");
-var crab_api_service_1 = require("./services/crab.api-service");
+var crab_api_service_1 = require("../services/crab.api-service");
 var geozoekdienst_api_service_1 = require("./services/geozoekdienst.api-service");
 var contour_1 = require("./models/contour");
 var Zoneerder = (function () {

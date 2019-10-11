@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { bindable, bindingMode, inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
-import { CrabService } from './services/crab.api-service';
+import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from './services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
 var Zoneerder = (function () {
