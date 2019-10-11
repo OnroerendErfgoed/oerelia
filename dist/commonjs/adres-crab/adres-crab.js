@@ -51,6 +51,13 @@ var AdresCrab = (function () {
             .subscribe(function (nv, ov) {
             _this.landChanged(nv, ov);
         });
+        this.data.land = this.data.land || 'BE';
+        if (this.data.land !== 'BE') {
+            this.gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;
+            this.postcode = this.data.postcode ? this.data.postcode.naam : undefined;
+            this.straat = this.data.straat ? this.data.straat.naam : undefined;
+            this.huisnummer = this.data.huisnummer ? this.data.huisnummer.naam : undefined;
+        }
     };
     AdresCrab.prototype.parseField = function (value, property) {
         this.data[property] = { naam: value };

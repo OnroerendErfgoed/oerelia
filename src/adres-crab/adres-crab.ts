@@ -52,6 +52,14 @@ export class AdresCrab {
       .subscribe((nv, ov) => {
         this.landChanged(nv, ov);
       });
+  
+    this.data.land = this.data.land || 'BE';
+    if (this.data.land !== 'BE') {
+      this.gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;
+      this.postcode = this.data.postcode ? this.data.postcode.naam : undefined;
+      this.straat = this.data.straat ? this.data.straat.naam : undefined;
+      this.huisnummer = this.data.huisnummer ? this.data.huisnummer.naam : undefined;
+    }
   }
 
   public parseField(value, property) {

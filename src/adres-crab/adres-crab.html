@@ -3,7 +3,6 @@
     <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
       <label>Land</label>
       <select value.bind="data.land" disabled.bind="disabled">
-        <option selected style="display: none;" value="${landen[0].id}">${landen[0].naam}</option>
         <option repeat.for="land of landen" value.bind="land.id">
           ${land.naam}
         </option>
