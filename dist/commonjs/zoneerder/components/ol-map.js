@@ -15,7 +15,7 @@ var ol = require("openlayers");
 var proj4_1 = require("proj4");
 var toastr = require("toastr");
 var contour_1 = require("../models/contour");
-var geozoekdienst_api_service_1 = require("../services/geozoekdienst.api-service");
+var geozoekdienst_api_service_1 = require("../../services/geozoekdienst.api-service");
 var ol_layerswitcher_1 = require("./ol-layerswitcher");
 var OlMap = (function () {
     function OlMap(element) {

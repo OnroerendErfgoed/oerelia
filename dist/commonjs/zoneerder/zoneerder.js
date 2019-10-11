@@ -11,20 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_http_client_1 = require("aurelia-http-client");
-var crab_api_service_1 = require("./services/crab.api-service");
-var geozoekdienst_api_service_1 = require("./services/geozoekdienst.api-service");
+var crab_api_service_1 = require("../services/crab.api-service");
+var geozoekdienst_api_service_1 = require("../services/geozoekdienst.api-service");
 var contour_1 = require("./models/contour");
 var Zoneerder = (function () {
-    function Zoneerder(http) {
-        this.http = http;
-        this.disabled = false;
-    }
-    Zoneerder.prototype.attached = function () {
+    function Zoneerder(http, crabService, geozoekdienstApiService) {
         var _this = this;
-        this.crabService = new crab_api_service_1.CrabService(this.http, this.serviceConfig.crabpyUrl);
-        this.geozoekdienstApiService = new geozoekdienst_api_service_1.GeozoekdienstApiService(this.http, this.serviceConfig.crabpyUrl, this.serviceConfig.agivGrbUrl);
+        this.http = http;
+        this.crabService = crabService;
+        this.geozoekdienstApiService = geozoekdienstApiService;
+        this.disabled = false;
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
-    };
+    }
     Zoneerder.prototype.onMapLoaded = function ($event) {
         console.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
     };
@@ -62,13 +60,11 @@ var Zoneerder = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Array)
     ], Zoneerder.prototype, "adrespunten", void 0);
-    __decorate([
-        aurelia_framework_1.bindable,
-        __metadata("design:type", Object)
-    ], Zoneerder.prototype, "serviceConfig", void 0);
     Zoneerder = __decorate([
-        aurelia_framework_1.inject(aurelia_http_client_1.HttpClient),
-        __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient])
+        aurelia_framework_1.inject(aurelia_http_client_1.HttpClient, crab_api_service_1.CrabService, geozoekdienst_api_service_1.GeozoekdienstApiService),
+        __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient,
+            crab_api_service_1.CrabService,
+            geozoekdienst_api_service_1.GeozoekdienstApiService])
     ], Zoneerder);
     return Zoneerder;
 }());

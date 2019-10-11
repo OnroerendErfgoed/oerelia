@@ -13,7 +13,7 @@ import * as ol from 'openlayers';
 import proj4 from 'proj4';
 import * as toastr from 'toastr';
 import { Contour } from '../models/contour';
-import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
+import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
 var OlMap = (function () {
     function OlMap(element) {
