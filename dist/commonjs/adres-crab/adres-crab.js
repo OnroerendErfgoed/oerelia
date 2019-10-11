@@ -64,6 +64,10 @@ var AdresCrab = (function () {
     };
     AdresCrab.prototype.landChanged = function (nv, ov) {
         if (nv === 'BE' || ov === 'BE') {
+            this.gemeente = undefined;
+            this.straat = undefined;
+            this.postcode = undefined;
+            this.huisnummer = undefined;
             this.data.gemeente = undefined;
             this.data.straat = undefined;
             this.data.postcode = undefined;
