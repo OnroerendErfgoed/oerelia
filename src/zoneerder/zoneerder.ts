@@ -21,7 +21,7 @@ export class Zoneerder {
   constructor(private http: HttpClient) {}
 
   public attached() {
-    this.crabService = new CrabService(this.http, this.serviceConfig.crabpyUrl);
+    this.crabService = new CrabService(this.serviceConfig.crabpyUrl);
     this.geozoekdienstApiService = new GeozoekdienstApiService(this.http,
       this.serviceConfig.crabpyUrl, this.serviceConfig.agivGrbUrl);
     this.suggest = { suggest: (value) => this.crabService.suggestLocatie(value) };

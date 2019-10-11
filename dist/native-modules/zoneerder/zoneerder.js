@@ -19,7 +19,7 @@ var Zoneerder = (function () {
     }
     Zoneerder.prototype.attached = function () {
         var _this = this;
-        this.crabService = new CrabService(this.http, this.serviceConfig.crabpyUrl);
+        this.crabService = new CrabService(this.serviceConfig.crabpyUrl);
         this.geozoekdienstApiService = new GeozoekdienstApiService(this.http, this.serviceConfig.crabpyUrl, this.serviceConfig.agivGrbUrl);
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     };

@@ -1,17 +1,19 @@
+import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { Gemeente, Huisnummer, Straat } from './models/locatie';
 import { GeolocationResponse } from './models/geolocationresponse';
 import { RestMessage } from '../message/restMessage';
 import { MessageParser } from '../message/messageParser';
 
+@inject(HttpClient)
 export class CrabService {
   private landen: any[] = [];
   private provincies: any[] = [];
   private gemeenten: Gemeente[] = [];
 
   constructor(
-    private http: HttpClient,
-    private crabpyUrl: string
+    private crabpyUrl: string,
+    private http?: HttpClient
   ) {
     this.http.configure(x => {
       x.withBaseUrl(this.crabpyUrl);

@@ -2,12 +2,12 @@ import { HttpClient } from 'aurelia-http-client';
 import { Huisnummer, Straat } from './models/locatie';
 import { GeolocationResponse } from './models/geolocationresponse';
 export declare class CrabService {
-    private http;
     private crabpyUrl;
+    private http?;
     private landen;
     private provincies;
     private gemeenten;
-    constructor(http: HttpClient, crabpyUrl: string);
+    constructor(crabpyUrl: string, http?: HttpClient);
     getLanden(): Promise<void | any[]>;
     getProvincies(): Promise<void | any[]>;
     getGemeentenByProvincie(provincie: number): Promise<void | any[]>;
