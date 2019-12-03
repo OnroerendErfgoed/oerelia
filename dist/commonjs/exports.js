@@ -20,3 +20,4 @@ __export(require("./utilities/message/restMessage"));
 __export(require("./foundation-validation-renderer/foundation-validation-renderer"));
 __export(require("./services/crab.api-service"));
 __export(require("./services/geozoekdienst.api-service"));
+__export(require("./spinner/spinner"));
