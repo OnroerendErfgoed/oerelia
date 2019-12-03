@@ -1,3 +1,3 @@
 export declare class Spinner {
-    active: boolean;
+    isLoading: boolean;
 }
