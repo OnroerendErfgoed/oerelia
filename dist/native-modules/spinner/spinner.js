@@ -14,7 +14,7 @@ var Spinner = (function () {
     __decorate([
         bindable,
         __metadata("design:type", Boolean)
-    ], Spinner.prototype, "isLoading", void 0);
+    ], Spinner.prototype, "active", void 0);
     return Spinner;
 }());
 export { Spinner };
