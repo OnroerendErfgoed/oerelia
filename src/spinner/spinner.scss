@@ -1,0 +1,42 @@
+@import  '../assets/styles/pyoes/oe-settings';
+
+.spinner-container {
+  div {
+    z-index: 1001;
+  }
+  .spinner-overlay {
+    background-color: rgba(152, 152, 152, 0.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  .spinner-content {
+    display: table;
+    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 5px;
+    padding: 3px;
+    width: 100px;
+    height: 100px;    
+    margin: auto;
+    background: $dark-purple;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+  }
+  .spinner {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+  }
+  .spinner:before {
+    font-size: 50px;
+    color: $white
+  }
+}
