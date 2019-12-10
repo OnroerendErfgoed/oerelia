@@ -14,6 +14,8 @@ function configure(config) {
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/systemfields/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/telefoon-select/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/adres-crab/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/spinner/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/spinner/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/multi-select/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/value-converters/index'));
 }
 exports.configure = configure;

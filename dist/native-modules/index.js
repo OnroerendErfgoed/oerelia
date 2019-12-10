@@ -9,5 +9,7 @@ export function configure(config) {
         .feature(PLATFORM.moduleName('oerelia/systemfields/index'))
         .feature(PLATFORM.moduleName('oerelia/telefoon-select/index'))
         .feature(PLATFORM.moduleName('oerelia/adres-crab/index'))
-        .feature(PLATFORM.moduleName('oerelia/spinner/index'));
+        .feature(PLATFORM.moduleName('oerelia/spinner/index'))
+        .feature(PLATFORM.moduleName('oerelia/multi-select/index'))
+        .feature(PLATFORM.moduleName('oerelia/value-converters/index'));
 }
