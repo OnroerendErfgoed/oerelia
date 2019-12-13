@@ -5,3 +5,5 @@ export function configure(config) {
         PLATFORM.moduleName('./date-format')
     ]);
 }
+
+//# sourceMappingURL=index.js.map

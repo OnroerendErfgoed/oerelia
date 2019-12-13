@@ -32,3 +32,5 @@ var Systemfields = (function () {
     return Systemfields;
 }());
 export { Systemfields };
+
+//# sourceMappingURL=systemfields.js.map

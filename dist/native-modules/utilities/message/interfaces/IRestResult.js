@@ -1,0 +1,3 @@
+
+
+//# sourceMappingURL=IRestResult.js.map

@@ -4,3 +4,5 @@ export function configure(config) {
         PLATFORM.moduleName('./systemfields')
     ]);
 }
+
+//# sourceMappingURL=index.js.map

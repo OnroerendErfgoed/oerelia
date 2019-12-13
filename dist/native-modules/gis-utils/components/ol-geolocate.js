@@ -78,3 +78,5 @@ var Geolocate = (function (_super) {
     return Geolocate;
 }(ol.control.Control));
 export { Geolocate };
+
+//# sourceMappingURL=ol-geolocate.js.map

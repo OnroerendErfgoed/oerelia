@@ -4,3 +4,5 @@ export function configure(config) {
         PLATFORM.moduleName('./spinner')
     ]);
 }
+
+//# sourceMappingURL=index.js.map

@@ -4,3 +4,5 @@ var Boundingbox = (function () {
     return Boundingbox;
 }());
 export { Boundingbox };
+
+//# sourceMappingURL=boundingbox.js.map

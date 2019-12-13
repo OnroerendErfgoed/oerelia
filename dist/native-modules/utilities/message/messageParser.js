@@ -29,3 +29,5 @@ var MessageParser = (function () {
     return MessageParser;
 }());
 export { MessageParser };
+
+//# sourceMappingURL=messageParser.js.map

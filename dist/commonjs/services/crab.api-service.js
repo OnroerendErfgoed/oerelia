@@ -191,3 +191,5 @@ var CrabService = (function () {
     return CrabService;
 }());
 exports.CrabService = CrabService;
+
+//# sourceMappingURL=crab.api-service.js.map

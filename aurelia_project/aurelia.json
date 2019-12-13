@@ -1,5 +1,5 @@
 {
-  "name": "oerelia",
+  "name": "oerelia-2",
   "type": "project:plugin",
   "paths": {
     "root": "dev-app",
@@ -54,6 +54,8 @@
   },
   "platform": {
     "port": 9000,
+    "host": "localhost",
+    "open": false,
     "index": "index.html",
     "baseDir": ".",
     "output": "scripts"
@@ -70,7 +72,7 @@
     "options": {
       "minify": "stage & prod",
       "sourcemaps": "dev & stage",
-      "rev": false,
+      "rev": "prod",
       "cache": "dev & stage"
     },
     "bundles": [

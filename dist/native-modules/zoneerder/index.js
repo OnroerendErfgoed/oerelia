@@ -4,3 +4,5 @@ export function configure(config) {
         PLATFORM.moduleName('./zoneerder')
     ]);
 }
+
+//# sourceMappingURL=index.js.map

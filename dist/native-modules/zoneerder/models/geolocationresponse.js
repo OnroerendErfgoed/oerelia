@@ -4,3 +4,5 @@ var GeolocationResponse = (function () {
     return GeolocationResponse;
 }());
 export { GeolocationResponse };
+
+//# sourceMappingURL=geolocationresponse.js.map

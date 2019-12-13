@@ -20,3 +20,5 @@ var ProjectionUtil = (function () {
     return ProjectionUtil;
 }());
 exports.ProjectionUtil = ProjectionUtil;
+
+//# sourceMappingURL=projection-util.js.map

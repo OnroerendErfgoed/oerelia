@@ -72,3 +72,5 @@ var GeozoekdienstApiService = (function () {
     return GeozoekdienstApiService;
 }());
 export { GeozoekdienstApiService };
+
+//# sourceMappingURL=geozoekdienst.api-service.js.map

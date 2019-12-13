@@ -39,3 +39,5 @@ var TabsHeader = (function () {
     return TabsHeader;
 }());
 export { TabsHeader };
+
+//# sourceMappingURL=tabs-header.js.map

@@ -13,3 +13,5 @@ export function configure(config) {
         .feature(PLATFORM.moduleName('oerelia/multi-select/index'))
         .feature(PLATFORM.moduleName('oerelia/value-converters/index'));
 }
+
+//# sourceMappingURL=index.js.map

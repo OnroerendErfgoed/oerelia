@@ -19,3 +19,5 @@ function configure(config) {
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/value-converters/index'));
 }
 exports.configure = configure;
+
+//# sourceMappingURL=index.js.map

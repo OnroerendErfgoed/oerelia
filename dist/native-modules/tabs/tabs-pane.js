@@ -37,3 +37,5 @@ var TabsPane = (function () {
     return TabsPane;
 }());
 export { TabsPane };
+
+//# sourceMappingURL=tabs-pane.js.map

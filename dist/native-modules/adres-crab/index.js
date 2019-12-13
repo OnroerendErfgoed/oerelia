@@ -4,3 +4,5 @@ export function configure(config) {
         PLATFORM.moduleName('./adres-crab')
     ]);
 }
+
+//# sourceMappingURL=index.js.map

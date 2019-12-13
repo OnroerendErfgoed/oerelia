@@ -97,3 +97,5 @@ var MultiSelect = (function () {
     return MultiSelect;
 }());
 exports.MultiSelect = MultiSelect;
+
+//# sourceMappingURL=multi-select.js.map

@@ -30,3 +30,5 @@ var Huisnummer = (function () {
     return Huisnummer;
 }());
 export { Huisnummer };
+
+//# sourceMappingURL=locatie.js.map

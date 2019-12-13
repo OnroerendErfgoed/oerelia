@@ -4,3 +4,5 @@ var TabsContent = (function () {
     return TabsContent;
 }());
 export { TabsContent };
+
+//# sourceMappingURL=tabs-content.js.map

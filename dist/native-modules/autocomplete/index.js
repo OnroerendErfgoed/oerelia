@@ -4,3 +4,5 @@ export function configure(config) {
         PLATFORM.moduleName('./autocomplete')
     ]);
 }
+
+//# sourceMappingURL=index.js.map

@@ -52,3 +52,5 @@ var RestMessage = (function () {
     return RestMessage;
 }());
 export { RestMessage };
+
+//# sourceMappingURL=restMessage.js.map

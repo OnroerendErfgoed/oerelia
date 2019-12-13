@@ -69,3 +69,5 @@ var Message = (function () {
     return Message;
 }());
 export { Message };
+
+//# sourceMappingURL=message.js.map

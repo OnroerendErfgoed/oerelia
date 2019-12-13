@@ -193,3 +193,5 @@ var LayerswitcherPanel = (function (_super) {
     return LayerswitcherPanel;
 }(ol.control.Control));
 export { LayerswitcherPanel };
+
+//# sourceMappingURL=ol-layerswitcher.js.map

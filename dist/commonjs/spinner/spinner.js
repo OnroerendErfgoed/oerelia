@@ -20,3 +20,5 @@ var Spinner = (function () {
     return Spinner;
 }());
 exports.Spinner = Spinner;
+
+//# sourceMappingURL=spinner.js.map
