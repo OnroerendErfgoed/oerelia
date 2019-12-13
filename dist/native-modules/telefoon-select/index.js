@@ -6,3 +6,5 @@ export function configure(config) {
         PLATFORM.moduleName('./telefoon-select')
     ]);
 }
+
+//# sourceMappingURL=index.js.map

@@ -18,3 +18,5 @@ var Spinner = (function () {
     return Spinner;
 }());
 export { Spinner };
+
+//# sourceMappingURL=spinner.js.map

@@ -31,3 +31,5 @@ var MessageParser = (function () {
     return MessageParser;
 }());
 exports.MessageParser = MessageParser;
+
+//# sourceMappingURL=messageParser.js.map

@@ -4,3 +4,5 @@ export function configure(config) {
         PLATFORM.moduleName('./multi-select')
     ]);
 }
+
+//# sourceMappingURL=index.js.map

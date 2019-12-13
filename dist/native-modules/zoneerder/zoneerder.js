@@ -67,3 +67,5 @@ var Zoneerder = (function () {
     return Zoneerder;
 }());
 export { Zoneerder };
+
+//# sourceMappingURL=zoneerder.js.map

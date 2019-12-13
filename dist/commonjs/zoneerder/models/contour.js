@@ -11,3 +11,5 @@ var Contour = (function () {
     return Contour;
 }());
 exports.Contour = Contour;
+
+//# sourceMappingURL=contour.js.map

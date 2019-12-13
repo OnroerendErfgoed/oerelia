@@ -1,0 +1,1 @@
+{"version":3,"sources":["systemfields/models/ISystemActor.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,YAAY;IACzB,GAAG,EAAE,MAAM,CAAC;IACZ,WAAW,EAAE,MAAM,CAAC;CACrB","file":"ISystemActor.d.ts","sourceRoot":"../../../../src/"}

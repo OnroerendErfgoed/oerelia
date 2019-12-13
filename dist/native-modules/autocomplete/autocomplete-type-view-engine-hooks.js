@@ -9,3 +9,5 @@ var AutocompleteTypeViewEngineHooks = (function () {
     return AutocompleteTypeViewEngineHooks;
 }());
 export { AutocompleteTypeViewEngineHooks };
+
+//# sourceMappingURL=autocomplete-type-view-engine-hooks.js.map

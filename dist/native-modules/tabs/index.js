@@ -6,3 +6,5 @@ export function configure(config) {
         PLATFORM.moduleName('./tabs-content')
     ]);
 }
+
+//# sourceMappingURL=index.js.map

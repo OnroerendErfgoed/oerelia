@@ -464,3 +464,5 @@ var OlMap = (function () {
     return OlMap;
 }());
 exports.OlMap = OlMap;
+
+//# sourceMappingURL=ol-map.js.map

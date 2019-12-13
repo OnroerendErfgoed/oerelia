@@ -6,3 +6,5 @@ var Telefoon = (function () {
     return Telefoon;
 }());
 exports.Telefoon = Telefoon;
+
+//# sourceMappingURL=telefoon.js.map

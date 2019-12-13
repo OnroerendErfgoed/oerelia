@@ -12,3 +12,5 @@ var Boundingbox = (function () {
     return Boundingbox;
 }());
 exports.Boundingbox = Boundingbox;
+
+//# sourceMappingURL=geolocationresponse.js.map

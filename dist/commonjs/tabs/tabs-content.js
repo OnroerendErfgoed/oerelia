@@ -6,3 +6,5 @@ var TabsContent = (function () {
     return TabsContent;
 }());
 exports.TabsContent = TabsContent;
+
+//# sourceMappingURL=tabs-content.js.map

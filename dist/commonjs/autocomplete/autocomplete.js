@@ -8,6 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_binding_1 = require("aurelia-binding");
 var aurelia_templating_1 = require("aurelia-templating");
@@ -87,7 +94,7 @@ var Autocomplete = (function () {
                 .then(function (suggestions) {
                 var _a;
                 _this.index = -1;
-                (_a = _this.suggestions).splice.apply(_a, [0, _this.suggestions.length].concat(suggestions));
+                (_a = _this.suggestions).splice.apply(_a, __spreadArrays([0, _this.suggestions.length], suggestions));
                 if (suggestions.length === 1 && _this.type !== autocomplete_type_1.autocompleteType.Suggest) {
                     _this.select(suggestions[0]);
                 }
@@ -235,3 +242,5 @@ var Autocomplete = (function () {
     return Autocomplete;
 }());
 exports.Autocomplete = Autocomplete;
+
+//# sourceMappingURL=autocomplete.js.map
