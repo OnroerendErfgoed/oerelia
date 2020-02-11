@@ -11,7 +11,8 @@ export class Message {
   }
 
   public static success(config: IMessage): Message {
-    config.emitterOptions = { timeOut: 10000, extendedTimeOut: 5000 };
+    config.emitterOptions = config.emitterOptions || {};
+    config.emitterOptions = { timeOut: 10000, extendedTimeOut: 5000, ...config.emitterOptions };
     return new Message(messageType.success, config);
   }
 
@@ -20,7 +21,8 @@ export class Message {
   }
 
   public static error(config: IMessage): Message {
-    config.emitterOptions = { timeOut: 0, extendedTimeOut: 0, closeButton: true };
+    config.emitterOptions = config.emitterOptions || {};
+    config.emitterOptions = { timeOut: 0, extendedTimeOut: 0, closeButton: true, ...config.emitterOptions };
     return new Message(messageType.error, config);
   }
 
