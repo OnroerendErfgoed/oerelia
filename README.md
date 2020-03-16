@@ -38,6 +38,11 @@ serviceConfig = {
 }
 ```
 
+### Spinner
+```
+<spinner active.bind="showSpinner"></spinner>
+```
+
 ### Import all plugins at once or seperately
 ```
 aurelia.use.plugin(PLATFORM.moduleName('oerelia'));
