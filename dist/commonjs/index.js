@@ -16,8 +16,7 @@ function configure(config) {
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/adres-crab/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/spinner/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/multi-select/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/value-converters/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/references-dialog/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/value-converters/index'));
 }
 exports.configure = configure;
 
