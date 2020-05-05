@@ -9,15 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { DialogController } from 'aurelia-dialog';
 import { autoinject } from 'aurelia-framework';
+import { HttpClient } from 'aurelia-http-client';
 import { IdServiceApiService } from '../services/id-service.api-service';
 var ReferencesDialog = (function () {
-    function ReferencesDialog(controller, apiService) {
+    function ReferencesDialog(controller) {
         this.controller = controller;
-        this.apiService = apiService;
         this.loading = true;
     }
     ReferencesDialog.prototype.activate = function (model) {
         var _this = this;
+        this.apiService = new IdServiceApiService(new HttpClient(), model.ssoToken);
         this.apiService.getReferencesByUri(model.uri).then(function (response) {
             _this.references = response;
             _this.loading = false;
@@ -25,8 +26,7 @@ var ReferencesDialog = (function () {
     };
     ReferencesDialog = __decorate([
         autoinject(),
-        __metadata("design:paramtypes", [DialogController,
-            IdServiceApiService])
+        __metadata("design:paramtypes", [DialogController])
     ], ReferencesDialog);
     return ReferencesDialog;
 }());

@@ -1,6 +1,7 @@
 import { HttpClient } from 'aurelia-http-client';
 export declare class IdServiceApiService {
     private http;
-    constructor(http: HttpClient);
+    private ssoToken;
+    constructor(http: HttpClient, ssoToken: string);
     getReferencesByUri(uri: string): Promise<any>;
 }

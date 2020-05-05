@@ -11,15 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_dialog_1 = require("aurelia-dialog");
 var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_http_client_1 = require("aurelia-http-client");
 var id_service_api_service_1 = require("../services/id-service.api-service");
 var ReferencesDialog = (function () {
-    function ReferencesDialog(controller, apiService) {
+    function ReferencesDialog(controller) {
         this.controller = controller;
-        this.apiService = apiService;
         this.loading = true;
     }
     ReferencesDialog.prototype.activate = function (model) {
         var _this = this;
+        this.apiService = new id_service_api_service_1.IdServiceApiService(new aurelia_http_client_1.HttpClient(), model.ssoToken);
         this.apiService.getReferencesByUri(model.uri).then(function (response) {
             _this.references = response;
             _this.loading = false;
@@ -27,8 +28,7 @@ var ReferencesDialog = (function () {
     };
     ReferencesDialog = __decorate([
         aurelia_framework_1.autoinject(),
-        __metadata("design:paramtypes", [aurelia_dialog_1.DialogController,
-            id_service_api_service_1.IdServiceApiService])
+        __metadata("design:paramtypes", [aurelia_dialog_1.DialogController])
     ], ReferencesDialog);
     return ReferencesDialog;
 }());
