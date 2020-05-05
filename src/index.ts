@@ -13,5 +13,6 @@ export function configure(config: FrameworkConfiguration) {
     .feature(PLATFORM.moduleName('oerelia/adres-crab/index'))
     .feature(PLATFORM.moduleName('oerelia/spinner/index'))
     .feature(PLATFORM.moduleName('oerelia/multi-select/index'))
-    .feature(PLATFORM.moduleName('oerelia/value-converters/index'));
+    .feature(PLATFORM.moduleName('oerelia/value-converters/index'))
+    .feature(PLATFORM.moduleName('oerelia/references-dialog/index'));
 }

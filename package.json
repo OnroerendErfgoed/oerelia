@@ -15,7 +15,8 @@
     "moment": "^2.24.0",
     "openlayers": "^4.2.0",
     "proj4": "^2.4.3",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "aurelia-dialog": "^1.0.0-rc.2.0.0"
   },
   "devDependencies": {
     "aurelia-bootstrapper": "^2.3.2",

@@ -1,0 +1,13 @@
+.oe-dialog-title--silent {
+  font-size: rem-calc(20);
+  color: #989898; }
+
+.oe-dialog-application {
+  margin-top: rem-calc(20); }
+
+.oe-dialog-list {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+  .oe-dialog-list-item {
+    margin-bottom: rem-calc(10); }

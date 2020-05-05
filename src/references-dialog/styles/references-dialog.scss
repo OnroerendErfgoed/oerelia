@@ -1,0 +1,29 @@
+$title-silent-font-size: rem-calc(20);
+$title-silent-color: #989898;
+
+$application-margin: rem-calc(20);
+
+$list-margin: rem-calc(10);
+
+.oe-dialog {
+  &-title {
+    &--silent {
+      font-size: $title-silent-font-size;
+      color: $title-silent-color;
+    }
+  }
+
+  &-application {
+    margin-top: $application-margin;
+  }
+
+  &-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &-item {
+      margin-bottom: $list-margin;
+    }
+  }
+}
