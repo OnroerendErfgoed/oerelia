@@ -13,6 +13,7 @@ export class ReferencesDialog {
   ) {}
 
   public activate(model) {
+    this.apiService.ssoToken = model.ssoToken;
     this.apiService.getReferencesByUri(model.uri).then((response) => {
       this.references = response;
       this.loading = false;

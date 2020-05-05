@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { inject } from 'aurelia-framework';
+import { autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { RestMessage } from '../utilities/message/restMessage';
 import { MessageParser } from '../utilities/message/messageParser';
@@ -28,6 +28,7 @@ var IdServiceApiService = (function () {
     IdServiceApiService.prototype.getReferencesByUri = function (uri) {
         return this.http.createRequest(oeAppConfig.idServiceUrl + "/registry/references?uri=" + uri)
             .asGet()
+            .withHeader('OpenAmSSOID', this.ssoToken)
             .send()
             .then(function (response) {
             RestMessage.display({ result: MessageParser.parseHttpResponseMessage(response) });
@@ -37,7 +38,7 @@ var IdServiceApiService = (function () {
         });
     };
     IdServiceApiService = __decorate([
-        inject(HttpClient),
+        autoinject,
         __metadata("design:paramtypes", [HttpClient])
     ], IdServiceApiService);
     return IdServiceApiService;

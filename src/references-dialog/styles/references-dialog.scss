@@ -5,7 +5,23 @@ $application-margin: rem-calc(20);
 
 $list-margin: rem-calc(10);
 
-.oe-dialog {
+ux-dialog.oe-dialog {
+  ux-dialog-header {
+    padding: 0 16px;
+    
+    button {
+      margin: 0px -16px 0 0;  
+    }
+  }
+
+  ux-dialog-footer {
+    border-top: none;
+
+    button {
+      margin-bottom: 0;
+    }
+  }
+
   &-title {
     &--silent {
       font-size: $title-silent-font-size;

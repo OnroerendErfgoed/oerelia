@@ -30,6 +30,7 @@ var IdServiceApiService = (function () {
     IdServiceApiService.prototype.getReferencesByUri = function (uri) {
         return this.http.createRequest(oeAppConfig.idServiceUrl + "/registry/references?uri=" + uri)
             .asGet()
+            .withHeader('OpenAmSSOID', this.ssoToken)
             .send()
             .then(function (response) {
             restMessage_1.RestMessage.display({ result: messageParser_1.MessageParser.parseHttpResponseMessage(response) });
@@ -39,7 +40,7 @@ var IdServiceApiService = (function () {
         });
     };
     IdServiceApiService = __decorate([
-        aurelia_framework_1.inject(aurelia_http_client_1.HttpClient),
+        aurelia_framework_1.autoinject,
         __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient])
     ], IdServiceApiService);
     return IdServiceApiService;

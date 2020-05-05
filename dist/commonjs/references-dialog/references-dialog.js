@@ -20,6 +20,7 @@ var ReferencesDialog = (function () {
     }
     ReferencesDialog.prototype.activate = function (model) {
         var _this = this;
+        this.apiService.ssoToken = model.ssoToken;
         this.apiService.getReferencesByUri(model.uri).then(function (response) {
             _this.references = response;
             _this.loading = false;
