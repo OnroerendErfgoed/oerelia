@@ -1,0 +1,23 @@
+ux-dialog.oe-dialog ux-dialog-header {
+  padding: 0 16px; }
+  ux-dialog.oe-dialog ux-dialog-header button {
+    margin: 0px -16px 0 0; }
+
+ux-dialog.oe-dialog ux-dialog-footer {
+  border-top: none; }
+  ux-dialog.oe-dialog ux-dialog-footer button {
+    margin-bottom: 0; }
+
+ux-dialog.oe-dialog-title--silent {
+  font-size: rem-calc(20);
+  color: #989898; }
+
+ux-dialog.oe-dialog-application {
+  margin-top: rem-calc(20); }
+
+ux-dialog.oe-dialog-list {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+  ux-dialog.oe-dialog-list-item {
+    margin-bottom: rem-calc(10); }

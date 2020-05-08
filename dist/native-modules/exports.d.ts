@@ -16,5 +16,7 @@ export * from './utilities/message/restMessage';
 export * from './foundation-validation-renderer/foundation-validation-renderer';
 export * from './services/crab.api-service';
 export * from './services/geozoekdienst.api-service';
+export * from './services/id-service.api-service';
 export * from './value-converters';
 export * from './multi-select/multi-select';
+export * from './references-dialog/references-dialog';
