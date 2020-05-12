@@ -129,7 +129,7 @@ export class OlMap {
   public startDrawZone() {
     this.toggleDrawZone(true);
 
-    this.mapInteractions.drawZone.once('drawend', (evt: any) => {
+    this.mapInteractions.drawZone.on('drawend', (evt: any) => {
       evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
       this.polygonList.push(evt.feature.getProperties().name);
       // this.toggleDrawZone(false);
@@ -158,7 +158,7 @@ export class OlMap {
   public startPerceelSelect() {
     // this.resetSelect();
     this.selectPerceel = true;
-    this.map.once('click', (evt: any) => {
+    this.map.on('click', (evt: any) => {
       console.debug('Perceelselect', evt);
       // this.selectPerceel = false;
       this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then( (result: any) => {
