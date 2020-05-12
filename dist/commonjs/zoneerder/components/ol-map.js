@@ -110,7 +110,6 @@ var OlMap = (function () {
         this.mapInteractions.drawZone.once('drawend', function (evt) {
             evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
             _this.polygonList.push(evt.feature.getProperties().name);
-            _this.toggleDrawZone(false);
         });
     };
     OlMap.prototype.importAdrespunten = function () {
@@ -138,7 +137,6 @@ var OlMap = (function () {
         this.selectPerceel = true;
         this.map.once('click', function (evt) {
             console.debug('Perceelselect', evt);
-            _this.selectPerceel = false;
             _this.apiService.searchPerceel(evt.coordinate, _this.mapProjection.getCode()).then(function (result) {
                 _this.geoJsonFormatter.readFeatures(result).forEach(function (perceel) { _this.drawPerceel(perceel); });
             });

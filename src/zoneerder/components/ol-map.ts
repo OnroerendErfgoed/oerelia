@@ -132,7 +132,7 @@ export class OlMap {
     this.mapInteractions.drawZone.once('drawend', (evt: any) => {
       evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
       this.polygonList.push(evt.feature.getProperties().name);
-      this.toggleDrawZone(false);
+      // this.toggleDrawZone(false);
     });
   }
 
@@ -160,7 +160,7 @@ export class OlMap {
     this.selectPerceel = true;
     this.map.once('click', (evt: any) => {
       console.debug('Perceelselect', evt);
-      this.selectPerceel = false;
+      // this.selectPerceel = false;
       this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then( (result: any) => {
         this.geoJsonFormatter.readFeatures(result).forEach((perceel) => { this.drawPerceel(perceel); });
       });
