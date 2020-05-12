@@ -156,7 +156,7 @@ export class OlMap {
   }
 
   public startPerceelSelect() {
-    this.resetSelect();
+    // this.resetSelect();
     this.selectPerceel = true;
     this.map.once('click', (evt: any) => {
       console.debug('Perceelselect', evt);

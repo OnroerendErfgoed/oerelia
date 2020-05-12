@@ -133,7 +133,6 @@ var OlMap = (function () {
     };
     OlMap.prototype.startPerceelSelect = function () {
         var _this = this;
-        this.resetSelect();
         this.selectPerceel = true;
         this.map.once('click', function (evt) {
             console.debug('Perceelselect', evt);
