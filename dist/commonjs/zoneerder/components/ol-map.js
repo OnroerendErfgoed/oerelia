@@ -106,6 +106,7 @@ var OlMap = (function () {
     };
     OlMap.prototype.startDrawZone = function () {
         var _this = this;
+        this.resetSelect();
         this.toggleDrawZone(true);
         this.mapInteractions.drawZone.on('drawend', function (evt) {
             evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
@@ -134,6 +135,7 @@ var OlMap = (function () {
     };
     OlMap.prototype.startPerceelSelect = function () {
         var _this = this;
+        this.toggleDrawZone(false);
         this.selectPerceel = true;
         this.map.on('click', function (evt) {
             console.debug('Perceelselect', evt);
@@ -212,6 +214,10 @@ var OlMap = (function () {
     OlMap.prototype.resetSelect = function () {
         this.selectPerceel = false;
         this.map.removeEventListener('click');
+    };
+    OlMap.prototype.resetSelectValues = function () {
+        this.resetSelect();
+        this.toggleDrawZone(false);
     };
     OlMap.prototype.toggleDrawZone = function (bool) {
         this.mapInteractions.drawZone.setActive(bool);

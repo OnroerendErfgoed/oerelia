@@ -40,6 +40,7 @@ export declare class OlMap {
     removePolygon(name: string): void;
     private addToZone;
     private resetSelect;
+    private resetSelectValues;
     private toggleDrawZone;
     private _createMap;
     private _createInteractions;

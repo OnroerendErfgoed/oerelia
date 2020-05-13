@@ -127,6 +127,8 @@ export class OlMap {
   }
 
   public startDrawZone() {
+    this.resetSelect();
+    // this.resetSelectValues();
     this.toggleDrawZone(true);
 
     this.mapInteractions.drawZone.on('drawend', (evt: any) => {
@@ -156,6 +158,8 @@ export class OlMap {
   }
 
   public startPerceelSelect() {
+    this.toggleDrawZone(false);
+    // this.resetSelectValues();
     // this.resetSelect();
     this.selectPerceel = true;
     this.map.on('click', (evt: any) => {
@@ -236,6 +240,21 @@ export class OlMap {
     this.selectPerceel = false;
     (this.map as any).removeEventListener('click');
   }
+
+  private resetSelectValues() {
+    this.resetSelect();
+    this.toggleDrawZone(false);
+  }
+
+  // private disablePerceelSelect() {
+  //   this.selectPerceel = false;
+  //   (this.map as any).removeEventListener('click');
+  // }
+
+  // private disableDrawZone() {
+  //   this.mapInteractions.drawZone.setActive(false);
+  //   this.mapInteractions.drawZone.removeEventListener('drawend');
+  // }
 
   private toggleDrawZone(bool: boolean) {
     this.mapInteractions.drawZone.setActive(bool);
