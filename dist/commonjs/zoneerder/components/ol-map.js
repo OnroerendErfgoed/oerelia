@@ -215,10 +215,6 @@ var OlMap = (function () {
         this.selectPerceel = false;
         this.map.removeEventListener('click');
     };
-    OlMap.prototype.resetSelectValues = function () {
-        this.resetSelect();
-        this.toggleDrawZone(false);
-    };
     OlMap.prototype.toggleDrawZone = function (bool) {
         this.mapInteractions.drawZone.setActive(bool);
         this.isDrawing = bool;
