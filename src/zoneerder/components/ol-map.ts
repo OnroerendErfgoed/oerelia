@@ -137,7 +137,7 @@ export class OlMap {
   }
 
   public importAdrespunten() {
-    if (this.adrespunten) {
+    if (this.adrespunten && this.adrespunten.length > 0) {
       this.adrespunten.forEach((a: Contour) => {
         this.apiService.searchPerceel(a.coordinates[0], this.mapProjection.getCode()).then((result: any) => {
           this.geoJsonFormatter.readFeatures(result).forEach((perceel) => {
