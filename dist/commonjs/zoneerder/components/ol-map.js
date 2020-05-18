@@ -211,6 +211,8 @@ var OlMap = (function () {
                     multiPolygon.appendPolygon(polygon);
                 });
             }
+            else if (geom instanceof ol.geom.Circle) {
+            }
         });
         this.zone = new contour_1.Contour(this.formatGeoJson(multiPolygon));
     };

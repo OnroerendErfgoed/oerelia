@@ -229,6 +229,11 @@ export class OlMap {
         geom.getPolygons().forEach((polygon: ol.geom.Polygon) => {
           multiPolygon.appendPolygon(polygon);
         });
+      } else if (geom instanceof ol.geom.Circle) {
+        // geom.getFirstCoordinate();
+        // geom.get
+        // const radius = geom.getRadius();
+        // const circle = new ol.geom.Circle()
       }
     });
     this.zone = new Contour(this.formatGeoJson(multiPolygon));
