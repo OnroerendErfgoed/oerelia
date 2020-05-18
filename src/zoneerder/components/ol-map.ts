@@ -240,11 +240,11 @@ export class OlMap {
 
 
         const lowpoly = ol.geom.Polygon.fromCircle(
-          geom,
+          geom
           /* Number of verticies (optional) */
-          12,
+          // 12,
           /* Start angle (optional) */
-          90
+          // 90
         );
 
           multiPolygon.appendPolygon(lowpoly);

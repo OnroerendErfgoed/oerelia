@@ -210,7 +210,7 @@ var OlMap = (function () {
                 });
             }
             else if (geom instanceof ol.geom.Circle) {
-                var lowpoly = ol.geom.Polygon.fromCircle(geom, 12, 90);
+                var lowpoly = ol.geom.Polygon.fromCircle(geom);
                 multiPolygon.appendPolygon(lowpoly);
             }
         });
