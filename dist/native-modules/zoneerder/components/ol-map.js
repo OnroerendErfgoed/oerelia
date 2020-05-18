@@ -33,7 +33,7 @@ var OlMap = (function () {
         console.debug('olMap::attached', this.zone);
         this._createMap();
         this._createLayers();
-        this._createInteractions();
+        this._createInteractions('Polygon', false);
         this.element.dispatchEvent(new CustomEvent('loaded', {
             bubbles: true
         }));
@@ -216,7 +216,7 @@ var OlMap = (function () {
         this.map.removeEventListener('click');
     };
     OlMap.prototype.toggleDrawZone = function (bool) {
-        this.mapInteractions.drawZone.setActive(bool);
+        this._createInteractions("Polygon", bool);
         this.isDrawing = bool;
         if (!bool) {
             this.mapInteractions.drawZone.removeEventListener('drawend');
@@ -232,7 +232,7 @@ var OlMap = (function () {
         });
     };
     OlMap.prototype.toggleCircleDrawZone = function (bool) {
-        this.mapInteractions.drawZone.setActive(bool);
+        this._createInteractions("Circle", bool);
         this.isDrawingCircle = bool;
         if (!bool) {
             this.mapInteractions.drawZone.removeEventListener('drawend');
@@ -267,15 +267,15 @@ var OlMap = (function () {
         this.updateMapSize();
         this.initialized = true;
     };
-    OlMap.prototype._createInteractions = function () {
+    OlMap.prototype._createInteractions = function (type, setActive) {
         console.debug('olMap::_createInteractions');
         var drawZoneInteraction = new ol.interaction.Draw({
-            type: ('Circle'),
+            type: (type),
             source: this.drawLayer.getSource(),
             freehand: false
         });
         this.map.addInteraction(drawZoneInteraction);
-        drawZoneInteraction.setActive(false);
+        drawZoneInteraction.setActive(setActive);
         this.mapInteractions = {
             drawZone: drawZoneInteraction
         };

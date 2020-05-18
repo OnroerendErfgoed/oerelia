@@ -43,7 +43,7 @@ export class OlMap {
     console.debug('olMap::attached', this.zone);
     this._createMap();
     this._createLayers();
-    this._createInteractions();
+    this._createInteractions('Polygon', false);
 
     this.element.dispatchEvent(new CustomEvent('loaded', {
       bubbles: true
@@ -239,7 +239,9 @@ export class OlMap {
   }
 
   private toggleDrawZone(bool: boolean) {
-    this.mapInteractions.drawZone.setActive(bool);
+    this._createInteractions("Polygon", bool);
+
+    // this.mapInteractions.drawZone.setActive(bool);
     this.isDrawing = bool;
     if (!bool) { this.mapInteractions.drawZone.removeEventListener('drawend'); }
   }
@@ -255,7 +257,8 @@ export class OlMap {
   }
 
   private toggleCircleDrawZone(bool: boolean) {
-    this.mapInteractions.drawZone.setActive(bool);
+    this._createInteractions("Circle", bool);
+    // this.mapInteractions.drawZone.setActive(bool);
     this.isDrawingCircle = bool;
     if (!bool) { this.mapInteractions.drawZone.removeEventListener('drawend'); }
   }
@@ -293,16 +296,16 @@ export class OlMap {
     this.initialized = true;
   }
 
-  private _createInteractions() {
+  private _createInteractions(type: ol.geom.GeometryType, setActive: boolean) {
     console.debug('olMap::_createInteractions');
     // Zone interactions
     const drawZoneInteraction: ol.interaction.Draw = new ol.interaction.Draw({
-      type: ('Circle'),
+      type: (type),
       source: this.drawLayer.getSource() as ol.source.Vector,
       freehand: false
     });
     this.map.addInteraction(drawZoneInteraction);
-    drawZoneInteraction.setActive(false);
+    drawZoneInteraction.setActive(setActive);
 
     this.mapInteractions = {
       drawZone: drawZoneInteraction
