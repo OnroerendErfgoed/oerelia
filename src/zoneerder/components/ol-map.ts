@@ -7,6 +7,7 @@ import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
+import * as ctp from 'circle-to-polygon';
 
 @inject(Element)
 export class OlMap {
@@ -230,10 +231,11 @@ export class OlMap {
           multiPolygon.appendPolygon(polygon);
         });
       } else if (geom instanceof ol.geom.Circle) {
-        // geom.getFirstCoordinate();
-        // geom.get
-        // const radius = geom.getRadius();
-        // const circle = new ol.geom.Circle()
+        const coordinates = geom.getCenter();
+        const radius = geom.getRadius();
+        
+        let polygon = ctp.circleToPolygon(coordinates, radius);
+        multiPolygon.appendPolygon(polygon as ol.geom.Polygon);
       }
     });
     this.zone = new Contour(this.formatGeoJson(multiPolygon));

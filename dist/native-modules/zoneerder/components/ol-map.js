@@ -15,6 +15,7 @@ import * as toastr from 'toastr';
 import { Contour } from '../models/contour';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
+import * as ctp from 'circle-to-polygon';
 var OlMap = (function () {
     function OlMap(element) {
         this.element = element;
@@ -210,6 +211,10 @@ var OlMap = (function () {
                 });
             }
             else if (geom instanceof ol.geom.Circle) {
+                var coordinates = geom.getCenter();
+                var radius = geom.getRadius();
+                var polygon = ctp.circleToPolygon(coordinates, radius);
+                multiPolygon.appendPolygon(polygon);
             }
         });
         this.zone = new Contour(this.formatGeoJson(multiPolygon));
