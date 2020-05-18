@@ -297,7 +297,7 @@ export class OlMap {
     console.debug('olMap::_createInteractions');
     // Zone interactions
     const drawZoneInteraction: ol.interaction.Draw = new ol.interaction.Draw({
-      type: ('Polygon'),
+      type: ('Circle'),
       source: this.drawLayer.getSource() as ol.source.Vector,
       freehand: false
     });

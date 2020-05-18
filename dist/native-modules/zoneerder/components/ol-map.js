@@ -270,7 +270,7 @@ var OlMap = (function () {
     OlMap.prototype._createInteractions = function () {
         console.debug('olMap::_createInteractions');
         var drawZoneInteraction = new ol.interaction.Draw({
-            type: ('Polygon'),
+            type: ('Circle'),
             source: this.drawLayer.getSource(),
             freehand: false
         });
