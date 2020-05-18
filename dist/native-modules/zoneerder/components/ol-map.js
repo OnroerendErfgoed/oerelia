@@ -18,13 +18,14 @@ import { Layerswitcher } from './ol-layerswitcher';
 var OlMap = (function () {
     function OlMap(element) {
         this.element = element;
-        this.polygonList = [];
+        this.geometryObjectList = [];
         this.isDrawing = false;
         this.isDrawingCircle = false;
         this.selectPerceel = false;
         this.extentVlaanderen = [9928.0, 66928.0, 272072.0, 329072.0];
         this.initialized = false;
         this.polygonIndex = 1;
+        this.circleIndex = 1;
         console.debug('olMap::constructor', this.zone);
         this._defineProjections();
     }
@@ -46,7 +47,7 @@ var OlMap = (function () {
                 _this.drawLayer.getSource().addFeature(feature);
             });
             this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
-            this.polygonList.push('Zone');
+            this.geometryObjectList.push('Zone');
         }
         this.drawLayer.getSource().on('addfeature', function (feature) {
             console.debug('olMap::drawLayer::addfeature', feature);
@@ -108,7 +109,7 @@ var OlMap = (function () {
         this.toggleDrawZone(true);
         this.mapInteractions.drawZone.once('drawend', function (evt) {
             evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
-            _this.polygonList.push(evt.feature.getProperties().name);
+            _this.geometryObjectList.push(evt.feature.getProperties().name);
             _this.toggleDrawZone(false);
         });
     };
@@ -121,8 +122,8 @@ var OlMap = (function () {
                         var name = 'Adrespunten';
                         perceel.set('name', name);
                         _this.drawLayer.getSource().addFeature(perceel);
-                        if (_this.polygonList.indexOf(name) === -1) {
-                            _this.polygonList.push(name);
+                        if (_this.geometryObjectList.indexOf(name) === -1) {
+                            _this.geometryObjectList.push(name);
                         }
                     });
                 });
@@ -147,10 +148,10 @@ var OlMap = (function () {
     OlMap.prototype.drawPerceel = function (olFeature) {
         if (olFeature) {
             var name_1 = "Perceel " + olFeature.get('CAPAKEY');
-            if (this.polygonList.indexOf(name_1) === -1) {
+            if (this.geometryObjectList.indexOf(name_1) === -1) {
                 olFeature.set('name', name_1);
                 this.drawLayer.getSource().addFeature(olFeature);
-                this.polygonList.push(name_1);
+                this.geometryObjectList.push(name_1);
             }
         }
         else {
@@ -166,7 +167,7 @@ var OlMap = (function () {
                 name: name_2
             });
             this.drawLayer.getSource().addFeature(featureFromWKT);
-            this.polygonList.push(name_2);
+            this.geometryObjectList.push(name_2);
             this.zoomToFeatures();
             this.WKTstring = '';
         }
@@ -174,7 +175,7 @@ var OlMap = (function () {
             toastr.error(error, 'Dit is een ongeldige WKT geometrie.');
         }
     };
-    OlMap.prototype.removePolygon = function (name) {
+    OlMap.prototype.removeGeometryObject = function (name) {
         var _this = this;
         var coordinates = [];
         this.drawLayer.getSource().getFeatures().forEach(function (f) {
@@ -192,7 +193,7 @@ var OlMap = (function () {
         else {
             this.zone = null;
         }
-        this.polygonList.splice(this.polygonList.indexOf(name), 1);
+        this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
     };
     OlMap.prototype.addToZone = function (olFeature) {
         console.debug('addToZone', olFeature);
@@ -226,8 +227,8 @@ var OlMap = (function () {
         var _this = this;
         this.toggleCircleDrawZone(true);
         this.mapInteractions.drawZone.once('drawend', function (evt) {
-            evt.feature.setProperties({ name: "Circle " + _this.polygonIndex++ });
-            _this.polygonList.push(evt.feature.getProperties().name);
+            evt.feature.setProperties({ name: "Circle " + _this.circleIndex++ });
+            _this.geometryObjectList.push(evt.feature.getProperties().name);
             _this.toggleCircleDrawZone(false);
         });
     };

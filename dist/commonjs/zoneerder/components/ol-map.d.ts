@@ -6,7 +6,7 @@ export declare class OlMap {
     disabled: boolean;
     zone: Contour;
     adrespunten: Contour[];
-    polygonList: string[];
+    geometryObjectList: string[];
     WKTstring: string;
     protected isDrawing: boolean;
     protected isDrawingCircle: boolean;
@@ -22,6 +22,7 @@ export declare class OlMap {
     private geoJsonFormatter;
     private mapnode;
     private polygonIndex;
+    private circleIndex;
     constructor(element: Element);
     attached(): void;
     updateMapSize(): void;
@@ -38,7 +39,7 @@ export declare class OlMap {
     startPerceelSelect(): void;
     drawPerceel(olFeature: ol.Feature): void;
     drawWKTzone(wkt: ol.Feature): void;
-    removePolygon(name: string): void;
+    removeGeometryObject(name: string): void;
     private addToZone;
     private resetSelect;
     private toggleDrawZone;

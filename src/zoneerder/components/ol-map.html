@@ -31,15 +31,15 @@
         </div>
       </div>
     </div>
-    <div class="toegevoegde-zones" show.bind="polygonList.length > 0">
+    <div class="toegevoegde-zones" show.bind="geometryObjectList.length > 0">
       <h4>Toegevoegde zones</h4>
       <ul>
-        <li repeat.for="polygon of polygonList">
+        <li repeat.for="geometryObject of geometryObjectList">
           <div class="small-10 columns">
-            ${polygon}
+            ${geometryObject}
           </div>
           <div class="small-2 columns">
-            <i click.delegate="removePolygon(polygon)" class="fa fa-trash"></i>
+            <i click.delegate="removeGeometryObject(geometryObject)" class="fa fa-trash"></i>
           </div>
         </li>
       </ul>

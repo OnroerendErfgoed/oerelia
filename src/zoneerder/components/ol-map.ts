@@ -13,7 +13,7 @@ export class OlMap {
   @bindable public disabled: boolean;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
   @bindable public adrespunten: Contour[];
-  public polygonList: string[] = [];
+  public geometryObjectList: string[] = [];
   public WKTstring!: string;
 
   protected isDrawing: boolean = false;
@@ -31,6 +31,7 @@ export class OlMap {
   private geoJsonFormatter: ol.format.GeoJSON;
   private mapnode: any;
   private polygonIndex: number = 1;
+  private circleIndex: number = 1;
 
   constructor(
     private element: Element
@@ -58,7 +59,7 @@ export class OlMap {
         (this.drawLayer.getSource() as ol.source.Vector).addFeature(feature);
       });
       this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
-      this.polygonList.push('Zone');
+      this.geometryObjectList.push('Zone');
     }
 
     this.drawLayer.getSource().on('addfeature', (feature: any) => {
@@ -132,7 +133,7 @@ export class OlMap {
 
     this.mapInteractions.drawZone.once('drawend', (evt: any) => {
       evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
-      this.polygonList.push(evt.feature.getProperties().name);
+      this.geometryObjectList.push(evt.feature.getProperties().name);
       this.toggleDrawZone(false);
     });
   }
@@ -145,8 +146,8 @@ export class OlMap {
             const name = 'Adrespunten';
             perceel.set('name', name);
             (this.drawLayer.getSource() as ol.source.Vector).addFeature(perceel);
-            if (this.polygonList.indexOf(name) === -1) {
-              this.polygonList.push(name);
+            if (this.geometryObjectList.indexOf(name) === -1) {
+              this.geometryObjectList.push(name);
             }
         });
         });
@@ -171,10 +172,10 @@ export class OlMap {
   public drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
-      if (this.polygonList.indexOf(name) === -1) {
+      if (this.geometryObjectList.indexOf(name) === -1) {
         olFeature.set('name', name);
         (this.drawLayer.getSource() as ol.source.Vector).addFeature(olFeature);
-        this.polygonList.push(name);
+        this.geometryObjectList.push(name);
       }
     } else {
       toastr.error('Er werd geen perceel gevonden op deze locatie.');
@@ -190,7 +191,7 @@ export class OlMap {
         name: name
       });
       (this.drawLayer.getSource() as ol.source.Vector).addFeature(featureFromWKT);
-      this.polygonList.push(name);
+      this.geometryObjectList.push(name);
       this.zoomToFeatures();
       this.WKTstring = '';
     } catch (error) {
@@ -198,7 +199,7 @@ export class OlMap {
     }
   }
 
-  public removePolygon(name: string) {
+  public removeGeometryObject(name: string) {
     const coordinates: any[] = [];
     (this.drawLayer.getSource() as ol.source.Vector).getFeatures().forEach((f: any) => {
       if (f.getProperties().name === name) {
@@ -213,7 +214,7 @@ export class OlMap {
     } else {
       this.zone = null;
     }
-    this.polygonList.splice(this.polygonList.indexOf(name), 1);
+    this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
   }
 
   private addToZone(olFeature: ol.Feature) {
@@ -250,8 +251,8 @@ export class OlMap {
     this.toggleCircleDrawZone(true);
 
     this.mapInteractions.drawZone.once('drawend', (evt: any) => {
-      evt.feature.setProperties({ name: `Circle ${this.polygonIndex++}` });
-      this.polygonList.push(evt.feature.getProperties().name);
+      evt.feature.setProperties({ name: `Circle ${this.circleIndex++}` });
+      this.geometryObjectList.push(evt.feature.getProperties().name);
       this.toggleCircleDrawZone(false);
     });
   }
