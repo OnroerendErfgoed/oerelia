@@ -252,7 +252,7 @@ export class OlMap {
     this.mapInteractions.drawZone.once('drawend', (evt: any) => {
       evt.feature.setProperties({ name: `Circle ${this.polygonIndex++}` });
       this.polygonList.push(evt.feature.getProperties().name);
-      this.toggleDrawZone(false);
+      this.toggleCircleDrawZone(false);
     });
   }
 
@@ -299,7 +299,9 @@ export class OlMap {
   private _createInteractions(type: ol.geom.GeometryType, setActive: boolean) {
     console.debug('olMap::_createInteractions');
     // Zone interactions
+    
     this.map.getInteractions().pop();
+    
     const drawZoneInteraction: ol.interaction.Draw = new ol.interaction.Draw({
       type: (type),
       source: this.drawLayer.getSource() as ol.source.Vector,

@@ -230,7 +230,7 @@ var OlMap = (function () {
         this.mapInteractions.drawZone.once('drawend', function (evt) {
             evt.feature.setProperties({ name: "Circle " + _this.polygonIndex++ });
             _this.polygonList.push(evt.feature.getProperties().name);
-            _this.toggleDrawZone(false);
+            _this.toggleCircleDrawZone(false);
         });
     };
     OlMap.prototype.toggleCircleDrawZone = function (bool) {
