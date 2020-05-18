@@ -269,6 +269,7 @@ var OlMap = (function () {
     };
     OlMap.prototype._createInteractions = function (type, setActive) {
         console.debug('olMap::_createInteractions');
+        this.map.getInteractions().pop();
         var drawZoneInteraction = new ol.interaction.Draw({
             type: (type),
             source: this.drawLayer.getSource(),
