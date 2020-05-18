@@ -22,6 +22,7 @@ var OlMap = (function () {
         this.element = element;
         this.polygonList = [];
         this.isDrawing = false;
+        this.isDrawingCircle = false;
         this.selectPerceel = false;
         this.extentVlaanderen = [9928.0, 66928.0, 272072.0, 329072.0];
         this.initialized = false;
@@ -219,6 +220,22 @@ var OlMap = (function () {
     OlMap.prototype.toggleDrawZone = function (bool) {
         this.mapInteractions.drawZone.setActive(bool);
         this.isDrawing = bool;
+        if (!bool) {
+            this.mapInteractions.drawZone.removeEventListener('drawend');
+        }
+    };
+    OlMap.prototype.startCircleDrawZone = function () {
+        var _this = this;
+        this.toggleCircleDrawZone(true);
+        this.mapInteractions.drawZone.once('drawend', function (evt) {
+            evt.feature.setProperties({ name: "Circle " + _this.polygonIndex++ });
+            _this.polygonList.push(evt.feature.getProperties().name);
+            _this.toggleDrawZone(false);
+        });
+    };
+    OlMap.prototype.toggleCircleDrawZone = function (bool) {
+        this.mapInteractions.drawZone.setActive(bool);
+        this.isDrawingCircle = bool;
         if (!bool) {
             this.mapInteractions.drawZone.removeEventListener('drawend');
         }

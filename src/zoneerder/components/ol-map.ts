@@ -17,6 +17,7 @@ export class OlMap {
   public WKTstring!: string;
 
   protected isDrawing: boolean = false;
+  protected isDrawingCircle: boolean = false;
   protected selectPerceel: boolean = false;
 
   @bindable private apiService: GeozoekdienstApiService;
@@ -240,6 +241,22 @@ export class OlMap {
   private toggleDrawZone(bool: boolean) {
     this.mapInteractions.drawZone.setActive(bool);
     this.isDrawing = bool;
+    if (!bool) { this.mapInteractions.drawZone.removeEventListener('drawend'); }
+  }
+
+  public startCircleDrawZone() {
+    this.toggleCircleDrawZone(true);
+
+    this.mapInteractions.drawZone.once('drawend', (evt: any) => {
+      evt.feature.setProperties({ name: `Circle ${this.polygonIndex++}` });
+      this.polygonList.push(evt.feature.getProperties().name);
+      this.toggleDrawZone(false);
+    });
+  }
+
+  private toggleCircleDrawZone(bool: boolean) {
+    this.mapInteractions.drawZone.setActive(bool);
+    this.isDrawingCircle = bool;
     if (!bool) { this.mapInteractions.drawZone.removeEventListener('drawend'); }
   }
 

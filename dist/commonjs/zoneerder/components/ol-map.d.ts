@@ -9,6 +9,7 @@ export declare class OlMap {
     polygonList: string[];
     WKTstring: string;
     protected isDrawing: boolean;
+    protected isDrawingCircle: boolean;
     protected selectPerceel: boolean;
     private apiService;
     private map;
@@ -41,6 +42,8 @@ export declare class OlMap {
     private addToZone;
     private resetSelect;
     private toggleDrawZone;
+    startCircleDrawZone(): void;
+    private toggleCircleDrawZone;
     private _createMap;
     private _createInteractions;
     private _createLayers;

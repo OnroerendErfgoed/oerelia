@@ -11,6 +11,10 @@
         <span if.bind="!isDrawing"><i class="fa fa-pencil"></i> Teken polygoon</span>
         <span else><i class="fa fa-ban"></i> Annuleer tekenen</span>
       </a>
+      <a click.delegate="!isDrawingCircle ? startCircleDrawZone() : toggleCircleDrawZone(false)">
+        <span if.bind="!isDrawingCircle"><i class="fa fa-pencil"></i> Teken cirkel</span>
+        <span else><i class="fa fa-ban"></i> Annuleer tekenen</span>
+      </a>
       <a click.delegate="!selectPerceel ? startPerceelSelect() : resetSelect()">
         <span if.bind="!selectPerceel"><i class="fa fa-hand-pointer-o"></i> Selecteer perceel</span>
         <span else><i class="fa fa-ban"></i> Annuleer perceel</span>
