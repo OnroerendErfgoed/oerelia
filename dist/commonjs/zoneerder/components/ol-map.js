@@ -17,7 +17,7 @@ var toastr = require("toastr");
 var contour_1 = require("../models/contour");
 var geozoekdienst_api_service_1 = require("../../services/geozoekdienst.api-service");
 var ol_layerswitcher_1 = require("./ol-layerswitcher");
-var ctp = require("circle-to-polygon");
+var circle_to_polygon_1 = require("circle-to-polygon");
 var OlMap = (function () {
     function OlMap(element) {
         this.element = element;
@@ -215,7 +215,7 @@ var OlMap = (function () {
             else if (geom instanceof ol.geom.Circle) {
                 var coordinates = geom.getCenter();
                 var radius = geom.getRadius();
-                var polygon = ctp.circleToPolygon(coordinates, radius);
+                var polygon = circle_to_polygon_1.default.circleToPolygon(coordinates, radius);
                 multiPolygon.appendPolygon(polygon);
             }
         });

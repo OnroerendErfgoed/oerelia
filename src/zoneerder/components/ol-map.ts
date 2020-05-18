@@ -7,7 +7,7 @@ import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
-import * as ctp from 'circle-to-polygon';
+import circleToPolygon from 'circle-to-polygon';
 
 @inject(Element)
 export class OlMap {
@@ -234,7 +234,7 @@ export class OlMap {
         const coordinates = geom.getCenter();
         const radius = geom.getRadius();
         
-        let polygon = ctp.circleToPolygon(coordinates, radius);
+        let polygon = circleToPolygon.circleToPolygon(coordinates, radius);
         multiPolygon.appendPolygon(polygon as ol.geom.Polygon);
       }
     });
