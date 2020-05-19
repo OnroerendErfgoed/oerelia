@@ -7,7 +7,6 @@ import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
-// const circleToPolygon = require('circle-to-polygon');
 
 @inject(Element)
 export class OlMap {
@@ -231,35 +230,7 @@ export class OlMap {
           multiPolygon.appendPolygon(polygon);
         });
       } else if (geom instanceof ol.geom.Circle) {
-        // const center = geom.getCenter();
-        // const last = geom.getLastCoordinate();
-        // const radius = geom.getRadius();
-        
-        // const dx = center[0] - last[0];
-        // var dy = center[1] - last[1];
-
-
-        const lowpoly = ol.geom.Polygon.fromCircle(
-          geom
-          /* Number of verticies (optional) */
-          // 12,
-          /* Start angle (optional) */
-          // 90
-        );
-
-          multiPolygon.appendPolygon(lowpoly);
-
-        // var radius = Math.sqrt(dx * dx + dy * dy);
-
-        // var center = coordinates[0];
-        // var last = coordinates[1];
-        // var dx = center[0] - last[0];
-        // var dy = center[1] - last[1];
-        // var radius = Math.sqrt(dx * dx + dy * dy);
-
-        // ol.geom.Circle()
-        // let polygon = circleToPolygon(coordinates, radius);
-        // multiPolygon.appendPolygon(polygon as ol.geom.Polygon);
+        multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
       }
     });
     this.zone = new Contour(this.formatGeoJson(multiPolygon));
