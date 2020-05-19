@@ -184,7 +184,13 @@ var OlMap = (function () {
                 _this.drawLayer.getSource().removeFeature(f);
             }
             else {
-                coordinates.push(f.getGeometry().getCoordinates());
+                if (f instanceof ol.geom.Circle) {
+                    var polygon = ol.geom.Polygon.fromCircle(f);
+                    coordinates.push(polygon.getCoordinates());
+                }
+                else {
+                    coordinates.push(f.getGeometry().getCoordinates());
+                }
             }
         });
         if (coordinates.length > 0) {

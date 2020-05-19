@@ -206,7 +206,13 @@ export class OlMap {
       if (f.getProperties().name === name) {
         (this.drawLayer.getSource() as ol.source.Vector).removeFeature(f);
       } else {
-        coordinates.push(f.getGeometry().getCoordinates());
+
+        if (f instanceof ol.geom.Circle) {
+          const polygon = ol.geom.Polygon.fromCircle(f);
+          coordinates.push(polygon.getCoordinates());
+        } else {
+          coordinates.push(f.getGeometry().getCoordinates());
+        }
       }
     });
     if (coordinates.length > 0) {
