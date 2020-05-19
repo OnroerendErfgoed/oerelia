@@ -108,11 +108,12 @@ var OlMap = (function () {
     };
     OlMap.prototype.startDrawZone = function () {
         var _this = this;
+        this.resetSelect();
+        this.toggleCircleDrawZone(false);
         this.toggleDrawZone(true);
-        this.mapInteractions.drawZone.once('drawend', function (evt) {
+        this.mapInteractions.drawZone.on('drawend', function (evt) {
             evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
             _this.geometryObjectList.push(evt.feature.getProperties().name);
-            _this.toggleDrawZone(false);
         });
     };
     OlMap.prototype.importAdrespunten = function () {
@@ -137,11 +138,11 @@ var OlMap = (function () {
     };
     OlMap.prototype.startPerceelSelect = function () {
         var _this = this;
-        this.resetSelect();
+        this.toggleDrawZone(false);
+        this.toggleCircleDrawZone(false);
         this.selectPerceel = true;
-        this.map.once('click', function (evt) {
+        this.map.on('click', function (evt) {
             console.debug('Perceelselect', evt);
-            _this.selectPerceel = false;
             _this.apiService.searchPerceel(evt.coordinate, _this.mapProjection.getCode()).then(function (result) {
                 _this.geoJsonFormatter.readFeatures(result).forEach(function (perceel) { _this.drawPerceel(perceel); });
             });
@@ -212,8 +213,7 @@ var OlMap = (function () {
                 });
             }
             else if (geom instanceof ol.geom.Circle) {
-                var lowpoly = ol.geom.Polygon.fromCircle(geom);
-                multiPolygon.appendPolygon(lowpoly);
+                multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
             }
         });
         this.zone = new contour_1.Contour(this.formatGeoJson(multiPolygon));
@@ -231,11 +231,12 @@ var OlMap = (function () {
     };
     OlMap.prototype.startCircleDrawZone = function () {
         var _this = this;
+        this.resetSelect();
+        this.toggleDrawZone(false);
         this.toggleCircleDrawZone(true);
-        this.mapInteractions.drawZone.once('drawend', function (evt) {
+        this.mapInteractions.drawZone.on('drawend', function (evt) {
             evt.feature.setProperties({ name: "Circle " + _this.circleIndex++ });
             _this.geometryObjectList.push(evt.feature.getProperties().name);
-            _this.toggleCircleDrawZone(false);
         });
     };
     OlMap.prototype.toggleCircleDrawZone = function (bool) {
