@@ -108,10 +108,10 @@ var OlMap = (function () {
         this.resetSelect();
         this.toggleDrawZone(true, type);
         if (type === 'Polygon') {
-            this.drawZone('Polygoon', this.polygonIndex);
+            this.drawZone('Polygoon', this.getPolygonIndex());
         }
         else if (type === 'Circle') {
-            this.drawZone('Cirkel', this.circleIndex);
+            this.drawZone('Cirkel', this.getCircleIndex());
         }
     };
     OlMap.prototype.importAdrespunten = function () {
@@ -471,6 +471,12 @@ var OlMap = (function () {
             evt.feature.setProperties({ name: propertyName + " " + index++ });
             _this.geometryObjectList.push(evt.feature.getProperties().name);
         });
+    };
+    OlMap.prototype.getPolygonIndex = function () {
+        return this.polygonIndex;
+    };
+    OlMap.prototype.getCircleIndex = function () {
+        return this.circleIndex;
     };
     __decorate([
         bindable,

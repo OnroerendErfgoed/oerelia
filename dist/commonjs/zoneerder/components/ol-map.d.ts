@@ -53,4 +53,6 @@ export declare class OlMap {
     private _createVectorLayer;
     private strip;
     private drawZone;
+    private getPolygonIndex;
+    private getCircleIndex;
 }

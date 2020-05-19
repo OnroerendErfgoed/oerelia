@@ -133,9 +133,9 @@ export class OlMap {
     this.toggleDrawZone(true, type);
 
     if (type === 'Polygon') {
-      this.drawZone('Polygoon', this.polygonIndex);
+      this.drawZone('Polygoon', this.getPolygonIndex());
     } else if (type === 'Circle') {
-      this.drawZone('Cirkel', this.circleIndex);
+      this.drawZone('Cirkel', this.getCircleIndex());
     }
   }
 
@@ -535,5 +535,13 @@ export class OlMap {
       evt.feature.setProperties({ name: `${propertyName} ${index++}` });
       this.geometryObjectList.push(evt.feature.getProperties().name);
     });
+  }
+
+  private getPolygonIndex() {
+    return this.polygonIndex;
+  }
+
+  private getCircleIndex() {
+    return this.circleIndex;
   }
 }
