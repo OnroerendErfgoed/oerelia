@@ -129,12 +129,13 @@ export class OlMap {
   }
 
   public startDrawZone() {
+    this.resetSelect();
+    this.toggleCircleDrawZone(false);
     this.toggleDrawZone(true);
 
-    this.mapInteractions.drawZone.once('drawend', (evt: any) => {
+    this.mapInteractions.drawZone.on('drawend', (evt: any) => {
       evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
       this.geometryObjectList.push(evt.feature.getProperties().name);
-      this.toggleDrawZone(false);
     });
   }
 
@@ -158,11 +159,11 @@ export class OlMap {
   }
 
   public startPerceelSelect() {
-    this.resetSelect();
+    this.toggleDrawZone(false);
+    this.toggleCircleDrawZone(false);
     this.selectPerceel = true;
-    this.map.once('click', (evt: any) => {
+    this.map.on('click', (evt: any) => {
       console.debug('Perceelselect', evt);
-      this.selectPerceel = false;
       this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then( (result: any) => {
         this.geoJsonFormatter.readFeatures(result).forEach((perceel) => { this.drawPerceel(perceel); });
       });
@@ -243,25 +244,23 @@ export class OlMap {
 
   private toggleDrawZone(bool: boolean) {
     this._createInteractions("Polygon", bool);
-
-    // this.mapInteractions.drawZone.setActive(bool);
     this.isDrawing = bool;
     if (!bool) { this.mapInteractions.drawZone.removeEventListener('drawend'); }
   }
 
   public startCircleDrawZone() {
+    this.resetSelect();
+    this.toggleDrawZone(false);
     this.toggleCircleDrawZone(true);
 
-    this.mapInteractions.drawZone.once('drawend', (evt: any) => {
+    this.mapInteractions.drawZone.on('drawend', (evt: any) => {
       evt.feature.setProperties({ name: `Circle ${this.circleIndex++}` });
       this.geometryObjectList.push(evt.feature.getProperties().name);
-      this.toggleCircleDrawZone(false);
     });
   }
 
   private toggleCircleDrawZone(bool: boolean) {
     this._createInteractions("Circle", bool);
-    // this.mapInteractions.drawZone.setActive(bool);
     this.isDrawingCircle = bool;
     if (!bool) { this.mapInteractions.drawZone.removeEventListener('drawend'); }
   }
