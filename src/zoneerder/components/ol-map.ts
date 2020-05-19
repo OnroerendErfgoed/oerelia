@@ -250,9 +250,7 @@ export class OlMap {
   }
 
   private toggleDrawZone(bool: boolean, type?: ol.geom.GeometryType) {
-    if (type) {
-      this._createInteractions(type, bool);
-    }
+    type ? this._createInteractions(type, bool) : this._createInteractions('Polygon', false);
 
     switch(type) {
       case 'Polygon': {

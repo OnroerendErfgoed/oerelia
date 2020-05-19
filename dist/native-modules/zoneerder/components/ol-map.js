@@ -229,9 +229,7 @@ var OlMap = (function () {
         this.map.removeEventListener('click');
     };
     OlMap.prototype.toggleDrawZone = function (bool, type) {
-        if (type) {
-            this._createInteractions(type, bool);
-        }
+        type ? this._createInteractions(type, bool) : this._createInteractions('Polygon', false);
         switch (type) {
             case 'Polygon': {
                 this.isDrawing = bool;
