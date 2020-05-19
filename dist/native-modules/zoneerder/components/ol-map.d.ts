@@ -52,4 +52,5 @@ export declare class OlMap {
     private _createGrbWMSLayer;
     private _createVectorLayer;
     private strip;
+    private drawZone;
 }
