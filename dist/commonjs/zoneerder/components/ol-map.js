@@ -232,14 +232,17 @@ var OlMap = (function () {
             case 'Polygon': {
                 this.isDrawing = bool;
                 this.isDrawingCircle = false;
+                break;
             }
             case 'Circle': {
                 this.isDrawing = false;
                 this.isDrawingCircle = bool;
+                break;
             }
             default: {
                 this.isDrawing = false;
                 this.isDrawingCircle = false;
+                break;
             }
         }
         if (!bool) {
