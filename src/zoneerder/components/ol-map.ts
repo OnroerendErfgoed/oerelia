@@ -207,7 +207,7 @@ export class OlMap {
         (this.drawLayer.getSource() as ol.source.Vector).removeFeature(f);
       } else {
 
-        if (f instanceof ol.geom.Circle) {
+        if (f.getProperties().name.includes('Cirkel') ) {
           const polygon = ol.geom.Polygon.fromCircle(f);
           coordinates.push(polygon.getCoordinates());
         } else {
@@ -260,7 +260,7 @@ export class OlMap {
     this.toggleCircleDrawZone(true);
 
     this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-      evt.feature.setProperties({ name: `Circle ${this.circleIndex++}` });
+      evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
       this.geometryObjectList.push(evt.feature.getProperties().name);
     });
   }

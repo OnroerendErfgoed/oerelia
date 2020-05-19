@@ -186,7 +186,7 @@ var OlMap = (function () {
                 _this.drawLayer.getSource().removeFeature(f);
             }
             else {
-                if (f instanceof ol.geom.Circle) {
+                if (f.getProperties().name.includes('Cirkel')) {
                     var polygon = ol.geom.Polygon.fromCircle(f);
                     coordinates.push(polygon.getCoordinates());
                 }
@@ -241,7 +241,7 @@ var OlMap = (function () {
         this.toggleDrawZone(false);
         this.toggleCircleDrawZone(true);
         this.mapInteractions.drawZone.on('drawend', function (evt) {
-            evt.feature.setProperties({ name: "Circle " + _this.circleIndex++ });
+            evt.feature.setProperties({ name: "Cirkel " + _this.circleIndex++ });
             _this.geometryObjectList.push(evt.feature.getProperties().name);
         });
     };
