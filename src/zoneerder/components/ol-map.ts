@@ -206,13 +206,9 @@ export class OlMap {
       if (f.getProperties().name === name) {
         (this.drawLayer.getSource() as ol.source.Vector).removeFeature(f);
       } else {
-
-        if (f.getProperties().name.includes('Cirkel') ) {
-          const polygon = ol.geom.Polygon.fromCircle(f.getGeometry());
-          coordinates.push(polygon.getCoordinates());
-        } else {
-          coordinates.push(f.getGeometry().getCoordinates());
-        }
+        const geometry = f.getProperties().name.includes('Cirkel') ? ol.geom.Polygon.fromCircle(f.getGeometry()) 
+                                                                   : f.getGeometry();
+        coordinates.push(geometry.getCoordinates());
       }
     });
     if (coordinates.length > 0) {
