@@ -107,14 +107,15 @@ var OlMap = (function () {
         return point.transform('EPSG:4326', 'EPSG:31370');
     };
     OlMap.prototype.startDrawZone = function (type) {
+        var _this = this;
         this.resetSelect();
         this.toggleDrawZone(true, type);
-        if (type === 'Polygon') {
-            this.drawZone('Polygoon', this.getPolygonIndex());
-        }
-        else if (type === 'Circle') {
-            this.drawZone('Cirkel', this.getCircleIndex());
-        }
+        var propertyName = type === 'Polygon' ? 'Polygoon' : 'Cirkel';
+        var index = type === 'Polygon' ? this.polygonIndex++ : this.circleIndex++;
+        this.mapInteractions.drawZone.on('drawend', function (evt) {
+            evt.feature.setProperties({ name: propertyName + " " + index });
+            _this.geometryObjectList.push(evt.feature.getProperties().name);
+        });
     };
     OlMap.prototype.importAdrespunten = function () {
         var _this = this;
@@ -466,19 +467,6 @@ var OlMap = (function () {
             return geom.map(function (g) { return _this.strip(g, test); });
         }
         return geom.filter(test);
-    };
-    OlMap.prototype.drawZone = function (propertyName, index) {
-        var _this = this;
-        this.mapInteractions.drawZone.on('drawend', function (evt) {
-            evt.feature.setProperties({ name: propertyName + " " + index++ });
-            _this.geometryObjectList.push(evt.feature.getProperties().name);
-        });
-    };
-    OlMap.prototype.getPolygonIndex = function () {
-        return this.polygonIndex;
-    };
-    OlMap.prototype.getCircleIndex = function () {
-        return this.circleIndex;
     };
     __decorate([
         aurelia_framework_1.bindable,

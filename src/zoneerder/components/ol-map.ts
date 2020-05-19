@@ -132,11 +132,13 @@ export class OlMap {
     this.resetSelect();
     this.toggleDrawZone(true, type);
 
-    if (type === 'Polygon') {
-      this.drawZone('Polygoon', this.getPolygonIndex());
-    } else if (type === 'Circle') {
-      this.drawZone('Cirkel', this.getCircleIndex());
-    }
+    const propertyName = type === 'Polygon' ? 'Polygoon' : 'Cirkel';
+    const index = type === 'Polygon' ? this.polygonIndex++ : this.circleIndex++;
+    
+    this.mapInteractions.drawZone.on('drawend', (evt: any) => {
+      evt.feature.setProperties({ name: `${propertyName} ${index}` });
+      this.geometryObjectList.push(evt.feature.getProperties().name);
+    });
   }
 
   public importAdrespunten() {
@@ -528,20 +530,5 @@ export class OlMap {
       return geom.map((g: any) => this.strip(g, test));
     }
     return geom.filter(test);
-  }
-
-  private drawZone(propertyName: string, index: number) {
-    this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-      evt.feature.setProperties({ name: `${propertyName} ${index++}` });
-      this.geometryObjectList.push(evt.feature.getProperties().name);
-    });
-  }
-
-  private getPolygonIndex() {
-    return this.polygonIndex;
-  }
-
-  private getCircleIndex() {
-    return this.circleIndex;
   }
 }
