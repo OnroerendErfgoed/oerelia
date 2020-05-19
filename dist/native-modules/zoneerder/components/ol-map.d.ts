@@ -34,7 +34,7 @@ export declare class OlMap {
     formatGeoJson(feature: ol.geom.Geometry): Contour;
     transformBoundingboxToMapExtent(boundingbox: Boundingbox): [number, number, number, number];
     transformLatLonToPoint(lat: number, lon: number): ol.geom.Point;
-    startDrawZone(): void;
+    startDrawZone(type: ol.geom.GeometryType): void;
     importAdrespunten(): void;
     startPerceelSelect(): void;
     drawPerceel(olFeature: ol.Feature): void;
@@ -43,8 +43,6 @@ export declare class OlMap {
     private addToZone;
     private resetSelect;
     private toggleDrawZone;
-    startCircleDrawZone(): void;
-    private toggleCircleDrawZone;
     private _createMap;
     private _createInteractions;
     private _createLayers;

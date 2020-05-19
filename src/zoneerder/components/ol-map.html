@@ -7,11 +7,11 @@
     <h3>Zone samenstellen</h3>
     <div class="toevoegen-aan">
       <h4>Toevoegen aan zone</h4>
-      <a click.delegate="!isDrawing ? startDrawZone() : toggleDrawZone(false)">
+      <a click.delegate="!isDrawing ? startDrawZone('Polygon') : toggleDrawZone(false)">
         <span if.bind="!isDrawing"><i class="fa fa-pencil"></i> Teken polygoon</span>
         <span else><i class="fa fa-ban"></i> Annuleer tekenen</span>
       </a>
-      <a click.delegate="!isDrawingCircle ? startCircleDrawZone() : toggleCircleDrawZone(false)">
+      <a click.delegate="!isDrawingCircle ? startDrawZone('Circle') : toggleDrawZone(false)">
         <span if.bind="!isDrawingCircle"><i class="fa fa-pencil"></i> Teken cirkel</span>
         <span else><i class="fa fa-ban"></i> Annuleer tekenen</span>
       </a>

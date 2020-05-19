@@ -104,13 +104,14 @@ var OlMap = (function () {
         var point = new ol.geom.Point([lon, lat]);
         return point.transform('EPSG:4326', 'EPSG:31370');
     };
-    OlMap.prototype.startDrawZone = function () {
+    OlMap.prototype.startDrawZone = function (type) {
         var _this = this;
         this.resetSelect();
-        this.toggleCircleDrawZone(false);
-        this.toggleDrawZone(true);
+        this.toggleDrawZone(true, type);
+        var propertyName = type === 'Polygon' ? 'Polygoon' : 'Cirkel';
+        var index = type === 'Polygon' ? this.polygonIndex : this.circleIndex;
         this.mapInteractions.drawZone.on('drawend', function (evt) {
-            evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
+            evt.feature.setProperties({ name: propertyName + " " + index++ });
             _this.geometryObjectList.push(evt.feature.getProperties().name);
         });
     };
@@ -137,7 +138,6 @@ var OlMap = (function () {
     OlMap.prototype.startPerceelSelect = function () {
         var _this = this;
         this.toggleDrawZone(false);
-        this.toggleCircleDrawZone(false);
         this.selectPerceel = true;
         this.map.on('click', function (evt) {
             console.debug('Perceelselect', evt);
@@ -222,26 +222,24 @@ var OlMap = (function () {
         this.selectPerceel = false;
         this.map.removeEventListener('click');
     };
-    OlMap.prototype.toggleDrawZone = function (bool) {
-        this._createInteractions("Polygon", bool);
-        this.isDrawing = bool;
-        if (!bool) {
-            this.mapInteractions.drawZone.removeEventListener('drawend');
+    OlMap.prototype.toggleDrawZone = function (bool, type) {
+        if (type) {
+            this._createInteractions(type, bool);
         }
-    };
-    OlMap.prototype.startCircleDrawZone = function () {
-        var _this = this;
-        this.resetSelect();
-        this.toggleDrawZone(false);
-        this.toggleCircleDrawZone(true);
-        this.mapInteractions.drawZone.on('drawend', function (evt) {
-            evt.feature.setProperties({ name: "Cirkel " + _this.circleIndex++ });
-            _this.geometryObjectList.push(evt.feature.getProperties().name);
-        });
-    };
-    OlMap.prototype.toggleCircleDrawZone = function (bool) {
-        this._createInteractions("Circle", bool);
-        this.isDrawingCircle = bool;
+        switch (type) {
+            case 'Polygon': {
+                this.isDrawing = bool;
+                this.isDrawingCircle = false;
+            }
+            case 'Circle': {
+                this.isDrawing = false;
+                this.isDrawingCircle = bool;
+            }
+            default: {
+                this.isDrawing = false;
+                this.isDrawingCircle = false;
+            }
+        }
         if (!bool) {
             this.mapInteractions.drawZone.removeEventListener('drawend');
         }

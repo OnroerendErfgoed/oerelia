@@ -128,13 +128,15 @@ export class OlMap {
     return (point.transform('EPSG:4326', 'EPSG:31370') as ol.geom.Point);
   }
 
-  public startDrawZone() {
+  public startDrawZone(type: ol.geom.GeometryType) {
     this.resetSelect();
-    this.toggleCircleDrawZone(false);
-    this.toggleDrawZone(true);
+    this.toggleDrawZone(true, type);
 
+    const propertyName = type === 'Polygon' ? 'Polygoon' : 'Cirkel';
+    let index = type === 'Polygon' ? this.polygonIndex : this.circleIndex; 
+    
     this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-      evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
+      evt.feature.setProperties({ name: `${propertyName} ${index++}` });
       this.geometryObjectList.push(evt.feature.getProperties().name);
     });
   }
@@ -160,7 +162,6 @@ export class OlMap {
 
   public startPerceelSelect() {
     this.toggleDrawZone(false);
-    this.toggleCircleDrawZone(false);
     this.selectPerceel = true;
     this.map.on('click', (evt: any) => {
       console.debug('Perceelselect', evt);
@@ -244,26 +245,26 @@ export class OlMap {
     (this.map as any).removeEventListener('click');
   }
 
-  private toggleDrawZone(bool: boolean) {
-    this._createInteractions("Polygon", bool);
-    this.isDrawing = bool;
-    if (!bool) { this.mapInteractions.drawZone.removeEventListener('drawend'); }
-  }
+  private toggleDrawZone(bool: boolean, type?: ol.geom.GeometryType) {
+    if (type) {
+      this._createInteractions(type, bool);
+    }
 
-  public startCircleDrawZone() {
-    this.resetSelect();
-    this.toggleDrawZone(false);
-    this.toggleCircleDrawZone(true);
+    switch(type) {
+      case 'Polygon': {
+        this.isDrawing = bool;
+        this.isDrawingCircle = false;
+      }
+      case 'Circle': {
+        this.isDrawing = false;
+        this.isDrawingCircle = bool;
+      }
+      default: {
+        this.isDrawing = false;
+        this.isDrawingCircle = false;
+      }
+    }
 
-    this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-      evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
-      this.geometryObjectList.push(evt.feature.getProperties().name);
-    });
-  }
-
-  private toggleCircleDrawZone(bool: boolean) {
-    this._createInteractions("Circle", bool);
-    this.isDrawingCircle = bool;
     if (!bool) { this.mapInteractions.drawZone.removeEventListener('drawend'); }
   }
 
