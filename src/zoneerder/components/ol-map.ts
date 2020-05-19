@@ -208,7 +208,7 @@ export class OlMap {
       } else {
 
         if (f.getProperties().name.includes('Cirkel') ) {
-          const polygon = ol.geom.Polygon.fromCircle(f);
+          const polygon = ol.geom.Polygon.fromCircle(f.getGeometry());
           coordinates.push(polygon.getCoordinates());
         } else {
           coordinates.push(f.getGeometry().getCoordinates());

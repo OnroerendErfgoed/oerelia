@@ -185,7 +185,7 @@ var OlMap = (function () {
             }
             else {
                 if (f.getProperties().name.includes('Cirkel')) {
-                    var polygon = ol.geom.Polygon.fromCircle(f);
+                    var polygon = ol.geom.Polygon.fromCircle(f.getGeometry());
                     coordinates.push(polygon.getCoordinates());
                 }
                 else {
