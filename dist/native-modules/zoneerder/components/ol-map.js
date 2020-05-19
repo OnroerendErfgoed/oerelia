@@ -108,12 +108,18 @@ var OlMap = (function () {
         var _this = this;
         this.resetSelect();
         this.toggleDrawZone(true, type);
-        var propertyName = type === 'Polygon' ? 'Polygoon' : 'Cirkel';
-        var index = type === 'Polygon' ? this.polygonIndex++ : this.circleIndex++;
-        this.mapInteractions.drawZone.on('drawend', function (evt) {
-            evt.feature.setProperties({ name: propertyName + " " + index });
-            _this.geometryObjectList.push(evt.feature.getProperties().name);
-        });
+        if (type === 'Polygon') {
+            this.mapInteractions.drawZone.on('drawend', function (evt) {
+                evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
+                _this.geometryObjectList.push(evt.feature.getProperties().name);
+            });
+        }
+        else if (type === 'Circle') {
+            this.mapInteractions.drawZone.on('drawend', function (evt) {
+                evt.feature.setProperties({ name: "Cirkel " + _this.circleIndex++ });
+                _this.geometryObjectList.push(evt.feature.getProperties().name);
+            });
+        }
     };
     OlMap.prototype.importAdrespunten = function () {
         var _this = this;

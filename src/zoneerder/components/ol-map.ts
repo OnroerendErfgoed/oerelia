@@ -132,13 +132,17 @@ export class OlMap {
     this.resetSelect();
     this.toggleDrawZone(true, type);
 
-    const propertyName = type === 'Polygon' ? 'Polygoon' : 'Cirkel';
-    const index = type === 'Polygon' ? this.polygonIndex++ : this.circleIndex++;
-    
-    this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-      evt.feature.setProperties({ name: `${propertyName} ${index}` });
-      this.geometryObjectList.push(evt.feature.getProperties().name);
-    });
+    if (type === 'Polygon') {
+      this.mapInteractions.drawZone.on('drawend', (evt: any) => {
+        evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
+        this.geometryObjectList.push(evt.feature.getProperties().name);
+      });
+    } else if (type === 'Circle') {
+      this.mapInteractions.drawZone.on('drawend', (evt: any) => {
+        evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
+        this.geometryObjectList.push(evt.feature.getProperties().name);
+      });
+    }
   }
 
   public importAdrespunten() {
