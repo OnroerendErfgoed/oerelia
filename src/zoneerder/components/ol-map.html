@@ -7,8 +7,12 @@
     <h3>Zone samenstellen</h3>
     <div class="toevoegen-aan">
       <h4>Toevoegen aan zone</h4>
-      <a click.delegate="!isDrawing ? startDrawZone() : toggleDrawZone(false)">
+      <a click.delegate="!isDrawing ? startDrawZone('Polygon') : toggleDrawZone(false)">
         <span if.bind="!isDrawing"><i class="fa fa-pencil"></i> Teken polygoon</span>
+        <span else><i class="fa fa-ban"></i> Annuleer tekenen</span>
+      </a>
+      <a click.delegate="!isDrawingCircle ? startDrawZone('Circle') : toggleDrawZone(false)">
+        <span if.bind="!isDrawingCircle"><i class="fa fa-pencil"></i> Teken cirkel</span>
         <span else><i class="fa fa-ban"></i> Annuleer tekenen</span>
       </a>
       <a click.delegate="!selectPerceel ? startPerceelSelect() : resetSelect()">
@@ -27,15 +31,15 @@
         </div>
       </div>
     </div>
-    <div class="toegevoegde-zones" show.bind="polygonList.length > 0">
+    <div class="toegevoegde-zones" show.bind="geometryObjectList.length > 0">
       <h4>Toegevoegde zones</h4>
       <ul>
-        <li repeat.for="polygon of polygonList">
+        <li repeat.for="geometryObject of geometryObjectList">
           <div class="small-10 columns">
-            ${polygon}
+            ${geometryObject}
           </div>
           <div class="small-2 columns">
-            <i click.delegate="removePolygon(polygon)" class="fa fa-trash"></i>
+            <i click.delegate="removeGeometryObject(geometryObject)" class="fa fa-trash"></i>
           </div>
         </li>
       </ul>

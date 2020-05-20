@@ -18,12 +18,14 @@ import { Layerswitcher } from './ol-layerswitcher';
 var OlMap = (function () {
     function OlMap(element) {
         this.element = element;
-        this.polygonList = [];
+        this.geometryObjectList = [];
         this.isDrawing = false;
+        this.isDrawingCircle = false;
         this.selectPerceel = false;
         this.extentVlaanderen = [9928.0, 66928.0, 272072.0, 329072.0];
         this.initialized = false;
         this.polygonIndex = 1;
+        this.circleIndex = 1;
         console.debug('olMap::constructor', this.zone);
         this._defineProjections();
     }
@@ -32,7 +34,7 @@ var OlMap = (function () {
         console.debug('olMap::attached', this.zone);
         this._createMap();
         this._createLayers();
-        this._createInteractions();
+        this._createInteractions('Polygon', false);
         this.element.dispatchEvent(new CustomEvent('loaded', {
             bubbles: true
         }));
@@ -45,7 +47,7 @@ var OlMap = (function () {
                 _this.drawLayer.getSource().addFeature(feature);
             });
             this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
-            this.polygonList.push('Zone');
+            this.geometryObjectList.push('Zone');
         }
         this.drawLayer.getSource().on('addfeature', function (feature) {
             console.debug('olMap::drawLayer::addfeature', feature);
@@ -102,14 +104,22 @@ var OlMap = (function () {
         var point = new ol.geom.Point([lon, lat]);
         return point.transform('EPSG:4326', 'EPSG:31370');
     };
-    OlMap.prototype.startDrawZone = function () {
+    OlMap.prototype.startDrawZone = function (type) {
         var _this = this;
         this.resetSelect();
-        this.toggleDrawZone(true);
-        this.mapInteractions.drawZone.on('drawend', function (evt) {
-            evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
-            _this.polygonList.push(evt.feature.getProperties().name);
-        });
+        this.toggleDrawZone(true, type);
+        if (type === 'Polygon') {
+            this.mapInteractions.drawZone.on('drawend', function (evt) {
+                evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
+                _this.geometryObjectList.push(evt.feature.getProperties().name);
+            });
+        }
+        else if (type === 'Circle') {
+            this.mapInteractions.drawZone.on('drawend', function (evt) {
+                evt.feature.setProperties({ name: "Cirkel " + _this.circleIndex++ });
+                _this.geometryObjectList.push(evt.feature.getProperties().name);
+            });
+        }
     };
     OlMap.prototype.importAdrespunten = function () {
         var _this = this;
@@ -120,8 +130,8 @@ var OlMap = (function () {
                         var name = 'Adrespunten';
                         perceel.set('name', name);
                         _this.drawLayer.getSource().addFeature(perceel);
-                        if (_this.polygonList.indexOf(name) === -1) {
-                            _this.polygonList.push(name);
+                        if (_this.geometryObjectList.indexOf(name) === -1) {
+                            _this.geometryObjectList.push(name);
                         }
                     });
                 });
@@ -145,10 +155,10 @@ var OlMap = (function () {
     OlMap.prototype.drawPerceel = function (olFeature) {
         if (olFeature) {
             var name_1 = "Perceel " + olFeature.get('CAPAKEY');
-            if (this.polygonList.indexOf(name_1) === -1) {
+            if (this.geometryObjectList.indexOf(name_1) === -1) {
                 olFeature.set('name', name_1);
                 this.drawLayer.getSource().addFeature(olFeature);
-                this.polygonList.push(name_1);
+                this.geometryObjectList.push(name_1);
             }
         }
         else {
@@ -164,7 +174,7 @@ var OlMap = (function () {
                 name: name_2
             });
             this.drawLayer.getSource().addFeature(featureFromWKT);
-            this.polygonList.push(name_2);
+            this.geometryObjectList.push(name_2);
             this.zoomToFeatures();
             this.WKTstring = '';
         }
@@ -172,7 +182,7 @@ var OlMap = (function () {
             toastr.error(error, 'Dit is een ongeldige WKT geometrie.');
         }
     };
-    OlMap.prototype.removePolygon = function (name) {
+    OlMap.prototype.removeGeometryObject = function (name) {
         var _this = this;
         var coordinates = [];
         this.drawLayer.getSource().getFeatures().forEach(function (f) {
@@ -180,7 +190,9 @@ var OlMap = (function () {
                 _this.drawLayer.getSource().removeFeature(f);
             }
             else {
-                coordinates.push(f.getGeometry().getCoordinates());
+                var geometry = f.getProperties().name.includes('Cirkel') ? ol.geom.Polygon.fromCircle(f.getGeometry())
+                    : f.getGeometry();
+                coordinates.push(geometry.getCoordinates());
             }
         });
         if (coordinates.length > 0) {
@@ -190,7 +202,7 @@ var OlMap = (function () {
         else {
             this.zone = null;
         }
-        this.polygonList.splice(this.polygonList.indexOf(name), 1);
+        this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
     };
     OlMap.prototype.addToZone = function (olFeature) {
         console.debug('addToZone', olFeature);
@@ -206,6 +218,9 @@ var OlMap = (function () {
                     multiPolygon.appendPolygon(polygon);
                 });
             }
+            else if (geom instanceof ol.geom.Circle) {
+                multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
+            }
         });
         this.zone = new Contour(this.formatGeoJson(multiPolygon));
     };
@@ -213,9 +228,25 @@ var OlMap = (function () {
         this.selectPerceel = false;
         this.map.removeEventListener('click');
     };
-    OlMap.prototype.toggleDrawZone = function (bool) {
-        this.mapInteractions.drawZone.setActive(bool);
-        this.isDrawing = bool;
+    OlMap.prototype.toggleDrawZone = function (bool, type) {
+        type ? this._createInteractions(type, bool) : this._createInteractions('Polygon', false);
+        switch (type) {
+            case 'Polygon': {
+                this.isDrawing = bool;
+                this.isDrawingCircle = false;
+                break;
+            }
+            case 'Circle': {
+                this.isDrawing = false;
+                this.isDrawingCircle = bool;
+                break;
+            }
+            default: {
+                this.isDrawing = false;
+                this.isDrawingCircle = false;
+                break;
+            }
+        }
         if (!bool) {
             this.mapInteractions.drawZone.removeEventListener('drawend');
         }
@@ -249,15 +280,16 @@ var OlMap = (function () {
         this.updateMapSize();
         this.initialized = true;
     };
-    OlMap.prototype._createInteractions = function () {
+    OlMap.prototype._createInteractions = function (type, setActive) {
         console.debug('olMap::_createInteractions');
+        this.map.getInteractions().pop();
         var drawZoneInteraction = new ol.interaction.Draw({
-            type: ('Polygon'),
+            type: (type),
             source: this.drawLayer.getSource(),
             freehand: false
         });
         this.map.addInteraction(drawZoneInteraction);
-        drawZoneInteraction.setActive(false);
+        drawZoneInteraction.setActive(setActive);
         this.mapInteractions = {
             drawZone: drawZoneInteraction
         };

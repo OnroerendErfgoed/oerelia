@@ -13,10 +13,11 @@ export class OlMap {
   @bindable public disabled: boolean;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
   @bindable public adrespunten: Contour[];
-  public polygonList: string[] = [];
+  public geometryObjectList: string[] = [];
   public WKTstring!: string;
 
   protected isDrawing: boolean = false;
+  protected isDrawingCircle: boolean = false;
   protected selectPerceel: boolean = false;
 
   @bindable private apiService: GeozoekdienstApiService;
@@ -30,6 +31,7 @@ export class OlMap {
   private geoJsonFormatter: ol.format.GeoJSON;
   private mapnode: any;
   private polygonIndex: number = 1;
+  private circleIndex: number = 1;
 
   constructor(
     private element: Element
@@ -42,7 +44,7 @@ export class OlMap {
     console.debug('olMap::attached', this.zone);
     this._createMap();
     this._createLayers();
-    this._createInteractions();
+    this._createInteractions('Polygon', false);
 
     this.element.dispatchEvent(new CustomEvent('loaded', {
       bubbles: true
@@ -57,7 +59,7 @@ export class OlMap {
         (this.drawLayer.getSource() as ol.source.Vector).addFeature(feature);
       });
       this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
-      this.polygonList.push('Zone');
+      this.geometryObjectList.push('Zone');
     }
 
     this.drawLayer.getSource().on('addfeature', (feature: any) => {
@@ -126,14 +128,21 @@ export class OlMap {
     return (point.transform('EPSG:4326', 'EPSG:31370') as ol.geom.Point);
   }
 
-  public startDrawZone() {
+  public startDrawZone(type: ol.geom.GeometryType) {
     this.resetSelect();
-    this.toggleDrawZone(true);
+    this.toggleDrawZone(true, type);
 
-    this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-      evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
-      this.polygonList.push(evt.feature.getProperties().name);
-    });
+    if (type === 'Polygon') {
+      this.mapInteractions.drawZone.on('drawend', (evt: any) => {
+        evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
+        this.geometryObjectList.push(evt.feature.getProperties().name);
+      });
+    } else if (type === 'Circle') {
+      this.mapInteractions.drawZone.on('drawend', (evt: any) => {
+        evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
+        this.geometryObjectList.push(evt.feature.getProperties().name);
+      });
+    }
   }
 
   public importAdrespunten() {
@@ -144,8 +153,8 @@ export class OlMap {
             const name = 'Adrespunten';
             perceel.set('name', name);
             (this.drawLayer.getSource() as ol.source.Vector).addFeature(perceel);
-            if (this.polygonList.indexOf(name) === -1) {
-              this.polygonList.push(name);
+            if (this.geometryObjectList.indexOf(name) === -1) {
+              this.geometryObjectList.push(name);
             }
         });
         });
@@ -169,10 +178,10 @@ export class OlMap {
   public drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
-      if (this.polygonList.indexOf(name) === -1) {
+      if (this.geometryObjectList.indexOf(name) === -1) {
         olFeature.set('name', name);
         (this.drawLayer.getSource() as ol.source.Vector).addFeature(olFeature);
-        this.polygonList.push(name);
+        this.geometryObjectList.push(name);
       }
     } else {
       toastr.error('Er werd geen perceel gevonden op deze locatie.');
@@ -188,7 +197,7 @@ export class OlMap {
         name: name
       });
       (this.drawLayer.getSource() as ol.source.Vector).addFeature(featureFromWKT);
-      this.polygonList.push(name);
+      this.geometryObjectList.push(name);
       this.zoomToFeatures();
       this.WKTstring = '';
     } catch (error) {
@@ -196,13 +205,15 @@ export class OlMap {
     }
   }
 
-  public removePolygon(name: string) {
+  public removeGeometryObject(name: string) {
     const coordinates: any[] = [];
     (this.drawLayer.getSource() as ol.source.Vector).getFeatures().forEach((f: any) => {
       if (f.getProperties().name === name) {
         (this.drawLayer.getSource() as ol.source.Vector).removeFeature(f);
       } else {
-        coordinates.push(f.getGeometry().getCoordinates());
+        const geometry = f.getProperties().name.includes('Cirkel') ? ol.geom.Polygon.fromCircle(f.getGeometry()) 
+                                                                   : f.getGeometry();
+        coordinates.push(geometry.getCoordinates());
       }
     });
     if (coordinates.length > 0) {
@@ -211,7 +222,7 @@ export class OlMap {
     } else {
       this.zone = null;
     }
-    this.polygonList.splice(this.polygonList.indexOf(name), 1);
+    this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
   }
 
   private addToZone(olFeature: ol.Feature) {
@@ -226,6 +237,8 @@ export class OlMap {
         geom.getPolygons().forEach((polygon: ol.geom.Polygon) => {
           multiPolygon.appendPolygon(polygon);
         });
+      } else if (geom instanceof ol.geom.Circle) {
+        multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
       }
     });
     this.zone = new Contour(this.formatGeoJson(multiPolygon));
@@ -236,9 +249,27 @@ export class OlMap {
     (this.map as any).removeEventListener('click');
   }
 
-  private toggleDrawZone(bool: boolean) {
-    this.mapInteractions.drawZone.setActive(bool);
-    this.isDrawing = bool;
+  private toggleDrawZone(bool: boolean, type?: ol.geom.GeometryType) {
+    type ? this._createInteractions(type, bool) : this._createInteractions('Polygon', false);
+
+    switch(type) {
+      case 'Polygon': {
+        this.isDrawing = bool;
+        this.isDrawingCircle = false;
+        break;
+      }
+      case 'Circle': {
+        this.isDrawing = false;
+        this.isDrawingCircle = bool;
+        break;
+      }
+      default: {
+        this.isDrawing = false;
+        this.isDrawingCircle = false;
+        break;
+      }
+    }
+
     if (!bool) { this.mapInteractions.drawZone.removeEventListener('drawend'); }
   }
 
@@ -275,16 +306,19 @@ export class OlMap {
     this.initialized = true;
   }
 
-  private _createInteractions() {
+  private _createInteractions(type: ol.geom.GeometryType, setActive: boolean) {
     console.debug('olMap::_createInteractions');
     // Zone interactions
+    
+    this.map.getInteractions().pop();
+    
     const drawZoneInteraction: ol.interaction.Draw = new ol.interaction.Draw({
-      type: ('Polygon'),
+      type: (type),
       source: this.drawLayer.getSource() as ol.source.Vector,
       freehand: false
     });
     this.map.addInteraction(drawZoneInteraction);
-    drawZoneInteraction.setActive(false);
+    drawZoneInteraction.setActive(setActive);
 
     this.mapInteractions = {
       drawZone: drawZoneInteraction
