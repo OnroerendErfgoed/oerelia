@@ -125,7 +125,7 @@ var OlMap = (function () {
     };
     OlMap.prototype.importAdrespunten = function () {
         var _this = this;
-        if (this.adrespunten) {
+        if (this.adrespunten && this.adrespunten.length > 0) {
             this.adrespunten.forEach(function (a) {
                 _this.apiService.searchPerceel(a.coordinates[0], _this.mapProjection.getCode()).then(function (result) {
                     _this.geoJsonFormatter.readFeatures(result).forEach(function (perceel) {
