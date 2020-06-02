@@ -1,7 +1,11 @@
 <template>
   <require from="openlayers/dist/ol.css"></require>
 
-  <div ref="mapnode" class="map"></div>
+  <div ref="mapnode" class="map">
+    <div class="geolocation ol-unselectable ol-control" if.bind="buttonConfig.zoomGeoLocation">
+      <button click.delegate="geoLocationClick()"></button>
+    </div>
+  </div>
   </div>
   <div class="sidebar" if.bind="!disabled">
     <h3>Zone samenstellen</h3>

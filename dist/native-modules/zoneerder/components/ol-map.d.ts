@@ -60,4 +60,5 @@ export declare class OlMap {
     private addRotateButton;
     private getButtonStyle;
     private setStyleToButton;
+    geoLocationClick(): void;
 }

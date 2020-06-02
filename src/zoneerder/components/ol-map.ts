@@ -619,4 +619,21 @@ export class OlMap {
       .item(0)
       .setAttribute('style', style);
   }
+
+  public geoLocationClick() {
+    const view = this.map.getView();
+    const geolocation = new ol.Geolocation({
+      projection: this.map.getView().getProjection(),
+      trackingOptions: {
+        enableHighAccuracy: true
+      }
+    });
+
+    geolocation.setTracking(true);
+    geolocation.once('change:position', () => {
+      view.setCenter(geolocation.getPosition());
+      view.setZoom(18);
+      geolocation.setTracking(false);
+    });
+  }
 }

@@ -545,6 +545,21 @@ var OlMap = (function () {
             .item(0)
             .setAttribute('style', style);
     };
+    OlMap.prototype.geoLocationClick = function () {
+        var view = this.map.getView();
+        var geolocation = new ol.Geolocation({
+            projection: this.map.getView().getProjection(),
+            trackingOptions: {
+                enableHighAccuracy: true
+            }
+        });
+        geolocation.setTracking(true);
+        geolocation.once('change:position', function () {
+            view.setCenter(geolocation.getPosition());
+            view.setZoom(18);
+            geolocation.setTracking(false);
+        });
+    };
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Boolean)
