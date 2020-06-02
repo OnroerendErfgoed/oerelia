@@ -552,11 +552,11 @@ export class OlMap {
       top += buttonHeight;
     }
 
-    if (this.buttonConfig.zoomInOut) {
-      const style = this.getButtonStyle(top);
-      this.addZoomButton(target, style);
-      top += 3.8;
-    }
+    // if (this.buttonConfig.zoomInOut) {
+    //   const style = this.getButtonStyle(top);
+    //   this.addZoomButton(target, style);
+    //   top += 3.8;
+    // }
   }
 
   private getButtonStyle(top: number): string {
@@ -577,17 +577,17 @@ export class OlMap {
           .setAttribute('style', style);
   }
 
-  private addZoomButton(target: Element, style: string): void {
-    const className = 'zoom';
+  // private addZoomButton(target: Element, style: string): void {
+  //   const className = 'zoom';
 
-    this.map.addControl(new ol.control.Zoom({
-      zoomInTipLabel: 'Zoom in',
-      zoomOutTipLabel: 'Zoom uit',
-      className: className
-    }));
+  //   this.map.addControl(new ol.control.Zoom({
+  //     zoomInTipLabel: 'Zoom in',
+  //     zoomOutTipLabel: 'Zoom uit',
+  //     className: className
+  //   }));
 
-    target.getElementsByClassName('zoom')
-          .item(0)
-          .setAttribute('style', style);
-  }
+  //   target.getElementsByClassName('zoom')
+  //         .item(0)
+  //         .setAttribute('style', style);
+  // }
 }

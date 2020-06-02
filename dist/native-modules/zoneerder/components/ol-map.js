@@ -484,11 +484,6 @@ var OlMap = (function () {
             this.addFullscreenButton(target, style);
             top += buttonHeight;
         }
-        if (this.buttonConfig.zoomInOut) {
-            var style = this.getButtonStyle(top);
-            this.addZoomButton(target, style);
-            top += 3.8;
-        }
     };
     OlMap.prototype.getButtonStyle = function (top) {
         return 'top: ' + top + 'em; left: ' + .5 + 'em;';
@@ -501,17 +496,6 @@ var OlMap = (function () {
             label: ''
         }));
         target.getElementsByClassName(className)
-            .item(0)
-            .setAttribute('style', style);
-    };
-    OlMap.prototype.addZoomButton = function (target, style) {
-        var className = 'zoom';
-        this.map.addControl(new ol.control.Zoom({
-            zoomInTipLabel: 'Zoom in',
-            zoomOutTipLabel: 'Zoom uit',
-            className: className
-        }));
-        target.getElementsByClassName('zoom')
             .item(0)
             .setAttribute('style', style);
     };

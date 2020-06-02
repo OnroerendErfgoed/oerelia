@@ -56,5 +56,4 @@ export declare class OlMap {
     private _createMapButtons;
     private getButtonStyle;
     private addFullscreenButton;
-    private addZoomButton;
 }
