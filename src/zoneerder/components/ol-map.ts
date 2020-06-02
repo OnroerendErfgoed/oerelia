@@ -543,7 +543,10 @@ export class OlMap {
     let top = 2.4;
 
     if (!this.buttonConfig) {
-      return;
+      const className = 'zoom';
+      const style = this.getButtonStyle(top);
+      this.addZoomButton(className);
+      this.setStyleToButton(target, className, style);
     }
 
     if (this.buttonConfig.fullscreen) {
