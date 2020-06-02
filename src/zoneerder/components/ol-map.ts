@@ -543,9 +543,14 @@ export class OlMap {
     let top = 2.4;
 
     if (!this.buttonConfig) {
-      const className = 'zoom';
-      const style = this.getButtonStyle(top);
+      let className = 'zoom';
+      let style = this.getButtonStyle(top);
       this.addZoomButton(className);
+      this.setStyleToButton(target, className, style);
+      top += 3.8;
+
+      className = 'layer-switcher';
+      style = this.getButtonStyle(top);
       this.setStyleToButton(target, className, style);
 
       return;
@@ -566,6 +571,11 @@ export class OlMap {
       this.setStyleToButton(target, className, style);
       top += 3.8;
     }
+
+    const className = 'layer-switcher';
+    const style = this.getButtonStyle(top);
+    this.setStyleToButton(target, className, style);
+    top += buttonHeight;
 
     if (this.buttonConfig.zoomFullExtent) {
       const className = 'fullextent';

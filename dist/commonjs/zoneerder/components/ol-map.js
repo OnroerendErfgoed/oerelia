@@ -479,44 +479,52 @@ var OlMap = (function () {
         var target = this.map.getTargetElement();
         var top = 2.4;
         if (!this.buttonConfig) {
-            var className = 'zoom';
-            var style = this.getButtonStyle(top);
-            this.addZoomButton(className);
-            this.setStyleToButton(target, className, style);
+            var className_1 = 'zoom';
+            var style_1 = this.getButtonStyle(top);
+            this.addZoomButton(className_1);
+            this.setStyleToButton(target, className_1, style_1);
+            top += 3.8;
+            className_1 = 'layer-switcher';
+            style_1 = this.getButtonStyle(top);
+            this.setStyleToButton(target, className_1, style_1);
             return;
         }
         if (this.buttonConfig.fullscreen) {
-            var className = 'full-screen';
-            var style = this.getButtonStyle(top);
-            this.addFullscreenButton(className);
-            this.setStyleToButton(target, className, style);
+            var className_2 = 'full-screen';
+            var style_2 = this.getButtonStyle(top);
+            this.addFullscreenButton(className_2);
+            this.setStyleToButton(target, className_2, style_2);
             top += buttonHeight;
         }
         if (this.buttonConfig.zoomInOut) {
-            var className = 'zoom';
-            var style = this.getButtonStyle(top);
-            this.addZoomButton(className);
-            this.setStyleToButton(target, className, style);
+            var className_3 = 'zoom';
+            var style_3 = this.getButtonStyle(top);
+            this.addZoomButton(className_3);
+            this.setStyleToButton(target, className_3, style_3);
             top += 3.8;
         }
+        var className = 'layer-switcher';
+        var style = this.getButtonStyle(top);
+        this.setStyleToButton(target, className, style);
+        top += buttonHeight;
         if (this.buttonConfig.zoomFullExtent) {
-            var className = 'fullextent';
-            var style = this.getButtonStyle(top);
-            this.addZoomToExtentButton(className);
-            this.setStyleToButton(target, className, style);
+            var className_4 = 'fullextent';
+            var style_4 = this.getButtonStyle(top);
+            this.addZoomToExtentButton(className_4);
+            this.setStyleToButton(target, className_4, style_4);
             top += buttonHeight;
         }
         if (this.buttonConfig.zoomGeoLocation) {
-            var className = 'geolocation';
-            var style = this.getButtonStyle(top);
-            this.setStyleToButton(target, className, style);
+            var className_5 = 'geolocation';
+            var style_5 = this.getButtonStyle(top);
+            this.setStyleToButton(target, className_5, style_5);
             top += buttonHeight;
         }
         if (this.buttonConfig.rotate) {
-            var className = 'rotate';
-            var style = this.getButtonStyle(top);
-            this.addRotateButton(className);
-            this.setStyleToButton(target, className, style);
+            var className_6 = 'rotate';
+            var style_6 = this.getButtonStyle(top);
+            this.addRotateButton(className_6);
+            this.setStyleToButton(target, className_6, style_6);
         }
     };
     OlMap.prototype.addFullscreenButton = function (className) {
