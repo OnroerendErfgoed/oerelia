@@ -54,4 +54,5 @@ export declare class OlMap {
     private _createVectorLayer;
     private strip;
     private _createMapButtons;
+    private getButtonStyle;
 }

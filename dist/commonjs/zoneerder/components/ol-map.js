@@ -269,7 +269,7 @@ var OlMap = (function () {
             controls: ol.control.defaults({
                 attribution: false,
                 rotate: false,
-                zoom: true
+                zoom: false
             })
         });
         this.map.addControl(new ol.control.ScaleLine());
@@ -475,16 +475,27 @@ var OlMap = (function () {
         return geom.filter(test);
     };
     OlMap.prototype._createMapButtons = function () {
+        var topPadding = 2.4;
+        var buttonHeight = 2.2;
         if (!this.buttonConfig) {
             return;
         }
+        var mapTarget = this.map.getTargetElement();
         if (this.buttonConfig.fullscreen) {
+            var className = 'full-screen';
             this.map.addControl(new ol.control.FullScreen({
                 tipLabel: 'Vergroot / verklein het scherm',
-                className: 'full-screen',
+                className: className,
                 label: ''
             }));
+            mapTarget.getElementsByClassName(className)
+                .item(0)
+                .setAttribute('style', this.getButtonStyle(topPadding));
+            topPadding += buttonHeight;
         }
+    };
+    OlMap.prototype.getButtonStyle = function (top) {
+        return 'top: ' + top + 'em; left: ' + .5 + 'em;';
     };
     __decorate([
         aurelia_framework_1.bindable,

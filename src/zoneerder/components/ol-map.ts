@@ -290,7 +290,7 @@ export class OlMap {
       controls: ol.control.defaults({
         attribution: false,
         rotate: false,
-        zoom: true
+        zoom: false
       })
     });
 
@@ -538,17 +538,31 @@ export class OlMap {
   }
 
   private _createMapButtons(): void {
+    let topPadding = 2.4;
+    const buttonHeight = 2.2;
+
     if (!this.buttonConfig) {
       return;
     }
 
+    const mapTarget = this.map.getTargetElement();
+
     if (this.buttonConfig.fullscreen) {
+      const className = 'full-screen';
       this.map.addControl(new ol.control.FullScreen({
         tipLabel: 'Vergroot / verklein het scherm',
-        className: 'full-screen',
+        className: className,
         label: ''
       }));
-    }
 
+      mapTarget.getElementsByClassName(className)
+               .item(0)
+               .setAttribute('style', this.getButtonStyle(topPadding));
+      topPadding += buttonHeight;
+    }
+  }
+
+  private getButtonStyle(top: number): string {
+    return 'top: ' + top + 'em; left: ' + .5 + 'em;'
   }
 }
