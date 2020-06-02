@@ -474,60 +474,72 @@ var OlMap = (function () {
     };
     OlMap.prototype._createMapButtons = function () {
         var buttonHeight = 2.2;
-        var button = this.map.getTargetElement();
+        var target = this.map.getTargetElement();
         var top = 2.4;
         if (!this.buttonConfig) {
             return;
         }
         if (this.buttonConfig.fullscreen) {
+            var className = 'full-screen';
             var style = this.getButtonStyle(top);
-            this.addFullscreenButton(button, style);
+            this.addFullscreenButton(className);
+            this.setStyleToButton(target, className, style);
             top += buttonHeight;
         }
         if (this.buttonConfig.zoomInOut) {
+            var className = 'zoom';
             var style = this.getButtonStyle(top);
-            this.addZoomButton(button, style);
+            this.addZoomButton(className);
+            this.setStyleToButton(target, className, style);
             top += 3.8;
         }
         if (this.buttonConfig.zoomFullExtent) {
+            var className = 'fullextent';
             var style = this.getButtonStyle(top);
-            this.addZoomToExtentButton(button, style);
+            this.addZoomToExtentButton(className);
+            this.setStyleToButton(target, className, style);
             top += buttonHeight;
         }
+        if (this.buttonConfig.rotate) {
+            var className = 'rotate';
+            var style = this.getButtonStyle(top);
+            this.addRotateButton(className);
+            this.setStyleToButton(target, className, style);
+        }
     };
-    OlMap.prototype.getButtonStyle = function (top) {
-        return 'top: ' + top + 'em; left: ' + .5 + 'em;';
-    };
-    OlMap.prototype.addFullscreenButton = function (button, style) {
-        var className = 'full-screen';
+    OlMap.prototype.addFullscreenButton = function (className) {
         this.map.addControl(new ol.control.FullScreen({
             tipLabel: 'Vergroot / verklein het scherm',
             className: className,
             label: ''
         }));
-        this.setStyleToButton(button, className, style);
     };
-    OlMap.prototype.addZoomButton = function (button, style) {
-        var className = 'zoom';
+    OlMap.prototype.addZoomButton = function (className) {
         this.map.addControl(new ol.control.Zoom({
             zoomInTipLabel: 'Zoom in',
             zoomOutTipLabel: 'Zoom uit',
             className: className
         }));
-        this.setStyleToButton(button, className, style);
     };
-    OlMap.prototype.addZoomToExtentButton = function (button, style) {
-        var className = 'fullextent';
+    OlMap.prototype.addZoomToExtentButton = function (className) {
         this.map.addControl(new ol.control.ZoomToExtent({
             extent: this.mapProjection.getExtent(),
             tipLabel: 'Zoom naar Vlaanderen',
             className: className,
             label: ''
         }));
-        this.setStyleToButton(button, className, style);
     };
-    OlMap.prototype.setStyleToButton = function (button, className, style) {
-        button.getElementsByClassName(className)
+    OlMap.prototype.addRotateButton = function (className) {
+        this.map.addControl(new ol.control.Rotate({
+            tipLabel: "Draai de kaart naar het noorden",
+            className: className
+        }));
+    };
+    OlMap.prototype.getButtonStyle = function (top) {
+        return 'top: ' + top + 'em; left: ' + .5 + 'em;';
+    };
+    OlMap.prototype.setStyleToButton = function (target, className, style) {
+        target.getElementsByClassName(className)
             .item(0)
             .setAttribute('style', style);
     };

@@ -54,9 +54,10 @@ export declare class OlMap {
     private _createVectorLayer;
     private strip;
     private _createMapButtons;
-    private getButtonStyle;
     private addFullscreenButton;
     private addZoomButton;
     private addZoomToExtentButton;
+    private addRotateButton;
+    private getButtonStyle;
     private setStyleToButton;
 }
