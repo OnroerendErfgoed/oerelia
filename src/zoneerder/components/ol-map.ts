@@ -45,7 +45,7 @@ export class OlMap {
   public attached() {
     console.debug('olMap::attached', this.zone);
     this._createMap();
-    // this._createMapButtons();
+    this._createMapButtons();
     this._createLayers();
     this._createInteractions('Polygon', false);
 
@@ -290,7 +290,7 @@ export class OlMap {
       controls: ol.control.defaults({
         attribution: false,
         rotate: false,
-        zoom: true
+        zoom: false
       })
     });
 
@@ -537,57 +537,57 @@ export class OlMap {
     return geom.filter(test);
   }
 
-  // private _createMapButtons(): void {
-    // const buttonHeight = 2.2;
-    // const target = this.map.getTargetElement();
-    // let top = 2.4;
+  private _createMapButtons(): void {
+    const buttonHeight = 2.2;
+    const target = this.map.getTargetElement();
+    let top = 2.4;
 
-    // if (!this.buttonConfig) {
-    //   return;
-    // }
+    if (!this.buttonConfig) {
+      return;
+    }
 
-    // if (this.buttonConfig.fullscreen) {
-    //   const style = this.getButtonStyle(top);
-    //   this.addFullscreenButton(target, style);
-    //   top += buttonHeight;
-    // }
+    if (this.buttonConfig.fullscreen) {
+      const style = this.getButtonStyle(top);
+      this.addFullscreenButton(target, style);
+      top += buttonHeight;
+    }
 
-    // if (this.buttonConfig.zoomInOut) {
-    //   const style = this.getButtonStyle(top);
-    //   this.addZoomButton(target, style);
-    //   top += 3.8;
-    // }
+    if (this.buttonConfig.zoomInOut) {
+      const style = this.getButtonStyle(top);
+      this.addZoomButton(target, style);
+      top += 3.8;
+    }
   }
 
-  // private getButtonStyle(top: number): string {
-  //   return 'top: ' + top + 'em; left: ' + .5 + 'em;'
-  // }
+  private getButtonStyle(top: number): string {
+    return 'top: ' + top + 'em; left: ' + .5 + 'em;'
+  }
 
-  // private addFullscreenButton(target: Element, style: string): void {
-  //   const className = 'full-screen';
+  private addFullscreenButton(target: Element, style: string): void {
+    const className = 'full-screen';
     
-  //   this.map.addControl(new ol.control.FullScreen({
-  //     tipLabel: 'Vergroot / verklein het scherm',
-  //     className: className,
-  //     label: ''
-  //   }));
+    this.map.addControl(new ol.control.FullScreen({
+      tipLabel: 'Vergroot / verklein het scherm',
+      className: className,
+      label: ''
+    }));
 
-  //   target.getElementsByClassName(className)
-  //         .item(0)
-  //         .setAttribute('style', style);
-  // }
+    target.getElementsByClassName(className)
+          .item(0)
+          .setAttribute('style', style);
+  }
 
-  // private addZoomButton(target: Element, style: string): void {
-  //   const className = 'zoom';
+  private addZoomButton(target: Element, style: string): void {
+    const className = 'zoom';
 
-  //   this.map.addControl(new ol.control.Zoom({
-  //     zoomInTipLabel: 'Zoom in',
-  //     zoomOutTipLabel: 'Zoom uit',
-  //     className: className
-  //   }));
+    this.map.addControl(new ol.control.Zoom({
+      zoomInTipLabel: 'Zoom in',
+      zoomOutTipLabel: 'Zoom uit',
+      className: className
+    }));
 
-  //   target.getElementsByClassName('zoom')
-  //         .item(0)
-  //         .setAttribute('style', style);
-  // }
-// }
+    target.getElementsByClassName('zoom')
+          .item(0)
+          .setAttribute('style', style);
+  }
+}
