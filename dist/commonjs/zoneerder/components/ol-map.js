@@ -15,9 +15,9 @@ var ol = require("openlayers");
 var proj4_1 = require("proj4");
 var toastr = require("toastr");
 var contour_1 = require("../models/contour");
+var buttonConfig_1 = require("../models/buttonConfig");
 var geozoekdienst_api_service_1 = require("../../services/geozoekdienst.api-service");
 var ol_layerswitcher_1 = require("./ol-layerswitcher");
-var buttonConfig_1 = require("zoneerder/models/buttonConfig");
 var OlMap = (function () {
     function OlMap(element) {
         this.element = element;

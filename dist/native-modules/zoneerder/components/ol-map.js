@@ -13,9 +13,9 @@ import * as ol from 'openlayers';
 import proj4 from 'proj4';
 import * as toastr from 'toastr';
 import { Contour } from '../models/contour';
+import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
-import { ButtonConfig } from 'zoneerder/models/buttonConfig';
 var OlMap = (function () {
     function OlMap(element) {
         this.element = element;
