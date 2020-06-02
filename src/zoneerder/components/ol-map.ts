@@ -7,6 +7,7 @@ import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
+import { ButtonConfig } from 'zoneerder/models/buttonConfig';
 
 @inject(Element)
 export class OlMap {
@@ -21,6 +22,7 @@ export class OlMap {
   protected selectPerceel: boolean = false;
 
   @bindable private apiService: GeozoekdienstApiService;
+  @bindable private buttonConfig: ButtonConfig;
   private map: ol.Map;
   private mapProjection: ol.proj.Projection;
   private extentVlaanderen: ol.Extent = [9928.0, 66928.0, 272072.0, 329072.0];
@@ -43,6 +45,7 @@ export class OlMap {
   public attached() {
     console.debug('olMap::attached', this.zone);
     this._createMap();
+    this._createMapButtons();
     this._createLayers();
     this._createInteractions('Polygon', false);
 
@@ -532,5 +535,20 @@ export class OlMap {
       return geom.map((g: any) => this.strip(g, test));
     }
     return geom.filter(test);
+  }
+
+  private _createMapButtons(): void {
+    if (!this.buttonConfig) {
+      return;
+    }
+
+    if (this.buttonConfig.fullscreen) {
+      this.map.addControl(new ol.control.FullScreen({
+        tipLabel: 'Vergroot / verklein het scherm',
+        className: 'full-screen',
+        label: ''
+      }));
+    }
+
   }
 }

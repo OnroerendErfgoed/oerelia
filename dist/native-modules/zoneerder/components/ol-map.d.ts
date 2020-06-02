@@ -12,6 +12,7 @@ export declare class OlMap {
     protected isDrawingCircle: boolean;
     protected selectPerceel: boolean;
     private apiService;
+    private buttonConfig;
     private map;
     private mapProjection;
     private extentVlaanderen;
@@ -52,4 +53,5 @@ export declare class OlMap {
     private _createGrbWMSLayer;
     private _createVectorLayer;
     private strip;
+    private _createMapButtons;
 }

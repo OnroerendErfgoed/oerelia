@@ -17,6 +17,7 @@ var toastr = require("toastr");
 var contour_1 = require("../models/contour");
 var geozoekdienst_api_service_1 = require("../../services/geozoekdienst.api-service");
 var ol_layerswitcher_1 = require("./ol-layerswitcher");
+var buttonConfig_1 = require("zoneerder/models/buttonConfig");
 var OlMap = (function () {
     function OlMap(element) {
         this.element = element;
@@ -35,6 +36,7 @@ var OlMap = (function () {
         var _this = this;
         console.debug('olMap::attached', this.zone);
         this._createMap();
+        this._createMapButtons();
         this._createLayers();
         this._createInteractions('Polygon', false);
         this.element.dispatchEvent(new CustomEvent('loaded', {
@@ -472,6 +474,18 @@ var OlMap = (function () {
         }
         return geom.filter(test);
     };
+    OlMap.prototype._createMapButtons = function () {
+        if (!this.buttonConfig) {
+            return;
+        }
+        if (this.buttonConfig.fullscreen) {
+            this.map.addControl(new ol.control.FullScreen({
+                tipLabel: 'Vergroot / verklein het scherm',
+                className: 'full-screen',
+                label: ''
+            }));
+        }
+    };
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Boolean)
@@ -488,6 +502,10 @@ var OlMap = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", geozoekdienst_api_service_1.GeozoekdienstApiService)
     ], OlMap.prototype, "apiService", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", buttonConfig_1.ButtonConfig)
+    ], OlMap.prototype, "buttonConfig", void 0);
     OlMap = __decorate([
         aurelia_framework_1.inject(Element),
         __metadata("design:paramtypes", [Element])

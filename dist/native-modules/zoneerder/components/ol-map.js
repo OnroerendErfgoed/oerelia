@@ -15,6 +15,7 @@ import * as toastr from 'toastr';
 import { Contour } from '../models/contour';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
+import { ButtonConfig } from 'zoneerder/models/buttonConfig';
 var OlMap = (function () {
     function OlMap(element) {
         this.element = element;
@@ -33,6 +34,7 @@ var OlMap = (function () {
         var _this = this;
         console.debug('olMap::attached', this.zone);
         this._createMap();
+        this._createMapButtons();
         this._createLayers();
         this._createInteractions('Polygon', false);
         this.element.dispatchEvent(new CustomEvent('loaded', {
@@ -470,6 +472,18 @@ var OlMap = (function () {
         }
         return geom.filter(test);
     };
+    OlMap.prototype._createMapButtons = function () {
+        if (!this.buttonConfig) {
+            return;
+        }
+        if (this.buttonConfig.fullscreen) {
+            this.map.addControl(new ol.control.FullScreen({
+                tipLabel: 'Vergroot / verklein het scherm',
+                className: 'full-screen',
+                label: ''
+            }));
+        }
+    };
     __decorate([
         bindable,
         __metadata("design:type", Boolean)
@@ -486,6 +500,10 @@ var OlMap = (function () {
         bindable,
         __metadata("design:type", GeozoekdienstApiService)
     ], OlMap.prototype, "apiService", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", ButtonConfig)
+    ], OlMap.prototype, "buttonConfig", void 0);
     OlMap = __decorate([
         inject(Element),
         __metadata("design:paramtypes", [Element])
