@@ -55,4 +55,6 @@ export declare class OlMap {
     private strip;
     private _createMapButtons;
     private getButtonStyle;
+    private addFullscreenButton;
+    private addZoomButton;
 }

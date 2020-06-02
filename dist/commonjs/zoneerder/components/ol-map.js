@@ -475,27 +475,47 @@ var OlMap = (function () {
         return geom.filter(test);
     };
     OlMap.prototype._createMapButtons = function () {
-        var topPadding = 2.4;
         var buttonHeight = 2.2;
+        var target = this.map.getTargetElement();
+        var top = 2.4;
         if (!this.buttonConfig) {
             return;
         }
-        var mapTarget = this.map.getTargetElement();
         if (this.buttonConfig.fullscreen) {
-            var className = 'full-screen';
-            this.map.addControl(new ol.control.FullScreen({
-                tipLabel: 'Vergroot / verklein het scherm',
-                className: className,
-                label: ''
-            }));
-            mapTarget.getElementsByClassName(className)
-                .item(0)
-                .setAttribute('style', this.getButtonStyle(topPadding));
-            topPadding += buttonHeight;
+            var style = this.getButtonStyle(top);
+            this.addFullscreenButton(target, style);
+            top += buttonHeight;
+        }
+        if (this.buttonConfig.zoomInOut) {
+            var style = this.getButtonStyle(top);
+            this.addZoomButton(target, style);
+            top += 3.8;
         }
     };
     OlMap.prototype.getButtonStyle = function (top) {
         return 'top: ' + top + 'em; left: ' + .5 + 'em;';
+    };
+    OlMap.prototype.addFullscreenButton = function (target, style) {
+        var className = 'full-screen';
+        this.map.addControl(new ol.control.FullScreen({
+            tipLabel: 'Vergroot / verklein het scherm',
+            className: className,
+            label: ''
+        }));
+        target.getElementsByClassName(className)
+            .item(0)
+            .setAttribute('style', style);
+    };
+    OlMap.prototype.addZoomButton = function (target, style) {
+        var className = 'zoom';
+        this.map.addControl(new ol.control.Zoom({
+            zoomInTipLabel: 'Zoom in',
+            zoomOutTipLabel: 'Zoom uit',
+            className: className
+        }));
+        target.getElementsByClassName('zoom')
+            .item(0)
+            .setAttribute('style', style);
     };
     __decorate([
         aurelia_framework_1.bindable,
