@@ -34,7 +34,6 @@ var OlMap = (function () {
         var _this = this;
         console.debug('olMap::attached', this.zone);
         this._createMap();
-        this._createMapButtons();
         this._createLayers();
         this._createInteractions('Polygon', false);
         this.element.dispatchEvent(new CustomEvent('loaded', {
@@ -471,33 +470,6 @@ var OlMap = (function () {
             return geom.map(function (g) { return _this.strip(g, test); });
         }
         return geom.filter(test);
-    };
-    OlMap.prototype._createMapButtons = function () {
-        var buttonHeight = 2.2;
-        var target = this.map.getTargetElement();
-        var top = 2.4;
-        if (!this.buttonConfig) {
-            return;
-        }
-        if (this.buttonConfig.fullscreen) {
-            var style = this.getButtonStyle(top);
-            this.addFullscreenButton(target, style);
-            top += buttonHeight;
-        }
-    };
-    OlMap.prototype.getButtonStyle = function (top) {
-        return 'top: ' + top + 'em; left: ' + .5 + 'em;';
-    };
-    OlMap.prototype.addFullscreenButton = function (target, style) {
-        var className = 'full-screen';
-        this.map.addControl(new ol.control.FullScreen({
-            tipLabel: 'Vergroot / verklein het scherm',
-            className: className,
-            label: ''
-        }));
-        target.getElementsByClassName(className)
-            .item(0)
-            .setAttribute('style', style);
     };
     __decorate([
         bindable,
