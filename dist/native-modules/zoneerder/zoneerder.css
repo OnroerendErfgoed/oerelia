@@ -153,7 +153,6 @@ zoneerder {
       float: right;
       background-color: rgba(0, 60, 136, 0.5);
       border: none;
-      padding-top: 2px;
-      font-size: 12px; }
+      padding-top: 2px; }
       .zoneerder-content .layer-switcher button:hover {
         background-color: rgba(0, 60, 136, 0.65); }
