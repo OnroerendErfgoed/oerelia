@@ -483,6 +483,7 @@ var OlMap = (function () {
             var style = this.getButtonStyle(top);
             this.addZoomButton(className);
             this.setStyleToButton(target, className, style);
+            return;
         }
         if (this.buttonConfig.fullscreen) {
             var className = 'full-screen';
