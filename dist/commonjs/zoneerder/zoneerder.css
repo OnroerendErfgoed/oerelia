@@ -117,3 +117,43 @@ zoneerder {
           color: #000; }
           .zoneerder-content .sidebar .toegevoegde-zones ul li i {
             color: #944EA1; }
+  .zoneerder-content .layer-switcher {
+    position: absolute;
+    top: 6.225em;
+    left: 0.5em;
+    text-align: left; }
+    .zoneerder-content .layer-switcher.shown .panel {
+      display: block;
+      margin: 0; }
+    .zoneerder-content .layer-switcher .panel {
+      padding: 0 !important;
+      border: 1px solid #cccccc;
+      background-color: rgba(0, 60, 136, 0.5);
+      display: none; }
+      .zoneerder-content .layer-switcher .panel p {
+        margin-left: 1em;
+        font-size: 14px;
+        color: white;
+        margin: 0;
+        margin-left: 10px; }
+      .zoneerder-content .layer-switcher .panel ul {
+        padding-left: 1em;
+        list-style: none; }
+        .zoneerder-content .layer-switcher .panel ul li input {
+          display: inline;
+          margin: 0;
+          margin-right: 5px;
+          vertical-align: middle; }
+        .zoneerder-content .layer-switcher .panel ul li label {
+          font-size: 12px;
+          display: inline;
+          color: white;
+          margin-right: 10px; }
+    .zoneerder-content .layer-switcher button {
+      float: right;
+      background-color: rgba(0, 60, 136, 0.5);
+      border: none;
+      padding-top: 2px;
+      font-size: 12px; }
+      .zoneerder-content .layer-switcher button:hover {
+        background-color: rgba(0, 60, 136, 0.65); }

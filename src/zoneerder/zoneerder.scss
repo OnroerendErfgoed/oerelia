@@ -147,4 +147,64 @@ zoneerder {
       }
     }
   }
+
+  .layer-switcher {
+    position: absolute;
+    top: 6.225em;
+    left: 0.5em;
+    text-align: left;
+  
+    &.shown .panel {
+      display: block;
+      margin: 0;
+    }
+  
+    .panel {
+      padding: 0 !important;
+      border: 1px solid #cccccc;
+      background-color: rgba(0,60,136, 0.5);
+      display: none;
+  
+      p {
+        margin-left: 1em;
+        font-size: 14px;
+        color: white;
+        margin: 0;
+        margin-left: 10px;
+      }
+    
+      ul {
+        padding-left: 1em;
+        list-style: none;
+    
+        li {
+          input {
+            display: inline;
+            margin: 0;
+            margin-right: 5px;
+            vertical-align: middle;
+          }
+    
+          label {
+            font-size: 12px;
+            display: inline;
+            color: white;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  
+    button {
+      float: right;
+      background-color: rgba(0,60,136,0.5);
+      border: none;
+      padding-top: 2px;
+      font-size: 12px;
+  
+      &:hover {
+        background-color: rgba(0,60,136, 0.65);
+      }
+    }
+  }
 }
