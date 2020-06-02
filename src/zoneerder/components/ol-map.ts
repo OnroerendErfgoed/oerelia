@@ -290,7 +290,7 @@ export class OlMap {
       controls: ol.control.defaults({
         attribution: false,
         rotate: false,
-        zoom: false
+        zoom: true
       })
     });
 

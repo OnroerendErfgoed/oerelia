@@ -268,7 +268,7 @@ var OlMap = (function () {
             controls: ol.control.defaults({
                 attribution: false,
                 rotate: false,
-                zoom: false
+                zoom: true
             })
         });
         this.map.addControl(new ol.control.ScaleLine());
