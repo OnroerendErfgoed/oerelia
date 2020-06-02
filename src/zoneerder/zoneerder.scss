@@ -153,6 +153,7 @@ zoneerder {
     top: 6.225em;
     left: 0.5em;
     text-align: left;
+    z-index: 999;
   
     &.shown .panel {
       display: block;

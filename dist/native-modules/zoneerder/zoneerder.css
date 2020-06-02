@@ -121,7 +121,8 @@ zoneerder {
     position: absolute;
     top: 6.225em;
     left: 0.5em;
-    text-align: left; }
+    text-align: left;
+    z-index: 999; }
     .zoneerder-content .layer-switcher.shown .panel {
       display: block;
       margin: 0; }
