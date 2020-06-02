@@ -570,6 +570,13 @@ export class OlMap {
       top += buttonHeight;
     }
 
+    if (this.buttonConfig.zoomGeoLocation) {
+      const className = 'geolocation';
+      const style = this.getButtonStyle(top);
+      this.setStyleToButton(target, className, style);
+      top += buttonHeight;
+    }
+
     if (this.buttonConfig.rotate) {
       const className = 'rotate';
       const style = this.getButtonStyle(top);

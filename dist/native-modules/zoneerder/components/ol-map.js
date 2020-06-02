@@ -500,6 +500,12 @@ var OlMap = (function () {
             this.setStyleToButton(target, className, style);
             top += buttonHeight;
         }
+        if (this.buttonConfig.zoomGeoLocation) {
+            var className = 'geolocation';
+            var style = this.getButtonStyle(top);
+            this.setStyleToButton(target, className, style);
+            top += buttonHeight;
+        }
         if (this.buttonConfig.rotate) {
             var className = 'rotate';
             var style = this.getButtonStyle(top);
