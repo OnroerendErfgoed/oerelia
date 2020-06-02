@@ -539,7 +539,7 @@ export class OlMap {
 
   private _createMapButtons(): void {
     const buttonHeight = 2.2;
-    const target = this.map.getTargetElement();
+    const button = this.map.getTargetElement();
     let top = 2.4;
 
     if (!this.buttonConfig) {
@@ -548,14 +548,20 @@ export class OlMap {
 
     if (this.buttonConfig.fullscreen) {
       const style = this.getButtonStyle(top);
-      this.addFullscreenButton(target, style);
+      this.addFullscreenButton(button, style);
       top += buttonHeight;
     }
 
     if (this.buttonConfig.zoomInOut) {
       const style = this.getButtonStyle(top);
-      this.addZoomButton(target, style);
+      this.addZoomButton(button, style);
       top += 3.8;
+    }
+
+    if (this.buttonConfig.zoomFullExtent) {
+      const style = this.getButtonStyle(top);
+      this.addZoomToExtentButton(button, style);
+      top += buttonHeight;
     }
   }
 
@@ -563,7 +569,7 @@ export class OlMap {
     return 'top: ' + top + 'em; left: ' + .5 + 'em;'
   }
 
-  private addFullscreenButton(target: Element, style: string): void {
+  private addFullscreenButton(button: Element, style: string): void {
     const className = 'full-screen';
     
     this.map.addControl(new ol.control.FullScreen({
@@ -572,12 +578,10 @@ export class OlMap {
       label: ''
     }));
 
-    target.getElementsByClassName(className)
-          .item(0)
-          .setAttribute('style', style);
+    this.setStyleToButton(button, className, style);
   }
 
-  private addZoomButton(target: Element, style: string): void {
+  private addZoomButton(button: Element, style: string): void {
     const className = 'zoom';
 
     this.map.addControl(new ol.control.Zoom({
@@ -586,8 +590,25 @@ export class OlMap {
       className: className
     }));
 
-    target.getElementsByClassName('zoom')
-          .item(0)
-          .setAttribute('style', style);
+    this.setStyleToButton(button, className, style);
+  }
+
+  private addZoomToExtentButton(button: Element, style: string) {
+    const className = 'fullextent';
+
+    this.map.addControl(new ol.control.ZoomToExtent({
+      extent: this.mapProjection.getExtent(),
+      tipLabel: 'Zoom naar Vlaanderen',
+      className: className,
+      label: ''
+    }));
+
+    this.setStyleToButton(button, className, style);
+  }
+
+  private setStyleToButton(button: Element, className: string, style: string) {
+    button.getElementsByClassName(className)
+      .item(0)
+      .setAttribute('style', style);
   }
 }
