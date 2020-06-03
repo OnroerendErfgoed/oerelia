@@ -586,7 +586,7 @@ var OlMap = (function () {
         var view = this.map.getView();
         var center = view.getCenter();
         var zoom = view.getZoom();
-        window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom + '&lat=' + center[0] + '&lon=' + center[1]);
+        window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom + '&lat=' + center[1] + '&lon=' + center[0]);
     };
     __decorate([
         bindable,
