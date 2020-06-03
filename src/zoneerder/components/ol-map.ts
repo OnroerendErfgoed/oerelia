@@ -9,6 +9,8 @@ import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
 
+declare const oeAppConfig: any;
+
 @inject(Element)
 export class OlMap {
   @bindable public disabled: boolean;
@@ -597,6 +599,13 @@ export class OlMap {
       const style = this.getButtonStyle(top);
       this.addRotateButton(className);
       this.setStyleToButton(target, className, style);
+      top += buttonHeight;
+    }
+
+    if (this.buttonConfig.zoomSwitcher) {
+      const className = 'zoom-switcher';
+      const style = this.getButtonStyle(top);
+      this.setStyleToButton(target, className, style);
     }
   }
 
@@ -657,5 +666,12 @@ export class OlMap {
       view.setZoom(18);
       geolocation.setTracking(false);
     });
+  }
+
+  public zoomButtonClick() {
+    const view = this.map.getView();
+    const center = view.getCenter();
+    const zoom = view.getZoom();
+    window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom + '&lat=' + center[1] + '&lon=' + center[0])
   }
 }

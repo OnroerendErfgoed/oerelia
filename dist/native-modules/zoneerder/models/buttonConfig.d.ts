@@ -4,4 +4,5 @@ export declare class ButtonConfig {
     zoomFullExtent: boolean;
     zoomGeoLocation: boolean;
     rotate: boolean;
+    zoomSwitcher: boolean;
 }

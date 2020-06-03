@@ -523,6 +523,12 @@ var OlMap = (function () {
             var style_6 = this.getButtonStyle(top);
             this.addRotateButton(className_6);
             this.setStyleToButton(target, className_6, style_6);
+            top += buttonHeight;
+        }
+        if (this.buttonConfig.zoomSwitcher) {
+            var className_7 = 'zoom-switcher';
+            var style_7 = this.getButtonStyle(top);
+            this.setStyleToButton(target, className_7, style_7);
         }
     };
     OlMap.prototype.addFullscreenButton = function (className) {
@@ -575,6 +581,12 @@ var OlMap = (function () {
             view.setZoom(18);
             geolocation.setTracking(false);
         });
+    };
+    OlMap.prototype.zoomButtonClick = function () {
+        var view = this.map.getView();
+        var center = view.getCenter();
+        var zoom = view.getZoom();
+        window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom + '&lat=' + center[1] + '&lon=' + center[0]);
     };
     __decorate([
         bindable,

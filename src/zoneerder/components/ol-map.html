@@ -5,6 +5,11 @@
     <div class="geolocation ol-unselectable ol-control" if.bind="buttonConfig.zoomGeoLocation">
       <button click.delegate="geoLocationClick()"></button>
     </div>
+    <div class="zoom-switcher ol-unselectable ol-control" if.bind="buttonConfig.zoomSwitcher">
+      <button class="zoomButton" title="Ga naar het Geoportaal" click.delegate="zoomButtonClick()">
+        <i class="fa fa-globe"></i>
+      </button>
+    </div>
   </div>
   </div>
   <div class="sidebar" if.bind="!disabled">

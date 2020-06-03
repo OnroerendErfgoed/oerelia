@@ -61,4 +61,5 @@ export declare class OlMap {
     private getButtonStyle;
     private setStyleToButton;
     geoLocationClick(): void;
+    zoomButtonClick(): void;
 }
