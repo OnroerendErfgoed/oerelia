@@ -1,3 +1,5 @@
+@import  '../assets/styles/pyoes/oe-settings';
+
 .copyrightLink {
   display: inline-block;
   height: 17px;
@@ -163,13 +165,13 @@ zoneerder {
     .panel {
       padding: 0 !important;
       border: 1px solid #cccccc;
-      background-color: rgba(0,60,136, 0.5);
+      background-color: rgba($fresh-blue, 0.5);
       display: none;
   
       p {
         margin-left: 1em;
         font-size: 14px;
-        color: white;
+        color: $white;
         margin: 0;
         margin-left: 10px;
       }
@@ -189,7 +191,7 @@ zoneerder {
           label {
             font-size: 12px;
             display: inline;
-            color: white;
+            color: $white;
             margin-right: 10px;
           }
         }
@@ -198,12 +200,12 @@ zoneerder {
   
     button {
       float: right;
-      background-color: rgba(0,60,136,0.5);
+      background-color: rgba($fresh-blue, 0.5);
       border: none;
       padding-top: 2px;
   
       &:hover {
-        background-color: rgba(0,60,136, 0.65);
+        background-color: rgba($fresh-blue, 0.5);
       }
     }
   }
