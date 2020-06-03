@@ -672,6 +672,6 @@ export class OlMap {
     const view = this.map.getView();
     const center = view.getCenter();
     const zoom = view.getZoom();
-    window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom + '&lat=' + center[1] + '&lon=' + center[0])
+    window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom + '&lat=' + center[0] + '&lon=' + center[1])
   }
 }
