@@ -41,6 +41,8 @@ export declare class OlMap {
     drawPerceel(olFeature: ol.Feature): void;
     drawWKTzone(wkt: ol.Feature): void;
     removeGeometryObject(name: string): void;
+    geoLocationClick(): void;
+    zoomButtonClick(): void;
     private addToZone;
     private resetSelect;
     private toggleDrawZone;
@@ -60,6 +62,5 @@ export declare class OlMap {
     private addRotateButton;
     private getButtonStyle;
     private setStyleToButton;
-    geoLocationClick(): void;
-    zoomButtonClick(): void;
+    private transformLabert72ToWebMercator;
 }

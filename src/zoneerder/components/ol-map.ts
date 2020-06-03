@@ -230,6 +230,33 @@ export class OlMap {
     this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
   }
 
+  public geoLocationClick() {
+    const view = this.map.getView();
+    const geolocation = new ol.Geolocation({
+      projection: this.map.getView().getProjection(),
+      trackingOptions: {
+        enableHighAccuracy: true
+      }
+    });
+
+    geolocation.setTracking(true);
+    geolocation.once('change:position', () => {
+      view.setCenter(geolocation.getPosition());
+      view.setZoom(18);
+      geolocation.setTracking(false);
+    });
+  }
+
+  public zoomButtonClick() {
+    const view = this.map.getView();
+    const center = view.getCenter();
+    const zoom = view.getZoom();
+    const coordinates = this.transformLabert72ToWebMercator(center);
+
+    //Zoom * 2 is some kind of hack so the zoom levels somewhat align with the zoom levels on crabpyUrl. Change if a better solution is found. 
+    window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
+  }
+
   private addToZone(olFeature: ol.Feature) {
     console.debug('addToZone', olFeature);
     const multiPolygon = new ol.geom.MultiPolygon([], 'XY');
@@ -651,27 +678,10 @@ export class OlMap {
       .setAttribute('style', style);
   }
 
-  public geoLocationClick() {
-    const view = this.map.getView();
-    const geolocation = new ol.Geolocation({
-      projection: this.map.getView().getProjection(),
-      trackingOptions: {
-        enableHighAccuracy: true
-      }
-    });
-
-    geolocation.setTracking(true);
-    geolocation.once('change:position', () => {
-      view.setCenter(geolocation.getPosition());
-      view.setZoom(18);
-      geolocation.setTracking(false);
-    });
-  }
-
-  public zoomButtonClick() {
-    const view = this.map.getView();
-    const center = view.getCenter();
-    const zoom = view.getZoom();
-    window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom + '&lat=' + center[1] + '&lon=' + center[0])
+  private transformLabert72ToWebMercator(center: ol.Coordinate): ol.Coordinate {
+    const point: ol.geom.Point = new ol.geom.Point([ center[0], center[1] ]);
+    const transFormedPoint = (point.transform('EPSG:31370', 'EPSG:3857') as ol.geom.Point);
+    
+    return transFormedPoint.getCoordinates();
   }
 }

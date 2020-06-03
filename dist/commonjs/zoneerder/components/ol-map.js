@@ -208,6 +208,28 @@ var OlMap = (function () {
         }
         this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
     };
+    OlMap.prototype.geoLocationClick = function () {
+        var view = this.map.getView();
+        var geolocation = new ol.Geolocation({
+            projection: this.map.getView().getProjection(),
+            trackingOptions: {
+                enableHighAccuracy: true
+            }
+        });
+        geolocation.setTracking(true);
+        geolocation.once('change:position', function () {
+            view.setCenter(geolocation.getPosition());
+            view.setZoom(18);
+            geolocation.setTracking(false);
+        });
+    };
+    OlMap.prototype.zoomButtonClick = function () {
+        var view = this.map.getView();
+        var center = view.getCenter();
+        var zoom = view.getZoom();
+        var coordinates = this.transformLabert72ToWebMercator(center);
+        window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
+    };
     OlMap.prototype.addToZone = function (olFeature) {
         console.debug('addToZone', olFeature);
         var multiPolygon = new ol.geom.MultiPolygon([], 'XY');
@@ -569,26 +591,10 @@ var OlMap = (function () {
             .item(0)
             .setAttribute('style', style);
     };
-    OlMap.prototype.geoLocationClick = function () {
-        var view = this.map.getView();
-        var geolocation = new ol.Geolocation({
-            projection: this.map.getView().getProjection(),
-            trackingOptions: {
-                enableHighAccuracy: true
-            }
-        });
-        geolocation.setTracking(true);
-        geolocation.once('change:position', function () {
-            view.setCenter(geolocation.getPosition());
-            view.setZoom(18);
-            geolocation.setTracking(false);
-        });
-    };
-    OlMap.prototype.zoomButtonClick = function () {
-        var view = this.map.getView();
-        var center = view.getCenter();
-        var zoom = view.getZoom();
-        window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom + '&lat=' + center[1] + '&lon=' + center[0]);
+    OlMap.prototype.transformLabert72ToWebMercator = function (center) {
+        var point = new ol.geom.Point([center[0], center[1]]);
+        var transFormedPoint = point.transform('EPSG:31370', 'EPSG:3857');
+        return transFormedPoint.getCoordinates();
     };
     __decorate([
         aurelia_framework_1.bindable,
