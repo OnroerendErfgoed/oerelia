@@ -1,7 +1,7 @@
 import * as ol from 'openlayers';
 import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
-import { CrabService } from 'services/crab.api-service';
+import { CrabService } from '../../services/crab.api-service';
 export declare class OlMap {
     private element;
     private crabService;

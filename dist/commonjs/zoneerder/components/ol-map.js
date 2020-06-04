@@ -18,7 +18,7 @@ var contour_1 = require("../models/contour");
 var buttonConfig_1 = require("../models/buttonConfig");
 var geozoekdienst_api_service_1 = require("../../services/geozoekdienst.api-service");
 var ol_layerswitcher_1 = require("./ol-layerswitcher");
-var crab_api_service_1 = require("services/crab.api-service");
+var crab_api_service_1 = require("../../services/crab.api-service");
 var OlMap = (function () {
     function OlMap(element, crabService) {
         this.element = element;

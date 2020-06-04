@@ -8,7 +8,7 @@ import { Contour } from '../models/contour';
 import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
-import { CrabService } from 'services/crab.api-service';
+import { CrabService } from '../../services/crab.api-service';
 
 declare const oeAppConfig: any;
 
@@ -186,7 +186,6 @@ export class OlMap {
   public drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
       const info = this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY'));
-
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
       if (this.geometryObjectList.indexOf(name) === -1) {
         olFeature.set('name', name);

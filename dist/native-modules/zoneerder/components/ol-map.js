@@ -16,7 +16,7 @@ import { Contour } from '../models/contour';
 import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
-import { CrabService } from 'services/crab.api-service';
+import { CrabService } from '../../services/crab.api-service';
 var OlMap = (function () {
     function OlMap(element, crabService) {
         this.element = element;
