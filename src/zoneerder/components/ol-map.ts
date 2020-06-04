@@ -10,7 +10,7 @@ import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-servic
 import { Layerswitcher } from './ol-layerswitcher';
 import { CrabService } from '../../services/crab.api-service';
 import { CapaKeyInfoResponse } from 'services/models/capaKeyInfoResponse';
-import { KadastraalPerceel } from 'zoneerder/models/kadastraalPerceel';
+import { KadastraalPerceel } from '../../zoneerder/models/kadastraalPerceel';
 
 declare const oeAppConfig: any;
 
@@ -187,7 +187,7 @@ export class OlMap {
 
   public drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
-      
+
       this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY')).then( (result: CapaKeyInfoResponse) => {
         const kadastraalPerceel = new KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, result.percid, 
                                                         olFeature.get('CAPAKEY'), olFeature.get('SHAPE').getArea());

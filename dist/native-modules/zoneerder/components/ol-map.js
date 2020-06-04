@@ -17,7 +17,7 @@ import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
 import { CrabService } from '../../services/crab.api-service';
-import { KadastraalPerceel } from 'zoneerder/models/kadastraalPerceel';
+import { KadastraalPerceel } from '../../zoneerder/models/kadastraalPerceel';
 var OlMap = (function () {
     function OlMap(element, crabService) {
         this.element = element;

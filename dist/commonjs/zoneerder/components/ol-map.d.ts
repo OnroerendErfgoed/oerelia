@@ -2,7 +2,7 @@ import * as ol from 'openlayers';
 import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
 import { CrabService } from '../../services/crab.api-service';
-import { KadastraalPerceel } from 'zoneerder/models/kadastraalPerceel';
+import { KadastraalPerceel } from '../../zoneerder/models/kadastraalPerceel';
 export declare class OlMap {
     private element;
     private crabService;
