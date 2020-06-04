@@ -7,7 +7,7 @@ export class CapaKeyInfoResponse {
 
 export class CapaKeySection {
   public afdeling: CapaKeyAfdeling;
-  public id: number;
+  public id: string;
 }
 
 export class CapaKeyAfdeling {

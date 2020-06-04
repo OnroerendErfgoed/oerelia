@@ -17,6 +17,7 @@ import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
 import { CrabService } from '../../services/crab.api-service';
+import { KadastraalPerceel } from 'zoneerder/models/kadastraalPerceel';
 var OlMap = (function () {
     function OlMap(element, crabService) {
         this.element = element;
@@ -157,8 +158,12 @@ var OlMap = (function () {
         });
     };
     OlMap.prototype.drawPerceel = function (olFeature) {
+        var _this = this;
         if (olFeature) {
-            var info = this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY'));
+            this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY')).then(function (result) {
+                var kadastraalPerceel = new KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, result.percid, olFeature.get('CAPAKEY'), olFeature.get('SHAPE').getArea());
+                _this.kadastralePercelen.push(kadastraalPerceel);
+            });
             var name_1 = "Perceel " + olFeature.get('CAPAKEY');
             if (this.geometryObjectList.indexOf(name_1) === -1) {
                 olFeature.set('name', name_1);
@@ -607,8 +612,8 @@ var OlMap = (function () {
     ], OlMap.prototype, "zone", void 0);
     __decorate([
         bindable({ defaultBindingMode: bindingMode.twoWay }),
-        __metadata("design:type", Object)
-    ], OlMap.prototype, "olFeatures", void 0);
+        __metadata("design:type", Array)
+    ], OlMap.prototype, "kadastralePercelen", void 0);
     __decorate([
         bindable,
         __metadata("design:type", Array)

@@ -59,8 +59,8 @@ var Zoneerder = (function () {
     ], Zoneerder.prototype, "zone", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
-        __metadata("design:type", Object)
-    ], Zoneerder.prototype, "olFeatures", void 0);
+        __metadata("design:type", Array)
+    ], Zoneerder.prototype, "kadastralePercelen", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Array)

@@ -19,6 +19,7 @@ var buttonConfig_1 = require("../models/buttonConfig");
 var geozoekdienst_api_service_1 = require("../../services/geozoekdienst.api-service");
 var ol_layerswitcher_1 = require("./ol-layerswitcher");
 var crab_api_service_1 = require("../../services/crab.api-service");
+var kadastraalPerceel_1 = require("zoneerder/models/kadastraalPerceel");
 var OlMap = (function () {
     function OlMap(element, crabService) {
         this.element = element;
@@ -159,8 +160,12 @@ var OlMap = (function () {
         });
     };
     OlMap.prototype.drawPerceel = function (olFeature) {
+        var _this = this;
         if (olFeature) {
-            var info = this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY'));
+            this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY')).then(function (result) {
+                var kadastraalPerceel = new kadastraalPerceel_1.KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, result.percid, olFeature.get('CAPAKEY'), olFeature.get('SHAPE').getArea());
+                _this.kadastralePercelen.push(kadastraalPerceel);
+            });
             var name_1 = "Perceel " + olFeature.get('CAPAKEY');
             if (this.geometryObjectList.indexOf(name_1) === -1) {
                 olFeature.set('name', name_1);
@@ -609,8 +614,8 @@ var OlMap = (function () {
     ], OlMap.prototype, "zone", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
-        __metadata("design:type", Object)
-    ], OlMap.prototype, "olFeatures", void 0);
+        __metadata("design:type", Array)
+    ], OlMap.prototype, "kadastralePercelen", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Array)

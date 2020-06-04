@@ -3,6 +3,7 @@ import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
 import { ButtonConfig } from './models/buttonConfig';
+import { KadastraalPerceel } from './models/kadastraalPerceel';
 export declare class Zoneerder {
     private http;
     private crabService;
@@ -10,7 +11,7 @@ export declare class Zoneerder {
     locatie: any;
     disabled: boolean;
     zone: Contour;
-    olFeatures: any;
+    kadastralePercelen: KadastraalPerceel[];
     adrespunten: Contour[];
     buttonConfig: ButtonConfig;
     protected suggest: {

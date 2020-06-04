@@ -5,13 +5,14 @@ import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
 import { ButtonConfig } from './models/buttonConfig'; 
+import { KadastraalPerceel } from './models/kadastraalPerceel';
 
 @inject(HttpClient, CrabService, GeozoekdienstApiService)
 export class Zoneerder {
   @bindable public locatie: any;
   @bindable public disabled: boolean = false;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public olFeatures: any;
+  @bindable({ defaultBindingMode: bindingMode.twoWay }) public kadastralePercelen: KadastraalPerceel[];
   @bindable public adrespunten: Contour[];
   @bindable public buttonConfig: ButtonConfig;
 

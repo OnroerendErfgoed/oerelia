@@ -5,7 +5,7 @@ export declare class CapaKeyInfoResponse {
 }
 export declare class CapaKeySection {
     afdeling: CapaKeyAfdeling;
-    id: number;
+    id: string;
 }
 export declare class CapaKeyAfdeling {
     naam: string;
