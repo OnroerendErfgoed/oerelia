@@ -11,7 +11,8 @@
             adrespunten.bind="adrespunten"
             api-service.bind="geozoekdienstApiService"
             loaded.delegate="onMapLoaded($event)"
-            button-config.bind="buttonConfig">
+            button-config.bind="buttonConfig"
+            ol-features.two-way="olFeatures">
     </ol-map>
     <autocomplete service.bind="suggest"
                   value.bind="locatie"
