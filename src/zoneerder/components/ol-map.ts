@@ -8,10 +8,11 @@ import { Contour } from '../models/contour';
 import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
+import { CrabService } from 'services/crab.api-service';
 
 declare const oeAppConfig: any;
 
-@inject(Element)
+@inject(Element, CrabService)
 export class OlMap {
   @bindable public disabled: boolean;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
@@ -39,7 +40,8 @@ export class OlMap {
   private circleIndex: number = 1;
 
   constructor(
-    private element: Element
+    private element: Element,
+    private crabService: CrabService
   ) {
     console.debug('olMap::constructor', this.zone);
     this._defineProjections();
@@ -183,7 +185,8 @@ export class OlMap {
 
   public drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
-      this.olFeatures.push(olFeature);
+      const info = this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY'));
+
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
       if (this.geometryObjectList.indexOf(name) === -1) {
         olFeature.set('name', name);

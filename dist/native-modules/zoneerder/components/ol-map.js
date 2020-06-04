@@ -16,9 +16,11 @@ import { Contour } from '../models/contour';
 import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
+import { CrabService } from 'services/crab.api-service';
 var OlMap = (function () {
-    function OlMap(element) {
+    function OlMap(element, crabService) {
         this.element = element;
+        this.crabService = crabService;
         this.geometryObjectList = [];
         this.isDrawing = false;
         this.isDrawingCircle = false;
@@ -156,7 +158,7 @@ var OlMap = (function () {
     };
     OlMap.prototype.drawPerceel = function (olFeature) {
         if (olFeature) {
-            this.olFeatures.push(olFeature);
+            var info = this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY'));
             var name_1 = "Perceel " + olFeature.get('CAPAKEY');
             if (this.geometryObjectList.indexOf(name_1) === -1) {
                 olFeature.set('name', name_1);
@@ -620,8 +622,9 @@ var OlMap = (function () {
         __metadata("design:type", ButtonConfig)
     ], OlMap.prototype, "buttonConfig", void 0);
     OlMap = __decorate([
-        inject(Element),
-        __metadata("design:paramtypes", [Element])
+        inject(Element, CrabService),
+        __metadata("design:paramtypes", [Element,
+            CrabService])
     ], OlMap);
     return OlMap;
 }());
