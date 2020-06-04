@@ -58,6 +58,10 @@ var Zoneerder = (function () {
         __metadata("design:type", contour_1.Contour)
     ], Zoneerder.prototype, "zone", void 0);
     __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], Zoneerder.prototype, "olFeatures", void 0);
+    __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Array)
     ], Zoneerder.prototype, "adrespunten", void 0);

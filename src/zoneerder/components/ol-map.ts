@@ -15,6 +15,7 @@ declare const oeAppConfig: any;
 export class OlMap {
   @bindable public disabled: boolean;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
+  @bindable({ defaultBindingMode: bindingMode.twoWay }) public olFeatures: any;
   @bindable public adrespunten: Contour[];
   public geometryObjectList: string[] = [];
   public WKTstring!: string;
@@ -182,6 +183,7 @@ export class OlMap {
 
   public drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
+      this.olFeatures.push(olFeature);
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
       if (this.geometryObjectList.indexOf(name) === -1) {
         olFeature.set('name', name);

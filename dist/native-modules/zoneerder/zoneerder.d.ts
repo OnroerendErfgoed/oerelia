@@ -10,6 +10,7 @@ export declare class Zoneerder {
     locatie: any;
     disabled: boolean;
     zone: Contour;
+    olFeatures: any;
     adrespunten: Contour[];
     buttonConfig: ButtonConfig;
     protected suggest: {

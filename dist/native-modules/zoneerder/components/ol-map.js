@@ -156,6 +156,7 @@ var OlMap = (function () {
     };
     OlMap.prototype.drawPerceel = function (olFeature) {
         if (olFeature) {
+            this.olFeatures.push(olFeature);
             var name_1 = "Perceel " + olFeature.get('CAPAKEY');
             if (this.geometryObjectList.indexOf(name_1) === -1) {
                 olFeature.set('name', name_1);
@@ -602,6 +603,10 @@ var OlMap = (function () {
         bindable({ defaultBindingMode: bindingMode.twoWay }),
         __metadata("design:type", Contour)
     ], OlMap.prototype, "zone", void 0);
+    __decorate([
+        bindable({ defaultBindingMode: bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], OlMap.prototype, "olFeatures", void 0);
     __decorate([
         bindable,
         __metadata("design:type", Array)

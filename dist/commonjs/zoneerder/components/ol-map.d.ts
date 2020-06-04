@@ -5,6 +5,7 @@ export declare class OlMap {
     private element;
     disabled: boolean;
     zone: Contour;
+    olFeatures: any;
     adrespunten: Contour[];
     geometryObjectList: string[];
     WKTstring: string;
