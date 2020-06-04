@@ -169,7 +169,7 @@ var CrabService = (function () {
         });
     };
     CrabService.prototype.getInfoByCapakey = function (capakey) {
-        return this.crabGet('capakey/percelen' + capakey)
+        return this.crabGet('capakey/percelen/' + capakey)
             .then(function (response) {
             if (response.isSuccess) {
                 return response.content;

@@ -171,7 +171,7 @@ export class CrabService {
   }
 
   public getInfoByCapakey(capakey: string) {
-    return this.crabGet('capakey/percelen' + capakey)
+    return this.crabGet('capakey/percelen/' + capakey)
       .then(response => {
         if(response.isSuccess) {
           return (response.content as CapaKeyInfoResponse); 
