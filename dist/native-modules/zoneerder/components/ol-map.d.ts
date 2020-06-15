@@ -2,11 +2,13 @@ import * as ol from 'openlayers';
 import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
 import { CrabService } from '../../services/crab.api-service';
+import { KadastraalPerceel } from '../../zoneerder/models/kadastraalPerceel';
 export declare class OlMap {
     private element;
     private crabService;
     disabled: boolean;
     zone: Contour;
+    kadastralePercelen: KadastraalPerceel[];
     adrespunten: Contour[];
     geometryObjectList: string[];
     WKTstring: string;
