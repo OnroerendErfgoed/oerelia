@@ -163,7 +163,7 @@ var OlMap = (function () {
         var _this = this;
         if (olFeature) {
             this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY')).then(function (result) {
-                var kadastraalPerceel = new kadastraalPerceel_1.KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, result.percid, olFeature.get('CAPAKEY'), olFeature.get('SHAPE').getArea());
+                var kadastraalPerceel = new kadastraalPerceel_1.KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, olFeature.get('CAPAKEY'), result.percid);
                 _this.kadastralePercelen.push(kadastraalPerceel);
             });
             var name_1 = "Perceel " + olFeature.get('CAPAKEY');

@@ -189,8 +189,7 @@ export class OlMap {
     if (olFeature) {
 
       this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY')).then( (result: CapaKeyInfoResponse) => {
-        const kadastraalPerceel = new KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, result.percid, 
-                                                        olFeature.get('CAPAKEY'), olFeature.get('SHAPE').getArea());
+        const kadastraalPerceel = new KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, olFeature.get('CAPAKEY'), result.percid);
 
         this.kadastralePercelen.push(kadastraalPerceel);
       });
