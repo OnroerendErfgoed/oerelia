@@ -9,8 +9,6 @@ import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
 import { CrabService } from '../../services/crab.api-service';
-import { CapaKeyInfoResponse } from 'services/models/capaKeyInfoResponse';
-import { KadastraalPerceel } from '../../zoneerder/models/kadastraalPerceel';
 
 declare const oeAppConfig: any;
 
@@ -18,7 +16,6 @@ declare const oeAppConfig: any;
 export class OlMap {
   @bindable public disabled: boolean;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public kadastralePercelen: KadastraalPerceel[];
   @bindable public adrespunten: Contour[];
   public geometryObjectList: string[] = [];
   public WKTstring!: string;
@@ -187,13 +184,12 @@ export class OlMap {
 
   public drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
+      // this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY')).then( (result: CapaKeyInfoResponse) => {
+      //   const kadastraalPerceel = new KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, result.percid, 
+      //                                                   olFeature.get('CAPAKEY'), olFeature.get('SHAPE').getArea());
 
-      this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY')).then( (result: CapaKeyInfoResponse) => {
-        const kadastraalPerceel = new KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, result.percid, 
-                                                        olFeature.get('CAPAKEY'), olFeature.get('SHAPE').getArea());
-
-        this.kadastralePercelen.push(kadastraalPerceel);
-      });
+      //   this.kadastralePercelen.push(kadastraalPerceel);
+      // });
 
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
       if (this.geometryObjectList.indexOf(name) === -1) {
