@@ -144,17 +144,17 @@ export class OlMap {
 
     if (type === 'Polygon') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-        const features = this.getFeaturesByEvent(evt);
-        features.forEach((feature: ol.Feature) => this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY')));
+        this.getFeaturesByEvent(evt)
+          .then(features => features.forEach((feature: ol.Feature) => this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY'))));
 
         evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
         this.geometryObjectList.push(evt.feature.getProperties().name);
       });
     } else if (type === 'Circle') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-        const features = this.getFeaturesByEvent(evt);
-        features.forEach((feature: ol.Feature) => this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY')));
-
+        this.getFeaturesByEvent(evt)
+          .then(features => features.forEach((feature: ol.Feature) => this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY'))));
+          
         evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
         this.geometryObjectList.push(evt.feature.getProperties().name);
       });
@@ -698,7 +698,7 @@ export class OlMap {
     return transFormedPoint.getCoordinates();
   }
 
-  private getFeaturesByEvent(evt): ol.Feature[] {
+  private async getFeaturesByEvent(evt) {
     let features = [];
     this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then((result: any) => {
      features = this.geoJsonFormatter.readFeatures(result);
