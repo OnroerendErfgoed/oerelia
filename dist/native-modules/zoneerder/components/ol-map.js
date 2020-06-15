@@ -115,7 +115,8 @@ var OlMap = (function () {
         this.toggleDrawZone(true, type);
         if (type === 'Polygon') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
-                _this.getFeaturesByEvent(evt)
+                var coordinates = evt.feature.getGeometry().getFirstCoordinate();
+                _this.getFeaturesByCoordinates(coordinates)
                     .then(function (features) { return features.forEach(function (feature) { return _this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY')); }); });
                 evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
@@ -123,7 +124,8 @@ var OlMap = (function () {
         }
         else if (type === 'Circle') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
-                _this.getFeaturesByEvent(evt)
+                var coordinates = evt.feature.getGeometry().getFirstCoordinate();
+                _this.getFeaturesByCoordinates(coordinates)
                     .then(function (features) { return features.forEach(function (feature) { return _this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY')); }); });
                 evt.feature.setProperties({ name: "Cirkel " + _this.circleIndex++ });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
@@ -602,9 +604,10 @@ var OlMap = (function () {
         var transFormedPoint = point.transform('EPSG:31370', 'EPSG:3857');
         return transFormedPoint.getCoordinates();
     };
-    OlMap.prototype.getFeaturesByEvent = function (evt) {
+    OlMap.prototype.getFeaturesByCoordinates = function (coordinates) {
         var _this = this;
-        return this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then(function (result) {
+        return this.apiService.searchPerceel(coordinates, this.mapProjection.getCode())
+            .then(function (result) {
             _this.geoJsonFormatter.readFeatures(result);
         });
     };
