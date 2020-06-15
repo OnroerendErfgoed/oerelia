@@ -154,7 +154,7 @@ export class OlMap {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
         this.getFeaturesByEvent(evt)
           .then(features => features.forEach((feature: ol.Feature) => this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY'))));
-          
+
         evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
         this.geometryObjectList.push(evt.feature.getProperties().name);
       });
@@ -698,13 +698,10 @@ export class OlMap {
     return transFormedPoint.getCoordinates();
   }
 
-  private async getFeaturesByEvent(evt) {
-    let features = [];
+  private async getFeaturesByEvent(evt): Promise<any> {
     this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then((result: any) => {
-     features = this.geoJsonFormatter.readFeatures(result);
+     return this.geoJsonFormatter.readFeatures(result);
     });
-
-    return features;
   }
 
   private createKadastralePercelenByCapaKey(capakey: string) {

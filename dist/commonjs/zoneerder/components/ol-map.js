@@ -642,14 +642,12 @@ var OlMap = (function () {
     };
     OlMap.prototype.getFeaturesByEvent = function (evt) {
         return __awaiter(this, void 0, void 0, function () {
-            var features;
             var _this = this;
             return __generator(this, function (_a) {
-                features = [];
                 this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then(function (result) {
-                    features = _this.geoJsonFormatter.readFeatures(result);
+                    return _this.geoJsonFormatter.readFeatures(result);
                 });
-                return [2, features];
+                return [2];
             });
         });
     };
