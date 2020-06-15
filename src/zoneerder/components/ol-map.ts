@@ -698,9 +698,9 @@ export class OlMap {
     return transFormedPoint.getCoordinates();
   }
 
-  private async getFeaturesByEvent(evt): Promise<any> {
-    this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then((result: any) => {
-     return this.geoJsonFormatter.readFeatures(result);
+  private getFeaturesByEvent(evt): Promise<any> {
+    return this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then((result: any) => {
+      this.geoJsonFormatter.readFeatures(result);
     });
   }
 
