@@ -67,4 +67,6 @@ export declare class OlMap {
     private getButtonStyle;
     private setStyleToButton;
     private transformLabert72ToWebMercator;
+    private getFeaturesByEvent;
+    private createKadastralePercelenByCapaKey;
 }

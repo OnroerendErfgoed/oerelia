@@ -144,11 +144,17 @@ export class OlMap {
 
     if (type === 'Polygon') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
+        const features = this.getFeaturesByEvent(evt);
+        features.forEach((feature: ol.Feature) => this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY')));
+
         evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
         this.geometryObjectList.push(evt.feature.getProperties().name);
       });
     } else if (type === 'Circle') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
+        const features = this.getFeaturesByEvent(evt);
+        features.forEach((feature: ol.Feature) => this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY')));
+
         evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
         this.geometryObjectList.push(evt.feature.getProperties().name);
       });
@@ -187,13 +193,8 @@ export class OlMap {
 
   public drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
-
-      this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY')).then( (result: CapaKeyInfoResponse) => {
-        const kadastraalPerceel = new KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, olFeature.get('CAPAKEY'), result.percid);
-
-        this.kadastralePercelen.push(kadastraalPerceel);
-      });
-
+      this.createKadastralePercelenByCapaKey(olFeature.get('CAPAKEY'));
+      
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
       if (this.geometryObjectList.indexOf(name) === -1) {
         olFeature.set('name', name);
@@ -695,5 +696,21 @@ export class OlMap {
     const transFormedPoint = (point.transform('EPSG:31370', 'EPSG:3857') as ol.geom.Point);
     
     return transFormedPoint.getCoordinates();
+  }
+
+  private getFeaturesByEvent(evt): ol.Feature[] {
+    let features = [];
+    this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then((result: any) => {
+     features = this.geoJsonFormatter.readFeatures(result);
+    });
+
+    return features;
+  }
+
+  private createKadastralePercelenByCapaKey(capakey: string) {
+    this.crabService.getInfoByCapakey(capakey).then((result: CapaKeyInfoResponse) => {
+      const kadastraalPerceel = new KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, capakey, result.percid);
+      this.kadastralePercelen.push(kadastraalPerceel);
+    });
   }
 }

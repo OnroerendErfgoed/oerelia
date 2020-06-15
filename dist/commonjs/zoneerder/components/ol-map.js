@@ -117,12 +117,16 @@ var OlMap = (function () {
         this.toggleDrawZone(true, type);
         if (type === 'Polygon') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
+                var features = _this.getFeaturesByEvent(evt);
+                features.forEach(function (feature) { return _this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY')); });
                 evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });
         }
         else if (type === 'Circle') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
+                var features = _this.getFeaturesByEvent(evt);
+                features.forEach(function (feature) { return _this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY')); });
                 evt.feature.setProperties({ name: "Cirkel " + _this.circleIndex++ });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });
@@ -160,12 +164,8 @@ var OlMap = (function () {
         });
     };
     OlMap.prototype.drawPerceel = function (olFeature) {
-        var _this = this;
         if (olFeature) {
-            this.crabService.getInfoByCapakey(olFeature.get('CAPAKEY')).then(function (result) {
-                var kadastraalPerceel = new kadastraalPerceel_1.KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, olFeature.get('CAPAKEY'), result.percid);
-                _this.kadastralePercelen.push(kadastraalPerceel);
-            });
+            this.createKadastralePercelenByCapaKey(olFeature.get('CAPAKEY'));
             var name_1 = "Perceel " + olFeature.get('CAPAKEY');
             if (this.geometryObjectList.indexOf(name_1) === -1) {
                 olFeature.set('name', name_1);
@@ -603,6 +603,21 @@ var OlMap = (function () {
         var point = new ol.geom.Point([center[0], center[1]]);
         var transFormedPoint = point.transform('EPSG:31370', 'EPSG:3857');
         return transFormedPoint.getCoordinates();
+    };
+    OlMap.prototype.getFeaturesByEvent = function (evt) {
+        var _this = this;
+        var features = [];
+        this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then(function (result) {
+            features = _this.geoJsonFormatter.readFeatures(result);
+        });
+        return features;
+    };
+    OlMap.prototype.createKadastralePercelenByCapaKey = function (capakey) {
+        var _this = this;
+        this.crabService.getInfoByCapakey(capakey).then(function (result) {
+            var kadastraalPerceel = new kadastraalPerceel_1.KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, capakey, result.percid);
+            _this.kadastralePercelen.push(kadastraalPerceel);
+        });
     };
     __decorate([
         aurelia_framework_1.bindable,
