@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var ActorWiget = (function () {
-    function ActorWiget() {
+var ActorWidget = (function () {
+    function ActorWidget() {
     }
-    return ActorWiget;
+    return ActorWidget;
 }());
-exports.ActorWiget = ActorWiget;
+exports.ActorWidget = ActorWidget;
 
 //# sourceMappingURL=actor-widget.js.map

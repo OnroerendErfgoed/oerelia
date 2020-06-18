@@ -1,8 +1,8 @@
-var ActorWiget = (function () {
-    function ActorWiget() {
+var ActorWidget = (function () {
+    function ActorWidget() {
     }
-    return ActorWiget;
+    return ActorWidget;
 }());
-export { ActorWiget };
+export { ActorWidget };
 
 //# sourceMappingURL=actor-widget.js.map

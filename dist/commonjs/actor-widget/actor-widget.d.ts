@@ -1,2 +1,2 @@
-export declare class ActorWiget {
+export declare class ActorWidget {
 }

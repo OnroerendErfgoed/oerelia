@@ -1,1 +1,1 @@
-export class ActorWiget { }
+export class ActorWidget { }
