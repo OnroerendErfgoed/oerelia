@@ -5,4 +5,14 @@
       <h3>Actor toevoegen</h3>
     </ux-dialog-header>
   </ux-dialog>
+  <ux-dialog-body>
+    <!-- SEARCH BUTTONS -->
+    <div class="row search-buttons">
+      <div class="large-6 small-12 large-centered column">
+        <a class="button tiny large-offset-1 large-5 small-5 column ${showTable ? 'active' : ''}" click.delegate="toggleFilters(false)">Overzicht</a>
+        <a class="button tiny large-offset-1 large-5 small-offset-1 small-5 large-end column ${showFilters? 'active' : ''}" click.delegate="toggleFilters(true)">Uitgebreid Zoeken</a>
+      </div>
+    </div>
+  </ux-dialog-body>
+  
 </template>

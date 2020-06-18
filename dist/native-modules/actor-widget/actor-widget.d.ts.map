@@ -1,1 +1,1 @@
-{"version":3,"sources":["actor-widget/actor-widget.ts"],"names":[],"mappings":"AAAA,qBAAa,WAAW;CAAI","file":"actor-widget.d.ts","sourceRoot":"../../../src/"}
+{"version":3,"sources":["actor-widget/actor-widget.ts"],"names":[],"mappings":"AAAA,qBAAa,WAAW;IACf,SAAS,EAAE,OAAO,CAAS;IAC3B,WAAW,EAAE,OAAO,CAAS;IAC7B,SAAS,EAAE,OAAO,CAAQ;IAE1B,aAAa,CAAC,QAAQ,EAAE,OAAO;CAMtC","file":"actor-widget.d.ts","sourceRoot":"../../../src/"}
