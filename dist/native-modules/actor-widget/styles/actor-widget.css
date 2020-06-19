@@ -1,3 +1,68 @@
+.tabs-content {
+  background: #ededed;
+  padding: 5px 10px;
+  margin-top: 1px; }
+
+.tabs dd {
+  margin-right: 1px !important; }
+
+ag-grid-aurelia {
+  color: #333;
+  font-size: 0.875rem; }
+  ag-grid-aurelia .ag-cell-edit-input {
+    margin: 0; }
+  ag-grid-aurelia.error .ag-overlay-wrapper {
+    border: 1px solid red; }
+  ag-grid-aurelia .ag-overlay-wrapper {
+    background-color: aliceblue; }
+    ag-grid-aurelia .ag-overlay-wrapper.ag-overlay-no-rows-wrapper {
+      padding-top: 0; }
+  ag-grid-aurelia .ag-root-wrapper {
+    border: 1px solid #DDD; }
+    ag-grid-aurelia .ag-root-wrapper .ag-header {
+      background-color: #EEE; }
+      ag-grid-aurelia .ag-root-wrapper .ag-header .ag-cell-label-container,
+      ag-grid-aurelia .ag-root-wrapper .ag-header .ag-header-cell-label {
+        height: inherit;
+        width: inherit; }
+      ag-grid-aurelia .ag-root-wrapper .ag-header .ag-header-cell-sortable {
+        cursor: pointer; }
+      ag-grid-aurelia .ag-root-wrapper .ag-header .ag-header-icon {
+        position: absolute;
+        right: 5px;
+        transform: scale(0.75); }
+    ag-grid-aurelia .ag-root-wrapper .ag-header-cell-label,
+    ag-grid-aurelia .ag-root-wrapper .ag-cell {
+      display: flex;
+      align-items: center;
+      padding: 5px; }
+    ag-grid-aurelia .ag-root-wrapper .ag-header-cell-resize {
+      position: absolute;
+      right: 0; }
+    ag-grid-aurelia .ag-root-wrapper .ag-row .ag-cell, ag-grid-aurelia .ag-root-wrapper .ag-row .ag-header-cell, ag-grid-aurelia .ag-root-wrapper .ag-header-row .ag-cell, ag-grid-aurelia .ag-root-wrapper .ag-header-row .ag-header-cell {
+      border-color: #DDD;
+      border-style: solid;
+      border-width: 0 1px 1px 0; }
+    ag-grid-aurelia .ag-root-wrapper .ag-cell-focus {
+      outline: none; }
+    ag-grid-aurelia .ag-root-wrapper .ag-body-viewport .ag-body-container.ag-layout-auto-height {
+      display: block;
+      min-height: 0;
+      margin-bottom: 0; }
+    ag-grid-aurelia .ag-root-wrapper .ag-body-viewport .ag-row-focus {
+      background-color: #BBB; }
+    ag-grid-aurelia .ag-root-wrapper .ag-body-viewport .acties-cell, ag-grid-aurelia .ag-root-wrapper .ag-body-viewport .icon-cell {
+      justify-content: center; }
+    ag-grid-aurelia .ag-root-wrapper .ag-body-viewport i.fa, ag-grid-aurelia .ag-root-wrapper .ag-body-viewport a.fa {
+      cursor: pointer;
+      color: #753f7f; }
+    ag-grid-aurelia .ag-root-wrapper .ag-body-viewport i.fa.fa-times {
+      cursor: default;
+      color: #960000; }
+    ag-grid-aurelia .ag-root-wrapper .ag-body-viewport i.fa.fa-check {
+      cursor: default;
+      color: #008000; }
+
 .actor-widget {
   width: 70vw; }
   .actor-widget ux-dialog-body {
