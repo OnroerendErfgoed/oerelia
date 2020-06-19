@@ -7,14 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
-import { ActorenApiService } from '../services/actoren.api-service';
 var ActorWidget = (function () {
-    function ActorWidget(crabService, actorenApiService) {
+    function ActorWidget() {
         var _this = this;
-        this.crabService = crabService;
-        this.actorenApiService = actorenApiService;
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
@@ -47,7 +43,6 @@ var ActorWidget = (function () {
     }
     ActorWidget.prototype.activate = function (model) {
         this.scope = model;
-        this.actorenApiService.rolePrefix = this.scope.rolePrefix;
     };
     ActorWidget.prototype.setRowData = function () {
         var dataSource = {
@@ -165,7 +160,7 @@ var ActorWidget = (function () {
     };
     ActorWidget.prototype.loadLanden = function () {
         var _this = this;
-        this.crabService.getLanden().then(function (landen) {
+        this.scope.crabService.getLanden().then(function (landen) {
             if (landen) {
                 var firstOptions = [
                     { id: 'BE', naam: 'België' },
@@ -191,7 +186,7 @@ var ActorWidget = (function () {
     ActorWidget.prototype.loadGemeenten = function (value) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this.crabService.getGemeenten().then(function (gemeenten) {
+            _this.scope.crabService.getGemeenten().then(function (gemeenten) {
                 if (gemeenten) {
                     var result = gemeenten.filter(function (obj) { return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1; });
                     resolve(result);
@@ -204,7 +199,7 @@ var ActorWidget = (function () {
         var gemeente = this.filters.gemeente ? this.filters.gemeente.id : undefined;
         return new Promise(function (resolve) {
             if (gemeente) {
-                _this.crabService.getPostcodes(gemeente).then(function (postcodes) {
+                _this.scope.crabService.getPostcodes(gemeente).then(function (postcodes) {
                     postcodes.forEach(function (postcode) {
                         postcode.naam = String(postcode.id);
                     });
@@ -222,7 +217,7 @@ var ActorWidget = (function () {
         var gemeente = this.filters.gemeente ? this.filters.gemeente.id : undefined;
         return new Promise(function (resolve) {
             if (gemeente) {
-                _this.crabService.getStraten(gemeente).then(function (straten) {
+                _this.scope.crabService.getStraten(gemeente).then(function (straten) {
                     var result = straten.filter(function (obj) { return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1; });
                     _this.filters.straat_naam = undefined;
                     resolve(result);
@@ -238,7 +233,7 @@ var ActorWidget = (function () {
         var straat = this.filters.straat ? this.filters.straat.id : undefined;
         return new Promise(function (resolve) {
             if (straat) {
-                _this.crabService.getHuisnrs(straat).then(function (huisnrs) {
+                _this.scope.crabService.getHuisnrs(straat).then(function (huisnrs) {
                     var result = huisnrs.filter(function (obj) { return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1; });
                     _this.filters.huisnummer_label = undefined;
                     resolve(result);
@@ -251,7 +246,7 @@ var ActorWidget = (function () {
     };
     ActorWidget = __decorate([
         autoinject,
-        __metadata("design:paramtypes", [CrabService, ActorenApiService])
+        __metadata("design:paramtypes", [])
     ], ActorWidget);
     return ActorWidget;
 }());

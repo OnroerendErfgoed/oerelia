@@ -1,7 +1,7 @@
 import { GridOptions } from 'ag-grid';
-import { CrabService } from '../services/crab.api-service';
+// import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
-import { ActorenApiService } from '../services/actoren.api-service';
+// import { ActorenApiService } from '../services/actoren.api-service';
 
 @autoinject
 export class ActorWidget {
@@ -23,7 +23,7 @@ export class ActorWidget {
   private scope: any;
   private filters: any = {};
 
-  constructor(private crabService: CrabService, private actorenApiService: ActorenApiService) {
+  constructor() {
     this.gridOptions = {} as GridOptions;
     this.gridOptions.context = this;
     this.gridOptions.enableColResize = true;
@@ -46,7 +46,7 @@ export class ActorWidget {
 
   public activate(model) {
     this.scope = model;
-    this.actorenApiService.rolePrefix = this.scope.rolePrefix;
+    // this.actorenApiService.rolePrefix = this.scope.rolePrefix;
   }
 
   public setRowData() {
@@ -174,7 +174,7 @@ export class ActorWidget {
   }
 
   private loadLanden() {
-    this.crabService.getLanden().then(landen => {
+    this.scope.crabService.getLanden().then(landen => {
       if (landen) {
         const firstOptions = [
           { id: 'BE', naam: 'België' },
@@ -200,7 +200,7 @@ export class ActorWidget {
 
   private loadGemeenten(value: string) {
     return new Promise(resolve => {
-      this.crabService.getGemeenten().then(gemeenten => {
+      this.scope.crabService.getGemeenten().then(gemeenten => {
         if (gemeenten) {
           const result = gemeenten.filter(obj => obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1);
           resolve(result);
@@ -213,7 +213,7 @@ export class ActorWidget {
     const gemeente = this.filters.gemeente ? this.filters.gemeente.id : undefined;
     return new Promise((resolve) => {
       if (gemeente) {
-        this.crabService.getPostcodes(gemeente).then(postcodes => {
+        this.scope.crabService.getPostcodes(gemeente).then(postcodes => {
           postcodes.forEach(postcode => {
             postcode.naam = String(postcode.id);
           });
@@ -230,7 +230,7 @@ export class ActorWidget {
     const gemeente = this.filters.gemeente ? this.filters.gemeente.id : undefined;
     return new Promise((resolve) => {
       if (gemeente) {
-        this.crabService.getStraten(gemeente).then(straten => {
+        this.scope.crabService.getStraten(gemeente).then(straten => {
           const result = straten.filter(obj => obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1);
           this.filters.straat_naam = undefined;
           resolve(result);
@@ -245,7 +245,7 @@ export class ActorWidget {
     const straat = this.filters.straat ? this.filters.straat.id : undefined;
     return new Promise((resolve) => {
       if (straat) {
-        this.crabService.getHuisnrs(straat).then(huisnrs => {
+        this.scope.crabService.getHuisnrs(straat).then(huisnrs => {
           const result = huisnrs.filter(obj => obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1);
           this.filters.huisnummer_label = undefined;
           resolve(result);
