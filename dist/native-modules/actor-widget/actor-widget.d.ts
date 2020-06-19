@@ -1,7 +1,9 @@
 import { GridOptions } from 'ag-grid';
 import { CrabService } from '../services/crab.api-service';
+import { ActorenApiService } from '../services/actoren.api-service';
 export declare class ActorWidget {
     private crabService;
+    private actorenApiService;
     showSpinner: boolean;
     gridOptions: GridOptions;
     zoekterm: string;
@@ -18,7 +20,7 @@ export declare class ActorWidget {
     suggest: any;
     private scope;
     private filters;
-    constructor(crabService: CrabService);
+    constructor(crabService: CrabService, actorenApiService: ActorenApiService);
     activate(model: any): void;
     setRowData(): void;
     keydown(e: any): boolean;

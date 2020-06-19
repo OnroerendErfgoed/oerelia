@@ -11,10 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var crab_api_service_1 = require("../services/crab.api-service");
 var aurelia_framework_1 = require("aurelia-framework");
+var actoren_api_service_1 = require("../services/actoren.api-service");
 var ActorWidget = (function () {
-    function ActorWidget(crabService) {
+    function ActorWidget(crabService, actorenApiService) {
         var _this = this;
         this.crabService = crabService;
+        this.actorenApiService = actorenApiService;
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
@@ -47,6 +49,7 @@ var ActorWidget = (function () {
     }
     ActorWidget.prototype.activate = function (model) {
         this.scope = model;
+        this.actorenApiService.rolePrefix = this.scope.rolePrefix;
     };
     ActorWidget.prototype.setRowData = function () {
         var dataSource = {
@@ -87,7 +90,7 @@ var ActorWidget = (function () {
                         sort: sort
                     };
                 }
-                params.context.scope.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
+                params.context.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
                     .then(function (data) {
                     if (data) {
                         params.successCallback(data.content, data.lastRow);
@@ -250,7 +253,7 @@ var ActorWidget = (function () {
     };
     ActorWidget = __decorate([
         aurelia_framework_1.autoinject,
-        __metadata("design:paramtypes", [crab_api_service_1.CrabService])
+        __metadata("design:paramtypes", [crab_api_service_1.CrabService, actoren_api_service_1.ActorenApiService])
     ], ActorWidget);
     return ActorWidget;
 }());

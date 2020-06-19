@@ -1,6 +1,7 @@
 import { GridOptions } from 'ag-grid';
 import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
+import { ActorenApiService } from '../services/actoren.api-service';
 
 @autoinject
 export class ActorWidget {
@@ -22,7 +23,7 @@ export class ActorWidget {
   private scope: any;
   private filters: any = {};
 
-  constructor(private crabService: CrabService) {
+  constructor(private crabService: CrabService, private actorenApiService: ActorenApiService) {
     this.gridOptions = {} as GridOptions;
     this.gridOptions.context = this;
     this.gridOptions.enableColResize = true;
@@ -45,6 +46,7 @@ export class ActorWidget {
 
   public activate(model) {
     this.scope = model;
+    this.actorenApiService.rolePrefix = this.scope.rolePrefix;
   }
 
   public setRowData() {
@@ -87,7 +89,7 @@ export class ActorWidget {
           };
         }
 
-        params.context.scope.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
+        params.context.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
           .then(data => {
             if (data) {
               params.successCallback(data.content, data.lastRow);

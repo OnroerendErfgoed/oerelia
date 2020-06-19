@@ -1,0 +1,30 @@
+import { DialogService } from 'aurelia-dialog';
+import { EventAggregator } from 'aurelia-event-aggregator';
+import { HttpClient } from 'aurelia-http-client';
+import { User } from './models/user';
+export declare class AuthenticationService {
+    private dialogService;
+    private http;
+    private ea;
+    rolePrefix: string;
+    private user;
+    private timeoutTimer;
+    private logoutTimer;
+    private sessionTimeout;
+    private sessionRefreshTimeout;
+    constructor(dialogService: DialogService, http: HttpClient, ea: EventAggregator);
+    loadUser(content: any): void;
+    getUser(): User;
+    getSsoToken(): string;
+    isBeheerder(): boolean;
+    isToevoeger(): boolean;
+    isLezer(): boolean;
+    canEdit(): boolean;
+    canDelete(): boolean;
+    isIntern(): boolean;
+    getHighestRole(): string;
+    private refreshTimer;
+    private refreshSession;
+    private sessionRefreshTimer;
+    private sessionTimedOut;
+}
