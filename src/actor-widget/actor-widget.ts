@@ -1,6 +1,7 @@
 import { GridOptions } from 'ag-grid';
 // import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
+import { DialogController } from 'aurelia-dialog';
 // import { ActorenApiService } from '../services/actoren.api-service';
 
 @autoinject
@@ -23,7 +24,7 @@ export class ActorWidget {
   private scope: any;
   private filters: any = {};
 
-  constructor() {
+  constructor(controller: DialogController) {
     this.gridOptions = {} as GridOptions;
     this.gridOptions.context = this;
     this.gridOptions.enableColResize = true;

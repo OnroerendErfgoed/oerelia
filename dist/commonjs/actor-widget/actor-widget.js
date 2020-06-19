@@ -10,8 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_dialog_1 = require("aurelia-dialog");
 var ActorWidget = (function () {
-    function ActorWidget() {
+    function ActorWidget(controller) {
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
@@ -242,7 +243,7 @@ var ActorWidget = (function () {
     };
     ActorWidget = __decorate([
         aurelia_framework_1.autoinject,
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [aurelia_dialog_1.DialogController])
     ], ActorWidget);
     return ActorWidget;
 }());

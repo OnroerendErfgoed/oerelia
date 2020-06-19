@@ -1,4 +1,5 @@
 import { GridOptions } from 'ag-grid';
+import { DialogController } from 'aurelia-dialog';
 export declare class ActorWidget {
     showSpinner: boolean;
     gridOptions: GridOptions;
@@ -16,7 +17,7 @@ export declare class ActorWidget {
     suggest: any;
     private scope;
     private filters;
-    constructor();
+    constructor(controller: DialogController);
     activate(model: any): void;
     setRowData(): void;
     keydown(e: any): boolean;
