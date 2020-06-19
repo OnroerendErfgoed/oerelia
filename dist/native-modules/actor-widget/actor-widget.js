@@ -7,7 +7,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { bindable } from 'aurelia-templating';
 import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
 var ActorWidget = (function () {
@@ -44,6 +43,9 @@ var ActorWidget = (function () {
         this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
         this.suggest.huisnummer = { suggest: function (value) { return _this.loadHuisnrs(value); } };
     }
+    ActorWidget.prototype.activate = function (model) {
+        this.scope = model;
+    };
     ActorWidget.prototype.setRowData = function () {
         var dataSource = {
             rowCount: null,
@@ -143,7 +145,7 @@ var ActorWidget = (function () {
         var _this = this;
         if (activate) {
             this.showSpinner = true;
-            this.actorenApiService.getActorById(params.data.id)
+            this.scope.actorenApiService.getActorById(params.data.id)
                 .then(function (data) {
                 _this.showSpinner = false;
                 if (data) {
@@ -244,10 +246,6 @@ var ActorWidget = (function () {
             }
         });
     };
-    __decorate([
-        bindable,
-        __metadata("design:type", Object)
-    ], ActorWidget.prototype, "actorenApiService", void 0);
     ActorWidget = __decorate([
         autoinject,
         __metadata("design:paramtypes", [CrabService])

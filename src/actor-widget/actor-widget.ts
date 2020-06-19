@@ -1,12 +1,9 @@
-import { bindable } from 'aurelia-templating';
 import { GridOptions } from 'ag-grid';
 import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
 
 @autoinject
 export class ActorWidget {
-  @bindable public actorenApiService: any;
-
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;
   public zoekterm: string;
@@ -22,6 +19,7 @@ export class ActorWidget {
   public huisnrs: any[] = [];
   public suggest: any = {};
 
+  private scope: any;
   private filters: any = {};
 
   constructor(private crabService: CrabService) {
@@ -43,6 +41,10 @@ export class ActorWidget {
     this.suggest.postcode = { suggest: value => this.loadPostcodes(value) };
     this.suggest.straten = { suggest: value => this.loadStraten(value) };
     this.suggest.huisnummer = { suggest: value => this.loadHuisnrs(value) };
+  }
+
+  public activate(model) {
+    this.scope = model;
   }
 
   public setRowData() {
@@ -154,7 +156,7 @@ export class ActorWidget {
   public toggleActorDetail(activate: boolean, params) {
     if (activate) {
       this.showSpinner = true;
-      this.actorenApiService.getActorById(params.data.id)
+      this.scope.actorenApiService.getActorById(params.data.id)
         .then(data => {
           this.showSpinner = false;
           if (data) {
