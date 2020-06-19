@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var ActorWidget = (function () {
     function ActorWidget() {
-        var _this = this;
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
@@ -37,11 +36,6 @@ var ActorWidget = (function () {
         this.gridOptions.rowData = null;
         this.gridOptions.infiniteInitialRowCount = 1;
         this.gridOptions.cacheBlockSize = 50;
-        this.loadLanden();
-        this.suggest.gemeenten = { suggest: function (value) { return _this.loadGemeenten(value); } };
-        this.suggest.postcode = { suggest: function (value) { return _this.loadPostcodes(value); } };
-        this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
-        this.suggest.huisnummer = { suggest: function (value) { return _this.loadHuisnrs(value); } };
     }
     ActorWidget.prototype.activate = function (model) {
         this.scope = model;

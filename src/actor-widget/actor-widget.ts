@@ -37,11 +37,11 @@ export class ActorWidget {
     this.gridOptions.infiniteInitialRowCount = 1;
     this.gridOptions.cacheBlockSize = 50;
 
-    this.loadLanden();
-    this.suggest.gemeenten = { suggest: value => this.loadGemeenten(value) };
-    this.suggest.postcode = { suggest: value => this.loadPostcodes(value) };
-    this.suggest.straten = { suggest: value => this.loadStraten(value) };
-    this.suggest.huisnummer = { suggest: value => this.loadHuisnrs(value) };
+    // this.loadLanden();
+    // this.suggest.gemeenten = { suggest: value => this.loadGemeenten(value) };
+    // this.suggest.postcode = { suggest: value => this.loadPostcodes(value) };
+    // this.suggest.straten = { suggest: value => this.loadStraten(value) };
+    // this.suggest.huisnummer = { suggest: value => this.loadHuisnrs(value) };
   }
 
   public activate(model) {
