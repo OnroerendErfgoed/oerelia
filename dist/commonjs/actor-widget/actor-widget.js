@@ -79,7 +79,7 @@ var ActorWidget = (function () {
                         sort: sort
                     };
                 }
-                params.context.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
+                params.context.scope.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
                     .then(function (data) {
                     if (data) {
                         params.successCallback(data.content, data.lastRow);
