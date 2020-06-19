@@ -18,6 +18,220 @@
       </div>
     </div>
     <actor-detail if.bind="showActor" actor.bind="selectedActor"></actor-detail>
+    <div if.bind="showActor" class="row">
+      <!-- BACK BUTTON/LINK -->
+      <div class="large-12 column">
+        <div class="actor-actions">
+          <!-- Create actor -->
+          <div class="actor-action">
+            <a class="actor-detail-terug" click.delegate="toggleActorDetail(false)">
+              <i class="fa fa-arrow-left"></i>
+              Terug
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div if.bind="showTable" class="row">
+      <div class="large-11 small-10 columns" style="padding-right: 0;">
+        <input type="text" value.bind="zoekterm" placeholder="Zoek een actor" keydown.delegate="keydown($event)">
+      </div>
+      <div class="large-1 small-2 columns" style="padding-left: 0;">
+        <button class="button postfix" click.delegate="search()" title="Zoeken">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+  
+    <!-- ADVANCED SEARCH -->
+    <div if.bind="showFilters" class="row advanced-search-container">
+  
+      <div class="large-6 small-12 column">
+        <!-- Name -->
+        <div class="placeholder-container placeholder">
+          <label for="actor-widget-naam">Naam</label>
+          <input type="text" name="actor-widget-naam" value.bind="filters.naam" id="actor-widget-naam">
+        </div>
+  
+        <!-- Firstname -->
+        <div class="placeholder-container placeholder">
+          <label for="actor-widget-voornaam">Voornaam</label>
+          <input type="text" name="actor-widget-voornaam" value.bind="filters.voornaam" id="actor-widget-voornaam">
+        </div>
+  
+        <!-- E-mail -->
+        <div class="placeholder-container placeholder">
+          <label for="actor-widget-email">E-mail</label>
+          <input type="text" name="actor-widget-email" value.bind="filters.email" id="actor-widget-email">
+        </div>
+  
+        <!-- Telephone -->
+        <div class="placeholder-container placeholder">
+          <label for="actor-widget-telefoon">Telefoon</label>
+          <input type="text" name="actor-widget-telefoon" value.bind="filters.telefoon" id="actor-widget-telefoon">
+        </div>
+  
+        <!-- Actortype -->
+        <div class="placeholder-container">
+          <label for="actor-widget-actor-type">Actortype</label>
+          <select name="actor-widget-actor-type" value.bind="filters.type" id="actor-widget-actor-type">
+            <option selected model.bind="null">Alle types</option>
+            <option value="foaf:Person">persoon</option>
+            <option value="foaf:Organization">organisatie</option>
+            <option value="oe:PubliekPersoon">publieke persoon</option>
+            <option value="prov:SoftwareAgent">software agent</option>
+          </select>
+        </div>
+  
+      </div>
+  
+      <div class="large-6 small-12 column">
+        <!-- Country -->
+        <div class="placeholder-container">
+          <label for="actor-widget-land">Land</label>
+          <select name="actor-widget-land" value.bind="filters.land" id="actor-widget-land">
+            <option selected style="display:none"></option>
+            <option repeat.for="land of landen" value.bind="land.id" disabled.bind="land.disabled">
+              ${land.naam}
+            </option>
+          </select>
+        </div>
+      </div>
+  
+      <div class="large-4 small-9 column">
+        <!-- Gemeente -->
+        <div class="placeholder-container placeholder">
+          <label for="actor-widget-gemeente">Gemeente</label>
+          <autocomplete service.bind="suggest.gemeenten" value.bind="filters.gemeente" label="naam">
+            <template replace-part="suggestion">
+              ${suggestion.naam}
+            </template>
+          </autocomplete>
+        </div>
+      </div>
+  
+      <div class="large-2 small-3 column">
+        <!-- Postalcode -->
+        <div class="placeholder-container placeholder">
+          <label for="actor-widget-postcode">Postcode</label>
+          <autocomplete service.bind="suggest.postcode" value.bind="filters.postcode" label="naam">
+            <template replace-part="suggestion">
+              ${suggestion.naam}
+            </template>
+          </autocomplete>
+        </div>
+      </div>
+  
+      <div class="large-6 small-12 column">
+        <!-- Street -->
+        <div class="placeholder-container placeholder">
+          <label for="actor-widget-straat">Straat</label>
+          <autocomplete service.bind="suggest.straten" value.bind="filters.straat" label="naam">
+            <template replace-part="suggestion">
+              ${suggestion.naam}
+            </template>
+          </autocomplete>
+        </div>
+      </div>
+  
+      <div class="large-4 small-9 column">
+        <!-- Huisenumber -->
+        <div class="placeholder-container placeholder">
+          <label for="actor-widget-huisnummer">Huisnummer</label>
+          <autocomplete service.bind="suggest.huisnummer" value.bind="filters.huisnummer" label="naam">
+            <template replace-part="suggestion">
+              ${suggestion.naam}
+            </template>
+          </autocomplete>
+        </div>
+      </div>
+  
+      <div class="large-2 small-3 column">
+        <!-- Subadres -->
+        <div class="placeholder-container placeholder">
+          <label for="actor-widget-subadres">Postbus</label>
+          <input type="text" name="actor-widget-subadres" value.bind="filters.subadres" id="actor-widget-subadres">
+        </div>
+      </div>
+  
+      <div class="large-6 small-6 column">
+        <!-- Person ID -->
+        <div class="placeholder-container placeholder">
+          <label for="actor-widget-persid">Persoon ID</label>
+          <input type="text" name="actor-widget-persid" value.bind="filters.persid" id="actor-widget-persid">
+        </div>
+      </div>
+  
+      <div class="large-6 small-6 column">
+        <!-- RRN -->
+        <div class="placeholder-container placeholder">
+          <label for="actor-widget-rrn">Rijksregisternummer</label>
+          <input type="text" name="actor-widget-rrn" value.bind="filters.rrn" id="actor-widget-rrn">
+        </div>
+      </div>
+  
+      <div class="large-6 small-6 column">
+        <!-- KBO -->
+        <div class="placeholder-container placeholder">
+          <label for="actor-widget-kbo">KBO</label>
+          <input type="text" name="actor-widget-kbo" value.bind="filters.kbo" id="actor-widget-kbo">
+        </div>
+      </div>
+  
+    </div>
+
+    <!-- RESULT TABLE -->
+    <div class="row" >
+      <ag-grid-aurelia if.bind="showTable" #agGrid class="large-12 column ag-fresh" grid-options.bind="gridOptions" grid-ready.call="onGridReady()" grid-size-changed.call="onGridSizeChanged()" row-clicked.call="selectActor($event)">
+        <ag-grid-column header-name="&#35;" field="id" width.bind="50">
+          <ag-cell-template>
+            <i if.bind="!params.value" class="fa fa-spinner fa-pulse"></i>
+            <span if.bind="params.value">${params.value}</span>
+          </ag-cell-template>
+        </ag-grid-column>
+        <ag-grid-column header-name="Naam" field="naam" width.bind="200"></ag-grid-column>
+        <ag-grid-column header-name="Voornaam" field="voornaam" width.bind="200"></ag-grid-column>
+        <ag-grid-column header-name="Type" field="type.naam" width.bind="200"></ag-grid-column>
+        <ag-grid-column header-name="Acties" width.bind="55" suppress-sorting.bind="true" cell-class="acties-cell">
+          <ag-cell-template>
+            <div if.bind="params.data">
+              <i class="fa fa-eye" click.delegate="params.context.toggleActorDetail(true, params)" title="Details van de actor bekijken"></i>
+              <a class="fa fa-pencil" title="Actor editeren" href="${params.context.config.actorenUrl}/beheer#/actoren/${params.data.id}" target="_blank"></a>
+            </div>
+          </ag-cell-template>
+        </ag-grid-column>
+      </ag-grid-aurelia>
+    </div>
+    <!-- TABLE ACTIONS -->
+    <div class="row" if.bind="showTable">
+      <div class="large-12 column">
+        <div class="actor-actions">
+          <!-- Create actor -->
+          <div class="actor-action">
+            <a class="actor-toevoegen" target="_blank" href="${actorenApiService.config.actorenUrl}/beheer#/actoren/aanmaken">
+              Actor aanmaken
+              <i class="fa fa-plus-circle"></i>
+            </a>
+          </div>
+
+          <!-- Refresh -->
+          <div class="actor-action">
+            <a class="actor-refresh" click.delegate="refresh()">
+              Vernieuwen
+              <i class="fa fa-refresh"></i>
+            </a>
+          </div>
+
+          <!-- Delete filters -->
+          <div class="actor-action">
+            <a class="actor-delete" click.delegate="clearFilters()">
+              Verwijder filters
+              <i class="fa fa-filter"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </ux-dialog-body>
   <ux-dialog-footer>
     <!-- ADD / CANCEL -->
