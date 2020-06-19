@@ -24,7 +24,7 @@ export class ActorWidget {
   private scope: any;
   private filters: any = {};
 
-  constructor(controller: DialogController) {
+  constructor(private controller: DialogController) {
     this.gridOptions = {} as GridOptions;
     this.gridOptions.context = this;
     this.gridOptions.enableColResize = true;

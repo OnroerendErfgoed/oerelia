@@ -13,6 +13,7 @@ var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_dialog_1 = require("aurelia-dialog");
 var ActorWidget = (function () {
     function ActorWidget(controller) {
+        this.controller = controller;
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;

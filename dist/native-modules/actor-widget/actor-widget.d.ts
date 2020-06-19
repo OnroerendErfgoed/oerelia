@@ -1,6 +1,7 @@
 import { GridOptions } from 'ag-grid';
 import { DialogController } from 'aurelia-dialog';
 export declare class ActorWidget {
+    private controller;
     showSpinner: boolean;
     gridOptions: GridOptions;
     zoekterm: string;
