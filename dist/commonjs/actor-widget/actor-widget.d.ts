@@ -20,6 +20,7 @@ export declare class ActorWidget {
     private filters;
     constructor(crabService: CrabService);
     activate(model: any): void;
+    bind(): void;
     setRowData(): void;
     keydown(e: any): boolean;
     onGridReady(): void;

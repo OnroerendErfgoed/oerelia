@@ -1,6 +1,8 @@
 import { GridOptions } from 'ag-grid';
 import { CrabService } from 'services/crab.api-service';
+import { autoinject } from 'aurelia-framework';
 
+@autoinject
 export class ActorWidget { 
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;
@@ -21,6 +23,18 @@ export class ActorWidget {
   private filters: any = {};
 
   constructor(private crabService: CrabService) {
+    this.loadLanden();
+    this.suggest.gemeenten = { suggest: value => this.loadGemeenten(value) };
+    this.suggest.postcode = { suggest: value => this.loadPostcodes(value) };
+    this.suggest.straten = { suggest: value => this.loadStraten(value) };
+    this.suggest.huisnummer = { suggest: value => this.loadHuisnrs(value) };
+  }
+
+  public activate(model) {
+    this.scope = model;
+  }
+
+  public bind() {
     this.gridOptions = {} as GridOptions;
     this.gridOptions.context = this;
     this.gridOptions.enableColResize = true;
@@ -33,16 +47,6 @@ export class ActorWidget {
     this.gridOptions.rowData = null;
     this.gridOptions.infiniteInitialRowCount = 1;
     this.gridOptions.cacheBlockSize = 50;
-
-    this.loadLanden();
-    this.suggest.gemeenten = { suggest: value => this.loadGemeenten(value) };
-    this.suggest.postcode = { suggest: value => this.loadPostcodes(value) };
-    this.suggest.straten = { suggest: value => this.loadStraten(value) };
-    this.suggest.huisnummer = { suggest: value => this.loadHuisnrs(value) };
-  }
-
-  public activate(model) {
-    this.scope = model;
   }
 
   public setRowData() {

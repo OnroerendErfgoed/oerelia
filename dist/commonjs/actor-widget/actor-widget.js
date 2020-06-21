@@ -1,5 +1,16 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var crab_api_service_1 = require("services/crab.api-service");
+var aurelia_framework_1 = require("aurelia-framework");
 var ActorWidget = (function () {
     function ActorWidget(crabService) {
         var _this = this;
@@ -16,6 +27,16 @@ var ActorWidget = (function () {
         this.huisnrs = [];
         this.suggest = {};
         this.filters = {};
+        this.loadLanden();
+        this.suggest.gemeenten = { suggest: function (value) { return _this.loadGemeenten(value); } };
+        this.suggest.postcode = { suggest: function (value) { return _this.loadPostcodes(value); } };
+        this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
+        this.suggest.huisnummer = { suggest: function (value) { return _this.loadHuisnrs(value); } };
+    }
+    ActorWidget.prototype.activate = function (model) {
+        this.scope = model;
+    };
+    ActorWidget.prototype.bind = function () {
         this.gridOptions = {};
         this.gridOptions.context = this;
         this.gridOptions.enableColResize = true;
@@ -28,14 +49,6 @@ var ActorWidget = (function () {
         this.gridOptions.rowData = null;
         this.gridOptions.infiniteInitialRowCount = 1;
         this.gridOptions.cacheBlockSize = 50;
-        this.loadLanden();
-        this.suggest.gemeenten = { suggest: function (value) { return _this.loadGemeenten(value); } };
-        this.suggest.postcode = { suggest: function (value) { return _this.loadPostcodes(value); } };
-        this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
-        this.suggest.huisnummer = { suggest: function (value) { return _this.loadHuisnrs(value); } };
-    }
-    ActorWidget.prototype.activate = function (model) {
-        this.scope = model;
     };
     ActorWidget.prototype.setRowData = function () {
         var dataSource = {
@@ -243,6 +256,10 @@ var ActorWidget = (function () {
             }
         });
     };
+    ActorWidget = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [crab_api_service_1.CrabService])
+    ], ActorWidget);
     return ActorWidget;
 }());
 exports.ActorWidget = ActorWidget;
