@@ -4,7 +4,7 @@ import { DialogController } from 'aurelia-dialog';
 // import { ActorenApiService } from '../services/actoren.api-service';
 import {NewInstance} from 'aurelia-dependency-injection';
 
-export class ActorWidget {
+export class ActorWidget { 
   static inject = [NewInstance.of(DialogController)];
 
   public showSpinner: boolean = true;
@@ -25,7 +25,9 @@ export class ActorWidget {
   private scope: any;
   private filters: any = {};
 
-  constructor() {
+  constructor(private controller: DialogController) {
+    this.controller = controller;
+
     this.gridOptions = {} as GridOptions;
     this.gridOptions.context = this;
     this.gridOptions.enableColResize = true;

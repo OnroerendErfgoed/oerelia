@@ -2,6 +2,7 @@ import { GridOptions } from 'ag-grid';
 import { DialogController } from 'aurelia-dialog';
 import { NewInstance } from 'aurelia-dependency-injection';
 export declare class ActorWidget {
+    private controller;
     static inject: NewInstance<DialogController, DialogController, [import("aurelia-dialog").Renderer, import("aurelia-dialog").DialogSettings, (data?: any) => void, (reason: any) => void]>[];
     showSpinner: boolean;
     gridOptions: GridOptions;
@@ -19,7 +20,7 @@ export declare class ActorWidget {
     suggest: any;
     private scope;
     private filters;
-    constructor();
+    constructor(controller: DialogController);
     activate(model: any): void;
     setRowData(): void;
     keydown(e: any): boolean;
