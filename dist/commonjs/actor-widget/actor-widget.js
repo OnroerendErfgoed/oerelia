@@ -243,6 +243,7 @@ var ActorWidget = (function () {
             }
         });
     };
+    ActorWidget.inject = [aurelia_dialog_1.DialogController];
     ActorWidget = __decorate([
         aurelia_framework_1.inject(aurelia_dialog_1.DialogController),
         __metadata("design:paramtypes", [aurelia_dialog_1.DialogController])

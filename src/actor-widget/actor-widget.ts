@@ -5,7 +5,9 @@ import { DialogController } from 'aurelia-dialog';
 // import { ActorenApiService } from '../services/actoren.api-service';
 
 @inject(DialogController)
-export class ActorWidget {
+export class ActorWidget { 
+  static inject = [DialogController];
+
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;
   public zoekterm: string;

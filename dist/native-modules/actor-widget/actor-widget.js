@@ -241,6 +241,7 @@ var ActorWidget = (function () {
             }
         });
     };
+    ActorWidget.inject = [DialogController];
     ActorWidget = __decorate([
         inject(DialogController),
         __metadata("design:paramtypes", [DialogController])
