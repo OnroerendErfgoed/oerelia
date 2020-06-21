@@ -25,6 +25,8 @@ export class ActorWidget {
   private filters: any = {};
 
   constructor(private controller: DialogController) {
+    this.controller = controller;
+
     this.gridOptions = {} as GridOptions;
     this.gridOptions.context = this;
     this.gridOptions.enableColResize = true;
@@ -48,7 +50,7 @@ export class ActorWidget {
   public activate(model) {
     this.scope = model;
 
-    this.controller.ok({ 'scope': this.scope, 'actor': this.selectedActor });
+    // this.controller.ok({ 'scope': this.scope, 'actor': this.selectedActor });
     // this.actorenApiService.rolePrefix = this.scope.rolePrefix;
   }
 
