@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_dialog_1 = require("aurelia-dialog");
+var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
 var ActorWidget = (function () {
-    function ActorWidget(controller) {
-        this.controller = controller;
+    function ActorWidget() {
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
@@ -16,7 +16,6 @@ var ActorWidget = (function () {
         this.huisnrs = [];
         this.suggest = {};
         this.filters = {};
-        this.controller = controller;
         this.gridOptions = {};
         this.gridOptions.context = this;
         this.gridOptions.enableColResize = true;
@@ -233,7 +232,7 @@ var ActorWidget = (function () {
             }
         });
     };
-    ActorWidget.inject = [aurelia_dialog_1.DialogController];
+    ActorWidget.inject = [aurelia_dependency_injection_1.NewInstance.of(aurelia_dialog_1.DialogController)];
     return ActorWidget;
 }());
 exports.ActorWidget = ActorWidget;

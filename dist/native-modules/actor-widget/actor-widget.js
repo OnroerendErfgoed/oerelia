@@ -1,7 +1,7 @@
 import { DialogController } from 'aurelia-dialog';
+import { NewInstance } from 'aurelia-dependency-injection';
 var ActorWidget = (function () {
-    function ActorWidget(controller) {
-        this.controller = controller;
+    function ActorWidget() {
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
@@ -14,7 +14,6 @@ var ActorWidget = (function () {
         this.huisnrs = [];
         this.suggest = {};
         this.filters = {};
-        this.controller = controller;
         this.gridOptions = {};
         this.gridOptions.context = this;
         this.gridOptions.enableColResize = true;
@@ -231,7 +230,7 @@ var ActorWidget = (function () {
             }
         });
     };
-    ActorWidget.inject = [DialogController];
+    ActorWidget.inject = [NewInstance.of(DialogController)];
     return ActorWidget;
 }());
 export { ActorWidget };

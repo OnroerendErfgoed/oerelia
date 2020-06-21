@@ -2,9 +2,10 @@ import { GridOptions } from 'ag-grid';
 // import { CrabService } from '../services/crab.api-service';
 import { DialogController } from 'aurelia-dialog';
 // import { ActorenApiService } from '../services/actoren.api-service';
+import {NewInstance} from 'aurelia-dependency-injection';
 
-export class ActorWidget { 
-  static inject = [DialogController];
+export class ActorWidget {
+  static inject = [NewInstance.of(DialogController)];
 
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;
@@ -24,9 +25,7 @@ export class ActorWidget {
   private scope: any;
   private filters: any = {};
 
-  constructor(private controller: DialogController) {
-    this.controller = controller;
-
+  constructor() {
     this.gridOptions = {} as GridOptions;
     this.gridOptions.context = this;
     this.gridOptions.enableColResize = true;
