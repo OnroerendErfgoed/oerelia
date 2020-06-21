@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { CrabService } from 'services/crab.api-service';
+import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
 var ActorWidget = (function () {
     function ActorWidget(crabService) {

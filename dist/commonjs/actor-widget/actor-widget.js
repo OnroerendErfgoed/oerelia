@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var crab_api_service_1 = require("services/crab.api-service");
+var crab_api_service_1 = require("../services/crab.api-service");
 var aurelia_framework_1 = require("aurelia-framework");
 var ActorWidget = (function () {
     function ActorWidget(crabService) {
