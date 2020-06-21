@@ -1,12 +1,6 @@
 import { GridOptions } from 'ag-grid';
-// import { CrabService } from '../services/crab.api-service';
-import { DialogController } from 'aurelia-dialog';
-// import { ActorenApiService } from '../services/actoren.api-service';
-import {NewInstance, Container} from 'aurelia-dependency-injection';
 
 export class ActorWidget { 
-  static inject = [NewInstance.of(DialogController), Container];
-
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;
   public zoekterm: string;
@@ -25,9 +19,7 @@ export class ActorWidget {
   private scope: any;
   private filters: any = {};
 
-  constructor(private controller) {
-    this.controller = controller;
-
+  constructor() {
     this.gridOptions = {} as GridOptions;
     this.gridOptions.context = this;
     this.gridOptions.enableColResize = true;
@@ -50,9 +42,6 @@ export class ActorWidget {
 
   public activate(model) {
     this.scope = model;
-
-    // this.controller.ok({ 'scope': this.scope, 'actor': this.selectedActor });
-    // this.actorenApiService.rolePrefix = this.scope.rolePrefix;
   }
 
   public setRowData() {
@@ -179,8 +168,12 @@ export class ActorWidget {
     }
   }
 
-  public save() {
+  public toevoegen() {
     this.scope.dialogService.controllers[0].ok({ 'scope': this.scope, 'actor': this.selectedActor });
+  }
+
+  public annuleren() {
+    this.scope.dialogService.controllers[0].cancel();
   }
 
   private loadLanden() {

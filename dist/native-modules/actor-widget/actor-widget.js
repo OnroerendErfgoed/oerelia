@@ -1,8 +1,5 @@
-import { DialogController } from 'aurelia-dialog';
-import { NewInstance, Container } from 'aurelia-dependency-injection';
 var ActorWidget = (function () {
-    function ActorWidget(controller) {
-        this.controller = controller;
+    function ActorWidget() {
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
@@ -15,7 +12,6 @@ var ActorWidget = (function () {
         this.huisnrs = [];
         this.suggest = {};
         this.filters = {};
-        this.controller = controller;
         this.gridOptions = {};
         this.gridOptions.context = this;
         this.gridOptions.enableColResize = true;
@@ -146,8 +142,11 @@ var ActorWidget = (function () {
             this.showActor = activate;
         }
     };
-    ActorWidget.prototype.save = function () {
+    ActorWidget.prototype.toevoegen = function () {
         this.scope.dialogService.controllers[0].ok({ 'scope': this.scope, 'actor': this.selectedActor });
+    };
+    ActorWidget.prototype.annuleren = function () {
+        this.scope.dialogService.controllers[0].cancel();
     };
     ActorWidget.prototype.loadLanden = function () {
         var _this = this;
@@ -235,7 +234,6 @@ var ActorWidget = (function () {
             }
         });
     };
-    ActorWidget.inject = [NewInstance.of(DialogController), Container];
     return ActorWidget;
 }());
 export { ActorWidget };

@@ -246,9 +246,9 @@
             click.delegate="advancedSearch()">Zoeken</button>
           <button class="button tiny large-offset-1 large-5 small-5 column" if.bind="showTable || showActor"
             disabled.bind="!selectedActor"
-            click.delegate="save()">Toevoegen</button>
+            click.delegate="toevoegen()">Toevoegen</button>
           <button class="button tiny large-offset-1 large-5 small-offset-1 small-5 large-end column"
-            click.delegate="controller.cancel()">Annuleren</button>
+            click.delegate="annuleren()">Annuleren</button>
         </div>
       </div>
     </ux-dialog-footer>
