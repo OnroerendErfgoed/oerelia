@@ -200,7 +200,7 @@
                 <i class="fa fa-eye" click.delegate="params.context.toggleActorDetail(true, params)"
                   title="Details van de actor bekijken"></i>
                 <a class="fa fa-pencil" title="Actor editeren"
-                  href="${params.context.config.actorenUrl}/beheer#/actoren/${params.data.id}" target="_blank"></a>
+                  href="${params.context.scope.actorenApiService.config.actorenUrl}/beheer#/actoren/${params.data.id}" target="_blank"></a>
               </div>
             </ag-cell-template>
           </ag-grid-column>
@@ -213,7 +213,7 @@
             <!-- Create actor -->
             <div class="actor-action">
               <a class="actor-toevoegen" target="_blank"
-                href="${actorenApiService.config.actorenUrl}/beheer#/actoren/aanmaken">
+                href="${scope.actorenApiService.config.actorenUrl}/beheer#/actoren/aanmaken">
                 Actor aanmaken
                 <i class="fa fa-plus-circle"></i>
               </a>
