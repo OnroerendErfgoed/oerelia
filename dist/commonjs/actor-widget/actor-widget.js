@@ -148,6 +148,9 @@ var ActorWidget = (function () {
             this.showActor = activate;
         }
     };
+    ActorWidget.prototype.save = function () {
+        this.controller.ok({ 'scope': this.scope, 'actor': this.selectedActor });
+    };
     ActorWidget.prototype.loadLanden = function () {
         var _this = this;
         this.scope.crabService.getLanden().then(function (landen) {
@@ -234,7 +237,7 @@ var ActorWidget = (function () {
             }
         });
     };
-    ActorWidget.inject = [aurelia_dependency_injection_1.NewInstance.of(aurelia_dialog_1.DialogController)];
+    ActorWidget.inject = [aurelia_dependency_injection_1.NewInstance.of(aurelia_dialog_1.DialogController), aurelia_dependency_injection_1.Container];
     return ActorWidget;
 }());
 exports.ActorWidget = ActorWidget;

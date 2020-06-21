@@ -1,5 +1,5 @@
 import { DialogController } from 'aurelia-dialog';
-import { NewInstance } from 'aurelia-dependency-injection';
+import { NewInstance, Container } from 'aurelia-dependency-injection';
 var ActorWidget = (function () {
     function ActorWidget(controller) {
         this.controller = controller;
@@ -146,6 +146,9 @@ var ActorWidget = (function () {
             this.showActor = activate;
         }
     };
+    ActorWidget.prototype.save = function () {
+        this.controller.ok({ 'scope': this.scope, 'actor': this.selectedActor });
+    };
     ActorWidget.prototype.loadLanden = function () {
         var _this = this;
         this.scope.crabService.getLanden().then(function (landen) {
@@ -232,7 +235,7 @@ var ActorWidget = (function () {
             }
         });
     };
-    ActorWidget.inject = [NewInstance.of(DialogController)];
+    ActorWidget.inject = [NewInstance.of(DialogController), Container];
     return ActorWidget;
 }());
 export { ActorWidget };
