@@ -1,4 +1,5 @@
 import { GridOptions } from 'ag-grid';
+import { CrabService } from 'services/crab.api-service';
 
 export class ActorWidget { 
   public showSpinner: boolean = true;
@@ -19,7 +20,7 @@ export class ActorWidget {
   private scope: any;
   private filters: any = {};
 
-  constructor() {
+  constructor(private crabService: CrabService) {
     this.gridOptions = {} as GridOptions;
     this.gridOptions.context = this;
     this.gridOptions.enableColResize = true;
@@ -33,11 +34,11 @@ export class ActorWidget {
     this.gridOptions.infiniteInitialRowCount = 1;
     this.gridOptions.cacheBlockSize = 50;
 
-    // this.loadLanden();
-    // this.suggest.gemeenten = { suggest: value => this.loadGemeenten(value) };
-    // this.suggest.postcode = { suggest: value => this.loadPostcodes(value) };
-    // this.suggest.straten = { suggest: value => this.loadStraten(value) };
-    // this.suggest.huisnummer = { suggest: value => this.loadHuisnrs(value) };
+    this.loadLanden();
+    this.suggest.gemeenten = { suggest: value => this.loadGemeenten(value) };
+    this.suggest.postcode = { suggest: value => this.loadPostcodes(value) };
+    this.suggest.straten = { suggest: value => this.loadStraten(value) };
+    this.suggest.huisnummer = { suggest: value => this.loadHuisnrs(value) };
   }
 
   public activate(model) {
@@ -177,7 +178,7 @@ export class ActorWidget {
   }
 
   private loadLanden() {
-    this.scope.crabService.getLanden().then(landen => {
+    this.crabService.getLanden().then(landen => {
       if (landen) {
         const firstOptions = [
           { id: 'BE', naam: 'België' },
@@ -203,7 +204,7 @@ export class ActorWidget {
 
   private loadGemeenten(value: string) {
     return new Promise(resolve => {
-      this.scope.crabService.getGemeenten().then(gemeenten => {
+      this.crabService.getGemeenten().then(gemeenten => {
         if (gemeenten) {
           const result = gemeenten.filter(obj => obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1);
           resolve(result);
@@ -216,7 +217,7 @@ export class ActorWidget {
     const gemeente = this.filters.gemeente ? this.filters.gemeente.id : undefined;
     return new Promise((resolve) => {
       if (gemeente) {
-        this.scope.crabService.getPostcodes(gemeente).then(postcodes => {
+        this.crabService.getPostcodes(gemeente).then(postcodes => {
           postcodes.forEach(postcode => {
             postcode.naam = String(postcode.id);
           });
@@ -233,7 +234,7 @@ export class ActorWidget {
     const gemeente = this.filters.gemeente ? this.filters.gemeente.id : undefined;
     return new Promise((resolve) => {
       if (gemeente) {
-        this.scope.crabService.getStraten(gemeente).then(straten => {
+        this.crabService.getStraten(gemeente).then(straten => {
           const result = straten.filter(obj => obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1);
           this.filters.straat_naam = undefined;
           resolve(result);
@@ -248,7 +249,7 @@ export class ActorWidget {
     const straat = this.filters.straat ? this.filters.straat.id : undefined;
     return new Promise((resolve) => {
       if (straat) {
-        this.scope.crabService.getHuisnrs(straat).then(huisnrs => {
+        this.crabService.getHuisnrs(straat).then(huisnrs => {
           const result = huisnrs.filter(obj => obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1);
           this.filters.huisnummer_label = undefined;
           resolve(result);

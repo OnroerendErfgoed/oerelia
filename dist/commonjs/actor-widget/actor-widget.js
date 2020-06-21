@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ActorWidget = (function () {
-    function ActorWidget() {
+    function ActorWidget(crabService) {
+        var _this = this;
+        this.crabService = crabService;
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
@@ -26,6 +28,11 @@ var ActorWidget = (function () {
         this.gridOptions.rowData = null;
         this.gridOptions.infiniteInitialRowCount = 1;
         this.gridOptions.cacheBlockSize = 50;
+        this.loadLanden();
+        this.suggest.gemeenten = { suggest: function (value) { return _this.loadGemeenten(value); } };
+        this.suggest.postcode = { suggest: function (value) { return _this.loadPostcodes(value); } };
+        this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
+        this.suggest.huisnummer = { suggest: function (value) { return _this.loadHuisnrs(value); } };
     }
     ActorWidget.prototype.activate = function (model) {
         this.scope = model;
@@ -152,7 +159,7 @@ var ActorWidget = (function () {
     };
     ActorWidget.prototype.loadLanden = function () {
         var _this = this;
-        this.scope.crabService.getLanden().then(function (landen) {
+        this.crabService.getLanden().then(function (landen) {
             if (landen) {
                 var firstOptions = [
                     { id: 'BE', naam: 'België' },
@@ -178,7 +185,7 @@ var ActorWidget = (function () {
     ActorWidget.prototype.loadGemeenten = function (value) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this.scope.crabService.getGemeenten().then(function (gemeenten) {
+            _this.crabService.getGemeenten().then(function (gemeenten) {
                 if (gemeenten) {
                     var result = gemeenten.filter(function (obj) { return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1; });
                     resolve(result);
@@ -191,7 +198,7 @@ var ActorWidget = (function () {
         var gemeente = this.filters.gemeente ? this.filters.gemeente.id : undefined;
         return new Promise(function (resolve) {
             if (gemeente) {
-                _this.scope.crabService.getPostcodes(gemeente).then(function (postcodes) {
+                _this.crabService.getPostcodes(gemeente).then(function (postcodes) {
                     postcodes.forEach(function (postcode) {
                         postcode.naam = String(postcode.id);
                     });
@@ -209,7 +216,7 @@ var ActorWidget = (function () {
         var gemeente = this.filters.gemeente ? this.filters.gemeente.id : undefined;
         return new Promise(function (resolve) {
             if (gemeente) {
-                _this.scope.crabService.getStraten(gemeente).then(function (straten) {
+                _this.crabService.getStraten(gemeente).then(function (straten) {
                     var result = straten.filter(function (obj) { return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1; });
                     _this.filters.straat_naam = undefined;
                     resolve(result);
@@ -225,7 +232,7 @@ var ActorWidget = (function () {
         var straat = this.filters.straat ? this.filters.straat.id : undefined;
         return new Promise(function (resolve) {
             if (straat) {
-                _this.scope.crabService.getHuisnrs(straat).then(function (huisnrs) {
+                _this.crabService.getHuisnrs(straat).then(function (huisnrs) {
                     var result = huisnrs.filter(function (obj) { return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1; });
                     _this.filters.huisnummer_label = undefined;
                     resolve(result);
