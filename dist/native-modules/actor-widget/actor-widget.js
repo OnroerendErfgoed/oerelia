@@ -11,7 +11,6 @@ import { autoinject } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 var ActorWidget = (function () {
     function ActorWidget(controller) {
-        this.controller = controller;
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
@@ -24,6 +23,7 @@ var ActorWidget = (function () {
         this.huisnrs = [];
         this.suggest = {};
         this.filters = {};
+        this.controller = controller;
         this.gridOptions = {};
         this.gridOptions.context = this;
         this.gridOptions.enableColResize = true;
