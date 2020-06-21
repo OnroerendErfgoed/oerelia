@@ -1,10 +1,8 @@
 import { GridOptions } from 'ag-grid';
 // import { CrabService } from '../services/crab.api-service';
-import { inject } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 // import { ActorenApiService } from '../services/actoren.api-service';
 
-@inject(DialogController)
 export class ActorWidget { 
   static inject = [DialogController];
 
