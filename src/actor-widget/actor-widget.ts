@@ -180,7 +180,7 @@ export class ActorWidget {
   }
 
   public save() {
-    this.controller.ok({ 'scope': this.scope, 'actor': this.selectedActor })
+    this.scope.dialogService.controllers[0].ok({ 'scope': this.scope, 'actor': this.selectedActor });
   }
 
   private loadLanden() {

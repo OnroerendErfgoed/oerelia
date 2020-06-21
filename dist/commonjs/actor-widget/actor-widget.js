@@ -149,7 +149,7 @@ var ActorWidget = (function () {
         }
     };
     ActorWidget.prototype.save = function () {
-        this.controller.ok({ 'scope': this.scope, 'actor': this.selectedActor });
+        this.scope.dialogService.controllers[0].ok({ 'scope': this.scope, 'actor': this.selectedActor });
     };
     ActorWidget.prototype.loadLanden = function () {
         var _this = this;
