@@ -244,7 +244,7 @@ var ActorWidget = (function () {
         });
     };
     ActorWidget = __decorate([
-        aurelia_framework_1.autoinject,
+        aurelia_framework_1.inject(aurelia_dialog_1.DialogController),
         __metadata("design:paramtypes", [aurelia_dialog_1.DialogController])
     ], ActorWidget);
     return ActorWidget;

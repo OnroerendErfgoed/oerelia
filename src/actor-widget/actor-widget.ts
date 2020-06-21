@@ -1,10 +1,10 @@
 import { GridOptions } from 'ag-grid';
 // import { CrabService } from '../services/crab.api-service';
-import { autoinject } from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 // import { ActorenApiService } from '../services/actoren.api-service';
 
-@autoinject
+@inject(DialogController)
 export class ActorWidget {
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;

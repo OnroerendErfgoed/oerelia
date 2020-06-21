@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { autoinject } from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 var ActorWidget = (function () {
     function ActorWidget(controller) {
@@ -242,7 +242,7 @@ var ActorWidget = (function () {
         });
     };
     ActorWidget = __decorate([
-        autoinject,
+        inject(DialogController),
         __metadata("design:paramtypes", [DialogController])
     ], ActorWidget);
     return ActorWidget;
