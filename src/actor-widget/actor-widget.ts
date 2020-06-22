@@ -5,7 +5,7 @@ import { bindable } from 'aurelia-templating';
 
 @autoinject
 export class ActorWidget {
-  @bindable actorenApiService: any;
+  @bindable public actorenApiService: any;
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;
   public zoekterm: string;
