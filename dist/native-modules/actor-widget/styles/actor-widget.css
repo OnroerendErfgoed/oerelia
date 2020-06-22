@@ -73,7 +73,8 @@
     height: 300px; }
   .actor-widget .actor-actions {
     float: right;
-    margin-top: 10px; }
+    margin-top: 10px;
+    margin-bottom: 2rem; }
     .actor-widget .actor-actions .actor-action {
       float: left;
       margin-left: 15px; }
