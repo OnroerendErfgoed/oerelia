@@ -6,6 +6,8 @@ import { bindable } from 'aurelia-templating';
 @autoinject
 export class ActorWidget {
   @bindable public actorenApiService: any;
+  @bindable public scope: any;
+
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;
   public zoekterm: string;
@@ -21,7 +23,6 @@ export class ActorWidget {
   public huisnrs: any[] = [];
   public suggest: any = {};
 
-  private scope: any;
   private filters: any = {};
 
   constructor(private crabService: CrabService) {
@@ -30,10 +31,6 @@ export class ActorWidget {
     this.suggest.postcode = { suggest: value => this.loadPostcodes(value) };
     this.suggest.straten = { suggest: value => this.loadStraten(value) };
     this.suggest.huisnummer = { suggest: value => this.loadHuisnrs(value) };
-  }
-
-  public activate(model) {
-    this.scope = model;
   }
 
   public bind() {

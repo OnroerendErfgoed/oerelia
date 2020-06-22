@@ -32,9 +32,6 @@ var ActorWidget = (function () {
         this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
         this.suggest.huisnummer = { suggest: function (value) { return _this.loadHuisnrs(value); } };
     }
-    ActorWidget.prototype.activate = function (model) {
-        this.scope = model;
-    };
     ActorWidget.prototype.bind = function () {
         this.gridOptions = {};
         this.gridOptions.context = this;
@@ -259,6 +256,10 @@ var ActorWidget = (function () {
         bindable,
         __metadata("design:type", Object)
     ], ActorWidget.prototype, "actorenApiService", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], ActorWidget.prototype, "scope", void 0);
     ActorWidget = __decorate([
         autoinject,
         __metadata("design:paramtypes", [CrabService])

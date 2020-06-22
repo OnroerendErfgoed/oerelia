@@ -3,6 +3,7 @@ import { CrabService } from '../services/crab.api-service';
 export declare class ActorWidget {
     private crabService;
     actorenApiService: any;
+    scope: any;
     showSpinner: boolean;
     gridOptions: GridOptions;
     zoekterm: string;
@@ -17,10 +18,8 @@ export declare class ActorWidget {
     straten: any[];
     huisnrs: any[];
     suggest: any;
-    private scope;
     private filters;
     constructor(crabService: CrabService);
-    activate(model: any): void;
     bind(): void;
     setRowData(): void;
     keydown(e: any): boolean;
