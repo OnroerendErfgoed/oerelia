@@ -1,9 +1,11 @@
 import { GridOptions } from 'ag-grid';
 import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
+import { bindable } from 'aurelia-templating';
 
 @autoinject
-export class ActorWidget { 
+export class ActorWidget {
+  @bindable actorenApiService: any;
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;
   public zoekterm: string;
@@ -89,7 +91,7 @@ export class ActorWidget {
           };
         }
 
-        params.context.scope.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
+        params.context.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
           .then(data => {
             if (data) {
               params.successCallback(data.content, data.lastRow);
@@ -158,7 +160,7 @@ export class ActorWidget {
   public toggleActorDetail(activate: boolean, params) {
     if (activate) {
       this.showSpinner = true;
-      this.scope.actorenApiService.getActorById(params.data.id)
+      this.actorenApiService.getActorById(params.data.id)
         .then(data => {
           this.showSpinner = false;
           if (data) {

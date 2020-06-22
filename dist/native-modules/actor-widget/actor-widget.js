@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
+import { bindable } from 'aurelia-templating';
 var ActorWidget = (function () {
     function ActorWidget(crabService) {
         var _this = this;
@@ -87,7 +88,7 @@ var ActorWidget = (function () {
                         sort: sort
                     };
                 }
-                params.context.scope.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
+                params.context.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
                     .then(function (data) {
                     if (data) {
                         params.successCallback(data.content, data.lastRow);
@@ -147,7 +148,7 @@ var ActorWidget = (function () {
         var _this = this;
         if (activate) {
             this.showSpinner = true;
-            this.scope.actorenApiService.getActorById(params.data.id)
+            this.actorenApiService.getActorById(params.data.id)
                 .then(function (data) {
                 _this.showSpinner = false;
                 if (data) {
@@ -254,6 +255,10 @@ var ActorWidget = (function () {
             }
         });
     };
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], ActorWidget.prototype, "actorenApiService", void 0);
     ActorWidget = __decorate([
         autoinject,
         __metadata("design:paramtypes", [CrabService])

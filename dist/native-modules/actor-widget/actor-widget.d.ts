@@ -2,6 +2,7 @@ import { GridOptions } from 'ag-grid';
 import { CrabService } from '../services/crab.api-service';
 export declare class ActorWidget {
     private crabService;
+    actorenApiService: any;
     showSpinner: boolean;
     gridOptions: GridOptions;
     zoekterm: string;
