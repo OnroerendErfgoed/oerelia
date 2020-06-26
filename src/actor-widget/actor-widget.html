@@ -184,11 +184,11 @@
       <div class="row">
         <ag-grid-aurelia 
           if.bind="showTable"
-          class="ag-theme-balham" 
+          class="large-12 column ag-theme-balham" 
           grid-size-changed.call="onGridSizeChanged()"
           column-resized.call="gridOptions.api.resetRowHeights()" 
           grid-options.bind="gridOptions"
-          grid-ready.call="onGebruikerGridReady()"
+          grid-ready.call="onGridReady()"
           row-clicked.call="selectActor($event)">
       </ag-grid-aurelia>
       </div>
