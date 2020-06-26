@@ -206,7 +206,6 @@ export class ActorWidget {
       edit.setAttribute('title', 'Actor editeren');
       edit.href = `${params.context.actorenApiService.config.actorUrl}/beheer#/actoren/${params.data.id}`;
       edit.target = '_blank';
-      edit.addEventListener('click', () => params.context.openTab(true, params.data));
       container.appendChild(edit);
 
       return container;
