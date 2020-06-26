@@ -48,14 +48,14 @@ export class ActorWidget {
     this.gridOptions.cacheBlockSize = 50;
     this.gridOptions.overlayLoadingTemplate = '<i class="fa fa-pulse fa-spinner"></i>';
     this.gridOptions.columnDefs = [
-    { headerName: '&#35;', field: 'id', width: 50 },
-    { headerName: 'Naam', field: 'naam', width: 200 },
-    { headerName: 'Voornaam', field: 'voornaam', width: 200 },
-    { headerName: 'Type', field: 'type.naam', width: 200 },
-    { headerName: 'Acties', width: 55, cellClass: 'acties-cell', hide: !this.scope.params.data, 
-      cellRenderer: this.actiesCellRenderer, maxWidth: 75, minWidth: 75, suppressSorting: true
-    }
-  ]
+      { headerName: '#;', field: 'id', sort: 'desc', width: 50 },
+      { headerName: 'Naam', field: 'naam', width: 200 },
+      { headerName: 'Voornaam', field: 'voornaam', width: 200 },
+      { headerName: 'Type', field: 'type.naam', width: 200 },
+      { headerName: 'Acties', width: 55, cellClass: 'acties-cell',
+        cellRenderer: this.actiesCellRenderer, suppressSorting: true
+      }
+    ];
   }
 
   public setRowData() {
