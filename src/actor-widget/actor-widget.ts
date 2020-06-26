@@ -1,4 +1,4 @@
-import { GridOptions } from 'ag-grid';
+import { GridOptions } from 'ag-grid-community';
 import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
 import { bindable } from 'aurelia-templating';

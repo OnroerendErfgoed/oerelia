@@ -362,10 +362,15 @@ after@0.8.2:
   resolved "https://registry.yarnpkg.com/after/-/after-0.8.2.tgz#fedb394f9f0e02aa9768e702bda23b505fae7e1f"
   integrity sha1-/ts5T58OAqqXaOcCvaI7UF+ufh8=
 
-ag-grid@17.0.0:
-  version "17.0.0"
-  resolved "https://registry.yarnpkg.com/ag-grid/-/ag-grid-17.0.0.tgz#b8c82268c1785e04425a3149ca53cc526376029b"
-  integrity sha1-uMgiaMF4XgRCWjFJylPMUmN2Aps=
+ag-grid-aurelia@^21.0.1:
+  version "21.0.1"
+  resolved "https://registry.yarnpkg.com/ag-grid-aurelia/-/ag-grid-aurelia-21.0.1.tgz#a03b2145b6d37975b243db7e4727106481a008be"
+  integrity sha512-pak8Vim+wSaOjt3zd2Vn2feS9pEN/N5ax00bDLdqVoJa/oThlYhDl/dXNGFag9SaepRw7G9GSXJ7f9X3t+jw3g==
+
+ag-grid-community@^23.2.1:
+  version "23.2.1"
+  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-23.2.1.tgz#0cf2beb7ba2fcf66a4865e45faabdbea173d59b6"
+  integrity sha512-WHfDV7mFsd6eQJ5yOu26nnpnW7Gd02zcp9LHHfKQky8lfgTEo382qcja7MibHzB2f5vOCBdQnOPsWrbBNKRzhQ==
 
 aggregate-error@^3.0.0:
   version "3.0.1"
