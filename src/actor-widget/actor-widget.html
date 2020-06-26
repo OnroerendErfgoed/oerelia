@@ -182,19 +182,19 @@
 
       <!-- RESULT TABLE -->
       <div class="row">
-        <ag-grid-aurelia if.bind="showTable" #agGrid class="large-12 column ag-fresh" grid-options.bind="gridOptions"
+        <!-- <ag-grid-aurelia if.bind="showTable" #agGrid class="large-12 column ag-fresh" grid-options.bind="gridOptions"
           grid-ready.call="onGridReady()" grid-size-changed.call="onGridSizeChanged()"
-          row-clicked.call="selectActor($event)">
-          <ag-grid-column header-name="&#35;" field="id" width.bind="50">
+          row-clicked.call="selectActor($event)"> -->
+          <!-- <ag-grid-column header-name="&#35;" field="id" width.bind="50">
             <ag-cell-template>
               <i if.bind="!params.value" class="fa fa-spinner fa-pulse"></i>
               <span if.bind="params.value">${params.value}</span>
             </ag-cell-template>
-          </ag-grid-column>
-          <ag-grid-column header-name="Naam" field="naam" width.bind="200"></ag-grid-column>
-          <ag-grid-column header-name="Voornaam" field="voornaam" width.bind="200"></ag-grid-column>
-          <ag-grid-column header-name="Type" field="type.naam" width.bind="200"></ag-grid-column>
-          <ag-grid-column header-name="Acties" width.bind="55" suppress-sorting.bind="true" cell-class="acties-cell">
+          </ag-grid-column> -->
+          <!-- <ag-grid-column header-name="Naam" field="naam" width.bind="200"></ag-grid-column> -->
+          <!-- <ag-grid-column header-name="Voornaam" field="voornaam" width.bind="200"></ag-grid-column> -->
+          <!-- <ag-grid-column header-name="Type" field="type.naam" width.bind="200"></ag-grid-column> -->
+          <!-- <ag-grid-column header-name="Acties" width.bind="55" suppress-sorting.bind="true" cell-class="acties-cell">
             <ag-cell-template>
               <div if.bind="params.data">
                 <i class="fa fa-eye" click.delegate="params.context.toggleActorDetail(true, params)"
@@ -203,8 +203,17 @@
                   href="${params.context.scope.actorenApiService.config.actorenUrl}/beheer#/actoren/${params.data.id}" target="_blank"></a>
               </div>
             </ag-cell-template>
-          </ag-grid-column>
-        </ag-grid-aurelia>
+          </ag-grid-column> -->
+        <!-- </ag-grid-aurelia> -->
+        <ag-grid-aurelia 
+          if.bind="showTable"
+          class="ag-theme-balham" 
+          grid-size-changed.call="onGridSizeChanged()"
+          column-resized.call="gridOptions.api.resetRowHeights()" 
+          grid-options.bind="gridOptions"
+          grid-ready.call="onGebruikerGridReady()"
+          row-clicked.call="selectActor($event)">
+      </ag-grid-aurelia>
       </div>
       <!-- TABLE ACTIONS -->
       <div class="row" if.bind="showTable">

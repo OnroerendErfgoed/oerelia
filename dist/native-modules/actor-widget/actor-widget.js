@@ -45,6 +45,16 @@ var ActorWidget = (function () {
         this.gridOptions.rowData = null;
         this.gridOptions.infiniteInitialRowCount = 1;
         this.gridOptions.cacheBlockSize = 50;
+        this.gridOptions.overlayLoadingTemplate = '<i class="fa fa-pulse fa-spinner"></i>';
+        this.gridOptions.columnDefs = [
+            { headerName: '&#35;', field: 'id', width: 50 },
+            { headerName: 'Naam', field: 'naam', width: 200 },
+            { headerName: 'Voornaam', field: 'voornaam', width: 200 },
+            { headerName: 'Type', field: 'type.naam', width: 200 },
+            { headerName: 'Acties', width: 55, cellClass: 'acties-cell', hide: !this.scope.params.data,
+                cellRenderer: this.actiesCellRenderer, maxWidth: 75, minWidth: 75, suppressSorting: true
+            }
+        ];
     };
     ActorWidget.prototype.setRowData = function () {
         var dataSource = {
@@ -165,6 +175,24 @@ var ActorWidget = (function () {
     };
     ActorWidget.prototype.annuleren = function () {
         this.scope.dialogService.controllers[0].cancel();
+    };
+    ActorWidget.prototype.actiesCellRenderer = function (params) {
+        if (params.data) {
+            var container = document.createElement('div');
+            var open_1 = document.createElement('i');
+            open_1.className = 'fa fa-eye';
+            open_1.setAttribute('title', 'Details van de actor bekijken');
+            open_1.addEventListener('click', function () { return params.context.toggleActorDetail(true, params); });
+            container.appendChild(open_1);
+            var edit = document.createElement('a');
+            edit.className = 'fa fa-pencil';
+            edit.setAttribute('href', params.context.scope.actorenApiService.config.actorenUrl + '/beheer#/actoren/' + params.data.id);
+            edit.setAttribute('title', 'Actor editeren');
+            edit.setAttribute('target', '_blank');
+            edit.addEventListener('click', function () { return params.context.openTab(true, params.data); });
+            container.appendChild(edit);
+            return container;
+        }
     };
     ActorWidget.prototype.loadLanden = function () {
         var _this = this;

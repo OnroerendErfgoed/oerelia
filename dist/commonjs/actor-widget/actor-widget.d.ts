@@ -34,6 +34,7 @@ export declare class ActorWidget {
     toggleActorDetail(activate: boolean, params: any): void;
     toevoegen(): void;
     annuleren(): void;
+    private actiesCellRenderer;
     private loadLanden;
     private loadGemeenten;
     private loadPostcodes;
