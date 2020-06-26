@@ -183,14 +183,14 @@ var ActorWidget = (function () {
             var container = document.createElement('div');
             var open_1 = document.createElement('i');
             open_1.className = 'fa fa-eye';
-            open_1.setAttribute('title', 'Details van de actor bekijken');
+            open_1.title = 'Details van de actor bekijken';
             open_1.addEventListener('click', function () { return params.context.toggleActorDetail(true, params); });
             container.appendChild(open_1);
             var edit = document.createElement('a');
             edit.className = 'fa fa-pencil';
-            edit.setAttribute('href', params.context.scope.actorenApiService.config.actorenUrl + '/beheer#/actoren/' + params.data.id);
             edit.setAttribute('title', 'Actor editeren');
-            edit.setAttribute('target', '_blank');
+            edit.href = params.context.config.actorUrl + "/beheer#/actoren/" + params.data.id;
+            edit.target = '_blank';
             edit.addEventListener('click', function () { return params.context.openTab(true, params.data); });
             container.appendChild(edit);
             return container;

@@ -196,16 +196,16 @@ export class ActorWidget {
       // open icon
       const open = document.createElement('i');
       open.className = 'fa fa-eye';
-      open.setAttribute('title', 'Details van de actor bekijken');
+      open.title = 'Details van de actor bekijken';
       open.addEventListener('click', () => params.context.toggleActorDetail(true, params));
       container.appendChild(open);
 
       // edit icon
       const edit = document.createElement('a');
       edit.className = 'fa fa-pencil';
-      edit.setAttribute('href', params.context.scope.actorenApiService.config.actorenUrl + '/beheer#/actoren/' +  params.data.id);
       edit.setAttribute('title', 'Actor editeren');
-      edit.setAttribute('target', '_blank');
+      edit.href = `${params.context.config.actorUrl}/beheer#/actoren/${params.data.id}`;
+      edit.target = '_blank';
       edit.addEventListener('click', () => params.context.openTab(true, params.data));
       container.appendChild(edit);
 
