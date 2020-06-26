@@ -47,7 +47,7 @@ var ActorWidget = (function () {
         this.gridOptions.cacheBlockSize = 50;
         this.gridOptions.overlayLoadingTemplate = '<i class="fa fa-pulse fa-spinner"></i>';
         this.gridOptions.columnDefs = [
-            { headerName: '#;', field: 'id', sort: 'desc', width: 50 },
+            { headerName: '#', field: 'id', sort: 'desc', width: 50 },
             { headerName: 'Naam', field: 'naam', width: 200 },
             { headerName: 'Voornaam', field: 'voornaam', width: 200 },
             { headerName: 'Type', field: 'type.naam', width: 200 },
@@ -187,7 +187,7 @@ var ActorWidget = (function () {
             var edit = document.createElement('a');
             edit.className = 'fa fa-pencil';
             edit.setAttribute('title', 'Actor editeren');
-            edit.href = params.context.config.actorUrl + "/beheer#/actoren/" + params.data.id;
+            edit.href = params.context.actorenApiService.config.actorUrl + "/beheer#/actoren/" + params.data.id;
             edit.target = '_blank';
             edit.addEventListener('click', function () { return params.context.openTab(true, params.data); });
             container.appendChild(edit);
