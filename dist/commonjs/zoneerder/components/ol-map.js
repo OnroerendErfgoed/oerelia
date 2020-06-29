@@ -258,7 +258,8 @@ var OlMap = (function () {
                 multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
             }
         });
-        this.zone = new contour_1.Contour(this.formatGeoJson(multiPolygon));
+        var coordinates = this.formatGeoJson(multiPolygon).coordinates;
+        this.zone.coordinates.push(coordinates[coordinates.length - 1]);
     };
     OlMap.prototype.resetSelect = function () {
         this.selectPerceel = false;

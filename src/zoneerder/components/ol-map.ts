@@ -288,7 +288,10 @@ export class OlMap {
         multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
       }
     });
-    this.zone = new Contour(this.formatGeoJson(multiPolygon));
+
+    const coordinates = this.formatGeoJson(multiPolygon).coordinates;
+    this.zone.coordinates.push(coordinates[coordinates.length - 1]);
+    // this.zone = new Contour(this.formatGeoJson(multiPolygon));
   }
 
   private resetSelect() {
