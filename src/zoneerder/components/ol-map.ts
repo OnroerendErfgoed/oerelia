@@ -240,7 +240,8 @@ export class OlMap {
       const multiPolygon = new ol.geom.MultiPolygon(coordinates);
       this.zone = new Contour(this.formatGeoJson(multiPolygon));
     } else {
-      this.zone = null;
+      this.zone.coordinates.splice(0, 1);
+      // this.zone = null;
     }
     this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
   }
@@ -291,7 +292,6 @@ export class OlMap {
 
     const coordinates = this.formatGeoJson(multiPolygon).coordinates;
     this.zone.coordinates.push(coordinates[coordinates.length - 1]);
-    // this.zone = new Contour(this.formatGeoJson(multiPolygon));
   }
 
   private resetSelect() {

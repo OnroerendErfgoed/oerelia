@@ -214,7 +214,7 @@ var OlMap = (function () {
             this.zone = new contour_1.Contour(this.formatGeoJson(multiPolygon));
         }
         else {
-            this.zone = null;
+            this.zone.coordinates.splice(0, 1);
         }
         this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
     };
