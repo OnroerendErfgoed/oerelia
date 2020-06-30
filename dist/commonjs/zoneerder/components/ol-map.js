@@ -627,7 +627,7 @@ var OlMap = (function () {
             hash[this.zone.coordinates[i]] = i;
         }
         coordinates.forEach(function (coordinate) {
-            if (hash.hasOwnProperty(coordinate)) {
+            if (!hash.hasOwnProperty(coordinate)) {
                 _this.zone.coordinates.splice(hash[coordinate], 1);
             }
         });

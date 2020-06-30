@@ -723,7 +723,7 @@ export class OlMap {
     }
 
     coordinates.forEach(coordinate => {
-      if (hash.hasOwnProperty(coordinate)) {
+      if (!hash.hasOwnProperty(coordinate)) {
         this.zone.coordinates.splice(hash[coordinate], 1);
       }
     });
