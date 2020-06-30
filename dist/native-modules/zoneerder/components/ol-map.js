@@ -624,9 +624,15 @@ var OlMap = (function () {
         for (var i = 0; i < this.zone.coordinates.length; i += 1) {
             hash[this.zone.coordinates[i]] = i;
         }
+        var indexes = [];
         coordinates.forEach(function (coordinate) {
-            if (!hash.hasOwnProperty(coordinate)) {
-                _this.zone.coordinates.splice(hash[coordinate], 1);
+            if (hash.hasOwnProperty(coordinate)) {
+                indexes.push(hash[coordinate]);
+            }
+        });
+        this.zone.coordinates.forEach(function (coordinate, index) {
+            if (indexes.indexOf(index) <= -1) {
+                _this.zone.coordinates.splice(index, 1);
             }
         });
     };

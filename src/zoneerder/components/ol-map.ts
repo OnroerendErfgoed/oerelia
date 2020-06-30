@@ -722,9 +722,16 @@ export class OlMap {
       hash[this.zone.coordinates[i]] = i;
     }
 
+    let indexes = [];
     coordinates.forEach(coordinate => {
-      if (!hash.hasOwnProperty(coordinate)) {
-        this.zone.coordinates.splice(hash[coordinate], 1);
+      if (hash.hasOwnProperty(coordinate)) {
+        indexes.push(hash[coordinate]);
+      }
+    });
+
+    this.zone.coordinates.forEach((coordinate, index) => {
+      if (indexes.indexOf(index) <= -1) {
+        this.zone.coordinates.splice(index, 1);
       }
     });
   }
