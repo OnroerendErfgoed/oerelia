@@ -237,8 +237,11 @@ export class OlMap {
       }
     });
     if (coordinates.length > 0) {
-      const multiPolygon = new ol.geom.MultiPolygon(coordinates);
-      this.zone = new Contour(this.formatGeoJson(multiPolygon));
+      this.zone.coordinates = [];
+      coordinates.forEach(coordinate => this.zone.coordinates.push(coordinate));
+      // this.zone.coordinates.push(coordinates)
+      // const multiPolygon = new ol.geom.MultiPolygon(coordinates);
+      // this.zone = new Contour(this.formatGeoJson(multiPolygon));
     } else {
       this.zone.coordinates.splice(0, 1);
       // this.zone = null;

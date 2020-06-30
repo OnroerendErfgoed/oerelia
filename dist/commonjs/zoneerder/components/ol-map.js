@@ -210,8 +210,8 @@ var OlMap = (function () {
             }
         });
         if (coordinates.length > 0) {
-            var multiPolygon = new ol.geom.MultiPolygon(coordinates);
-            this.zone = new contour_1.Contour(this.formatGeoJson(multiPolygon));
+            this.zone.coordinates = [];
+            coordinates.forEach(function (coordinate) { return _this.zone.coordinates.push(coordinate); });
         }
         else {
             this.zone.coordinates.splice(0, 1);
