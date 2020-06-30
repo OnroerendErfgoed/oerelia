@@ -208,13 +208,18 @@ var OlMap = (function () {
             }
         });
         if (coordinates.length > 0) {
-            this.zone.coordinates.splice(0, 1);
-            var multiPolygon = new ol.geom.MultiPolygon(coordinates);
-            this.zone = new Contour(this.formatGeoJson(multiPolygon));
+            var hash_1 = {};
+            for (var i = 0; i < this.zone.coordinates.length; i += 1) {
+                hash_1[this.zone.coordinates[i]] = i;
+            }
+            coordinates.forEach(function (coordinate) {
+                if (hash_1.hasOwnProperty(coordinate)) {
+                    console.log(hash_1[coordinate]);
+                }
+            });
         }
         else {
             this.zone.coordinates.splice(0, 1);
-            this.zone = null;
         }
         this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
     };
