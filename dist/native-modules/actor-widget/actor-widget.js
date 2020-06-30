@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
+import { bindable } from 'aurelia-templating';
 var ActorWidget = (function () {
     function ActorWidget(crabService) {
         var _this = this;
@@ -94,7 +95,7 @@ var ActorWidget = (function () {
                         sort: sort
                     };
                 }
-                params.context.scope.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
+                params.context.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
                     .then(function (data) {
                     if (data) {
                         params.successCallback(data.content, data.lastRow);
@@ -151,10 +152,29 @@ var ActorWidget = (function () {
         this.selectedActor = params.data;
     };
     ActorWidget.prototype.toggleActorDetail = function (activate, params) {
+        var _this = this;
+        if (activate) {
+            this.showSpinner = true;
+            this.actorenApiService.getActorById(params.data.id)
+                .then(function (data) {
+                _this.showSpinner = false;
+                if (data) {
+                    _this.selectedActor = data;
+                    _this.showTable = !activate;
+                    _this.showActor = activate;
+                }
+            });
+        }
+        else {
+            this.showTable = !activate;
+            this.showActor = activate;
+        }
     };
     ActorWidget.prototype.toevoegen = function () {
+        this.scope.dialogService.controllers[0].ok({ 'scope': this.scope, 'actor': this.selectedActor });
     };
     ActorWidget.prototype.annuleren = function () {
+        this.scope.dialogService.controllers[0].cancel();
     };
     ActorWidget.prototype.actiesCellRenderer = function (params) {
         if (params.data) {
@@ -167,7 +187,7 @@ var ActorWidget = (function () {
             var edit = document.createElement('a');
             edit.className = 'fa fa-pencil';
             edit.setAttribute('title', 'Actor editeren');
-            edit.href = params.context.scope.actorenApiService.config.actorUrl + "/beheer#/actoren/" + params.data.id;
+            edit.href = params.context.actorenApiService.config.actorUrl + "/beheer#/actoren/" + params.data.id;
             edit.target = '_blank';
             container.appendChild(edit);
             return container;
@@ -259,6 +279,14 @@ var ActorWidget = (function () {
             }
         });
     };
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], ActorWidget.prototype, "scope", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], ActorWidget.prototype, "actorenApiService", void 0);
     ActorWidget = __decorate([
         autoinject,
         __metadata("design:paramtypes", [CrabService])

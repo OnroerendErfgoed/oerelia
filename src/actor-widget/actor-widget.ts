@@ -5,8 +5,8 @@ import { bindable } from 'aurelia-templating';
 
 @autoinject
 export class ActorWidget {
-  // @bindable public actorenApiService: any;
-  // @bindable public scope: any;
+  @bindable public scope: any;
+  @bindable public actorenApiService: any;
 
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;
@@ -98,7 +98,7 @@ export class ActorWidget {
           };
         }
 
-        params.context.scope.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
+        params.context.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
           .then(data => {
             if (data) {
               params.successCallback(data.content, data.lastRow);
@@ -165,29 +165,29 @@ export class ActorWidget {
   }
 
   public toggleActorDetail(activate: boolean, params) {
-    // if (activate) {
-    //   this.showSpinner = true;
-    //   this.actorenApiService.getActorById(params.data.id)
-    //     .then(data => {
-    //       this.showSpinner = false;
-    //       if (data) {
-    //         this.selectedActor = data;
-    //         this.showTable = !activate;
-    //         this.showActor = activate;
-    //       }
-    //     });
-    // } else {
-    //   this.showTable = !activate;
-    //   this.showActor = activate;
-    // }
+    if (activate) {
+      this.showSpinner = true;
+      this.actorenApiService.getActorById(params.data.id)
+        .then(data => {
+          this.showSpinner = false;
+          if (data) {
+            this.selectedActor = data;
+            this.showTable = !activate;
+            this.showActor = activate;
+          }
+        });
+    } else {
+      this.showTable = !activate;
+      this.showActor = activate;
+    }
   }
 
   public toevoegen() {
-    // this.scope.dialogService.controllers[0].ok({ 'scope': this.scope, 'actor': this.selectedActor });
+    this.scope.dialogService.controllers[0].ok({ 'scope': this.scope, 'actor': this.selectedActor });
   }
 
   public annuleren() {
-    // this.scope.dialogService.controllers[0].cancel();
+    this.scope.dialogService.controllers[0].cancel();
   }
 
   private actiesCellRenderer(params) {
@@ -204,7 +204,7 @@ export class ActorWidget {
       const edit = document.createElement('a');
       edit.className = 'fa fa-pencil';
       edit.setAttribute('title', 'Actor editeren');
-      edit.href = `${params.context.scope.actorenApiService.config.actorUrl}/beheer#/actoren/${params.data.id}`;
+      edit.href = `${params.context.actorenApiService.config.actorUrl}/beheer#/actoren/${params.data.id}`;
       edit.target = '_blank';
       container.appendChild(edit);
 
