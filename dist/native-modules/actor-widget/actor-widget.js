@@ -175,7 +175,7 @@ var ActorWidget = (function () {
         this.dialogController.ok({ 'scope': this.scope, 'actor': this.selectedActor });
     };
     ActorWidget.prototype.annuleren = function () {
-        this.scope.dialogService.controllers[0].cancel();
+        this.dialogController.cancel();
     };
     ActorWidget.prototype.actiesCellRenderer = function (params) {
         if (params.data) {

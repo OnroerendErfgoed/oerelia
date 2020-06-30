@@ -186,11 +186,10 @@ export class ActorWidget {
 
   public toevoegen() {
     this.dialogController.ok({ 'scope': this.scope, 'actor': this.selectedActor })
-    // this.scope.dialogService.controllers[0].ok({ 'scope': this.scope, 'actor': this.selectedActor });
   }
 
   public annuleren() {
-    this.scope.dialogService.controllers[0].cancel();
+    this.dialogController.cancel();
   }
 
   private actiesCellRenderer(params) {
