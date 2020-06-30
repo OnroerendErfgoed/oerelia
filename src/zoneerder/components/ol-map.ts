@@ -237,20 +237,7 @@ export class OlMap {
       }
     });
     if (coordinates.length > 0) {
-
-      let hash = {};
-      for (var i = 0; i < this.zone.coordinates.length; i += 1) {
-        hash[this.zone.coordinates[i]] = i;
-      }
-
-      coordinates.forEach(coordinate => {
-        if (hash.hasOwnProperty(coordinate)) {
-          console.log(hash[coordinate]);
-        }
-      });
-
-      // const multiPolygon = new ol.geom.MultiPolygon(coordinates);
-      // this.zone = new Contour(this.formatGeoJson(multiPolygon));
+      this.deleteCoordinateFromZone(coordinates);
     } else {
       this.zone.coordinates.splice(0, 1);
       // this.zone = null;
@@ -726,6 +713,19 @@ export class OlMap {
     this.crabService.getInfoByCapakey(capakey).then((result: CapaKeyInfoResponse) => {
       const kadastraalPerceel = new KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, capakey, result.percid);
       this.kadastralePercelen.push(kadastraalPerceel);
+    });
+  }
+
+  private deleteCoordinateFromZone(coordinates) {
+    let hash = {};
+    for (var i = 0; i < this.zone.coordinates.length; i += 1) {
+      hash[this.zone.coordinates[i]] = i;
+    }
+
+    coordinates.forEach(coordinate => {
+      if (hash.hasOwnProperty(coordinate)) {
+        this.zone.coordinates.splice(hash[coordinate], 1);
+      }
     });
   }
 }

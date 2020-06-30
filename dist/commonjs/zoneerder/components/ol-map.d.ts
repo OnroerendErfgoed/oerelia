@@ -69,4 +69,5 @@ export declare class OlMap {
     private transformLabert72ToWebMercator;
     private getFeaturesByCoordinates;
     private createKadastralePercelenByCapaKey;
+    private deleteCoordinateFromZone;
 }

@@ -210,15 +210,7 @@ var OlMap = (function () {
             }
         });
         if (coordinates.length > 0) {
-            var hash_1 = {};
-            for (var i = 0; i < this.zone.coordinates.length; i += 1) {
-                hash_1[this.zone.coordinates[i]] = i;
-            }
-            coordinates.forEach(function (coordinate) {
-                if (hash_1.hasOwnProperty(coordinate)) {
-                    console.log(hash_1[coordinate]);
-                }
-            });
+            this.deleteCoordinateFromZone(coordinates);
         }
         else {
             this.zone.coordinates.splice(0, 1);
@@ -626,6 +618,18 @@ var OlMap = (function () {
         this.crabService.getInfoByCapakey(capakey).then(function (result) {
             var kadastraalPerceel = new kadastraalPerceel_1.KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, capakey, result.percid);
             _this.kadastralePercelen.push(kadastraalPerceel);
+        });
+    };
+    OlMap.prototype.deleteCoordinateFromZone = function (coordinates) {
+        var _this = this;
+        var hash = {};
+        for (var i = 0; i < this.zone.coordinates.length; i += 1) {
+            hash[this.zone.coordinates[i]] = i;
+        }
+        coordinates.forEach(function (coordinate) {
+            if (hash.hasOwnProperty(coordinate)) {
+                _this.zone.coordinates.splice(hash[coordinate], 1);
+            }
         });
     };
     __decorate([
