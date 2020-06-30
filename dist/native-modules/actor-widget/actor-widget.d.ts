@@ -1,9 +1,11 @@
 import { GridOptions } from 'ag-grid-community';
 import { CrabService } from '../services/crab.api-service';
+import { DialogController } from 'aurelia-dialog';
 export declare class ActorWidget {
     private crabService;
     scope: any;
     actorenApiService: any;
+    dialogController: DialogController;
     showSpinner: boolean;
     gridOptions: GridOptions;
     zoekterm: string;

@@ -2,11 +2,13 @@ import { GridOptions } from 'ag-grid-community';
 import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
 import { bindable } from 'aurelia-templating';
+import { DialogController } from 'aurelia-dialog';
 
 @autoinject
 export class ActorWidget {
   @bindable public scope: any;
   @bindable public actorenApiService: any;
+  @bindable public dialogController: DialogController;
 
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;
@@ -183,7 +185,8 @@ export class ActorWidget {
   }
 
   public toevoegen() {
-    this.scope.dialogService.controllers[0].ok({ 'scope': this.scope, 'actor': this.selectedActor });
+    this.dialogController.ok({ 'scope': this.scope, 'actor': this.selectedActor })
+    // this.scope.dialogService.controllers[0].ok({ 'scope': this.scope, 'actor': this.selectedActor });
   }
 
   public annuleren() {

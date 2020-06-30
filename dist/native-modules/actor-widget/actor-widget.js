@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { CrabService } from '../services/crab.api-service';
 import { autoinject } from 'aurelia-framework';
 import { bindable } from 'aurelia-templating';
+import { DialogController } from 'aurelia-dialog';
 var ActorWidget = (function () {
     function ActorWidget(crabService) {
         var _this = this;
@@ -171,7 +172,7 @@ var ActorWidget = (function () {
         }
     };
     ActorWidget.prototype.toevoegen = function () {
-        this.scope.dialogService.controllers[0].ok({ 'scope': this.scope, 'actor': this.selectedActor });
+        this.dialogController.ok({ 'scope': this.scope, 'actor': this.selectedActor });
     };
     ActorWidget.prototype.annuleren = function () {
         this.scope.dialogService.controllers[0].cancel();
@@ -287,6 +288,10 @@ var ActorWidget = (function () {
         bindable,
         __metadata("design:type", Object)
     ], ActorWidget.prototype, "actorenApiService", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", DialogController)
+    ], ActorWidget.prototype, "dialogController", void 0);
     ActorWidget = __decorate([
         autoinject,
         __metadata("design:paramtypes", [CrabService])

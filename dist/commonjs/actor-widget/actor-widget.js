@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var crab_api_service_1 = require("../services/crab.api-service");
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_templating_1 = require("aurelia-templating");
+var aurelia_dialog_1 = require("aurelia-dialog");
 var ActorWidget = (function () {
     function ActorWidget(crabService) {
         var _this = this;
@@ -173,7 +174,7 @@ var ActorWidget = (function () {
         }
     };
     ActorWidget.prototype.toevoegen = function () {
-        this.scope.dialogService.controllers[0].ok({ 'scope': this.scope, 'actor': this.selectedActor });
+        this.dialogController.ok({ 'scope': this.scope, 'actor': this.selectedActor });
     };
     ActorWidget.prototype.annuleren = function () {
         this.scope.dialogService.controllers[0].cancel();
@@ -289,6 +290,10 @@ var ActorWidget = (function () {
         aurelia_templating_1.bindable,
         __metadata("design:type", Object)
     ], ActorWidget.prototype, "actorenApiService", void 0);
+    __decorate([
+        aurelia_templating_1.bindable,
+        __metadata("design:type", aurelia_dialog_1.DialogController)
+    ], ActorWidget.prototype, "dialogController", void 0);
     ActorWidget = __decorate([
         aurelia_framework_1.autoinject,
         __metadata("design:paramtypes", [crab_api_service_1.CrabService])
