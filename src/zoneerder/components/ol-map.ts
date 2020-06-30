@@ -237,14 +237,23 @@ export class OlMap {
       }
     });
     if (coordinates.length > 0) {
+      // coordinates zijn de juiste waarden
 
-      let difference = this.zone.coordinates.filter(c => !coordinates.includes(c));
+      // coordinates.forEach(coordinate => {
+      //   this.zone.coordinates.indexOf(coordinate);
+      // })
 
-      difference.forEach(dif => {
-        this.zone.coordinates.splice(this.zone.coordinates.indexOf(dif), 1)
-      });
+      // this.zone.coordinates.indexOf(coordinates);
 
-      // coordinates.forEach(coordinate => this.zone.coordinates.push(coordinate));
+
+      // let difference = this.zone.coordinates.filter(c => !coordinates.includes(c));
+
+      // difference.forEach(dif => {
+      //   this.zone.coordinates.splice(this.zone.coordinates.indexOf(dif), 1)
+      // });
+
+      this.zone.coordinates = [];
+      coordinates.forEach(coordinate => this.zone.coordinates.push(coordinate));
       // this.zone.coordinates.push(coordinates)
       // const multiPolygon = new ol.geom.MultiPolygon(coordinates);
       // this.zone = new Contour(this.formatGeoJson(multiPolygon));

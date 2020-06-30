@@ -208,10 +208,8 @@ var OlMap = (function () {
             }
         });
         if (coordinates.length > 0) {
-            var difference = this.zone.coordinates.filter(function (c) { return !coordinates.includes(c); });
-            difference.forEach(function (dif) {
-                _this.zone.coordinates.splice(_this.zone.coordinates.indexOf(dif), 1);
-            });
+            this.zone.coordinates = [];
+            coordinates.forEach(function (coordinate) { return _this.zone.coordinates.push(coordinate); });
             console.log(this.zone.coordinates);
         }
         else {
