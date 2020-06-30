@@ -237,11 +237,18 @@ export class OlMap {
       }
     });
     if (coordinates.length > 0) {
-      this.zone.coordinates = [];
-      coordinates.forEach(coordinate => this.zone.coordinates.push(coordinate));
+
+      let difference = this.zone.coordinates.filter(c => !coordinates.includes(c));
+
+      difference.forEach(dif => {
+        this.zone.coordinates.splice(this.zone.coordinates.indexOf(dif), 1)
+      });
+
+      // coordinates.forEach(coordinate => this.zone.coordinates.push(coordinate));
       // this.zone.coordinates.push(coordinates)
       // const multiPolygon = new ol.geom.MultiPolygon(coordinates);
       // this.zone = new Contour(this.formatGeoJson(multiPolygon));
+      console.log(this.zone.coordinates);
     } else {
       this.zone.coordinates.splice(0, 1);
       // this.zone = null;
