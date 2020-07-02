@@ -38,10 +38,13 @@ export class ActorWidget {
   public bind() {
     this.gridOptions = {} as GridOptions;
     this.gridOptions.context = this;
-    this.gridOptions.enableColResize = true;
     this.gridOptions.suppressMovableColumns = true;
     this.gridOptions.suppressClickEdit = true;
-    this.gridOptions.enableServerSideSorting = true;
+    this.gridOptions.defaultColDef = {
+      editable: false,
+      sortable: true,
+      resizable: true
+    };
     this.gridOptions.headerHeight = 30;
     this.gridOptions.rowHeight = 25;
     this.gridOptions.rowModelType = 'infinite';
@@ -55,7 +58,7 @@ export class ActorWidget {
       { headerName: 'Voornaam', field: 'voornaam', width: 200 },
       { headerName: 'Type', field: 'type.naam', width: 200 },
       { headerName: 'Acties', width: 55, cellClass: 'acties-cell',
-        cellRenderer: this.actiesCellRenderer, suppressSorting: true
+        cellRenderer: this.actiesCellRenderer, sortable: false
       }
     ];
   }
@@ -206,7 +209,7 @@ export class ActorWidget {
       const edit = document.createElement('a');
       edit.className = 'fa fa-pencil';
       edit.setAttribute('title', 'Actor editeren');
-      edit.href = `${params.context.actorenApiService.config.actorUrl}/beheer#/actoren/${params.data.id}`;
+      edit.href = `${params.context.actorenApiService.config.actorenUrl}/beheer#/actoren/${params.data.id}`;
       edit.target = '_blank';
       container.appendChild(edit);
 
