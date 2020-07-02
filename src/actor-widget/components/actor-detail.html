@@ -5,19 +5,19 @@
       <!-- Name -->
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-naam">Naam</label>
-        <input type="text" name="actor-widget-detail-naam" value.bind="actor.naam" id="actor-widget-detail-naam" disabled.bind="editMode">
+        <input type="text" name="actor-widget-detail-naam" value.bind="actor.naam" id="actor-widget-detail-naam" disabled>
       </div>
 
       <!-- Firstname -->
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-voornaam">Voornaam</label>
-        <input type="text" name="actor-widget-detail-voornaam" value.bind="actor.voornaam" id="actor-widget-detail-voornaam" disabled.bind="editMode">
+        <input type="text" name="actor-widget-detail-voornaam" value.bind="actor.voornaam" id="actor-widget-detail-voornaam" disabled>
       </div>
 
       <!-- E-mail -->
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-email">E-mail</label>
-        <input type="text" name="actor-widget-detail-email" value.bind="actor.emails[0].email" id="actor-widget-detail-email" disabled.bind="editMode">
+        <input type="text" name="actor-widget-detail-email" value.bind="actor.emails[0].email" id="actor-widget-detail-email" disabled>
       </div>
       <ul if.bind="actor.emails.length > 0" class="nodisk list-selected-items" repeat.for="mail of actor.emails">
         <li>
@@ -29,7 +29,7 @@
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-telefoon">Telefoon</label>
         <input type="text" name="actor-widget-detail-telefoon" value.bind="actor.telefoons[0].volledig_nummer" id="actor-widget-detail-telefoon"
-          disabled.bind="editMode">
+          disabled>
       </div>
       <ul if.bind="actor.telefoons.length > 0" class="nodisk list-selected-items" repeat.for="telefoon of actor.telefoons">
         <li>
@@ -40,7 +40,7 @@
       <!-- Actortype -->
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-actor-type">Actortype</label>
-        <select name="actor-widget-detail-actor-type" value.bind="actor.type" id="actor-widget-detail-actor-type" disabled.bind="editMode">
+        <select name="actor-widget-detail-actor-type" value.bind="actor.type" id="actor-widget-detail-actor-type" disabled>
           <option selected>${actor.type.naam}</option>
         </select>
       </div>
@@ -51,7 +51,7 @@
       <!-- Country -->
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-land">Land</label>
-        <select name="actor-widget-detail-land" id="actor-widget-detail-land" disabled.bind="editMode">
+        <select name="actor-widget-detail-land" id="actor-widget-detail-land" disabled>
           <option selected>${actor.adressen[0].land_omschrijving}</option>
         </select>
       </div>
@@ -62,7 +62,7 @@
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-gemeente">Gemeente</label>
         <input type="text" name="actor-widget-detail-gemeente" value.bind="actor.adressen[0].gemeente" id="actor-widget-detail-gemeente"
-          disabled.bind="editMode">
+          disabled>
 
       </div>
     </div>
@@ -72,7 +72,7 @@
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-postcode">Postcode</label>
         <input type="text" name="actor-widget-detail-postcode" value.bind="actor.adressen[0].postcode" id="actor-widget-detail-postcode"
-          disabled.bind="editMode">
+          disabled>
       </div>
     </div>
 
@@ -81,7 +81,7 @@
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-straat">Straat</label>
         <input type="text" name="actor-widget-detail-straat" value.bind="actor.adressen[0].straat" id="actor-widget-detail-straat"
-          disabled.bind="editMode">
+          disabled>
       </div>
     </div>
 
@@ -90,7 +90,7 @@
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-huisnummer">Huisnummer</label>
         <input type="text" name="actor-widget-detail-huisnummer" value.bind="actor.adressen[0].huisnummer" id="actor-widget-detail-huisnummer"
-          disabled.bind="editMode">
+          disabled>
       </div>
     </div>
 
@@ -99,7 +99,7 @@
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-subadres">Postbus</label>
         <input type="text" name="actor-widget-detail-subadres" value.bind="actor.adressen[0].subadres" id="actor-widget-detail-subadres"
-          disabled.bind="editMode">
+          disabled>
       </div>
     </div>
     <div class="large-6 small-6 column">
@@ -114,7 +114,7 @@
       <!-- URL -->
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-url">URL</label>
-        <select name="actor-widget-detail-url" id="actor-widget-detail-url" disabled.bind="editMode">
+        <select name="actor-widget-detail-url" id="actor-widget-detail-url" disabled>
           <option selected>${actor.urls[0].type.naam}</option>
         </select>
       </div>

@@ -11,7 +11,6 @@ import { autoinject, bindable, customElement } from 'aurelia-framework';
 var ActorDetail = (function () {
     function ActorDetail(element) {
         this.element = element;
-        this.editMode = true;
     }
     ActorDetail.prototype.activate = function () {
         console.debug('actor-widget::details::activate');
