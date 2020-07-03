@@ -19,7 +19,6 @@ var buttonConfig_1 = require("../models/buttonConfig");
 var geozoekdienst_api_service_1 = require("../../services/geozoekdienst.api-service");
 var ol_layerswitcher_1 = require("./ol-layerswitcher");
 var crab_api_service_1 = require("../../services/crab.api-service");
-var kadastraalPerceel_1 = require("../../zoneerder/models/kadastraalPerceel");
 var OlMap = (function () {
     function OlMap(element, crabService) {
         this.element = element;
@@ -117,18 +116,12 @@ var OlMap = (function () {
         this.toggleDrawZone(true, type);
         if (type === 'Polygon') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
-                var coordinates = evt.feature.getGeometry().getFirstCoordinate();
-                _this.getFeaturesByCoordinates(coordinates)
-                    .then(function (features) { return features.forEach(function (feature) { return _this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY')); }); });
                 evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });
         }
         else if (type === 'Circle') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
-                var coordinates = evt.feature.getGeometry().getFirstCoordinate();
-                _this.getFeaturesByCoordinates(coordinates)
-                    .then(function (features) { return features.forEach(function (feature) { return _this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY')); }); });
                 evt.feature.setProperties({ name: "Cirkel " + _this.circleIndex++ });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });
@@ -167,7 +160,6 @@ var OlMap = (function () {
     };
     OlMap.prototype.drawPerceel = function (olFeature) {
         if (olFeature) {
-            this.createKadastralePercelenByCapaKey(olFeature.get('CAPAKEY'));
             var name_1 = "Perceel " + olFeature.get('CAPAKEY');
             if (this.geometryObjectList.indexOf(name_1) === -1) {
                 olFeature.set('name', name_1);
@@ -606,20 +598,6 @@ var OlMap = (function () {
         var transFormedPoint = point.transform('EPSG:31370', 'EPSG:3857');
         return transFormedPoint.getCoordinates();
     };
-    OlMap.prototype.getFeaturesByCoordinates = function (coordinates) {
-        var _this = this;
-        return this.apiService.searchPerceel(coordinates, this.mapProjection.getCode())
-            .then(function (result) {
-            _this.geoJsonFormatter.readFeatures(result);
-        });
-    };
-    OlMap.prototype.createKadastralePercelenByCapaKey = function (capakey) {
-        var _this = this;
-        this.crabService.getInfoByCapakey(capakey).then(function (result) {
-            var kadastraalPerceel = new kadastraalPerceel_1.KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, capakey, result.percid);
-            _this.kadastralePercelen.push(kadastraalPerceel);
-        });
-    };
     OlMap.prototype.deleteCoordinateFromZone = function (coordinates) {
         var _this = this;
         var hash = {};
@@ -646,10 +624,6 @@ var OlMap = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
         __metadata("design:type", contour_1.Contour)
     ], OlMap.prototype, "zone", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
-        __metadata("design:type", Array)
-    ], OlMap.prototype, "kadastralePercelen", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Array)

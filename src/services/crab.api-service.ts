@@ -4,7 +4,6 @@ import { Gemeente, Huisnummer, Straat } from './models/locatie';
 import { GeolocationResponse } from './models/geolocationresponse';
 import { RestMessage } from '../utilities/message/restMessage';
 import { MessageParser } from '../utilities/message/messageParser';
-import { CapaKeyInfoResponse } from './models/capaKeyInfoResponse';
 
 declare const oeAppConfig: any;
 
@@ -166,17 +165,6 @@ export class CrabService {
           return (response.content as GeolocationResponse);
         } else {
           return null;
-        }
-      });
-  }
-
-  public getInfoByCapakey(capakey: string) {
-    return this.crabGet('capakey/percelen/' + capakey)
-      .then(response => {
-        if(response.isSuccess) {
-          return (response.content as CapaKeyInfoResponse); 
-        } else {
-          return [];
         }
       });
   }

@@ -9,8 +9,6 @@ import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
 import { CrabService } from '../../services/crab.api-service';
-import { CapaKeyInfoResponse } from 'services/models/capaKeyInfoResponse';
-import { KadastraalPerceel } from '../../zoneerder/models/kadastraalPerceel';
 
 declare const oeAppConfig: any;
 
@@ -18,7 +16,6 @@ declare const oeAppConfig: any;
 export class OlMap {
   @bindable public disabled: boolean;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public kadastralePercelen: KadastraalPerceel[];
   @bindable public adrespunten: Contour[];
   public geometryObjectList: string[] = [];
   public WKTstring!: string;
@@ -144,19 +141,11 @@ export class OlMap {
 
     if (type === 'Polygon') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-        const coordinates = evt.feature.getGeometry().getFirstCoordinate();
-        this.getFeaturesByCoordinates(coordinates)
-          .then(features => features.forEach((feature: ol.Feature) => this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY'))));
-
         evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
         this.geometryObjectList.push(evt.feature.getProperties().name);
       });
     } else if (type === 'Circle') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-        const coordinates = evt.feature.getGeometry().getFirstCoordinate();
-        this.getFeaturesByCoordinates(coordinates)
-          .then(features => features.forEach((feature: ol.Feature) => this.createKadastralePercelenByCapaKey(feature.get('CAPAKEY'))));
-
         evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
         this.geometryObjectList.push(evt.feature.getProperties().name);
       });
@@ -194,9 +183,7 @@ export class OlMap {
   }
 
   public drawPerceel(olFeature: ol.Feature) {
-    if (olFeature) {
-      this.createKadastralePercelenByCapaKey(olFeature.get('CAPAKEY'));
-      
+    if (olFeature) {      
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
       if (this.geometryObjectList.indexOf(name) === -1) {
         olFeature.set('name', name);
@@ -700,20 +687,6 @@ export class OlMap {
     const transFormedPoint = (point.transform('EPSG:31370', 'EPSG:3857') as ol.geom.Point);
     
     return transFormedPoint.getCoordinates();
-  }
-
-  private getFeaturesByCoordinates(coordinates): Promise<any> {
-    return this.apiService.searchPerceel(coordinates, this.mapProjection.getCode())
-      .then((result: any) => {
-        this.geoJsonFormatter.readFeatures(result);
-    });
-  }
-
-  private createKadastralePercelenByCapaKey(capakey: string) {
-    this.crabService.getInfoByCapakey(capakey).then((result: CapaKeyInfoResponse) => {
-      const kadastraalPerceel = new KadastraalPerceel(result.sectie.afdeling.naam, result.sectie.id, capakey, result.percid);
-      this.kadastralePercelen.push(kadastraalPerceel);
-    });
   }
 
   private deleteCoordinateFromZone(coordinates) {
