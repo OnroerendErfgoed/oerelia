@@ -20,5 +20,6 @@ export * from './services/id-service.api-service';
 export * from './value-converters';
 export * from './multi-select/multi-select';
 export * from './references-dialog/references-dialog';
+export * from './actor-widget/actor-widget';
 
 //# sourceMappingURL=exports.js.map
