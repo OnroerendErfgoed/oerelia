@@ -13,10 +13,10 @@
   </div>
   </div>
   <div class="sidebar" if.bind="!disabled">
+    <i class="fa fa-lg fa-list" click.delegate="isCollapsed = !isCollapsed"></i>
     <div if.bind="!isCollapsed">
       <div>
         <h3>Zone samenstellen</h3>
-        <i class="fa fa-lg fa-list"></i>
       </div>
       <div class="toevoegen-aan">
         <h4>Toevoegen aan zone</h4>
@@ -59,7 +59,7 @@
       </div>
     </div>
     <div else>
-
+      <div class="collapsed"></div>
     </div>
     
   </div>
