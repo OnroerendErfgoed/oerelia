@@ -24,6 +24,7 @@ var OlMap = (function () {
         this.element = element;
         this.crabService = crabService;
         this.geometryObjectList = [];
+        this.isCollapsed = false;
         this.isDrawing = false;
         this.isDrawingCircle = false;
         this.selectPerceel = false;
