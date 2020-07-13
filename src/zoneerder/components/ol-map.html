@@ -28,7 +28,7 @@
         <span if.bind="!selectPerceel"><i class="fa fa-hand-pointer-o"></i> Selecteer perceel</span>
         <span else><i class="fa fa-ban"></i> Annuleer perceel</span>
       </a>
-      <a click.delegate="importAdrespunten()">
+      <a click.delegate="importAdrespunten()" if.bind="adrespunten && adrespunten.length > 0">
         <span><i class="fa fa-link"></i> Neem over van adrespunten</span>
       </a>
       <div class="row collapse">

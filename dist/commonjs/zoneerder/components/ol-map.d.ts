@@ -7,7 +7,7 @@ export declare class OlMap {
     private crabService;
     disabled: boolean;
     zone: Contour;
-    adrespunten: Contour[];
+    adrespunten?: Contour[];
     geometryObjectList: string[];
     WKTstring: string;
     protected isDrawing: boolean;

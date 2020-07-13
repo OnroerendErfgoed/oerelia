@@ -10,7 +10,7 @@ export declare class Zoneerder {
     locatie: any;
     disabled: boolean;
     zone: Contour;
-    adrespunten: Contour[];
+    adrespunten?: Contour[];
     buttonConfig: ButtonConfig;
     protected suggest: {
         suggest: Function;

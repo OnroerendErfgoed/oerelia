@@ -11,7 +11,7 @@ export class Zoneerder {
   @bindable public locatie: any;
   @bindable public disabled: boolean = false;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
-  @bindable public adrespunten: Contour[];
+  @bindable public adrespunten?: Contour[];
   @bindable public buttonConfig: ButtonConfig;
 
   protected suggest: { suggest: Function };

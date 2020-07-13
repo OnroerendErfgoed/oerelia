@@ -16,7 +16,7 @@ declare const oeAppConfig: any;
 export class OlMap {
   @bindable public disabled: boolean;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
-  @bindable public adrespunten: Contour[];
+  @bindable public adrespunten?: Contour[];
   public geometryObjectList: string[] = [];
   public WKTstring!: string;
 
