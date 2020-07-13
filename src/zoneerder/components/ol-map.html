@@ -12,7 +12,7 @@
     </div>
   </div>
   </div>
-  <div class="sidebar" if.bind="!disabled">
+  <div class="sidebar ${isCollapsed ? 'collapsed' : ''}" if.bind="!disabled">
     <i class="fa fa-lg fa-list" click.delegate="isCollapsed = !isCollapsed"></i>
     <div if.bind="!isCollapsed">
       <div>
@@ -58,9 +58,5 @@
         </ul>
       </div>
     </div>
-    <div else>
-      <div class="collapsed"></div>
-    </div>
-    
   </div>
 </template>
