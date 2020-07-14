@@ -45,16 +45,16 @@
 }
 
 .collapse {
-  display: inline-block !important;
-
   &-icon {
     color: #944EA1 !important;
     width: 22px;
     line-height: 1.2em;
+    display: inline-block !important;
   }
 
   &-title {
     margin-left: 5px !important;
+    display: inline-block;
   }
 }
 
