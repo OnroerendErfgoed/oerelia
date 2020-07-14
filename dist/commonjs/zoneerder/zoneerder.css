@@ -45,7 +45,12 @@
 .sidebar-collapsed {
   width: 40px;
   text-align: center;
-  padding-top: 15px; }
+  padding-top: 15px;
+  background: white;
+  position: absolute;
+  right: 10px;
+  top: 15px;
+  bottom: 15px; }
 
 .copyrightLink {
   display: inline-block;
