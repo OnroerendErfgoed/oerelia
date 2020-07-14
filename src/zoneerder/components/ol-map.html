@@ -12,12 +12,12 @@
     </div>
   </div>
   </div>
-  <div class="${isCollapsed ? 'sidebar-collapsed' : 'sidebar'}" if.bind="!disabled">
-    <!-- <i class="fa fa-lg fa-list" click.delegate="isCollapsed = !isCollapsed"></i> -->
-    
+  <div class="${isCollapsed ? 'sidebar-collapsed' : 'sidebar'}" if.bind="!disabled">    
     <!-- <div if.bind="!isCollapsed"> -->
-      <a click.delegate="isCollapsed = !isCollapsed"><i class="fa fa-lg fa-list"></i></a>
-      <h3>Zone samenstellen</h3>
+      <div>
+        <a class="sidebar-icon" click.delegate="isCollapsed = !isCollapsed"><i class="fa fa-lg fa-list"></i></a>
+        <h3>Zone samenstellen</h3>
+      </div>
       <div class="toevoegen-aan">
         <h4>Toevoegen aan zone</h4>
         <a click.delegate="!isDrawing ? startDrawZone('Polygon') : toggleDrawZone(false)">
