@@ -12,9 +12,11 @@
     </div>
   </div>
   </div>
-  <div class="${isCollapsed ? 'sidebar-collapsed' : 'sidebar'}" if.bind="!disabled">    
-      <a class="collapse-icon" click.delegate="isCollapsed = !isCollapsed"><i class="fa fa-lg fa-list"></i></a>
-      <h3 if.bind="!isCollapsed" style="display:inline-block;">Zone samenstellen</h3>
+  <div class="${isCollapsed ? 'sidebar-collapsed' : 'sidebar'}" if.bind="!disabled">  
+      <div>
+        <a class="collapse-icon" click.delegate="isCollapsed = !isCollapsed"><i class="fa fa-lg fa-list"></i></a>
+        <h3 if.bind="!isCollapsed" style="display:inline-block;">Zone samenstellen</h3>
+      </div>  
       <div if.bind="!isCollapsed">
         <div class="toevoegen-aan">
           <h4>Toevoegen aan zone</h4>
