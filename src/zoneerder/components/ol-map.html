@@ -13,11 +13,11 @@
   </div>
   </div>
   <div class="${isCollapsed ? 'sidebar-collapsed' : 'sidebar'}" if.bind="!disabled">
-    <i class="fa fa-lg fa-list" click.delegate="isCollapsed = !isCollapsed"></i>
-    <div if.bind="!isCollapsed">
-      <div>
-        <h3>Zone samenstellen</h3>
-      </div>
+    <!-- <i class="fa fa-lg fa-list" click.delegate="isCollapsed = !isCollapsed"></i> -->
+    
+    <!-- <div if.bind="!isCollapsed"> -->
+      <a click.delegate="isCollapsed = !isCollapsed"><i class="fa fa-lg fa-list"></i></a>
+      <h3>Zone samenstellen</h3>
       <div class="toevoegen-aan">
         <h4>Toevoegen aan zone</h4>
         <a click.delegate="!isDrawing ? startDrawZone('Polygon') : toggleDrawZone(false)">
@@ -57,6 +57,6 @@
           </li>
         </ul>
       </div>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
