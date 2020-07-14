@@ -47,4 +47,9 @@
 .collapse-icon {
   color: #944EA1 !important;
   display: inline-block !important;
-  width: 22px; }
+  width: 22px;
+  line-height: 1.2em; }
+
+.collapse-title {
+  display: inline-block;
+  margin-left: 5px; }
