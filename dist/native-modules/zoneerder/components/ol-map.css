@@ -44,5 +44,7 @@
   top: 15px;
   bottom: 15px; }
 
-.sidebar-icon {
-  color: #944EA1 !important; }
+.collapse-icon {
+  color: #944EA1 !important;
+  display: inline-block;
+  width: 22px; }
