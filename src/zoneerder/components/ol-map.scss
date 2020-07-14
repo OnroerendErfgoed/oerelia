@@ -44,14 +44,18 @@
   bottom: 15px;
 }
 
-.collapse-icon {
-  color: #944EA1 !important;
+.collapse {
   display: inline-block !important;
-  width: 22px;
-  line-height: 1.2em;
+
+  &-icon {
+    color: #944EA1 !important;
+    width: 22px;
+    line-height: 1.2em;
+  }
+
+  &-title {
+    margin-left: 5px !important;
+  }
 }
 
-.collapse-title {
-  display:inline-block;
-  margin-left: 5px;
-}
+
