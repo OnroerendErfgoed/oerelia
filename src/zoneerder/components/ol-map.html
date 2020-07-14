@@ -12,7 +12,7 @@
     </div>
   </div>
   </div>
-  <div class="sidebar ${isCollapsed ? 'collapsed' : ''}" if.bind="!disabled">
+  <div class="${isCollapsed ? 'sidebar-collapsed' : 'sidebar'}" if.bind="!disabled">
     <i class="fa fa-lg fa-list" click.delegate="isCollapsed = !isCollapsed"></i>
     <div if.bind="!isCollapsed">
       <div>
