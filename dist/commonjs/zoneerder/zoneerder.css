@@ -50,7 +50,8 @@
   position: absolute;
   right: 10px;
   top: 15px;
-  bottom: 15px; }
+  bottom: 15px;
+  z-index: 1; }
 
 .collapse-icon {
   color: #944EA1 !important;
@@ -149,7 +150,8 @@ zoneerder {
     right: 10px;
     top: 15px;
     bottom: 15px;
-    border: 1px solid rgba(45, 163, 206, 0.4); }
+    border: 1px solid rgba(45, 163, 206, 0.4);
+    z-index: 1; }
     .zoneerder-content .sidebar h3 {
       margin: 0; }
     .zoneerder-content .sidebar a {

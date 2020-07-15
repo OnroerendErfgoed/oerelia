@@ -106,7 +106,8 @@ zoneerder {
     top: 15px;
     bottom: 15px;
     border: 1px solid rgba(#2da3ce, 0.4);
-
+    z-index: 1;
+    
     h3 {
       margin: 0;
     }

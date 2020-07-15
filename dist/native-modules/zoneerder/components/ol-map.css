@@ -42,7 +42,8 @@
   position: absolute;
   right: 10px;
   top: 15px;
-  bottom: 15px; }
+  bottom: 15px;
+  z-index: 1; }
 
 .collapse-icon {
   color: #944EA1 !important;

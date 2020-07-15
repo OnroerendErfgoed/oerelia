@@ -19,7 +19,7 @@ export class OlMap {
   @bindable public adrespunten?: Contour[];
   public geometryObjectList: string[] = [];
   public WKTstring!: string;
-  public isCollapsed: boolean = false;
+  public isCollapsed: boolean = true;
 
   protected isDrawing: boolean = false;
   protected isDrawingCircle: boolean = false;
