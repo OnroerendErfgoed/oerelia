@@ -184,7 +184,7 @@ export class OlMap {
   }
 
   public drawPerceel(olFeature: ol.Feature) {
-    if (olFeature) {      
+    if (olFeature) {
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
       if (this.geometryObjectList.indexOf(name) === -1) {
         olFeature.set('name', name);
