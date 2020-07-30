@@ -17,7 +17,7 @@
         <a class="collapse-icon" click.delegate="isCollapsed = !isCollapsed"><i class="fa fa-lg fa-list"></i></a>
         <h4 class="collapse-title" if.bind="!isCollapsed">Zone samenstellen</h4>
       </div>  
-      <div if.bind="!isCollapsed">
+      <div if.bind="!isCollapsed" style="overflow-y: auto;">
         <div class="toevoegen-aan">
           <h5>Toevoegen aan zone</h5>
           <a click.delegate="!isDrawing ? startDrawZone('Polygon') : toggleDrawZone(false)">
