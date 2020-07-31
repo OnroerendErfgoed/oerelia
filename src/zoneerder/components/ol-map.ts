@@ -227,10 +227,9 @@ export class OlMap {
     if (coordinates.length > 0) {
       this.deleteCoordinateFromZone(coordinates);
     } else {
-      this.zone.coordinates.splice(0, 1);
-      // this.zone = null;
+      this.zone.coordinates.splice(0, this.zone.coordinates.length);
     }
-    this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
+      this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
   }
 
   public geoLocationClick() {

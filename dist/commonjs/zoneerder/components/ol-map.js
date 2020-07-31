@@ -206,7 +206,7 @@ var OlMap = (function () {
             this.deleteCoordinateFromZone(coordinates);
         }
         else {
-            this.zone.coordinates.splice(0, 1);
+            this.zone.coordinates.splice(0, this.zone.coordinates.length);
         }
         this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
     };
