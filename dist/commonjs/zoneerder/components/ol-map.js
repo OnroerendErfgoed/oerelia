@@ -15,12 +15,16 @@ var ol = require("openlayers");
 var proj4_1 = require("proj4");
 var toastr = require("toastr");
 var contour_1 = require("../models/contour");
+var buttonConfig_1 = require("../models/buttonConfig");
 var geozoekdienst_api_service_1 = require("../../services/geozoekdienst.api-service");
 var ol_layerswitcher_1 = require("./ol-layerswitcher");
+var crab_api_service_1 = require("../../services/crab.api-service");
 var OlMap = (function () {
-    function OlMap(element) {
+    function OlMap(element, crabService) {
         this.element = element;
+        this.crabService = crabService;
         this.geometryObjectList = [];
+        this.isCollapsed = true;
         this.isDrawing = false;
         this.isDrawingCircle = false;
         this.selectPerceel = false;
@@ -35,6 +39,7 @@ var OlMap = (function () {
         var _this = this;
         console.debug('olMap::attached', this.zone);
         this._createMap();
+        this._createMapButtons();
         this._createLayers();
         this._createInteractions('Polygon', false);
         this.element.dispatchEvent(new CustomEvent('loaded', {
@@ -198,13 +203,34 @@ var OlMap = (function () {
             }
         });
         if (coordinates.length > 0) {
-            var multiPolygon = new ol.geom.MultiPolygon(coordinates);
-            this.zone = new contour_1.Contour(this.formatGeoJson(multiPolygon));
+            this.deleteCoordinateFromZone(coordinates);
         }
         else {
-            this.zone = null;
+            this.zone.coordinates.splice(0, 1);
         }
         this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
+    };
+    OlMap.prototype.geoLocationClick = function () {
+        var view = this.map.getView();
+        var geolocation = new ol.Geolocation({
+            projection: this.map.getView().getProjection(),
+            trackingOptions: {
+                enableHighAccuracy: true
+            }
+        });
+        geolocation.setTracking(true);
+        geolocation.once('change:position', function () {
+            view.setCenter(geolocation.getPosition());
+            view.setZoom(18);
+            geolocation.setTracking(false);
+        });
+    };
+    OlMap.prototype.zoomButtonClick = function () {
+        var view = this.map.getView();
+        var center = view.getCenter();
+        var zoom = view.getZoom();
+        var coordinates = this.transformLabert72ToWebMercator(center);
+        window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
     };
     OlMap.prototype.addToZone = function (olFeature) {
         console.debug('addToZone', olFeature);
@@ -224,7 +250,8 @@ var OlMap = (function () {
                 multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
             }
         });
-        this.zone = new contour_1.Contour(this.formatGeoJson(multiPolygon));
+        var coordinates = this.formatGeoJson(multiPolygon).coordinates;
+        this.zone.coordinates.push(coordinates[coordinates.length - 1]);
     };
     OlMap.prototype.resetSelect = function () {
         this.selectPerceel = false;
@@ -267,7 +294,7 @@ var OlMap = (function () {
             controls: ol.control.defaults({
                 attribution: false,
                 rotate: false,
-                zoom: true
+                zoom: false
             })
         });
         this.map.addControl(new ol.control.ScaleLine());
@@ -472,6 +499,124 @@ var OlMap = (function () {
         }
         return geom.filter(test);
     };
+    OlMap.prototype._createMapButtons = function () {
+        var buttonHeight = 2.2;
+        var target = this.map.getTargetElement();
+        var top = 2.4;
+        if (!this.buttonConfig) {
+            var className_1 = 'zoom';
+            var style_1 = this.getButtonStyle(top);
+            this.addZoomButton(className_1);
+            this.setStyleToButton(target, className_1, style_1);
+            top += 3.8;
+            className_1 = 'layer-switcher';
+            style_1 = this.getButtonStyle(top);
+            this.setStyleToButton(target, className_1, style_1);
+            return;
+        }
+        if (this.buttonConfig.fullscreen) {
+            var className_2 = 'full-screen';
+            var style_2 = this.getButtonStyle(top);
+            this.addFullscreenButton(className_2);
+            this.setStyleToButton(target, className_2, style_2);
+            top += buttonHeight;
+        }
+        if (this.buttonConfig.zoomInOut) {
+            var className_3 = 'zoom';
+            var style_3 = this.getButtonStyle(top);
+            this.addZoomButton(className_3);
+            this.setStyleToButton(target, className_3, style_3);
+            top += 3.8;
+        }
+        var className = 'layer-switcher';
+        var style = this.getButtonStyle(top);
+        this.setStyleToButton(target, className, style);
+        top += buttonHeight;
+        if (this.buttonConfig.zoomFullExtent) {
+            var className_4 = 'fullextent';
+            var style_4 = this.getButtonStyle(top);
+            this.addZoomToExtentButton(className_4);
+            this.setStyleToButton(target, className_4, style_4);
+            top += buttonHeight;
+        }
+        if (this.buttonConfig.zoomGeoLocation) {
+            var className_5 = 'geolocation';
+            var style_5 = this.getButtonStyle(top);
+            this.setStyleToButton(target, className_5, style_5);
+            top += buttonHeight;
+        }
+        if (this.buttonConfig.rotate) {
+            var className_6 = 'rotate';
+            var style_6 = this.getButtonStyle(top);
+            this.addRotateButton(className_6);
+            this.setStyleToButton(target, className_6, style_6);
+            top += buttonHeight;
+        }
+        if (this.buttonConfig.zoomSwitcher) {
+            var className_7 = 'zoom-switcher';
+            var style_7 = this.getButtonStyle(top);
+            this.setStyleToButton(target, className_7, style_7);
+        }
+    };
+    OlMap.prototype.addFullscreenButton = function (className) {
+        this.map.addControl(new ol.control.FullScreen({
+            tipLabel: 'Vergroot / verklein het scherm',
+            className: className,
+            label: ''
+        }));
+    };
+    OlMap.prototype.addZoomButton = function (className) {
+        this.map.addControl(new ol.control.Zoom({
+            zoomInTipLabel: 'Zoom in',
+            zoomOutTipLabel: 'Zoom uit',
+            className: className
+        }));
+    };
+    OlMap.prototype.addZoomToExtentButton = function (className) {
+        this.map.addControl(new ol.control.ZoomToExtent({
+            extent: this.mapProjection.getExtent(),
+            tipLabel: 'Zoom naar Vlaanderen',
+            className: className,
+            label: ''
+        }));
+    };
+    OlMap.prototype.addRotateButton = function (className) {
+        this.map.addControl(new ol.control.Rotate({
+            tipLabel: "Draai de kaart naar het noorden",
+            className: className
+        }));
+    };
+    OlMap.prototype.getButtonStyle = function (top) {
+        return 'top: ' + top + 'em; left: ' + .5 + 'em;';
+    };
+    OlMap.prototype.setStyleToButton = function (target, className, style) {
+        target.getElementsByClassName(className)
+            .item(0)
+            .setAttribute('style', style);
+    };
+    OlMap.prototype.transformLabert72ToWebMercator = function (center) {
+        var point = new ol.geom.Point([center[0], center[1]]);
+        var transFormedPoint = point.transform('EPSG:31370', 'EPSG:3857');
+        return transFormedPoint.getCoordinates();
+    };
+    OlMap.prototype.deleteCoordinateFromZone = function (coordinates) {
+        var _this = this;
+        var hash = {};
+        for (var i = 0; i < this.zone.coordinates.length; i += 1) {
+            hash[this.zone.coordinates[i]] = i;
+        }
+        var indexes = [];
+        coordinates.forEach(function (coordinate) {
+            if (hash.hasOwnProperty(coordinate)) {
+                indexes.push(hash[coordinate]);
+            }
+        });
+        this.zone.coordinates.forEach(function (coordinate, index) {
+            if (indexes.indexOf(index) <= -1) {
+                _this.zone.coordinates.splice(index, 1);
+            }
+        });
+    };
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Boolean)
@@ -488,9 +633,14 @@ var OlMap = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", geozoekdienst_api_service_1.GeozoekdienstApiService)
     ], OlMap.prototype, "apiService", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", buttonConfig_1.ButtonConfig)
+    ], OlMap.prototype, "buttonConfig", void 0);
     OlMap = __decorate([
-        aurelia_framework_1.inject(Element),
-        __metadata("design:paramtypes", [Element])
+        aurelia_framework_1.inject(Element, crab_api_service_1.CrabService),
+        __metadata("design:paramtypes", [Element,
+            crab_api_service_1.CrabService])
     ], OlMap);
     return OlMap;
 }());

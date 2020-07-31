@@ -12,6 +12,7 @@ import { HttpClient } from 'aurelia-http-client';
 import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
+import { ButtonConfig } from './models/buttonConfig';
 var Zoneerder = (function () {
     function Zoneerder(http, crabService, geozoekdienstApiService) {
         var _this = this;
@@ -58,6 +59,10 @@ var Zoneerder = (function () {
         bindable,
         __metadata("design:type", Array)
     ], Zoneerder.prototype, "adrespunten", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", ButtonConfig)
+    ], Zoneerder.prototype, "buttonConfig", void 0);
     Zoneerder = __decorate([
         inject(HttpClient, CrabService, GeozoekdienstApiService),
         __metadata("design:paramtypes", [HttpClient,
