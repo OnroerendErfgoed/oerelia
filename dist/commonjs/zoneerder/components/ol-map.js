@@ -250,8 +250,13 @@ var OlMap = (function () {
                 multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
             }
         });
-        var coordinates = this.formatGeoJson(multiPolygon).coordinates;
-        this.zone.coordinates.push(coordinates[coordinates.length - 1]);
+        var contour = this.formatGeoJson(multiPolygon);
+        if (this.zone) {
+            this.zone.coordinates.push(contour.coordinates[contour.coordinates.length - 1]);
+        }
+        else {
+            this.zone = new contour_1.Contour(this.formatGeoJson(multiPolygon));
+        }
     };
     OlMap.prototype.resetSelect = function () {
         this.selectPerceel = false;

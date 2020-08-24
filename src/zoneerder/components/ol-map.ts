@@ -276,8 +276,12 @@ export class OlMap {
       }
     });
 
-    const coordinates = this.formatGeoJson(multiPolygon).coordinates;
-    this.zone.coordinates.push(coordinates[coordinates.length - 1]);
+    const contour = this.formatGeoJson(multiPolygon);
+    if (this.zone) {
+      this.zone.coordinates.push(contour.coordinates[contour.coordinates.length - 1]);
+    } else {
+      this.zone = new Contour(this.formatGeoJson(multiPolygon));
+    }
   }
 
   private resetSelect() {
