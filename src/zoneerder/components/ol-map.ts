@@ -229,7 +229,7 @@ export class OlMap {
     } else {
       this.zone.coordinates.splice(0, this.zone.coordinates.length);
     }
-      this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
+    this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
   }
 
   public geoLocationClick() {
