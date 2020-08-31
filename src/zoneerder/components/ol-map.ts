@@ -229,7 +229,7 @@ export class OlMap {
     } else {
       this.zone.coordinates.splice(0, this.zone.coordinates.length);
     }
-      this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
+    this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
   }
 
   public geoLocationClick() {
@@ -276,8 +276,9 @@ export class OlMap {
       }
     });
 
-    const coordinates = this.formatGeoJson(multiPolygon).coordinates;
-    this.zone.coordinates.push(coordinates[coordinates.length - 1]);
+    const contour = this.formatGeoJson(multiPolygon);
+    this.zone ? this.zone.coordinates.push(contour.coordinates[contour.coordinates.length - 1])
+              : this.zone = new Contour(contour);
   }
 
   private resetSelect() {
