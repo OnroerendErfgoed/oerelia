@@ -277,11 +277,8 @@ export class OlMap {
     });
 
     const contour = this.formatGeoJson(multiPolygon);
-    if (this.zone) {
-      this.zone.coordinates.push(contour.coordinates[contour.coordinates.length - 1]);
-    } else {
-      this.zone = new Contour(this.formatGeoJson(multiPolygon));
-    }
+    this.zone ? this.zone.coordinates.push(contour.coordinates[contour.coordinates.length - 1])
+              : this.zone = new Contour(contour);
   }
 
   private resetSelect() {
