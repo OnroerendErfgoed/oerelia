@@ -2,6 +2,7 @@ import { HttpClient } from 'aurelia-http-client';
 import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
+import { ButtonConfig } from './models/buttonConfig';
 export declare class Zoneerder {
     private http;
     private crabService;
@@ -9,7 +10,8 @@ export declare class Zoneerder {
     locatie: any;
     disabled: boolean;
     zone: Contour;
-    adrespunten: Contour[];
+    adrespunten?: Contour[];
+    buttonConfig: ButtonConfig;
     protected suggest: {
         suggest: Function;
     };

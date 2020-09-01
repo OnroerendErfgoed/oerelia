@@ -1,17 +1,21 @@
 import * as ol from 'openlayers';
 import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
+import { CrabService } from '../../services/crab.api-service';
 export declare class OlMap {
     private element;
+    private crabService;
     disabled: boolean;
     zone: Contour;
-    adrespunten: Contour[];
+    adrespunten?: Contour[];
     geometryObjectList: string[];
     WKTstring: string;
+    isCollapsed: boolean;
     protected isDrawing: boolean;
     protected isDrawingCircle: boolean;
     protected selectPerceel: boolean;
     private apiService;
+    private buttonConfig;
     private map;
     private mapProjection;
     private extentVlaanderen;
@@ -23,7 +27,7 @@ export declare class OlMap {
     private mapnode;
     private polygonIndex;
     private circleIndex;
-    constructor(element: Element);
+    constructor(element: Element, crabService: CrabService);
     attached(): void;
     updateMapSize(): void;
     disabledChanged(newValue: boolean, oldValue: boolean): void;
@@ -40,6 +44,8 @@ export declare class OlMap {
     drawPerceel(olFeature: ol.Feature): void;
     drawWKTzone(wkt: ol.Feature): void;
     removeGeometryObject(name: string): void;
+    geoLocationClick(): void;
+    zoomButtonClick(): void;
     private addToZone;
     private resetSelect;
     private toggleDrawZone;
@@ -52,4 +58,13 @@ export declare class OlMap {
     private _createGrbWMSLayer;
     private _createVectorLayer;
     private strip;
+    private _createMapButtons;
+    private addFullscreenButton;
+    private addZoomButton;
+    private addZoomToExtentButton;
+    private addRotateButton;
+    private getButtonStyle;
+    private setStyleToButton;
+    private transformLabert72ToWebMercator;
+    private deleteCoordinateFromZone;
 }

@@ -5,22 +5,28 @@ import proj4 from 'proj4';
 import * as toastr from 'toastr';
 import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
+import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
+import { CrabService } from '../../services/crab.api-service';
 
-@inject(Element)
+declare const oeAppConfig: any;
+
+@inject(Element, CrabService)
 export class OlMap {
   @bindable public disabled: boolean;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
-  @bindable public adrespunten: Contour[];
+  @bindable public adrespunten?: Contour[];
   public geometryObjectList: string[] = [];
   public WKTstring!: string;
+  public isCollapsed: boolean = true;
 
   protected isDrawing: boolean = false;
   protected isDrawingCircle: boolean = false;
   protected selectPerceel: boolean = false;
 
   @bindable private apiService: GeozoekdienstApiService;
+  @bindable private buttonConfig: ButtonConfig;
   private map: ol.Map;
   private mapProjection: ol.proj.Projection;
   private extentVlaanderen: ol.Extent = [9928.0, 66928.0, 272072.0, 329072.0];
@@ -34,7 +40,8 @@ export class OlMap {
   private circleIndex: number = 1;
 
   constructor(
-    private element: Element
+    private element: Element,
+    private crabService: CrabService
   ) {
     console.debug('olMap::constructor', this.zone);
     this._defineProjections();
@@ -43,6 +50,7 @@ export class OlMap {
   public attached() {
     console.debug('olMap::attached', this.zone);
     this._createMap();
+    this._createMapButtons();
     this._createLayers();
     this._createInteractions('Polygon', false);
 
@@ -217,12 +225,38 @@ export class OlMap {
       }
     });
     if (coordinates.length > 0) {
-      const multiPolygon = new ol.geom.MultiPolygon(coordinates);
-      this.zone = new Contour(this.formatGeoJson(multiPolygon));
+      this.deleteCoordinateFromZone(coordinates);
     } else {
-      this.zone = null;
+      this.zone.coordinates.splice(0, this.zone.coordinates.length);
     }
     this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
+  }
+
+  public geoLocationClick() {
+    const view = this.map.getView();
+    const geolocation = new ol.Geolocation({
+      projection: this.map.getView().getProjection(),
+      trackingOptions: {
+        enableHighAccuracy: true
+      }
+    });
+
+    geolocation.setTracking(true);
+    geolocation.once('change:position', () => {
+      view.setCenter(geolocation.getPosition());
+      view.setZoom(18);
+      geolocation.setTracking(false);
+    });
+  }
+
+  public zoomButtonClick() {
+    const view = this.map.getView();
+    const center = view.getCenter();
+    const zoom = view.getZoom();
+    const coordinates = this.transformLabert72ToWebMercator(center);
+
+    //Zoom * 2 is some kind of hack so the zoom levels somewhat align with the zoom levels on crabpyUrl. Change if a better solution is found. 
+    window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
   }
 
   private addToZone(olFeature: ol.Feature) {
@@ -241,7 +275,10 @@ export class OlMap {
         multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
       }
     });
-    this.zone = new Contour(this.formatGeoJson(multiPolygon));
+
+    const contour = this.formatGeoJson(multiPolygon);
+    this.zone ? this.zone.coordinates.push(contour.coordinates[contour.coordinates.length - 1])
+              : this.zone = new Contour(contour);
   }
 
   private resetSelect() {
@@ -287,7 +324,7 @@ export class OlMap {
       controls: ol.control.defaults({
         attribution: false,
         rotate: false,
-        zoom: true
+        zoom: false
       })
     });
 
@@ -532,5 +569,144 @@ export class OlMap {
       return geom.map((g: any) => this.strip(g, test));
     }
     return geom.filter(test);
+  }
+
+  private _createMapButtons(): void {
+    const buttonHeight = 2.2;
+    const target = this.map.getTargetElement();
+    let top = 2.4;
+
+    if (!this.buttonConfig) {
+      let className = 'zoom';
+      let style = this.getButtonStyle(top);
+      this.addZoomButton(className);
+      this.setStyleToButton(target, className, style);
+      top += 3.8;
+
+      className = 'layer-switcher';
+      style = this.getButtonStyle(top);
+      this.setStyleToButton(target, className, style);
+
+      return;
+    }
+
+    if (this.buttonConfig.fullscreen) {
+      const className = 'full-screen';
+      const style = this.getButtonStyle(top);
+      this.addFullscreenButton(className);
+      this.setStyleToButton(target, className, style);
+      top += buttonHeight;
+    }
+
+    if (this.buttonConfig.zoomInOut) {
+      const className = 'zoom';
+      const style = this.getButtonStyle(top);
+      this.addZoomButton(className);
+      this.setStyleToButton(target, className, style);
+      top += 3.8;
+    }
+
+    const className = 'layer-switcher';
+    const style = this.getButtonStyle(top);
+    this.setStyleToButton(target, className, style);
+    top += buttonHeight;
+
+    if (this.buttonConfig.zoomFullExtent) {
+      const className = 'fullextent';
+      const style = this.getButtonStyle(top);
+      this.addZoomToExtentButton(className);
+      this.setStyleToButton(target, className, style);
+      top += buttonHeight;
+    }
+
+    if (this.buttonConfig.zoomGeoLocation) {
+      const className = 'geolocation';
+      const style = this.getButtonStyle(top);
+      this.setStyleToButton(target, className, style);
+      top += buttonHeight;
+    }
+
+    if (this.buttonConfig.rotate) {
+      const className = 'rotate';
+      const style = this.getButtonStyle(top);
+      this.addRotateButton(className);
+      this.setStyleToButton(target, className, style);
+      top += buttonHeight;
+    }
+
+    if (this.buttonConfig.zoomSwitcher) {
+      const className = 'zoom-switcher';
+      const style = this.getButtonStyle(top);
+      this.setStyleToButton(target, className, style);
+    }
+  }
+
+  private addFullscreenButton(className: string): void {    
+    this.map.addControl(new ol.control.FullScreen({
+      tipLabel: 'Vergroot / verklein het scherm',
+      className: className,
+      label: ''
+    }));
+  }
+
+  private addZoomButton(className: string): void {
+    this.map.addControl(new ol.control.Zoom({
+      zoomInTipLabel: 'Zoom in',
+      zoomOutTipLabel: 'Zoom uit',
+      className: className
+    }));
+  }
+
+  private addZoomToExtentButton(className: string) {
+    this.map.addControl(new ol.control.ZoomToExtent({
+      extent: this.mapProjection.getExtent(),
+      tipLabel: 'Zoom naar Vlaanderen',
+      className: className,
+      label: ''
+    }));
+  }
+
+  private addRotateButton(className: string): void {
+    this.map.addControl(new ol.control.Rotate({
+      tipLabel: "Draai de kaart naar het noorden",
+      className: className
+    }));
+  }
+  
+  private getButtonStyle(top: number): string {
+    return 'top: ' + top + 'em; left: ' + .5 + 'em;'
+  }
+
+  private setStyleToButton(target: Element, className: string, style: string) {
+    target.getElementsByClassName(className)
+      .item(0)
+      .setAttribute('style', style);
+  }
+
+  private transformLabert72ToWebMercator(center: ol.Coordinate): ol.Coordinate {
+    const point: ol.geom.Point = new ol.geom.Point([ center[0], center[1] ]);
+    const transFormedPoint = (point.transform('EPSG:31370', 'EPSG:3857') as ol.geom.Point);
+    
+    return transFormedPoint.getCoordinates();
+  }
+
+  private deleteCoordinateFromZone(coordinates) {
+    let hash = {};
+    for (var i = 0; i < this.zone.coordinates.length; i += 1) {
+      hash[this.zone.coordinates[i]] = i;
+    }
+
+    let indexes = [];
+    coordinates.forEach(coordinate => {
+      if (hash.hasOwnProperty(coordinate)) {
+        indexes.push(hash[coordinate]);
+      }
+    });
+
+    this.zone.coordinates.forEach((coordinate, index) => {
+      if (indexes.indexOf(index) <= -1) {
+        this.zone.coordinates.splice(index, 1);
+      }
+    });
   }
 }

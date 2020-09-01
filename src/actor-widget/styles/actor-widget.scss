@@ -1,0 +1,58 @@
+.actor-widget {
+  @import  '../../assets/styles/ag-grid';
+  
+  width: 70vw;
+
+  ux-dialog-body {
+    padding: 20px;
+
+    .content {
+      width: 1100px;
+      height: 500px;
+
+      .row {
+        max-width: 100%;
+      }
+    }
+  }
+  ag-grid-aurelia {
+    height: 300px;
+  }
+
+  .actor-actions {
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 2rem;
+
+    .actor-action {
+      float: left;
+      margin-left: 15px;
+
+      i {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .search-buttons {
+    a {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+
+  .placeholder-container  {
+      label {
+        width: 80px;
+        padding-right: 5px;
+      }
+  }
+
+  .advanced-search-container, .detail-container {
+    background-color: #ededed;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(117, 63, 127, 0.3) !important;
+  }
+}
