@@ -214,22 +214,31 @@ export class OlMap {
   }
 
   public removeGeometryObject(name: string) {
+    console.log('name: ' + name);
     const coordinates: any[] = [];
     (this.drawLayer.getSource() as ol.source.Vector).getFeatures().forEach((f: any) => {
       if (f.getProperties().name === name) {
+        console.log('name equal');
         (this.drawLayer.getSource() as ol.source.Vector).removeFeature(f);
       } else {
+        console.log('not equal');
         const geometry = f.getProperties().name.includes('Cirkel') ? ol.geom.Polygon.fromCircle(f.getGeometry()) 
                                                                    : f.getGeometry();
         coordinates.push(geometry.getCoordinates());
+        console.log('coordinates: ' + JSON.stringify(coordinates));
       }
     });
+
     if (coordinates.length > 0) {
+      console.log('length greater than 0');
       this.deleteCoordinateFromZone(coordinates);
     } else {
+      console.log('length smaller than 0');
       this.zone.coordinates.splice(0, this.zone.coordinates.length);
     }
+    console.log('list: ' + JSON.stringify(this.geometryObjectList));
     this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
+    console.log('objectList: ' + JSON.stringify(this.geometryObjectList));
   }
 
   public geoLocationClick() {

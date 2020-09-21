@@ -191,24 +191,32 @@ var OlMap = (function () {
     };
     OlMap.prototype.removeGeometryObject = function (name) {
         var _this = this;
+        console.log('name: ' + name);
         var coordinates = [];
         this.drawLayer.getSource().getFeatures().forEach(function (f) {
             if (f.getProperties().name === name) {
+                console.log('name equal');
                 _this.drawLayer.getSource().removeFeature(f);
             }
             else {
+                console.log('not equal');
                 var geometry = f.getProperties().name.includes('Cirkel') ? ol.geom.Polygon.fromCircle(f.getGeometry())
                     : f.getGeometry();
                 coordinates.push(geometry.getCoordinates());
+                console.log('coordinates: ' + JSON.stringify(coordinates));
             }
         });
         if (coordinates.length > 0) {
+            console.log('length greater than 0');
             this.deleteCoordinateFromZone(coordinates);
         }
         else {
+            console.log('length smaller than 0');
             this.zone.coordinates.splice(0, this.zone.coordinates.length);
         }
+        console.log('list: ' + JSON.stringify(this.geometryObjectList));
         this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
+        console.log('objectList: ' + JSON.stringify(this.geometryObjectList));
     };
     OlMap.prototype.geoLocationClick = function () {
         var view = this.map.getView();
