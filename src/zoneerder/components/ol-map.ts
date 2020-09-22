@@ -219,7 +219,7 @@ export class OlMap {
       if (f.getProperties().name === name) {
         (this.drawLayer.getSource() as ol.source.Vector).removeFeature(f);
       } else {
-        const geometry = f.getProperties().name.includes('Cirkel') ? ol.geom.Polygon.fromCircle(f.getGeometry()) 
+        const geometry = f.getProperties().name.includes('Cirkel') ? ol.geom.Polygon.fromCircle(f.getGeometry())
                                                                    : f.getGeometry();
         coordinates.push(geometry.getCoordinates());
       }
@@ -227,7 +227,7 @@ export class OlMap {
     if (coordinates.length > 0) {
       this.deleteCoordinateFromZone(coordinates);
     } else {
-      this.zone.coordinates.splice(0, this.zone.coordinates.length);
+      this.zone = null;
     }
     this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
   }
