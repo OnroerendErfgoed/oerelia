@@ -91,6 +91,9 @@ var TelefoonSelect = (function () {
         }
         return true;
     };
+    TelefoonSelect.prototype.isDisabled = function () {
+        return !this.telefoon || this.disabled;
+    };
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", telefoon_1.Telefoon)

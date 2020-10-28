@@ -89,6 +89,9 @@ var TelefoonSelect = (function () {
         }
         return true;
     };
+    TelefoonSelect.prototype.isDisabled = function () {
+        return !this.telefoon || this.disabled;
+    };
     __decorate([
         bindable,
         __metadata("design:type", Telefoon)

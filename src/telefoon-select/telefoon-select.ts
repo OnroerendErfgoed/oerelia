@@ -94,4 +94,8 @@ export class TelefoonSelect {
 
     return true;
   }
+
+  public isDisabled(): boolean {
+    return !this.telefoon || this.disabled;
+  }
 }

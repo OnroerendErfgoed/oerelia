@@ -14,4 +14,5 @@ export declare class TelefoonSelect {
     collapse(): void;
     blur(): void;
     keydown(e: KeyboardEvent): boolean;
+    isDisabled(): boolean;
 }
