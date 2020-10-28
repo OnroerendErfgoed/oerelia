@@ -37,7 +37,7 @@ export class TelefoonSelect {
   }
 
   public toggleSuggestions() {
-    if (this.disabled) {
+    if (this.isDisabled()) {
       return;
     }
 
