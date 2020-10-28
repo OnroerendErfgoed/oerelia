@@ -18,7 +18,7 @@ export class TelefoonSelect {
   private suggestions: any[] = [];
 
   public bind() {
-    if (!this.telefoon.landcode) {
+    if (this.telefoon && !this.telefoon.landcode) {
       this.telefoon.landcode = '+32';
     }
   }

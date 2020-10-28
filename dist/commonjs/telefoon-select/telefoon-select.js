@@ -26,7 +26,7 @@ var TelefoonSelect = (function () {
         this.suggestions = [];
     }
     TelefoonSelect.prototype.bind = function () {
-        if (!this.telefoon.landcode) {
+        if (this.telefoon && !this.telefoon.landcode) {
             this.telefoon.landcode = '+32';
         }
     };
