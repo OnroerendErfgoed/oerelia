@@ -96,6 +96,7 @@ export class TelefoonSelect {
   }
 
   public isDisabled(): boolean {
-    return !this.telefoon || this.disabled;
+    // !this.telefoon || 
+    return this.disabled;
   }
 }

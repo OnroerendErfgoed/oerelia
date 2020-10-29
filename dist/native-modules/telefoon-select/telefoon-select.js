@@ -90,7 +90,7 @@ var TelefoonSelect = (function () {
         return true;
     };
     TelefoonSelect.prototype.isDisabled = function () {
-        return !this.telefoon || this.disabled;
+        return this.disabled;
     };
     __decorate([
         bindable,
