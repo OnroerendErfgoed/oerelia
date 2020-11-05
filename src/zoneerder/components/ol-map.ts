@@ -225,7 +225,8 @@ export class OlMap {
       }
     });
     if (coordinates.length > 0) {
-      this.deleteCoordinateFromZone(coordinates);
+      this.zone.coordinates = coordinates;
+      // this.deleteCoordinateFromZone(coordinates);
     } else {
       this.zone = null;
     }

@@ -201,7 +201,7 @@ var OlMap = (function () {
             }
         });
         if (coordinates.length > 0) {
-            this.deleteCoordinateFromZone(coordinates);
+            this.zone.coordinates = coordinates;
         }
         else {
             this.zone = null;
