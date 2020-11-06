@@ -18,7 +18,7 @@ export class TelefoonSelect {
   private suggestions: any[] = [];
 
   public bind() {
-    if (!this.telefoon.landcode) {
+    if (this.telefoon && !this.telefoon.landcode) {
       this.telefoon.landcode = '+32';
     }
   }
@@ -37,7 +37,7 @@ export class TelefoonSelect {
   }
 
   public toggleSuggestions() {
-    if (this.disabled) {
+    if (this.isDisabled()) {
       return;
     }
 
@@ -93,5 +93,9 @@ export class TelefoonSelect {
     }
 
     return true;
+  }
+
+  public isDisabled(): boolean {
+    return this.disabled;
   }
 }
