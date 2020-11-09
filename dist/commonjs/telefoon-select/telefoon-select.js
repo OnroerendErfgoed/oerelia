@@ -26,7 +26,7 @@ var TelefoonSelect = (function () {
         this.suggestions = [];
     }
     TelefoonSelect.prototype.bind = function () {
-        if (!this.telefoon.landcode) {
+        if (this.telefoon && !this.telefoon.landcode) {
             this.telefoon.landcode = '+32';
         }
     };
@@ -43,7 +43,7 @@ var TelefoonSelect = (function () {
         this.collapse();
     };
     TelefoonSelect.prototype.toggleSuggestions = function () {
-        if (this.disabled) {
+        if (this.isDisabled()) {
             return;
         }
         this.suggestions = this.countryCodeList;
@@ -90,6 +90,9 @@ var TelefoonSelect = (function () {
             return;
         }
         return true;
+    };
+    TelefoonSelect.prototype.isDisabled = function () {
+        return this.disabled;
     };
     __decorate([
         aurelia_framework_1.bindable,
