@@ -201,7 +201,7 @@ var OlMap = (function () {
             }
         });
         if (coordinates.length > 0) {
-            this.deleteCoordinateFromZone(coordinates);
+            this.zone.coordinates = coordinates;
         }
         else {
             this.zone = null;
@@ -597,24 +597,6 @@ var OlMap = (function () {
         var point = new ol.geom.Point([center[0], center[1]]);
         var transFormedPoint = point.transform('EPSG:31370', 'EPSG:3857');
         return transFormedPoint.getCoordinates();
-    };
-    OlMap.prototype.deleteCoordinateFromZone = function (coordinates) {
-        var _this = this;
-        var hash = {};
-        for (var i = 0; i < this.zone.coordinates.length; i += 1) {
-            hash[this.zone.coordinates[i]] = i;
-        }
-        var indexes = [];
-        coordinates.forEach(function (coordinate) {
-            if (hash.hasOwnProperty(coordinate)) {
-                indexes.push(hash[coordinate]);
-            }
-        });
-        this.zone.coordinates.forEach(function (coordinate, index) {
-            if (indexes.indexOf(index) <= -1) {
-                _this.zone.coordinates.splice(index, 1);
-            }
-        });
     };
     __decorate([
         bindable,
