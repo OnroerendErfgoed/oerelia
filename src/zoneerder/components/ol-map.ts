@@ -225,7 +225,7 @@ export class OlMap {
       }
     });
     if (coordinates.length > 0) {
-      this.deleteCoordinateFromZone(coordinates);
+      this.zone.coordinates = coordinates;
     } else {
       this.zone = null;
     }
@@ -688,25 +688,5 @@ export class OlMap {
     const transFormedPoint = (point.transform('EPSG:31370', 'EPSG:3857') as ol.geom.Point);
     
     return transFormedPoint.getCoordinates();
-  }
-
-  private deleteCoordinateFromZone(coordinates) {
-    let hash = {};
-    for (var i = 0; i < this.zone.coordinates.length; i += 1) {
-      hash[this.zone.coordinates[i]] = i;
-    }
-
-    let indexes = [];
-    coordinates.forEach(coordinate => {
-      if (hash.hasOwnProperty(coordinate)) {
-        indexes.push(hash[coordinate]);
-      }
-    });
-
-    this.zone.coordinates.forEach((coordinate, index) => {
-      if (indexes.indexOf(index) <= -1) {
-        this.zone.coordinates.splice(index, 1);
-      }
-    });
   }
 }
