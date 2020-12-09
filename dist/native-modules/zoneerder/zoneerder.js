@@ -23,7 +23,6 @@ var Zoneerder = (function () {
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     }
     Zoneerder.prototype.onMapLoaded = function ($event) {
-        console.debug('is-collapsed-zoneerder', this.isCollapsed);
         console.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
     };
     Zoneerder.prototype.resize = function () {
@@ -64,10 +63,6 @@ var Zoneerder = (function () {
         bindable,
         __metadata("design:type", ButtonConfig)
     ], Zoneerder.prototype, "buttonConfig", void 0);
-    __decorate([
-        bindable,
-        __metadata("design:type", Boolean)
-    ], Zoneerder.prototype, "isCollapsed", void 0);
     Zoneerder = __decorate([
         inject(HttpClient, CrabService, GeozoekdienstApiService),
         __metadata("design:paramtypes", [HttpClient,
