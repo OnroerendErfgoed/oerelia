@@ -68,7 +68,7 @@ var Zoneerder = (function () {
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Boolean)
-    ], Zoneerder.prototype, "isCollapsed", void 0);
+    ], Zoneerder.prototype, "collapsed", void 0);
     Zoneerder = __decorate([
         aurelia_framework_1.inject(aurelia_http_client_1.HttpClient, crab_api_service_1.CrabService, geozoekdienst_api_service_1.GeozoekdienstApiService),
         __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient,
