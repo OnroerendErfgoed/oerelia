@@ -49,6 +49,7 @@ export class OlMap {
   }
 
   public attached() {
+    console.debug('is-collapsed-ol-map', this.isCollapsed);
     console.debug('olMap::attached', this.zone);
     this._createMap();
     this._createMapButtons();

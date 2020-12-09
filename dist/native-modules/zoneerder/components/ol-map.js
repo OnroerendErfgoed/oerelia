@@ -35,6 +35,7 @@ var OlMap = (function () {
     }
     OlMap.prototype.attached = function () {
         var _this = this;
+        console.debug('is-collapsed-ol-map', this.isCollapsed);
         console.debug('olMap::attached', this.zone);
         this._createMap();
         this._createMapButtons();

@@ -20,10 +20,10 @@ var Zoneerder = (function () {
         this.crabService = crabService;
         this.geozoekdienstApiService = geozoekdienstApiService;
         this.disabled = false;
-        this.isCollapsed = true;
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     }
     Zoneerder.prototype.onMapLoaded = function ($event) {
+        console.debug('is-collapsed-zoneerder', this.isCollapsed);
         console.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
     };
     Zoneerder.prototype.resize = function () {

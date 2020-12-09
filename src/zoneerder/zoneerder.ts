@@ -13,7 +13,7 @@ export class Zoneerder {
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
   @bindable public adrespunten?: Contour[];
   @bindable public buttonConfig: ButtonConfig;
-  @bindable public isCollapsed?: boolean = true;
+  @bindable public isCollapsed?: boolean;
 
   protected suggest: { suggest: Function };
   private map: OlMap;
@@ -27,6 +27,7 @@ export class Zoneerder {
   }
 
   public onMapLoaded($event) {
+    console.debug('is-collapsed-zoneerder', this.isCollapsed);
     console.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
   }
 
