@@ -63,6 +63,10 @@ var Zoneerder = (function () {
         bindable,
         __metadata("design:type", ButtonConfig)
     ], Zoneerder.prototype, "buttonConfig", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Boolean)
+    ], Zoneerder.prototype, "isCollapsed", void 0);
     Zoneerder = __decorate([
         inject(HttpClient, CrabService, GeozoekdienstApiService),
         __metadata("design:paramtypes", [HttpClient,
