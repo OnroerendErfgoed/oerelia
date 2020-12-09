@@ -22,6 +22,7 @@ var Zoneerder = (function () {
         this.crabService = crabService;
         this.geozoekdienstApiService = geozoekdienstApiService;
         this.disabled = false;
+        this.isCollapsed = true;
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     }
     Zoneerder.prototype.onMapLoaded = function ($event) {
