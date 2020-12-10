@@ -17,7 +17,7 @@ export class OlMap {
   @bindable public disabled: boolean;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
   @bindable public adrespunten?: Contour[];
-  @bindable public isCollapsed?: boolean = true;
+  @bindable public sidebarOpen?: boolean = false;
 
   public geometryObjectList: string[] = [];
   public WKTstring!: string;
@@ -49,7 +49,6 @@ export class OlMap {
   }
 
   public attached() {
-    console.debug('is-collapsed-ol-map', this.isCollapsed);
     console.debug('olMap::attached', this.zone);
     this._createMap();
     this._createMapButtons();

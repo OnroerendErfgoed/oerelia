@@ -13,7 +13,7 @@ export class Zoneerder {
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
   @bindable public adrespunten?: Contour[];
   @bindable public buttonConfig: ButtonConfig;
-  @bindable public isCollapsed?: boolean;
+  @bindable public sidebarOpen?: boolean;
 
   protected suggest: { suggest: Function };
   private map: OlMap;
