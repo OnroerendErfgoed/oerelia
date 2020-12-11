@@ -5,24 +5,23 @@ var CopyButton = (function () {
         this.showCheckIcon = false;
     }
     CopyButton.prototype.copy = function () {
-        var text = 'hahahaha';
+        var text = 'gekopieerde tekst';
         if (navigator.clipboard) {
             navigator.clipboard.writeText(text).then(function () {
                 this.showCheckIcon = true;
-                setTimeout(function () {
-                    this.showCheckIcon = false;
-                }, 2000);
-            }, function (err) {
-                console.error('Could not copy text: ', err);
-            });
+                this.hideCheckIcon();
+            }.bind(this));
         }
         else {
             this.showCheckIcon = true;
             this.IEClipboardCopy(text);
-            setTimeout(function () {
-                this.showCheckIcon = false;
-            }, 2000);
+            this.hideCheckIcon();
         }
+    };
+    CopyButton.prototype.hideCheckIcon = function () {
+        setTimeout(function () {
+            this.showCheckIcon = false;
+        }, 2000);
     };
     CopyButton.prototype.IEClipboardCopy = function (text) {
         var input = document.createElement('input');

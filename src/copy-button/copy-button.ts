@@ -3,27 +3,23 @@ export class CopyButton {
   public showCheckIcon: boolean = false;
   
   public copy() {
-    let text = 'hahahaha';
+    let text = 'gekopieerde tekst';
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(function () {
         this.showCheckIcon = true;
-        // changeCopyToCheckIcon();
-        setTimeout(function () {
-          this.showCheckIcon = false;
-          // changeCheckToCopyIcon();
-        }, 2000);
-      }, function (err) {
-        console.error('Could not copy text: ', err);
-      });
+        this.hideCheckIcon();
+      }.bind(this));
     } else {
       this.showCheckIcon = true;
-      // changeCopyToCheckIcon();
       this.IEClipboardCopy(text);
-      setTimeout(function () {
-        this.showCheckIcon = false;
-        // changeCheckToCopyIcon();
-      }, 2000);
+      this.hideCheckIcon();
     }
+  }
+
+  private hideCheckIcon() {
+    setTimeout(function () {
+      this.showCheckIcon = false;
+    }, 2000);
   }
 
   private IEClipboardCopy(text) {
