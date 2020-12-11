@@ -203,7 +203,7 @@
 
 .detailfiche-copy-icon {
   cursor: pointer; }
-  .detailfiche-copy-icon .fa.fa-check {
+  .detailfiche-copy-icon.fa.fa-check {
     color: #43AC6A; }
   .detailfiche-copy-icon-container {
     margin: 0;
