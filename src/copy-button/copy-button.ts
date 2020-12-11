@@ -19,7 +19,7 @@ export class CopyButton {
   private hideCheckIcon() {
     setTimeout(function () {
       this.showCheckIcon = false;
-    }.bind(this), 2000);
+    }.bind(this), 20000);
   }
 
   private IEClipboardCopy(text) {
