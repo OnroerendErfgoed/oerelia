@@ -1,17 +1,19 @@
+import { bindable } from 'aurelia-framework';
+
 export class CopyButton {
-  // var url = document.getElementById('clipboard-target');
+  @bindable public targetId: string;
   public showCheckIcon: boolean = false;
   
   public copy() {
-    let text = 'gekopieerde tekst';
+    var url = document.getElementById(this.targetId);
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(function () {
+      navigator.clipboard.writeText(url.innerText).then(function () {
         this.showCheckIcon = true;
         this.hideCheckIcon();
       }.bind(this));
     } else {
       this.showCheckIcon = true;
-      this.IEClipboardCopy(text);
+      this.IEClipboardCopy(url.innerText);
       this.hideCheckIcon();
     }
   }
@@ -19,7 +21,7 @@ export class CopyButton {
   private hideCheckIcon() {
     setTimeout(function () {
       this.showCheckIcon = false;
-    }.bind(this), 20000);
+    }.bind(this), 2000);
   }
 
   private IEClipboardCopy(text) {
