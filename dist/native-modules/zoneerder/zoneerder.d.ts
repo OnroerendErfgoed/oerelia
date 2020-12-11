@@ -12,7 +12,7 @@ export declare class Zoneerder {
     zone: Contour;
     adrespunten?: Contour[];
     buttonConfig: ButtonConfig;
-    sidebarOpen?: boolean;
+    isCollapsed?: boolean;
     protected suggest: {
         suggest: Function;
     };

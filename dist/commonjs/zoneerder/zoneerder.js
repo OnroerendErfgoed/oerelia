@@ -22,6 +22,7 @@ var Zoneerder = (function () {
         this.crabService = crabService;
         this.geozoekdienstApiService = geozoekdienstApiService;
         this.disabled = false;
+        this.isCollapsed = true;
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     }
     Zoneerder.prototype.onMapLoaded = function ($event) {
@@ -68,7 +69,7 @@ var Zoneerder = (function () {
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Boolean)
-    ], Zoneerder.prototype, "sidebarOpen", void 0);
+    ], Zoneerder.prototype, "isCollapsed", void 0);
     Zoneerder = __decorate([
         aurelia_framework_1.inject(aurelia_http_client_1.HttpClient, crab_api_service_1.CrabService, geozoekdienst_api_service_1.GeozoekdienstApiService),
         __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient,

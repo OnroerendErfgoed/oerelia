@@ -23,7 +23,6 @@ var OlMap = (function () {
     function OlMap(element, crabService) {
         this.element = element;
         this.crabService = crabService;
-        this.sidebarOpen = false;
         this.geometryObjectList = [];
         this.isDrawing = false;
         this.isDrawingCircle = false;
@@ -615,7 +614,7 @@ var OlMap = (function () {
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Boolean)
-    ], OlMap.prototype, "sidebarOpen", void 0);
+    ], OlMap.prototype, "isCollapsed", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", geozoekdienst_api_service_1.GeozoekdienstApiService)
