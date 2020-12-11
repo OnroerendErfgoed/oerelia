@@ -1,0 +1,33 @@
+.tabs-content {
+  background: #ededed;
+  padding: 5px 10px;
+  margin-top: 1px; }
+
+.tabs dd {
+  margin-right: 1px !important; }
+
+.detailfiche-titel {
+  display: inline-block; }
+
+.detailfiche-copy-icon {
+  cursor: pointer; }
+  .detailfiche-copy-icon .fa.fa-check {
+    color: #43AC6A; }
+  .detailfiche-copy-icon-container {
+    margin: 0;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0;
+    background-color: white;
+    border-color: unset;
+    color: inherit;
+    transition: none;
+    display: inline-block; }
+    .detailfiche-copy-icon-container:hover {
+      background-color: white !important;
+      color: inherit !important; }
+    .detailfiche-copy-icon-container:focus {
+      background-color: white !important;
+      color: inherit !important;
+      border: none;
+      outline: none; }
