@@ -21,7 +21,7 @@ var CopyButton = (function () {
     CopyButton.prototype.hideCheckIcon = function () {
         setTimeout(function () {
             this.showCheckIcon = false;
-        }, 2000);
+        }.bind(this), 2000);
     };
     CopyButton.prototype.IEClipboardCopy = function (text) {
         var input = document.createElement('input');
