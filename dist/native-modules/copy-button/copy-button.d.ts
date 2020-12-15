@@ -1,5 +1,5 @@
 export declare class CopyButton {
-    elementRef: any;
+    element: any;
     showCheckIcon: boolean;
     copy(): void;
     private hideCheckIcon;
