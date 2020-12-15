@@ -1,7 +1,7 @@
 {
   "name": "oerelia",
   "description": "An Aurelia plugin project.",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/OnroerendErfgoed/oerelia.git"
@@ -17,6 +17,7 @@
     "aurelia-validation": "^1.5.0",
     "moment": "^2.24.0",
     "openlayers": "^4.2.0",
+    "primer-tooltips": "^2.0.0",
     "proj4": "^2.4.3",
     "toastr": "^2.1.4"
   },

@@ -15,4 +15,5 @@ export function configure(config: FrameworkConfiguration) {
     .feature(PLATFORM.moduleName('oerelia/multi-select/index'))
     .feature(PLATFORM.moduleName('oerelia/value-converters/index'))
     .feature(PLATFORM.moduleName('oerelia/actor-widget/index'))
+    .feature(PLATFORM.moduleName('oerelia/copy-button/index'))
 }

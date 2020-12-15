@@ -22,7 +22,6 @@ var OlMap = (function () {
         this.element = element;
         this.crabService = crabService;
         this.geometryObjectList = [];
-        this.isCollapsed = true;
         this.isDrawing = false;
         this.isDrawingCircle = false;
         this.selectPerceel = false;
@@ -610,6 +609,10 @@ var OlMap = (function () {
         bindable,
         __metadata("design:type", Array)
     ], OlMap.prototype, "adrespunten", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Boolean)
+    ], OlMap.prototype, "isCollapsed", void 0);
     __decorate([
         bindable,
         __metadata("design:type", GeozoekdienstApiService)

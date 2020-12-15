@@ -8,9 +8,9 @@ export declare class OlMap {
     disabled: boolean;
     zone: Contour;
     adrespunten?: Contour[];
+    isCollapsed: boolean;
     geometryObjectList: string[];
     WKTstring: string;
-    isCollapsed: boolean;
     protected isDrawing: boolean;
     protected isDrawingCircle: boolean;
     protected selectPerceel: boolean;
