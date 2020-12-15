@@ -1,7 +1,7 @@
 import { bindable } from 'aurelia-framework';
 
 export class CopyButton {
-  @bindable public element: any;
+  @bindable public element: HTMLElement;
   public showCheckIcon: boolean = false;
 
   public copy() {

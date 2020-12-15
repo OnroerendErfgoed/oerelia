@@ -41,7 +41,7 @@ var CopyButton = (function () {
     };
     __decorate([
         bindable,
-        __metadata("design:type", Object)
+        __metadata("design:type", HTMLElement)
     ], CopyButton.prototype, "element", void 0);
     return CopyButton;
 }());

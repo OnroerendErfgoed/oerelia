@@ -43,7 +43,7 @@ var CopyButton = (function () {
     };
     __decorate([
         aurelia_framework_1.bindable,
-        __metadata("design:type", Object)
+        __metadata("design:type", HTMLElement)
     ], CopyButton.prototype, "element", void 0);
     return CopyButton;
 }());
