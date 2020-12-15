@@ -1,9 +1,9 @@
 <template>
   <require from="./styles/copy-button.css"></require>
-  <button class="detailfiche-copy-icon-container ${showCheckIcon ? 'tooltipped tooltipped-n m-2 p-2 border' : ''}" 
+  <button class="copy-icon-container ${showCheckIcon ? 'tooltipped tooltipped-n m-2 p-2 border' : ''}" 
           aria-label="${showCheckIcon ? 'Gekopieerd!' : ''}" 
           click.delegate="copy()">
     <i class="fa fa-clipboard" title="Kopiëren" if.bind="!showCheckIcon"></i>
-    <i class="detailfiche-copy-icon fa fa-check" if.bind="showCheckIcon"></i>
+    <i class="copy-icon fa fa-check" if.bind="showCheckIcon"></i>
   </button>
 </template>

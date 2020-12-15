@@ -1,38 +1,32 @@
 @import  '../../assets/styles/pyoes/oe-settings';
 @import '../../../node_modules/primer-tooltips/index.scss';
 
-.detailfiche {
-  &-titel {
-    display: inline-block;
+.copy-icon {
+  cursor: pointer;
+  
+  &.fa.fa-check {
+    color: $success-color;
   }
-  &-copy-icon {
-    cursor: pointer;
-    
-    &.fa.fa-check {
-      color: $success-color;
+
+  &-container {
+    margin: 0;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0;
+    background-color: white;
+    border-color: unset;
+    color: inherit;
+    transition: none;
+    display: inline-block;
+    &:hover {
+      background-color: white !important;
+      color: inherit !important;
     }
-
-    &-container {
-      margin: 0;
-      text-decoration: none;
-      display: inline-block;
-      padding: 0;
-      background-color: white;
-      border-color: unset;
-      color: inherit;
-      transition: none;
-      display: inline-block;
-
-      &:hover {
-        background-color: white !important;
-        color: inherit !important;
-      }
-      &:focus {
-        background-color: white !important;
-        color: inherit !important;
-        border: none;
-        outline: none;
-      }
+    &:focus {
+      background-color: white !important;
+      color: inherit !important;
+      border: none;
+      outline: none;
     }
   }
 }

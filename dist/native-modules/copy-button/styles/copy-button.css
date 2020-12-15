@@ -198,14 +198,11 @@
 .tooltipped-sticky.tooltipped-multiline::after {
   display: table-cell; }
 
-.detailfiche-titel {
-  display: inline-block; }
-
-.detailfiche-copy-icon {
+.copy-icon {
   cursor: pointer; }
-  .detailfiche-copy-icon.fa.fa-check {
+  .copy-icon.fa.fa-check {
     color: #43AC6A; }
-  .detailfiche-copy-icon-container {
+  .copy-icon-container {
     margin: 0;
     text-decoration: none;
     display: inline-block;
@@ -215,10 +212,10 @@
     color: inherit;
     transition: none;
     display: inline-block; }
-    .detailfiche-copy-icon-container:hover {
+    .copy-icon-container:hover {
       background-color: white !important;
       color: inherit !important; }
-    .detailfiche-copy-icon-container:focus {
+    .copy-icon-container:focus {
       background-color: white !important;
       color: inherit !important;
       border: none;

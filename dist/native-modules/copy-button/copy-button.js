@@ -13,7 +13,7 @@ var CopyButton = (function () {
         this.showCheckIcon = false;
     }
     CopyButton.prototype.copy = function () {
-        var url = document.getElementById(this.targetId);
+        var url = this.elementRef.innerText;
         if (navigator.clipboard) {
             navigator.clipboard.writeText(url.innerText).then(function () {
                 this.showCheckIcon = true;
@@ -41,8 +41,8 @@ var CopyButton = (function () {
     };
     __decorate([
         bindable,
-        __metadata("design:type", String)
-    ], CopyButton.prototype, "targetId", void 0);
+        __metadata("design:type", Object)
+    ], CopyButton.prototype, "elementRef", void 0);
     return CopyButton;
 }());
 export { CopyButton };

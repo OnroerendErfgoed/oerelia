@@ -1,11 +1,11 @@
 import { bindable } from 'aurelia-framework';
 
 export class CopyButton {
-  @bindable public targetId: string;
+  @bindable public elementRef: any;
   public showCheckIcon: boolean = false;
-  
+
   public copy() {
-    var url = document.getElementById(this.targetId);
+    var url = this.elementRef.innerText;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(url.innerText).then(function () {
         this.showCheckIcon = true;
