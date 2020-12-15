@@ -17,7 +17,8 @@ function configure(config) {
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/spinner/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/multi-select/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/value-converters/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/actor-widget/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/actor-widget/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/copy-button/index'));
 }
 exports.configure = configure;
 

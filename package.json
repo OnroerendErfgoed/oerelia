@@ -17,6 +17,7 @@
     "aurelia-validation": "^1.5.0",
     "moment": "^2.24.0",
     "openlayers": "^4.2.0",
+    "primer-tooltips": "^2.0.0",
     "proj4": "^2.4.3",
     "toastr": "^2.1.4"
   },
