@@ -1,5 +1,6 @@
 @import  '../../assets/styles/pyoes/oe-settings';
-@import '../../../node_modules/primer-tooltips/index.scss';
+@import '../../../node_modules/primer-support/index.scss';
+@import '../../../node_modules/primer-tooltips/lib/tooltips.scss';
 
 .copy-icon {
   cursor: pointer;
