@@ -87,6 +87,14 @@ var AdresCrab = (function () {
             this.data.huisnummer = undefined;
         }
     };
+    AdresCrab.prototype.huisnummerParser = function (value) {
+        if (value) {
+            return new locatie_1.Huisnummer(null, value);
+        }
+        else {
+            return undefined;
+        }
+    };
     AdresCrab.prototype.loadLanden = function () {
         var _this = this;
         this.crabService.getLanden().then(function (landen) {

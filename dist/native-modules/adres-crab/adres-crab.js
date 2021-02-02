@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { inject, bindable, BindingEngine } from 'aurelia-framework';
 import { ValidationController, ValidationControllerFactory, ValidationRules } from 'aurelia-validation';
 import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
-import { Adres, Postcode } from './models/locatie';
+import { Adres, Postcode, Huisnummer } from './models/locatie';
 import { CrabService } from '../services/crab.api-service';
 var AdresCrab = (function () {
     function AdresCrab(controller, controllerFactory, crabService, bindingEngine) {
@@ -83,6 +83,14 @@ var AdresCrab = (function () {
     AdresCrab.prototype.straatChanged = function () {
         if (!this.data.straat) {
             this.data.huisnummer = undefined;
+        }
+    };
+    AdresCrab.prototype.huisnummerParser = function (value) {
+        if (value) {
+            return new Huisnummer(null, value);
+        }
+        else {
+            return undefined;
         }
     };
     AdresCrab.prototype.loadLanden = function () {
