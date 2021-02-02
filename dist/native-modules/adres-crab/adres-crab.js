@@ -12,6 +12,7 @@ import { ValidationController, ValidationControllerFactory, ValidationRules } fr
 import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
 import { Adres, Postcode, Huisnummer } from './models/locatie';
 import { CrabService } from '../services/crab.api-service';
+import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 var AdresCrab = (function () {
     function AdresCrab(controller, controllerFactory, crabService, bindingEngine) {
         var _this = this;
@@ -21,6 +22,7 @@ var AdresCrab = (function () {
         this.bindingEngine = bindingEngine;
         this.landen = [];
         this.suggest = {};
+        this.autocompleteType = autocompleteType;
         this.controller = this.controllerFactory.createForCurrentScope();
         this.controller.addRenderer(new FoundationValidationRenderer());
         this.loadLanden();

@@ -15,6 +15,7 @@ export declare class AdresCrab {
     straat: string;
     huisnummer: string;
     private suggest;
+    private autocompleteType;
     constructor(controller: ValidationController, controllerFactory: ValidationControllerFactory, crabService: CrabService, bindingEngine: BindingEngine);
     bind(): void;
     parseField(value: any, property: any): void;

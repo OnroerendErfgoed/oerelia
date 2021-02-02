@@ -14,6 +14,7 @@ var aurelia_validation_1 = require("aurelia-validation");
 var foundation_validation_renderer_1 = require("../foundation-validation-renderer/foundation-validation-renderer");
 var locatie_1 = require("./models/locatie");
 var crab_api_service_1 = require("../services/crab.api-service");
+var autocomplete_type_1 = require("../autocomplete/models/autocomplete-type");
 var AdresCrab = (function () {
     function AdresCrab(controller, controllerFactory, crabService, bindingEngine) {
         var _this = this;
@@ -23,6 +24,7 @@ var AdresCrab = (function () {
         this.bindingEngine = bindingEngine;
         this.landen = [];
         this.suggest = {};
+        this.autocompleteType = autocomplete_type_1.autocompleteType;
         this.controller = this.controllerFactory.createForCurrentScope();
         this.controller.addRenderer(new foundation_validation_renderer_1.FoundationValidationRenderer());
         this.loadLanden();

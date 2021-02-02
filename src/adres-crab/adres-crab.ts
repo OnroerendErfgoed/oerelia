@@ -3,6 +3,7 @@ import { ValidationController, ValidationControllerFactory, ValidationRules } fr
 import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
 import { Adres, Postcode, Huisnummer } from './models/locatie';
 import { CrabService } from '../services/crab.api-service';
+import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 
 @inject(ValidationController, ValidationControllerFactory, CrabService, BindingEngine)
 export class AdresCrab {
@@ -14,6 +15,7 @@ export class AdresCrab {
   public straat: string;
   public huisnummer: string;
   private suggest: any = {};
+  private autocompleteType = autocompleteType;
 
   constructor(
     public controller: ValidationController,
