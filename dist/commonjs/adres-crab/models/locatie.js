@@ -27,7 +27,9 @@ var Straat = (function () {
 }());
 exports.Straat = Straat;
 var Huisnummer = (function () {
-    function Huisnummer() {
+    function Huisnummer(id, naam) {
+        this.id = id;
+        this.naam = naam;
     }
     return Huisnummer;
 }());

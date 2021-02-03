@@ -1,8 +1,9 @@
 import { inject, bindable, BindingEngine } from 'aurelia-framework';
 import { ValidationController, ValidationControllerFactory, ValidationRules } from 'aurelia-validation';
 import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
-import { Adres, Postcode } from './models/locatie';
+import { Adres, Postcode, Huisnummer } from './models/locatie';
 import { CrabService } from '../services/crab.api-service';
+import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 
 @inject(ValidationController, ValidationControllerFactory, CrabService, BindingEngine)
 export class AdresCrab {
@@ -14,6 +15,7 @@ export class AdresCrab {
   public straat: string;
   public huisnummer: string;
   private suggest: any = {};
+  private autocompleteType = autocompleteType;
 
   constructor(
     public controller: ValidationController,
@@ -92,6 +94,14 @@ export class AdresCrab {
   public straatChanged() {
     if (!this.data.straat) {
       this.data.huisnummer = undefined;
+    }
+  }
+
+  public huisnummerParser(value) {
+    if (value) {
+      return new Huisnummer(null, value);
+    } else {
+      return undefined;
     }
   }
 

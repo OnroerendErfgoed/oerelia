@@ -24,4 +24,5 @@ export declare class Straat {
 export declare class Huisnummer {
     id: number;
     naam: string;
+    constructor(id: number, naam: string);
 }
