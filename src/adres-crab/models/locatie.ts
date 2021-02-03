@@ -35,4 +35,12 @@ export class Straat {
 export class Huisnummer {
   public id: number;
   public naam: string;
+
+  constructor(
+    id: number,
+    naam: string
+  ) {
+    this.id = id;
+    this.naam = naam;
+  }
 }
