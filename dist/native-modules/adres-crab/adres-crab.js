@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { inject, bindable, BindingEngine } from 'aurelia-framework';
 import { ValidationController, ValidationControllerFactory, ValidationRules } from 'aurelia-validation';
 import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
-import { Adres, Postcode, Huisnummer } from './models/locatie';
+import { Adres, Postcode, Huisnummer } from './models/adres';
 import { CrabService } from '../services/crab.api-service';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 var AdresCrab = (function () {
@@ -20,9 +20,11 @@ var AdresCrab = (function () {
         this.controllerFactory = controllerFactory;
         this.crabService = crabService;
         this.bindingEngine = bindingEngine;
+        this.config = {
+            huisnummer: { required: true, autocompleteType: autocompleteType.Auto }
+        };
         this.landen = [];
         this.suggest = {};
-        this.autocompleteType = autocompleteType;
         this.controller = this.controllerFactory.createForCurrentScope();
         this.controller.addRenderer(new FoundationValidationRenderer());
         this.loadLanden();
@@ -38,13 +40,17 @@ var AdresCrab = (function () {
             .ensure('gemeente').required()
             .ensure('postcode').required()
             .ensure('straat').required()
-            .ensure('huisnummer').required()
+            .ensure('huisnummer')
+            .required()
+            .when(function () { return _this.config.huisnummer.required; })
             .on(this.data);
         ValidationRules
             .ensure('gemeente').required()
             .ensure('postcode').required()
             .ensure('straat').required()
-            .ensure('huisnummer').required()
+            .ensure('huisnummer')
+            .required()
+            .when(function () { return _this.config.huisnummer.required; })
             .on(this);
         this.bindingEngine
             .propertyObserver(this.data, 'land')
@@ -178,6 +184,10 @@ var AdresCrab = (function () {
         bindable,
         __metadata("design:type", Adres)
     ], AdresCrab.prototype, "data", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], AdresCrab.prototype, "config", void 0);
     AdresCrab = __decorate([
         inject(ValidationController, ValidationControllerFactory, CrabService, BindingEngine),
         __metadata("design:paramtypes", [ValidationController,

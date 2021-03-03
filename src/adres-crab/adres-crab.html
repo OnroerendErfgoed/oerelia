@@ -37,7 +37,7 @@
       <div class="placeholder-container ${ !data.straat || disabled ? 'placeholder-disabled' : '' }">
         <label>Huisnummer</label>
         <autocomplete service.bind="suggest.huisnummers" parser.bind="huisnummerParser" label="naam" placeholder="huisnummer"
-                      minlength="1" disabled.bind="!data.straat || disabled" value.bind="data.huisnummer & validate" type.bind="autocompleteType.Suggest">
+                      minlength="1" disabled.bind="!data.straat || disabled" value.bind="data.huisnummer & validate" type.bind="config.huisnummer.autocompleteType">
           <template replace-part="suggestion">
             ${suggestion.naam}
           </template>
