@@ -1,21 +1,24 @@
 import { inject, bindable, BindingEngine } from 'aurelia-framework';
 import { ValidationController, ValidationControllerFactory, ValidationRules } from 'aurelia-validation';
 import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
-import { Adres, Postcode, Huisnummer } from './models/locatie';
+import { Adres, Postcode, Huisnummer } from './models/adres';
 import { CrabService } from '../services/crab.api-service';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
+import { IAdresCrabConfig } from './types/adres-crab-config';
 
 @inject(ValidationController, ValidationControllerFactory, CrabService, BindingEngine)
 export class AdresCrab {
   @bindable public disabled: boolean;
   @bindable public data: Adres;
+  @bindable public config: IAdresCrabConfig = {
+    huisnummer: { required: true, autocompleteType: autocompleteType.Auto }
+  };
   public landen: any[] = [];
   public gemeente: string;
   public postcode: string;
   public straat: string;
   public huisnummer: string;
   private suggest: any = {};
-  private autocompleteType = autocompleteType;
 
   constructor(
     public controller: ValidationController,
@@ -39,14 +42,18 @@ export class AdresCrab {
       .ensure('gemeente').required()
       .ensure('postcode').required()
       .ensure('straat').required()
-      .ensure('huisnummer').required()
+      .ensure('huisnummer')
+        .required()
+          .when(() => this.config.huisnummer.required)
       .on(this.data);
 
     ValidationRules
       .ensure('gemeente').required()
       .ensure('postcode').required()
       .ensure('straat').required()
-      .ensure('huisnummer').required()
+      .ensure('huisnummer')
+        .required()
+          .when(() => this.config.huisnummer.required)
       .on(this);
 
     this.bindingEngine

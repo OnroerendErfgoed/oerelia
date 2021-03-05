@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_validation_1 = require("aurelia-validation");
 var foundation_validation_renderer_1 = require("../foundation-validation-renderer/foundation-validation-renderer");
-var locatie_1 = require("./models/locatie");
+var adres_1 = require("./models/adres");
 var crab_api_service_1 = require("../services/crab.api-service");
 var autocomplete_type_1 = require("../autocomplete/models/autocomplete-type");
 var AdresCrab = (function () {
@@ -22,9 +22,11 @@ var AdresCrab = (function () {
         this.controllerFactory = controllerFactory;
         this.crabService = crabService;
         this.bindingEngine = bindingEngine;
+        this.config = {
+            huisnummer: { required: true, autocompleteType: autocomplete_type_1.autocompleteType.Auto }
+        };
         this.landen = [];
         this.suggest = {};
-        this.autocompleteType = autocomplete_type_1.autocompleteType;
         this.controller = this.controllerFactory.createForCurrentScope();
         this.controller.addRenderer(new foundation_validation_renderer_1.FoundationValidationRenderer());
         this.loadLanden();
@@ -40,13 +42,17 @@ var AdresCrab = (function () {
             .ensure('gemeente').required()
             .ensure('postcode').required()
             .ensure('straat').required()
-            .ensure('huisnummer').required()
+            .ensure('huisnummer')
+            .required()
+            .when(function () { return _this.config.huisnummer.required; })
             .on(this.data);
         aurelia_validation_1.ValidationRules
             .ensure('gemeente').required()
             .ensure('postcode').required()
             .ensure('straat').required()
-            .ensure('huisnummer').required()
+            .ensure('huisnummer')
+            .required()
+            .when(function () { return _this.config.huisnummer.required; })
             .on(this);
         this.bindingEngine
             .propertyObserver(this.data, 'land')
@@ -91,7 +97,7 @@ var AdresCrab = (function () {
     };
     AdresCrab.prototype.huisnummerParser = function (value) {
         if (value) {
-            return new locatie_1.Huisnummer(null, value);
+            return new adres_1.Huisnummer(null, value);
         }
         else {
             return undefined;
@@ -141,7 +147,7 @@ var AdresCrab = (function () {
                 });
             }
             else {
-                _this.data.postcode = new locatie_1.Postcode(Number(value), value);
+                _this.data.postcode = new adres_1.Postcode(Number(value), value);
             }
         });
     };
@@ -178,8 +184,12 @@ var AdresCrab = (function () {
     ], AdresCrab.prototype, "disabled", void 0);
     __decorate([
         aurelia_framework_1.bindable,
-        __metadata("design:type", locatie_1.Adres)
+        __metadata("design:type", adres_1.Adres)
     ], AdresCrab.prototype, "data", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], AdresCrab.prototype, "config", void 0);
     AdresCrab = __decorate([
         aurelia_framework_1.inject(aurelia_validation_1.ValidationController, aurelia_validation_1.ValidationControllerFactory, crab_api_service_1.CrabService, aurelia_framework_1.BindingEngine),
         __metadata("design:paramtypes", [aurelia_validation_1.ValidationController,

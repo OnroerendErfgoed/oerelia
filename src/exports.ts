@@ -12,6 +12,7 @@ export * from './systemfields/systemfields';
 export * from './telefoon-select/telefoon-select';
 
 export * from './adres-crab/adres-crab';
+export * from './adres-crab/types/adres-crab-config';
 
 export * from './spinner/spinner';
 
