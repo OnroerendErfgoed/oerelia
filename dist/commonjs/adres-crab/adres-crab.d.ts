@@ -1,7 +1,8 @@
 import { BindingEngine } from 'aurelia-framework';
 import { ValidationController, ValidationControllerFactory } from 'aurelia-validation';
-import { Adres, Huisnummer } from './models/locatie';
+import { Adres, Huisnummer } from './models/adres';
 import { CrabService } from '../services/crab.api-service';
+import { IAdresCrabConfig } from './types/adres-crab-config';
 export declare class AdresCrab {
     controller: ValidationController;
     private controllerFactory;
@@ -9,13 +10,13 @@ export declare class AdresCrab {
     private bindingEngine;
     disabled: boolean;
     data: Adres;
+    config: IAdresCrabConfig;
     landen: any[];
     gemeente: string;
     postcode: string;
     straat: string;
     huisnummer: string;
     private suggest;
-    private autocompleteType;
     constructor(controller: ValidationController, controllerFactory: ValidationControllerFactory, crabService: CrabService, bindingEngine: BindingEngine);
     bind(): void;
     parseField(value: any, property: any): void;
