@@ -17,11 +17,11 @@ var ActorWidget = (function () {
     function ActorWidget(crabService) {
         var _this = this;
         this.crabService = crabService;
+        this.isAdvancedSearch = false;
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
         this.showFilters = false;
-        this.isAdvancedSearch = false;
         this.landen = [];
         this.gemeenten = [];
         this.postcodes = [];
@@ -297,6 +297,10 @@ var ActorWidget = (function () {
         aurelia_templating_1.bindable,
         __metadata("design:type", aurelia_dialog_1.DialogController)
     ], ActorWidget.prototype, "dialogController", void 0);
+    __decorate([
+        aurelia_templating_1.bindable,
+        __metadata("design:type", Boolean)
+    ], ActorWidget.prototype, "isAdvancedSearch", void 0);
     ActorWidget = __decorate([
         aurelia_framework_1.autoinject,
         __metadata("design:paramtypes", [crab_api_service_1.CrabService])
