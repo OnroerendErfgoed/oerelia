@@ -15,11 +15,11 @@ var ActorWidget = (function () {
     function ActorWidget(crabService) {
         var _this = this;
         this.crabService = crabService;
-        this.isAdvancedSearch = false;
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
         this.showFilters = false;
+        this.isAdvancedSearch = false;
         this.landen = [];
         this.gemeenten = [];
         this.postcodes = [];
@@ -295,10 +295,6 @@ var ActorWidget = (function () {
         bindable,
         __metadata("design:type", DialogController)
     ], ActorWidget.prototype, "dialogController", void 0);
-    __decorate([
-        bindable,
-        __metadata("design:type", Boolean)
-    ], ActorWidget.prototype, "isAdvancedSearch", void 0);
     ActorWidget = __decorate([
         autoinject,
         __metadata("design:paramtypes", [CrabService])

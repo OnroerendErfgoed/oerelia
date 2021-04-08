@@ -6,7 +6,6 @@ export declare class ActorWidget {
     scope: any;
     actorenApiService: any;
     dialogController: DialogController;
-    isAdvancedSearch: boolean;
     showSpinner: boolean;
     gridOptions: GridOptions;
     zoekterm: string;
@@ -14,6 +13,7 @@ export declare class ActorWidget {
     showTable: boolean;
     showActor: boolean;
     showFilters: boolean;
+    isAdvancedSearch: boolean;
     landen: any[];
     gemeenten: any[];
     postcodes: any[];
