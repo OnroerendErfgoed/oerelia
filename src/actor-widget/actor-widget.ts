@@ -9,6 +9,7 @@ export class ActorWidget {
   @bindable public scope: any;
   @bindable public actorenApiService: any;
   @bindable public dialogController: DialogController;
+  @bindable public isAdvancedSearch: boolean = false;
 
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;
@@ -17,7 +18,6 @@ export class ActorWidget {
   public showTable: boolean = true;
   public showActor: boolean = false;
   public showFilters: boolean = false;
-  public isAdvancedSearch: boolean = false;
   public landen: any[] = [];
   public gemeenten: any[] = [];
   public postcodes: any[] = [];
