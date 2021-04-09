@@ -233,10 +233,10 @@
         <div class="large-6 small-12 large-centered column">
           <button class="button tiny large-offset-1 large-5 small-5 column" if.bind="showFilters"
             click.delegate="advancedSearch()">Zoeken</button>
-          <button class="button tiny large-offset-1 large-5 small-5 column" if.bind="showTable || showActor"
+          <button class="button tiny large-5 small-5 column" if.bind="showTable || showActor"
             disabled.bind="!selectedActor"
             click.delegate="toevoegen()">Toevoegen</button>
-          <button class="button tiny large-offset-1 large-5 small-offset-1 small-5 large-end column"
+          <button class="button tiny large-5 small-5 large-end column"
             click.delegate="annuleren()">Annuleren</button>
         </div>
       </div>
