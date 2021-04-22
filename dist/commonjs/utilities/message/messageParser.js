@@ -12,8 +12,15 @@ var MessageParser = (function () {
             }
         };
         if (response.content.errors || response.content.message) {
-            result.response.errors = response.content.errors ||
-                [response.content.message];
+            var errors = response.content.errors || [response.content.message];
+            if (result.code && result.code === 500) {
+                errors.forEach(function (error) {
+                    if (error.indexOf('ict@onroerenderfgoed.be') !== -1) {
+                        error.replace('ict@onroerenderfgoed.be', '<a href="mailto: ict@onroerenderfgoed.be">ict@onroerenderfgoed.be</a>');
+                    }
+                });
+            }
+            result.response.errors = errors;
             result.response.message = response.content.errors ? response.content.message : 'Er is een fout opgetreden';
         }
         else if (response.statusCode === 0 || response.statusCode === 500) {
