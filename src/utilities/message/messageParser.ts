@@ -12,14 +12,15 @@ export class MessageParser {
 
     if (response.content.errors || response.content.message) {
       var errors = response.content.errors || [response.content.message];
-
-      if (result.code && result.code === 500) {
-        errors.forEach(function (error: string) {
-          if (error.indexOf('ict@onroerenderfgoed.be') !== -1) {
-            error.replace('ict@onroerenderfgoed.be', '<a href="mailto: ict@onroerenderfgoed.be">ict@onroerenderfgoed.be</a>');
-          }
-        });
-      }
+      errors.forEach(function (error, index) {
+        if (error.indexOf('ict@onroerenderfgoed.be') !== -1) {
+          const subject = 'Vraag of fout bij ' + response.requestMessage.url;
+          const errorInfo = 'Opgetreden fout: ' + new Date().toString() + ' - ' + response.statusText + ' \n \n';
+          const body = errorInfo + 'Gelieve hieronder uw probleem of vraag te omschrijven. Vermeld zeker de genomen stappen en voeg screenshots toe als bijlage ter verduidelijking:';
+          const hrefUrl = 'mailto: ict@onroerenderfgoed.be?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+          errors[index] = error.replace('ict@onroerenderfgoed.be', "<a href='" + hrefUrl + "'>ict@onroerenderfgoed.be</a>");
+        }
+      });
 
       result.response.errors = errors;
       result.response.message = response.content.errors ? response.content.message : 'Er is een fout opgetreden';
@@ -29,9 +30,16 @@ export class MessageParser {
       if (!reg.test(response.requestMessage.url)) {
         url = `${response.requestMessage.baseUrl}/${url}`;
       }
+
+      const subject = 'Vraag of fout bij ' + response.requestMessage.url;
+      const errorInfo = 'Opgetreden fout: ' + new Date().toString() + ' - ' + response.statusText + ' \n \n';
+      const body = errorInfo + 'Gelieve hieronder uw probleem of vraag te omschrijven. Vermeld zeker de genomen stappen en voeg screenshots toe als bijlage ter verduidelijking:';
+      const hrefUrl = 'mailto: ict@onroerenderfgoed.be?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      const oeUrl = "<a href='" + hrefUrl + "'>ict@onroerenderfgoed.be</a>";
+
       result.response.errors = [
         `Er liep iets mis bij het ophalen van ${url}.<br>
-         Mail naar ict@onroerenderfgoed.be om dit probleem te melden.`
+         Mail naar ${oeUrl} om dit probleem te melden.`
       ];
     }
     return result;
