@@ -18,7 +18,7 @@ export class MessageParser {
           const errorInfo = 'Opgetreden fout: ' + new Date().toString() + ' - ' + response.statusText + ' \n \n';
           const body = errorInfo + 'Gelieve hieronder uw probleem of vraag te omschrijven. Vermeld zeker de genomen stappen en voeg screenshots toe als bijlage ter verduidelijking:';
           const hrefUrl = 'mailto: ict@onroerenderfgoed.be?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-          errors[index] = error.replace('ict@onroerenderfgoed.be', "<a href='" + hrefUrl + "'>ict@onroerenderfgoed.be</a>");
+          errors[index] = error.replace('ict@onroerenderfgoed.be', "<a href='" + hrefUrl + "' target='_blank'>ict@onroerenderfgoed.be</a>");
         }
       });
 
@@ -35,7 +35,7 @@ export class MessageParser {
       const errorInfo = 'Opgetreden fout: ' + new Date().toString() + ' - ' + response.statusText + ' \n \n';
       const body = errorInfo + 'Gelieve hieronder uw probleem of vraag te omschrijven. Vermeld zeker de genomen stappen en voeg screenshots toe als bijlage ter verduidelijking:';
       const hrefUrl = 'mailto: ict@onroerenderfgoed.be?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      const oeUrl = "<a href='" + hrefUrl + "'>ict@onroerenderfgoed.be</a>";
+      const oeUrl = "<a href='" + hrefUrl + "' target='_blank'>ict@onroerenderfgoed.be</a>";
 
       result.response.errors = [
         `Er liep iets mis bij het ophalen van ${url}.<br>

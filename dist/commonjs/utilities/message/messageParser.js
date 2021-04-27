@@ -19,7 +19,7 @@ var MessageParser = (function () {
                     var errorInfo = 'Opgetreden fout: ' + new Date().toString() + ' - ' + response.statusText + ' \n \n';
                     var body = errorInfo + 'Gelieve hieronder uw probleem of vraag te omschrijven. Vermeld zeker de genomen stappen en voeg screenshots toe als bijlage ter verduidelijking:';
                     var hrefUrl = 'mailto: ict@onroerenderfgoed.be?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-                    errors[index] = error.replace('ict@onroerenderfgoed.be', "<a href='" + hrefUrl + "'>ict@onroerenderfgoed.be</a>");
+                    errors[index] = error.replace('ict@onroerenderfgoed.be', "<a href='" + hrefUrl + "' target='_blank'>ict@onroerenderfgoed.be</a>");
                 }
             });
             result.response.errors = errors;
@@ -35,7 +35,7 @@ var MessageParser = (function () {
             var errorInfo = 'Opgetreden fout: ' + new Date().toString() + ' - ' + response.statusText + ' \n \n';
             var body = errorInfo + 'Gelieve hieronder uw probleem of vraag te omschrijven. Vermeld zeker de genomen stappen en voeg screenshots toe als bijlage ter verduidelijking:';
             var hrefUrl = 'mailto: ict@onroerenderfgoed.be?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-            var oeUrl = "<a href='" + hrefUrl + "'>ict@onroerenderfgoed.be</a>";
+            var oeUrl = "<a href='" + hrefUrl + "' target='_blank'>ict@onroerenderfgoed.be</a>";
             result.response.errors = [
                 "Er liep iets mis bij het ophalen van " + url + ".<br>\n         Mail naar " + oeUrl + " om dit probleem te melden."
             ];
