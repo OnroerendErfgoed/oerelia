@@ -44,3 +44,6 @@
       font-size: 12px;
       display: inline;
       margin-right: 10px; }
+
+.ol-unselectable.panel-container.ol-control.layer-switcher {
+  background-color: #FFF; }

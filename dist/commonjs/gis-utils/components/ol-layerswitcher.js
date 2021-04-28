@@ -171,6 +171,24 @@ var LayerswitcherPanel = (function (_super) {
             label.htmlFor = lyrId;
             label.innerHTML = lyrTitle;
             li.appendChild(label);
+            var legendImages = lyr.get('legendImages');
+            if (legendImages && legendImages.length > 0) {
+                var container_1 = document.createElement('container');
+                container_1.className = 'legend-container';
+                legendImages.forEach(function (legendImage) {
+                    var span = document.createElement('span');
+                    span.className = 'legend-layer';
+                    var image = document.createElement('img');
+                    image.className = 'legend-image';
+                    image.src = legendImage.url;
+                    span.appendChild(image);
+                    var titleLabel = document.createElement('label');
+                    titleLabel.innerHTML = legendImage.title;
+                    span.appendChild(label);
+                    container_1.appendChild(span);
+                });
+                li.appendChild(container_1);
+            }
         }
         return li;
     };
