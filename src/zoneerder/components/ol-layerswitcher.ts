@@ -205,31 +205,6 @@ export class Layerswitcher extends ol.control.Control {
       label.htmlFor = lyrId;
       label.innerHTML = lyrTitle;
       li.appendChild(label);
-
-      const legendImages = lyr.get('legendImages');
-      if (legendImages && legendImages.length > 0) {
-        let container = document.createElement('container');
-        container.className = 'legend-container';
-
-        legendImages.forEach(legendImage => {
-          const span = document.createElement('span');
-          span.className = 'legend-layer';
-
-          const image = document.createElement('img');
-          image.className = 'legend-image';
-          image.src = legendImage.url;
-
-          span.appendChild(image);
-
-          const titleLabel = document.createElement('label');
-          titleLabel.innerHTML = legendImage.title;
-
-          span.appendChild(titleLabel);
-          container.appendChild(span);
-        })
-
-        li.appendChild(container);
-      }
     }
     return li;
   }
