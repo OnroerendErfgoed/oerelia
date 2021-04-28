@@ -226,7 +226,7 @@ export class LayerswitcherPanel extends ol.control.Control {
           const titleLabel = document.createElement('label');
           titleLabel.innerHTML = legendImage.title;
 
-          span.appendChild(label);
+          span.appendChild(titleLabel);
           container.appendChild(span);
         })
 

@@ -182,7 +182,7 @@ var LayerswitcherPanel = (function (_super) {
                     span.appendChild(image);
                     var titleLabel = document.createElement('label');
                     titleLabel.innerHTML = legendImage.title;
-                    span.appendChild(label);
+                    span.appendChild(titleLabel);
                     container_1.appendChild(span);
                 });
                 li.appendChild(container_1);
