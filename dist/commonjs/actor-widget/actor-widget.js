@@ -51,12 +51,13 @@ var ActorWidget = (function () {
         this.gridOptions.rowData = null;
         this.gridOptions.infiniteInitialRowCount = 1;
         this.gridOptions.cacheBlockSize = 50;
+        this.gridOptions.overlayNoRowsTemplate = '<span class="no-rows">Er zijn geen resultaten</span>';
         this.gridOptions.overlayLoadingTemplate = '<i class="fa fa-pulse fa-spinner"></i>';
         this.gridOptions.columnDefs = [
             { headerName: '#', field: 'id', sort: 'desc', width: 50 },
             { headerName: 'Naam', field: 'naam', width: 200 },
             { headerName: 'Voornaam', field: 'voornaam', width: 200 },
-            { headerName: 'Type', field: 'type.naam', width: 200 },
+            { headerName: 'Type', field: 'type.naam', width: 200, sortable: false },
             { headerName: 'Acties', width: 55, cellClass: 'acties-cell',
                 cellRenderer: this.actiesCellRenderer, sortable: false
             }
@@ -106,6 +107,13 @@ var ActorWidget = (function () {
                     if (data) {
                         params.successCallback(data.content, data.lastRow);
                         params.context.zoekterm = '';
+                        if (data.content.length <= 0) {
+                            params.context.gridOptions.api.showNoRowsOverlay();
+                            params.context.gridOptions.api.setInfiniteRowCount(0, false);
+                        }
+                        else {
+                            params.context.gridOptions.api.hideOverlay();
+                        }
                     }
                     params.context.onGridSizeChanged();
                     params.context.showSpinner = false;
