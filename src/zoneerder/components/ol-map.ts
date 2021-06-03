@@ -370,7 +370,9 @@ export class OlMap {
         this.baseLayers.ortho = this._createGrbLayer('omwrgbmrvl', 'Ortho', true),
         this.baseLayers.grb = this._createGrbLayer('grb_bsk', 'GRB-Basiskaart', true),
         this.baseLayers.grbzw = this._createGrbLayer('grb_bsk_grijs', 'GRB-Basiskaart in grijswaarden', true),
-        this.baseLayers.topo = this._createNgiLayer('topo', 'Topokaart', true)
+        this.baseLayers.topo = this._createNgiLayer('topo', 'Topokaart', true),
+        this.baseLayers.topo = this._createNgiLayer('DHMV_II_HILL_25cm', 'Hillshade 25cm', true),
+        this.baseLayers.topo = this._createNgiLayer('DHMV_II_SVF_25cm', 'Skyview 25cm', true)
       ]
     });
     layerGroup.set('title', 'Achtergrond kaart');
