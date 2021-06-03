@@ -75,6 +75,8 @@ var OlMap = (function () {
         this.baseLayers.grb.setVisible(layerName === 'grb');
         this.baseLayers.grbzw.setVisible(layerName === 'grbzw');
         this.baseLayers.topo.setVisible(layerName === 'topo');
+        this.baseLayers.hill.setVisible(layerName === 'DHMV_II_HILL_25cm');
+        this.baseLayers.svf.setVisible(layerName === 'DHMV_II_SVF_25cm');
     };
     OlMap.prototype.zoomToExtent = function (extent) {
         this.updateMapSize();
@@ -330,7 +332,9 @@ var OlMap = (function () {
                 this.baseLayers.ortho = this._createGrbLayer('omwrgbmrvl', 'Ortho', true),
                 this.baseLayers.grb = this._createGrbLayer('grb_bsk', 'GRB-Basiskaart', true),
                 this.baseLayers.grbzw = this._createGrbLayer('grb_bsk_grijs', 'GRB-Basiskaart in grijswaarden', true),
-                this.baseLayers.topo = this._createNgiLayer('topo', 'Topokaart', true)
+                this.baseLayers.topo = this._createNgiLayer('topo', 'Topokaart', true),
+                this.baseLayers.hill = this._createGrbLayer('DHMV_II_HILL_25cm', 'Hillshade 25cm', true),
+                this.baseLayers.svf = this._createGrbLayer('DHMV_II_SVF_25cm', 'Skyview 25cm', true)
             ]
         });
         layerGroup.set('title', 'Achtergrond kaart');
