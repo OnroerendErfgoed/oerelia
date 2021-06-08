@@ -244,8 +244,10 @@ export class MapUtil {
 
   public static intersectPolygons(polygon1: ol.Feature, polygon2: ol.Feature): ol.Feature {
     const parser = new jsts.io.OL3Parser();
+    const writer = new jsts.io.GeoJSONWriter();
+
     parser.inject(ol.geom.Point, ol.geom.LineString, ol.geom.LinearRing, ol.geom.Polygon,
-      ol.geom.MultiPoint, ol.geom.MultiLineString, ol.geom.MultiPolygon);
+      ol.geom.MultiPoint, ol.geom.MultiLineString, ol.geom.MultiPolygon, ol.geom.GeometryCollection);
     const jstsGeom1 = parser.read(polygon1.getGeometry());
     const jstsGeom2 = parser.read(polygon2.getGeometry());
     const intersects = jstsGeom1.intersects(jstsGeom2);
@@ -255,8 +257,9 @@ export class MapUtil {
     }
 
     const jstsGeom = polygon2 ? jstsGeom1.intersection(jstsGeom2) : jstsGeom1;
-    const polygon = parser.write(jstsGeom);
-    const coords = polygon.getType() === 'Polygon' ? [polygon.getCoordinates()] : polygon.getCoordinates();
+    const buffered = jstsGeom.buffer(0);
+    const polygon = writer.write(buffered);
+    const coords = polygon.type === 'Polygon' ? [polygon.coordinates] : polygon.coordinates;
     if (coords[0].length > 0) {
       return new ol.Feature({
         geometry: new ol.geom.MultiPolygon(coords)
