@@ -214,7 +214,8 @@ var MapUtil = (function () {
     };
     MapUtil.intersectPolygons = function (polygon1, polygon2) {
         var parser = new jsts.io.OL3Parser();
-        parser.inject(ol.geom.Point, ol.geom.LineString, ol.geom.LinearRing, ol.geom.Polygon, ol.geom.MultiPoint, ol.geom.MultiLineString, ol.geom.MultiPolygon);
+        var writer = new jsts.io.GeoJSONWriter();
+        parser.inject(ol.geom.Point, ol.geom.LineString, ol.geom.LinearRing, ol.geom.Polygon, ol.geom.MultiPoint, ol.geom.MultiLineString, ol.geom.MultiPolygon, ol.geom.GeometryCollection);
         var jstsGeom1 = parser.read(polygon1.getGeometry());
         var jstsGeom2 = parser.read(polygon2.getGeometry());
         var intersects = jstsGeom1.intersects(jstsGeom2);
@@ -222,8 +223,9 @@ var MapUtil = (function () {
             return null;
         }
         var jstsGeom = polygon2 ? jstsGeom1.intersection(jstsGeom2) : jstsGeom1;
-        var polygon = parser.write(jstsGeom);
-        var coords = polygon.getType() === 'Polygon' ? [polygon.getCoordinates()] : polygon.getCoordinates();
+        var buffered = jstsGeom.buffer(0);
+        var polygon = writer.write(buffered);
+        var coords = polygon.type === 'Polygon' ? [polygon.coordinates] : polygon.coordinates;
         if (coords[0].length > 0) {
             return new ol.Feature({
                 geometry: new ol.geom.MultiPolygon(coords)
