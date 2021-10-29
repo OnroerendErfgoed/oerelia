@@ -4,7 +4,6 @@ export class Geolocate extends ol.control.Control {
   public options: any;
   public element: Element;
   public button: HTMLButtonElement;
-  public drawAction: any;
   public geolocation: ol.Geolocation;
 
   constructor(optOptions: any) {
@@ -12,13 +11,14 @@ export class Geolocate extends ol.control.Control {
     super(optOptions);
     this.options = optOptions || {};
 
-    const tipLabel = this.options.tipLabel ? this.options.tipLabel : 'Teken';
+    const tipLabel = this.options.tipLabel ? this.options.tipLabel : 'Zoom naar je eigen locatie';
 
     this.element = document.createElement('div');
     this.element.className = 'ol-geolocate ol-control ol-unselectable';
 
     this.button = document.createElement('button');
     this.button.setAttribute('title', tipLabel);
+    this.element.className = 'ol-control';
     this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
     this.element.appendChild(this.button);
 
@@ -28,15 +28,20 @@ export class Geolocate extends ol.control.Control {
         enableHighAccuracy: true
       }
     });
-
-    this.button.onclick = () => {
-      this._zoomToLocation();
-    };
+    //
+    // this.button.onclick = () => {
+    //   this._zoomToLocation();
+    // };
 
     ol.control.Control.call(this, {
       element: this.element,
       target: this.options.target
     });
+  }
+
+  click() {
+      console.debug('click');
+      console.debug(this.getMap());
   }
 
   private _zoomToLocation() {
