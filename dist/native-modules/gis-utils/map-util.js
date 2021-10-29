@@ -176,7 +176,6 @@ var MapUtil = (function () {
         });
         map.addControl(new ol.control.ScaleLine());
         map.addControl(new Geolocate({
-            tipLabel: 'Zoom naar je eigen locatie',
             zoomLevel: 12,
             projection: mapProjection
         }));

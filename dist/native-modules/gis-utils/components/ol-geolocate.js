@@ -16,24 +16,19 @@ var Geolocate = (function (_super) {
     __extends(Geolocate, _super);
     function Geolocate(optOptions) {
         var _this = this;
-        console.debug('Draw::constructor', optOptions);
+        console.debug('Geolocate::constructor', optOptions);
         _this = _super.call(this, optOptions) || this;
         _this.options = optOptions || {};
-        var tipLabel = _this.options.tipLabel ? _this.options.tipLabel : 'Teken';
+        var tipLabel = _this.options.tipLabel ? _this.options.tipLabel : 'Zoom naar je eigen locatie';
         _this.element = document.createElement('div');
         _this.element.className = 'ol-geolocate ol-control ol-unselectable';
         _this.button = document.createElement('button');
         _this.button.setAttribute('title', tipLabel);
+        _this.element.className = 'ol-control';
         _this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
         _this.element.appendChild(_this.button);
-        _this.geolocation = new ol.Geolocation({
-            projection: _this.options.projection,
-            trackingOptions: {
-                enableHighAccuracy: true
-            }
-        });
         _this.button.onclick = function () {
-            _this._zoomToLocation();
+            console.debug('onclick');
         };
         ol.control.Control.call(_this, {
             element: _this.element,
@@ -41,6 +36,10 @@ var Geolocate = (function (_super) {
         });
         return _this;
     }
+    Geolocate.prototype.click = function () {
+        console.debug('click');
+        console.debug(this.getMap());
+    };
     Geolocate.prototype._zoomToLocation = function () {
         var _this = this;
         if (!this.geolocation) {

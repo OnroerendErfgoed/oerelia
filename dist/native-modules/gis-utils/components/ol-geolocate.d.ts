@@ -3,8 +3,8 @@ export declare class Geolocate extends ol.control.Control {
     options: any;
     element: Element;
     button: HTMLButtonElement;
-    drawAction: any;
     geolocation: ol.Geolocation;
     constructor(optOptions: any);
+    click(): void;
     private _zoomToLocation;
 }
