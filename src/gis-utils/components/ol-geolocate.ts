@@ -7,7 +7,7 @@ export class Geolocate extends ol.control.Control {
   public geolocation: ol.Geolocation;
 
   constructor(optOptions: any) {
-    console.debug('Draw::constructor', optOptions);
+    console.debug('Geolocate::constructor', optOptions);
     super(optOptions);
     this.options = optOptions || {};
 
@@ -22,16 +22,17 @@ export class Geolocate extends ol.control.Control {
     this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
     this.element.appendChild(this.button);
 
-    this.geolocation = new ol.Geolocation({
-      projection: this.options.projection,
-      trackingOptions: {
-        enableHighAccuracy: true
-      }
-    });
-    //
-    // this.button.onclick = () => {
-    //   this._zoomToLocation();
-    // };
+    // this.geolocation = new ol.Geolocation({
+    //   projection: this.options.projection,
+    //   trackingOptions: {
+    //     enableHighAccuracy: true
+    //   }
+    // });
+
+    this.button.onclick = () => {
+      console.debug('onclick');
+      // this._zoomToLocation();
+    };
 
     ol.control.Control.call(this, {
       element: this.element,
