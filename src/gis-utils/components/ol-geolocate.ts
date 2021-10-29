@@ -18,7 +18,6 @@ export class Geolocate extends ol.control.Control {
 
     this.button = document.createElement('button');
     this.button.setAttribute('title', tipLabel);
-    this.element.className = 'ol-control';
     this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
     this.element.appendChild(this.button);
 
@@ -41,8 +40,8 @@ export class Geolocate extends ol.control.Control {
   }
 
   click() {
-      console.debug('click');
-      console.debug(this.getMap());
+    console.debug('click');
+    console.debug(this.getMap());
   }
 
   private _zoomToLocation() {

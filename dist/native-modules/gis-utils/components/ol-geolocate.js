@@ -24,7 +24,6 @@ var Geolocate = (function (_super) {
         _this.element.className = 'ol-geolocate ol-control ol-unselectable';
         _this.button = document.createElement('button');
         _this.button.setAttribute('title', tipLabel);
-        _this.element.className = 'ol-control';
         _this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
         _this.element.appendChild(_this.button);
         _this.button.onclick = function () {
