@@ -28,6 +28,7 @@ var Geolocate = (function (_super) {
         _this.button.setAttribute('title', tipLabel);
         _this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
         _this.element.appendChild(_this.button);
+        _this.layer = _this._createLayer(_this.getMap());
         _this.button.addEventListener('click', _this._zoomToLocation.bind(_this), false);
         ol.control.Control.call(_this, {
             element: _this.element,
@@ -39,12 +40,39 @@ var Geolocate = (function (_super) {
         console.debug('_zoomToLocation');
         var map = this.getMap();
         var view = map.getView();
+        var source = this.layer.getSource();
+        source.clear(true);
+        var positionFeature = new ol.Feature();
+        positionFeature.setStyle(new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 6,
+                fill: new ol.style.Fill({
+                    color: '#3399CC',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#fff',
+                    width: 2,
+                }),
+            }),
+        }));
         navigator.geolocation.getCurrentPosition(function (pos) {
             console.debug('_zoomToLocation::getCurrentPosition');
-            var point = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
-            view.setCenter(point);
+            var coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
+            view.setCenter(coordinates);
             view.setZoom(12);
+            positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+            source.addFeatures([
+                positionFeature
+            ]);
         });
+    };
+    Geolocate.prototype._createLayer = function (map) {
+        var source = new ol.source.Vector();
+        var layer = new ol.layer.Vector({
+            source: source
+        });
+        map.addLayer(layer);
+        return layer;
     };
     return Geolocate;
 }(ol.control.Control));

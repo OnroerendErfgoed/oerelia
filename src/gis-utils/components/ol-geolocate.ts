@@ -6,6 +6,7 @@ export class Geolocate extends ol.control.Control {
   public options: any;
   public element: Element;
   public button: HTMLButtonElement;
+  public layer: ol.layer.Vector;
   public geolocation: ol.Geolocation;
   public positionFeature: ol.Feature;
 
@@ -24,30 +25,14 @@ export class Geolocate extends ol.control.Control {
     this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
     this.element.appendChild(this.button);
 
+    this.layer = this._createLayer(this.getMap());
+
     // this.geolocation = new ol.Geolocation({
     //   projection: this.getMap().getView().getProjection(),
     //   trackingOptions: {
     //     enableHighAccuracy: true
     //   }
     // });
-
-    // this.positionFeature = new ol.Feature();
-    // this.positionFeature.setStyle(
-    //   new ol.style.Style({
-    //     image: new ol.style.Circle({
-    //       radius: 6,
-    //       fill: new ol.style.Fill({
-    //         color: '#3399CC',
-    //       }),
-    //       stroke: new ol.style.Stroke({
-    //         color: '#fff',
-    //         width: 2,
-    //       }),
-    //     }),
-    //   })
-    // );
-
-
     this.button.addEventListener('click', this._zoomToLocation.bind(this), false);
 
     ol.control.Control.call(this, {
@@ -67,14 +52,34 @@ export class Geolocate extends ol.control.Control {
     console.debug('_zoomToLocation');
     const map = this.getMap();
     const view = map.getView();
-    // if (!this.geolocation) {
-    //   return;
-    // }
+    const source = this.layer.getSource();
+    source.clear(true);
+
+    const positionFeature = new ol.Feature();
+    positionFeature.setStyle(
+      new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 6,
+          fill: new ol.style.Fill({
+            color: '#3399CC',
+          }),
+          stroke: new ol.style.Stroke({
+            color: '#fff',
+            width: 2,
+          }),
+        }),
+      })
+    );
+
     navigator.geolocation.getCurrentPosition(function(pos) {
       console.debug('_zoomToLocation::getCurrentPosition');
-      const point = ol.proj.transform([pos.coords.longitude, pos.coords.latitude] , 'EPSG:4326', view.getProjection());
-      view.setCenter(point);
+      const coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude] , 'EPSG:4326', view.getProjection());
+      view.setCenter(coordinates);
       view.setZoom(12);
+      positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+      source.addFeatures([
+        positionFeature
+      ]);
     });
 
     // const zoomLevel = this.options.zoomLevel;
@@ -108,5 +113,14 @@ export class Geolocate extends ol.control.Control {
     //   //   overlay.setPosition(position);
     //   // }
     // });
+  }
+
+  private _createLayer(map: ol.Map): ol.layer.Vector {
+    const source = new ol.source.Vector();
+    const layer = new ol.layer.Vector({
+      source: source
+    });
+    map.addLayer(layer);
+    return layer;
   }
 }
