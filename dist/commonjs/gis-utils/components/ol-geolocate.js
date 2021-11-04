@@ -42,12 +42,8 @@ var Geolocate = (function (_super) {
         navigator.geolocation.getCurrentPosition(function (pos) {
             console.debug('_zoomToLocation::getCurrentPosition');
             var point = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
-            view.animate({
-                zoom: 12,
-                center: [pos.coords.longitude, pos.coords.latitude],
-                duration: 2000
-            });
             view.setCenter(point);
+            view.setZoom(this.options.zoomLevel | 7);
         });
     };
     return Geolocate;
