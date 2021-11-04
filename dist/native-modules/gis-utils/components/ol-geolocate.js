@@ -26,7 +26,6 @@ var Geolocate = (function (_super) {
         _this.button.setAttribute('title', tipLabel);
         _this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
         _this.element.appendChild(_this.button);
-        _this.layer = _this._createLayer(_this.getMap());
         _this.button.addEventListener('click', _this._zoomToLocation.bind(_this), false);
         ol.control.Control.call(_this, {
             element: _this.element,
@@ -38,7 +37,7 @@ var Geolocate = (function (_super) {
         console.debug('_zoomToLocation');
         var map = this.getMap();
         var view = map.getView();
-        var source = this.layer.getSource();
+        var source = this.layer ? this.layer.getSource() : this._createLayer(map).getSource();
         source.clear(true);
         var positionFeature = new ol.Feature();
         positionFeature.setStyle(new ol.style.Style({

@@ -25,8 +25,6 @@ export class Geolocate extends ol.control.Control {
     this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
     this.element.appendChild(this.button);
 
-    this.layer = this._createLayer(this.getMap());
-
     // this.geolocation = new ol.Geolocation({
     //   projection: this.getMap().getView().getProjection(),
     //   trackingOptions: {
@@ -52,7 +50,8 @@ export class Geolocate extends ol.control.Control {
     console.debug('_zoomToLocation');
     const map = this.getMap();
     const view = map.getView();
-    const source = this.layer.getSource();
+
+    const source = this.layer ? this.layer.getSource() : this._createLayer(map).getSource();
     source.clear(true);
 
     const positionFeature = new ol.Feature();
