@@ -14,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var ol = require("openlayers");
-var map_util_1 = require("../map-util");
 var Geolocate = (function (_super) {
     __extends(Geolocate, _super);
     function Geolocate(optOptions) {
@@ -42,9 +41,13 @@ var Geolocate = (function (_super) {
         var view = map.getView();
         navigator.geolocation.getCurrentPosition(function (pos) {
             console.debug('_zoomToLocation::getCurrentPosition');
-            var point = map_util_1.MapUtil.transformLatLonToPoint(pos.coords.longitude, pos.coords.latitude);
-            var point2 = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
-            view.setCenter(point2);
+            var point = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
+            view.animate({
+                zoom: 12,
+                center: [pos.coords.longitude, pos.coords.latitude],
+                duration: 2000
+            });
+            view.setCenter(point);
         });
     };
     return Geolocate;
