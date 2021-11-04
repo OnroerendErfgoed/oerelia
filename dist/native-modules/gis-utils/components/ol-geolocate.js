@@ -26,30 +26,11 @@ var Geolocate = (function (_super) {
         _this.button.setAttribute('title', tipLabel);
         _this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
         _this.element.appendChild(_this.button);
-        _this.positionFeature = new ol.Feature();
-        _this.positionFeature.setStyle(new ol.style.Style({
-            image: new ol.style.Circle({
-                radius: 6,
-                fill: new ol.style.Fill({
-                    color: '#3399CC',
-                }),
-                stroke: new ol.style.Stroke({
-                    color: '#fff',
-                    width: 2,
-                }),
-            }),
-        }));
         _this.button.addEventListener('click', _this._zoomToLocation.bind(_this), false);
         ol.control.Control.call(_this, {
             element: _this.element,
             target: _this.options.target
         });
-        var map = _this.getMap();
-        var source = new ol.source.Vector();
-        var layer = new ol.layer.Vector({
-            source: source
-        });
-        map.addLayer(layer);
         return _this;
     }
     Geolocate.prototype._zoomToLocation = function () {

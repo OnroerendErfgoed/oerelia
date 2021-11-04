@@ -29,21 +29,21 @@ export class Geolocate extends ol.control.Control {
     //   }
     // });
 
-    this.positionFeature = new ol.Feature();
-    this.positionFeature.setStyle(
-      new ol.style.Style({
-        image: new ol.style.Circle({
-          radius: 6,
-          fill: new ol.style.Fill({
-            color: '#3399CC',
-          }),
-          stroke: new ol.style.Stroke({
-            color: '#fff',
-            width: 2,
-          }),
-        }),
-      })
-    );
+    // this.positionFeature = new ol.Feature();
+    // this.positionFeature.setStyle(
+    //   new ol.style.Style({
+    //     image: new ol.style.Circle({
+    //       radius: 6,
+    //       fill: new ol.style.Fill({
+    //         color: '#3399CC',
+    //       }),
+    //       stroke: new ol.style.Stroke({
+    //         color: '#fff',
+    //         width: 2,
+    //       }),
+    //     }),
+    //   })
+    // );
 
 
     this.button.addEventListener('click', this._zoomToLocation.bind(this), false);
@@ -53,12 +53,12 @@ export class Geolocate extends ol.control.Control {
       target: this.options.target
     });
 
-    const map = this.getMap();
-    const source = new ol.source.Vector();
-    const layer = new ol.layer.Vector({
-      source: source
-    });
-    map.addLayer(layer);
+    // const map = this.getMap();
+    // const source = new ol.source.Vector();
+    // const layer = new ol.layer.Vector({
+    //   source: source
+    // });
+    // map.addLayer(layer);
   }
 
   private _zoomToLocation() {
