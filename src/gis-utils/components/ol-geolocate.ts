@@ -1,4 +1,5 @@
 import * as ol from 'openlayers';
+import { MapUtil } from '../map-util';
 
 export class Geolocate extends ol.control.Control {
   public options: any;
@@ -63,13 +64,16 @@ export class Geolocate extends ol.control.Control {
 
   private _zoomToLocation() {
     console.debug('_zoomToLocation');
+    const map = this.getMap();
+    const view = map.getView();
     // if (!this.geolocation) {
     //   return;
     // }
     navigator.geolocation.getCurrentPosition(function(pos) {
       console.debug('_zoomToLocation::getCurrentPosition');
-      // const coords = OlProj.fromLonLat([pos.coords.longitude, pos.coords.latitude]);
-      // olmap.getView().animate({center: coords, zoom: 10});
+      const point = MapUtil.transformLatLonToPoint(pos.coords.longitude, pos.coords.latitude);
+      // view.animate({center: coords, zoom: view.getZoom()});
+      view.setCenter(point.getCoordinates());
     });
 
     // const zoomLevel = this.options.zoomLevel;

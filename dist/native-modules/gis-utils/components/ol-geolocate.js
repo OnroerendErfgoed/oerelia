@@ -12,6 +12,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as ol from 'openlayers';
+import { MapUtil } from '../map-util';
 var Geolocate = (function (_super) {
     __extends(Geolocate, _super);
     function Geolocate(optOptions) {
@@ -35,8 +36,12 @@ var Geolocate = (function (_super) {
     }
     Geolocate.prototype._zoomToLocation = function () {
         console.debug('_zoomToLocation');
+        var map = this.getMap();
+        var view = map.getView();
         navigator.geolocation.getCurrentPosition(function (pos) {
             console.debug('_zoomToLocation::getCurrentPosition');
+            var point = MapUtil.transformLatLonToPoint(pos.coords.longitude, pos.coords.latitude);
+            view.setCenter(point.getCoordinates());
         });
     };
     return Geolocate;
