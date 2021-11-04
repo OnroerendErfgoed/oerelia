@@ -28,12 +28,6 @@ var Geolocate = (function (_super) {
         _this.button.setAttribute('title', tipLabel);
         _this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
         _this.element.appendChild(_this.button);
-        _this.geolocation = new ol.Geolocation({
-            projection: _this.getMap().getView().getProjection(),
-            trackingOptions: {
-                enableHighAccuracy: true
-            }
-        });
         _this.positionFeature = new ol.Feature();
         _this.positionFeature.setStyle(new ol.style.Style({
             image: new ol.style.Circle({
@@ -53,9 +47,7 @@ var Geolocate = (function (_super) {
             target: _this.options.target
         });
         var map = _this.getMap();
-        var source = new ol.source.Vector({
-            features: [_this.positionFeature]
-        });
+        var source = new ol.source.Vector();
         var layer = new ol.layer.Vector({
             source: source
         });
@@ -63,23 +55,9 @@ var Geolocate = (function (_super) {
         return _this;
     }
     Geolocate.prototype._zoomToLocation = function () {
-        var _this = this;
         console.debug('_zoomToLocation');
-        if (!this.geolocation) {
-            return;
-        }
-        var zoomLevel = this.options.zoomLevel;
-        var map = this.getMap();
-        var view = map.getView();
-        this.geolocation.setTracking(true);
-        this.geolocation.on('change:position', function () {
-            var coordinates = _this.geolocation.getPosition();
-            view.setCenter(coordinates);
-            if (zoomLevel) {
-                view.setZoom(zoomLevel);
-            }
-            _this.geolocation.setTracking(false);
-            _this.positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+        navigator.geolocation.getCurrentPosition(function (pos) {
+            console.debug('_zoomToLocation::getCurrentPosition');
         });
     };
     return Geolocate;

@@ -22,12 +22,12 @@ export class Geolocate extends ol.control.Control {
     this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
     this.element.appendChild(this.button);
 
-    this.geolocation = new ol.Geolocation({
-      projection: this.getMap().getView().getProjection(),
-      trackingOptions: {
-        enableHighAccuracy: true
-      }
-    });
+    // this.geolocation = new ol.Geolocation({
+    //   projection: this.getMap().getView().getProjection(),
+    //   trackingOptions: {
+    //     enableHighAccuracy: true
+    //   }
+    // });
 
     this.positionFeature = new ol.Feature();
     this.positionFeature.setStyle(
@@ -54,9 +54,7 @@ export class Geolocate extends ol.control.Control {
     });
 
     const map = this.getMap();
-    const source = new ol.source.Vector({
-      features: [this.positionFeature]
-    });
+    const source = new ol.source.Vector();
     const layer = new ol.layer.Vector({
       source: source
     });
@@ -65,39 +63,45 @@ export class Geolocate extends ol.control.Control {
 
   private _zoomToLocation() {
     console.debug('_zoomToLocation');
-    if (!this.geolocation) {
-      return;
-    }
-    const zoomLevel = this.options.zoomLevel;
-    const map = this.getMap();
-    const view = map.getView();
-    this.geolocation.setTracking(true);
-    this.geolocation.on('change:position', () => {
-      const coordinates = this.geolocation.getPosition();
-      view.setCenter(coordinates);
-      if (zoomLevel) {
-        view.setZoom(zoomLevel);
-      }
-      this.geolocation.setTracking(false);
-      this.positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
-
-      // const marker = document.getElementById('marker');
-      // marker.classList.remove('hide');
-      // const overlayId = 'markerOverlay';
-      // const overlay = map.getOverlayById(overlayId);
-      // if (!overlay) {
-      //   map.addOverlay(
-      //     new ol.Overlay({
-      //       id: overlayId,
-      //       position: position,
-      //       positioning: 'center-center',
-      //       element: marker,
-      //       stopEvent: false
-      //     })
-      //   );
-      // } else {
-      //   overlay.setPosition(position);
-      // }
+    // if (!this.geolocation) {
+    //   return;
+    // }
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      console.debug('_zoomToLocation::getCurrentPosition');
+      // const coords = OlProj.fromLonLat([pos.coords.longitude, pos.coords.latitude]);
+      // olmap.getView().animate({center: coords, zoom: 10});
     });
+
+    // const zoomLevel = this.options.zoomLevel;
+    // const map = this.getMap();
+    // const view = map.getView();
+    // this.geolocation.setTracking(true);
+    // this.geolocation.on('change:position', () => {
+    //   const coordinates = this.geolocation.getPosition();
+    //   view.setCenter(coordinates);
+    //   if (zoomLevel) {
+    //     view.setZoom(zoomLevel);
+    //   }
+    //   this.geolocation.setTracking(false);
+    //   this.positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+    //
+    //   // const marker = document.getElementById('marker');
+    //   // marker.classList.remove('hide');
+    //   // const overlayId = 'markerOverlay';
+    //   // const overlay = map.getOverlayById(overlayId);
+    //   // if (!overlay) {
+    //   //   map.addOverlay(
+    //   //     new ol.Overlay({
+    //   //       id: overlayId,
+    //   //       position: position,
+    //   //       positioning: 'center-center',
+    //   //       element: marker,
+    //   //       stopEvent: false
+    //   //     })
+    //   //   );
+    //   // } else {
+    //   //   overlay.setPosition(position);
+    //   // }
+    // });
   }
 }
