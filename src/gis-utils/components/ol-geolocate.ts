@@ -74,7 +74,7 @@ export class Geolocate extends ol.control.Control {
       console.debug('_zoomToLocation::getCurrentPosition');
       const point = ol.proj.transform([pos.coords.longitude, pos.coords.latitude] , 'EPSG:4326', view.getProjection());
       view.setCenter(point);
-      view.setZoom(this.options.zoomLevel | 7);
+      view.setZoom(7);
     });
 
     // const zoomLevel = this.options.zoomLevel;
