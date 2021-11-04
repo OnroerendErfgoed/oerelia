@@ -28,21 +28,43 @@ var Geolocate = (function (_super) {
         _this.button.setAttribute('title', tipLabel);
         _this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
         _this.element.appendChild(_this.button);
-        _this.button.onclick = function () {
-            console.debug('onclick');
-        };
+        _this.geolocation = new ol.Geolocation({
+            projection: _this.getMap().getView().getProjection(),
+            trackingOptions: {
+                enableHighAccuracy: true
+            }
+        });
+        _this.positionFeature = new ol.Feature();
+        _this.positionFeature.setStyle(new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 6,
+                fill: new ol.style.Fill({
+                    color: '#3399CC',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#fff',
+                    width: 2,
+                }),
+            }),
+        }));
+        _this.button.addEventListener('click', _this._zoomToLocation.bind(_this), false);
         ol.control.Control.call(_this, {
             element: _this.element,
             target: _this.options.target
         });
+        var map = _this.getMap();
+        var source = new ol.source.Vector({
+            features: [_this.positionFeature]
+        });
+        var layer = new ol.layer.Vector({
+            source: source
+        });
+        map.addLayer(layer);
         return _this;
     }
-    Geolocate.prototype.click = function () {
-        console.debug('click');
-        console.debug(this.getMap());
-    };
     Geolocate.prototype._zoomToLocation = function () {
         var _this = this;
+        console.debug('_zoomToLocation');
         if (!this.geolocation) {
             return;
         }
@@ -50,29 +72,14 @@ var Geolocate = (function (_super) {
         var map = this.getMap();
         var view = map.getView();
         this.geolocation.setTracking(true);
-        this.geolocation.once('change:position', function () {
-            var position = _this.geolocation.getPosition();
-            view.setCenter(position);
+        this.geolocation.on('change:position', function () {
+            var coordinates = _this.geolocation.getPosition();
+            view.setCenter(coordinates);
             if (zoomLevel) {
                 view.setZoom(zoomLevel);
             }
             _this.geolocation.setTracking(false);
-            var marker = document.getElementById('marker');
-            marker.classList.remove('hide');
-            var overlayId = 'markerOverlay';
-            var overlay = map.getOverlayById(overlayId);
-            if (!overlay) {
-                map.addOverlay(new ol.Overlay({
-                    id: overlayId,
-                    position: position,
-                    positioning: 'center-center',
-                    element: marker,
-                    stopEvent: false
-                }));
-            }
-            else {
-                overlay.setPosition(position);
-            }
+            _this.positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
         });
     };
     return Geolocate;
