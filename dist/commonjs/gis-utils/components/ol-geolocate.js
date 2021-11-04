@@ -43,7 +43,8 @@ var Geolocate = (function (_super) {
         navigator.geolocation.getCurrentPosition(function (pos) {
             console.debug('_zoomToLocation::getCurrentPosition');
             var point = map_util_1.MapUtil.transformLatLonToPoint(pos.coords.longitude, pos.coords.latitude);
-            view.setCenter(point.getCoordinates());
+            var point2 = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
+            view.setCenter(point2);
         });
     };
     return Geolocate;
