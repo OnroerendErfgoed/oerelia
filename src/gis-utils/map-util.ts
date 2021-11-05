@@ -201,10 +201,7 @@ export class MapUtil {
     });
 
     map.addControl(new ol.control.ScaleLine());
-    map.addControl(new Geolocate({
-      zoomLevel: 12,
-      projection: mapProjection
-    }));
+    map.addControl(new Geolocate({}));
     const layerswitcherPanel = new LayerswitcherPanel({
       title: 'Legende'
     });
