@@ -1,17 +1,11 @@
 import * as ol from 'openlayers';
-import { MapUtil } from '../map-util';
-import {olx} from "openlayers";
 
 export class Geolocate extends ol.control.Control {
   public options: any;
   public element: Element;
-  public button: HTMLButtonElement;
   public layer: ol.layer.Vector;
-  public geolocation: ol.Geolocation;
-  public positionFeature: ol.Feature;
 
   constructor(optOptions: any) {
-    console.debug('Geolocate::constructor', optOptions);
     super(optOptions);
     this.options = optOptions || {};
 
@@ -20,42 +14,54 @@ export class Geolocate extends ol.control.Control {
     this.element = document.createElement('div');
     this.element.className = 'ol-geolocate ol-control ol-unselectable';
 
-    this.button = document.createElement('button');
-    this.button.setAttribute('title', tipLabel);
-    this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
-    this.element.appendChild(this.button);
-
-    // this.geolocation = new ol.Geolocation({
-    //   projection: this.getMap().getView().getProjection(),
-    //   trackingOptions: {
-    //     enableHighAccuracy: true
-    //   }
-    // });
-    this.button.addEventListener('click', this._zoomToLocation.bind(this), false);
+    let button = document.createElement('button');
+    button.setAttribute('title', tipLabel);
+    button.innerHTML = '<i class="fa fa-map-marker"></i>';
+    this.element.appendChild(button);
+    button.addEventListener('click', this._zoomToLocation.bind(this), false);
 
     ol.control.Control.call(this, {
       element: this.element,
       target: this.options.target
     });
-
-    // const map = this.getMap();
-    // const source = new ol.source.Vector();
-    // const layer = new ol.layer.Vector({
-    //   source: source
-    // });
-    // map.addLayer(layer);
   }
 
   private _zoomToLocation() {
-    console.debug('_zoomToLocation');
     const map = this.getMap();
     const view = map.getView();
+    const zoomLevel = this.options.zoomLevel;
 
-    const source = this.layer ? this.layer.getSource() : this._createLayer(map).getSource();
+    let source = this.layer ? this.layer.getSource() : this._createLayer(map).getSource();
     source.clear(true);
+    const positionFeature = this._createFeature();
 
-    const positionFeature = new ol.Feature();
-    positionFeature.setStyle(
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      const coordinates = ol.proj.transform(
+        [pos.coords.longitude, pos.coords.latitude] ,
+        'EPSG:4326',
+        view.getProjection()
+      );
+      view.setCenter(coordinates);
+      view.setZoom(zoomLevel);
+      positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+      source.addFeatures([
+        positionFeature
+      ]);
+    });
+  }
+
+  private _createLayer(map: ol.Map): ol.layer.Vector {
+    const source = new ol.source.Vector();
+    const layer = new ol.layer.Vector({
+      source: source
+    });
+    map.addLayer(layer);
+    return layer;
+  }
+
+  private _createFeature(): ol.Feature {
+    const feature = new ol.Feature();
+    feature.setStyle(
       new ol.style.Style({
         image: new ol.style.Circle({
           radius: 6,
@@ -69,57 +75,6 @@ export class Geolocate extends ol.control.Control {
         }),
       })
     );
-
-    navigator.geolocation.getCurrentPosition(function(pos) {
-      console.debug('_zoomToLocation::getCurrentPosition');
-      const coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude] , 'EPSG:4326', view.getProjection());
-      view.setCenter(coordinates);
-      view.setZoom(12);
-      positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
-      source.addFeatures([
-        positionFeature
-      ]);
-    });
-
-    // const zoomLevel = this.options.zoomLevel;
-    // const map = this.getMap();
-    // const view = map.getView();
-    // this.geolocation.setTracking(true);
-    // this.geolocation.on('change:position', () => {
-    //   const coordinates = this.geolocation.getPosition();
-    //   view.setCenter(coordinates);
-    //   if (zoomLevel) {
-    //     view.setZoom(zoomLevel);
-    //   }
-    //   this.geolocation.setTracking(false);
-    //   this.positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
-    //
-    //   // const marker = document.getElementById('marker');
-    //   // marker.classList.remove('hide');
-    //   // const overlayId = 'markerOverlay';
-    //   // const overlay = map.getOverlayById(overlayId);
-    //   // if (!overlay) {
-    //   //   map.addOverlay(
-    //   //     new ol.Overlay({
-    //   //       id: overlayId,
-    //   //       position: position,
-    //   //       positioning: 'center-center',
-    //   //       element: marker,
-    //   //       stopEvent: false
-    //   //     })
-    //   //   );
-    //   // } else {
-    //   //   overlay.setPosition(position);
-    //   // }
-    // });
-  }
-
-  private _createLayer(map: ol.Map): ol.layer.Vector {
-    const source = new ol.source.Vector();
-    const layer = new ol.layer.Vector({
-      source: source
-    });
-    map.addLayer(layer);
-    return layer;
+    return feature;
   }
 }
