@@ -136,7 +136,7 @@ export class MapUtil {
     });
 
     const ngiSource: ol.source.WMTS = new ol.source.WMTS({
-      urls: ['http://www.ngi.be/cartoweb/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
+      urls: ['https://www.ngi.be/cartoweb/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
       requestEncoding: 'REST',
       layer: layerId,
       matrixSet: '3812',
@@ -146,7 +146,7 @@ export class MapUtil {
       tileGrid: tileGrid,
       attributions: [
         new ol.Attribution({
-          html: '© <a href="http://www.ngi.be/" target="_blank" title="Nationaal Geografisch Instituut" ' +
+          html: '© <a href="https://www.ngi.be/" target="_blank" title="Nationaal Geografisch Instituut" ' +
             'class="copyrightLink">NGI</a>'
         })
       ]
@@ -168,7 +168,7 @@ export class MapUtil {
     const layer = new ol.layer.Tile({
       extent: mapProjection.getExtent(),
       source: new ol.source.TileWMS(({
-        url: 'http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB/wms',
+        url: 'https://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB/wms',
         params: { LAYERS: wmsLayers, TILED: true },
         serverType: 'geoserver'
       })),
