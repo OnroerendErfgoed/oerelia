@@ -34,7 +34,7 @@ var Geolocate = (function (_super) {
     Geolocate.prototype._zoomToLocation = function () {
         var map = this.getMap();
         var view = map.getView();
-        var zoomLevel = this.options.zoomLevel;
+        var zoomLevel = 12;
         var source = this.layer ? this.layer.getSource() : this._createLayer(map).getSource();
         source.clear(true);
         var positionFeature = this._createFeature();

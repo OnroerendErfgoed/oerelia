@@ -29,7 +29,7 @@ export class Geolocate extends ol.control.Control {
   private _zoomToLocation() {
     const map = this.getMap();
     const view = map.getView();
-    const zoomLevel = this.options.zoomLevel;
+    const zoomLevel = 12;
 
     let source = this.layer ? this.layer.getSource() : this._createLayer(map).getSource();
     source.clear(true);

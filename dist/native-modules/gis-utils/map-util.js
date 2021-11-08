@@ -175,10 +175,7 @@ var MapUtil = (function () {
             logo: false
         });
         map.addControl(new ol.control.ScaleLine());
-        map.addControl(new Geolocate({
-            zoomLevel: 12,
-            projection: mapProjection
-        }));
+        map.addControl(new Geolocate({}));
         var layerswitcherPanel = new LayerswitcherPanel({
             title: 'Legende'
         });
