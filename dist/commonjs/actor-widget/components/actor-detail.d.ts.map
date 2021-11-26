@@ -1,0 +1,1 @@
+{"version":3,"sources":["actor-widget/components/actor-detail.ts"],"names":[],"mappings":"AAEA,qBACa,WAAW;IAGH,OAAO,EAAE,OAAO;IAFlB,KAAK,EAAE,GAAG,CAAC;gBAET,OAAO,EAAE,OAAO;IAE5B,QAAQ,IAAI,IAAI;CAGxB","file":"actor-detail.d.ts","sourceRoot":"../../../../src/"}

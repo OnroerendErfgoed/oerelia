@@ -1,0 +1,1 @@
+{"version":3,"sources":["copy-button/copy-button.ts"],"names":[],"mappings":"AAEA,qBAAa,UAAU;IACJ,OAAO,EAAE,WAAW,CAAC;IAC/B,aAAa,EAAE,OAAO,CAAS;IAE/B,IAAI;IAcX,OAAO,CAAC,aAAa;IAMrB,OAAO,CAAC,eAAe;CAQxB","file":"copy-button.d.ts","sourceRoot":"../../../src/"}
