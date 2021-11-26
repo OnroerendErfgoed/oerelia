@@ -4,9 +4,17 @@ var ol = require("openlayers");
 var ol_geolocate_1 = require("./components/ol-geolocate");
 var ol_layerswitcher_1 = require("./components/ol-layerswitcher");
 var MapConfig = (function () {
-    function MapConfig() {
-        this.useGeolocate = true;
-        this.useLayerswitcher = false;
+    function MapConfig(mapProjection, useGeolocate, useLayerswitcher, center, maxZoom, minZoom, zoom, geolocateZoom) {
+        if (useGeolocate === void 0) { useGeolocate = true; }
+        if (useLayerswitcher === void 0) { useLayerswitcher = false; }
+        this.mapProjection = mapProjection;
+        this.useGeolocate = useGeolocate;
+        this.useLayerswitcher = useLayerswitcher;
+        this.center = center;
+        this.maxZoom = maxZoom;
+        this.minZoom = minZoom;
+        this.zoom = zoom;
+        this.geolocateZoom = geolocateZoom;
     }
     return MapConfig;
 }());
