@@ -5,10 +5,6 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./projection-util"));
 __export(require("./map-util"));
-__export(require("./components/ol-geolocate"));
-__export(require("./components/ol-layerswitcher"));
-__export(require("./models/boundingbox"));
-__export(require("./models/map-config"));
 function configure(config) {
     config.globalResources([]);
 }

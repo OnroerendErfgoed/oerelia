@@ -1,10 +1,20 @@
 import * as ol from 'openlayers';
 import { Boundingbox } from './models/boundingbox';
-import { MapConfig } from './models/map-config';
 import { Geolocate } from './components/ol-geolocate';
 import { Layerswitcher, LayerswitcherPanel } from './components/ol-layerswitcher';
 
 declare const jsts: any;
+
+export class MapConfig {
+  public mapProjection: ol.proj.Projection;
+  public useGeolocate: boolean = true;
+  public useLayerswitcher: boolean = false;
+  public center?: ol.Coordinate;
+  public maxZoom?: number;
+  public minZoom?: number;
+  public zoom?: number;
+  public geolocateZoom?: number;
+}
 
 export class MapUtil {
 

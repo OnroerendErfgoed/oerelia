@@ -3,6 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var ol = require("openlayers");
 var ol_geolocate_1 = require("./components/ol-geolocate");
 var ol_layerswitcher_1 = require("./components/ol-layerswitcher");
+var MapConfig = (function () {
+    function MapConfig() {
+        this.useGeolocate = true;
+        this.useLayerswitcher = false;
+    }
+    return MapConfig;
+}());
+exports.MapConfig = MapConfig;
 var MapUtil = (function () {
     function MapUtil() {
     }

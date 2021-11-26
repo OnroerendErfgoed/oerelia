@@ -1,6 +1,14 @@
 import * as ol from 'openlayers';
 import { Geolocate } from './components/ol-geolocate';
 import { Layerswitcher, LayerswitcherPanel } from './components/ol-layerswitcher';
+var MapConfig = (function () {
+    function MapConfig() {
+        this.useGeolocate = true;
+        this.useLayerswitcher = false;
+    }
+    return MapConfig;
+}());
+export { MapConfig };
 var MapUtil = (function () {
     function MapUtil() {
     }

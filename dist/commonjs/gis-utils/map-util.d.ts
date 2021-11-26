@@ -1,6 +1,15 @@
 import * as ol from 'openlayers';
 import { Boundingbox } from './models/boundingbox';
-import { MapConfig } from './models/map-config';
+export declare class MapConfig {
+    mapProjection: ol.proj.Projection;
+    useGeolocate: boolean;
+    useLayerswitcher: boolean;
+    center?: ol.Coordinate;
+    maxZoom?: number;
+    minZoom?: number;
+    zoom?: number;
+    geolocateZoom?: number;
+}
 export declare class MapUtil {
     static transformBoundingboxToMapExtent(boundingbox: Boundingbox): [number, number, number, number];
     static transformLatLonToPoint(lat: number, lon: number): ol.geom.Point;
