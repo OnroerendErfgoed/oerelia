@@ -37,17 +37,13 @@ var Geolocate = (function (_super) {
         var map = this.getMap();
         var view = map.getView();
         var zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
-        console.debug('**** start', this.layer);
         if (!this.layer) {
             this.layer = this._createLayer(map);
         }
         var source = this.layer.getSource();
-        console.debug('**** voor', source.getFeatures().length);
         source.clear(true);
-        console.debug('**** na', source.getFeatures().length);
         var positionFeature = this._createFeature();
         navigator.geolocation.getCurrentPosition(function (pos) {
-            console.debug('**** klik voor', source.getFeatures().length);
             var coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
             view.setCenter(coordinates);
             view.setZoom(zoomLevel);
@@ -55,7 +51,6 @@ var Geolocate = (function (_super) {
             source.addFeatures([
                 positionFeature
             ]);
-            console.debug('**** klik na', source.getFeatures().length);
         });
     };
     Geolocate.prototype._createLayer = function (map) {

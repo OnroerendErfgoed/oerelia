@@ -31,20 +31,14 @@ export class Geolocate extends ol.control.Control {
     const view = map.getView();
     const zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
 
-    console.debug('**** start', this.layer);
     if(!this.layer) {
       this.layer = this._createLayer(map);
     }
-
     const source = this.layer.getSource();
-
-    console.debug('**** voor', source.getFeatures().length);
     source.clear(true);
-    console.debug('**** na', source.getFeatures().length);
     const positionFeature = this._createFeature();
 
     navigator.geolocation.getCurrentPosition(function(pos) {
-      console.debug('**** klik voor', source.getFeatures().length);
       const coordinates = ol.proj.transform(
         [pos.coords.longitude, pos.coords.latitude],
         'EPSG:4326',
@@ -56,7 +50,6 @@ export class Geolocate extends ol.control.Control {
       source.addFeatures([
         positionFeature
       ]);
-      console.debug('**** klik na', source.getFeatures().length);
     });
   }
 
