@@ -37,7 +37,10 @@ var Geolocate = (function (_super) {
         var map = this.getMap();
         var view = map.getView();
         var zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
-        var source = this.layer ? this.layer.getSource() : this._createLayer(map).getSource();
+        if (!this.layer) {
+            this.layer = this._createLayer(map);
+        }
+        var source = this.layer.getSource();
         source.clear(true);
         var positionFeature = this._createFeature();
         navigator.geolocation.getCurrentPosition(function (pos) {

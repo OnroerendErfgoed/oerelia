@@ -31,7 +31,10 @@ export class Geolocate extends ol.control.Control {
     const view = map.getView();
     const zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
 
-    const source = this.layer ? this.layer.getSource() : this._createLayer(map).getSource();
+    if(!this.layer) {
+      this.layer = this._createLayer(map);
+    }
+    const source = this.layer.getSource();
     source.clear(true);
     const positionFeature = this._createFeature();
 
