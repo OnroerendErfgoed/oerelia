@@ -155,15 +155,16 @@ var MapUtil = (function () {
         layer.set('type', isBaseLayer ? 'base' : 'overlay');
         return layer;
     };
-    MapUtil.createMap = function (target, mapProjection) {
+    MapUtil.createMap = function (target, config) {
         var map = new ol.Map({
             layers: [],
             target: target,
             view: new ol.View({
-                center: ol.extent.getCenter(mapProjection.getExtent()),
-                projection: mapProjection,
-                zoom: 2,
-                maxZoom: 21
+                center: config.center || ol.extent.getCenter(config.mapProjection.getExtent()),
+                projection: config.mapProjection,
+                zoom: config.zoom || 2,
+                maxZoom: config.maxZoom || 21,
+                minZoom: config.minZoom || 1
             }),
             controls: ol.control.defaults({
                 attributionOptions: ({
@@ -175,16 +176,20 @@ var MapUtil = (function () {
             logo: false
         });
         map.addControl(new ol.control.ScaleLine());
-        map.addControl(new Geolocate({}));
-        var layerswitcherPanel = new LayerswitcherPanel({
-            title: 'Legende'
-        });
-        map.addControl(new Layerswitcher({
-            tipLabel: 'Verander de kaartlagen',
-            title: 'Kaartlagen',
-            panel: layerswitcherPanel
-        }));
-        map.addControl(layerswitcherPanel);
+        if (config.useGeolocate) {
+            map.addControl(new Geolocate({ zoomLevel: config.geolocateZoom }));
+        }
+        if (config.useLayerswitcher) {
+            var layerswitcherPanel = new LayerswitcherPanel({
+                title: 'Legende'
+            });
+            map.addControl(new Layerswitcher({
+                tipLabel: 'Verander de kaartlagen',
+                title: 'Kaartlagen',
+                panel: layerswitcherPanel
+            }));
+            map.addControl(layerswitcherPanel);
+        }
         return map;
     };
     MapUtil.mergePolygons = function (features) {
