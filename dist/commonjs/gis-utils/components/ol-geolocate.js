@@ -37,6 +37,7 @@ var Geolocate = (function (_super) {
         var map = this.getMap();
         var view = map.getView();
         var zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
+        console.debug('**** start', this.layer);
         if (!this.layer) {
             this.layer = this._createLayer(map);
         }
