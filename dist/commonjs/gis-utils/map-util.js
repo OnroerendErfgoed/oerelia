@@ -3,6 +3,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var ol = require("openlayers");
 var ol_geolocate_1 = require("./components/ol-geolocate");
 var ol_layerswitcher_1 = require("./components/ol-layerswitcher");
+var MapConfig = (function () {
+    function MapConfig(mapProjection, useGeolocate, useLayerswitcher, center, maxZoom, minZoom, zoom, geolocateZoom) {
+        if (useGeolocate === void 0) { useGeolocate = true; }
+        if (useLayerswitcher === void 0) { useLayerswitcher = false; }
+        this.mapProjection = mapProjection;
+        this.useGeolocate = useGeolocate;
+        this.useLayerswitcher = useLayerswitcher;
+        this.center = center;
+        this.maxZoom = maxZoom;
+        this.minZoom = minZoom;
+        this.zoom = zoom;
+        this.geolocateZoom = geolocateZoom;
+    }
+    return MapConfig;
+}());
+exports.MapConfig = MapConfig;
 var MapUtil = (function () {
     function MapUtil() {
     }
@@ -157,15 +173,16 @@ var MapUtil = (function () {
         layer.set('type', isBaseLayer ? 'base' : 'overlay');
         return layer;
     };
-    MapUtil.createMap = function (target, mapProjection) {
+    MapUtil.createMap = function (target, config) {
         var map = new ol.Map({
             layers: [],
             target: target,
             view: new ol.View({
-                center: ol.extent.getCenter(mapProjection.getExtent()),
-                projection: mapProjection,
-                zoom: 2,
-                maxZoom: 21
+                center: config.center || ol.extent.getCenter(config.mapProjection.getExtent()),
+                projection: config.mapProjection,
+                zoom: config.zoom || 2,
+                maxZoom: config.maxZoom || 21,
+                minZoom: config.minZoom || 1
             }),
             controls: ol.control.defaults({
                 attributionOptions: ({
@@ -177,16 +194,20 @@ var MapUtil = (function () {
             logo: false
         });
         map.addControl(new ol.control.ScaleLine());
-        map.addControl(new ol_geolocate_1.Geolocate({}));
-        var layerswitcherPanel = new ol_layerswitcher_1.LayerswitcherPanel({
-            title: 'Legende'
-        });
-        map.addControl(new ol_layerswitcher_1.Layerswitcher({
-            tipLabel: 'Verander de kaartlagen',
-            title: 'Kaartlagen',
-            panel: layerswitcherPanel
-        }));
-        map.addControl(layerswitcherPanel);
+        if (config.useGeolocate) {
+            map.addControl(new ol_geolocate_1.Geolocate({ zoomLevel: config.geolocateZoom }));
+        }
+        if (config.useLayerswitcher) {
+            var layerswitcherPanel = new ol_layerswitcher_1.LayerswitcherPanel({
+                title: 'Legende'
+            });
+            map.addControl(new ol_layerswitcher_1.Layerswitcher({
+                tipLabel: 'Verander de kaartlagen',
+                title: 'Kaartlagen',
+                panel: layerswitcherPanel
+            }));
+            map.addControl(layerswitcherPanel);
+        }
         return map;
     };
     MapUtil.mergePolygons = function (features) {

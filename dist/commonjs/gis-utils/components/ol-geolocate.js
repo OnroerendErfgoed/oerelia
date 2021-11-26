@@ -36,7 +36,7 @@ var Geolocate = (function (_super) {
     Geolocate.prototype._zoomToLocation = function () {
         var map = this.getMap();
         var view = map.getView();
-        var zoomLevel = 12;
+        var zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
         var source = this.layer ? this.layer.getSource() : this._createLayer(map).getSource();
         source.clear(true);
         var positionFeature = this._createFeature();
@@ -64,13 +64,13 @@ var Geolocate = (function (_super) {
             image: new ol.style.Circle({
                 radius: 6,
                 fill: new ol.style.Fill({
-                    color: '#3399CC',
+                    color: '#3399CC'
                 }),
                 stroke: new ol.style.Stroke({
                     color: '#fff',
-                    width: 2,
-                }),
-            }),
+                    width: 2
+                })
+            })
         }));
         return feature;
     };

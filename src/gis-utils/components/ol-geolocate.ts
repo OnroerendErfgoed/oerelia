@@ -1,11 +1,11 @@
 import * as ol from 'openlayers';
 
 export class Geolocate extends ol.control.Control {
-  public options: any;
+  public options;
   public element: Element;
   public layer: ol.layer.Vector;
 
-  constructor(optOptions: any) {
+  constructor(optOptions) {
     super(optOptions);
     this.options = optOptions || {};
 
@@ -14,7 +14,7 @@ export class Geolocate extends ol.control.Control {
     this.element = document.createElement('div');
     this.element.className = 'ol-geolocate ol-control ol-unselectable';
 
-    let button = document.createElement('button');
+    const button = document.createElement('button');
     button.setAttribute('title', tipLabel);
     button.innerHTML = '<i class="fa fa-map-marker"></i>';
     this.element.appendChild(button);
@@ -29,15 +29,15 @@ export class Geolocate extends ol.control.Control {
   private _zoomToLocation() {
     const map = this.getMap();
     const view = map.getView();
-    const zoomLevel = 12;
+    const zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
 
-    let source = this.layer ? this.layer.getSource() : this._createLayer(map).getSource();
+    const source = this.layer ? this.layer.getSource() : this._createLayer(map).getSource();
     source.clear(true);
     const positionFeature = this._createFeature();
 
     navigator.geolocation.getCurrentPosition(function(pos) {
       const coordinates = ol.proj.transform(
-        [pos.coords.longitude, pos.coords.latitude] ,
+        [pos.coords.longitude, pos.coords.latitude],
         'EPSG:4326',
         view.getProjection()
       );
@@ -66,13 +66,13 @@ export class Geolocate extends ol.control.Control {
         image: new ol.style.Circle({
           radius: 6,
           fill: new ol.style.Fill({
-            color: '#3399CC',
+            color: '#3399CC'
           }),
           stroke: new ol.style.Stroke({
             color: '#fff',
-            width: 2,
-          }),
-        }),
+            width: 2
+          })
+        })
       })
     );
     return feature;

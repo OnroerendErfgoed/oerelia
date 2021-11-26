@@ -5,6 +5,19 @@ import { Layerswitcher, LayerswitcherPanel } from './components/ol-layerswitcher
 
 declare const jsts: any;
 
+export class MapConfig {
+  constructor(
+    public mapProjection: ol.proj.Projection,
+    public useGeolocate: boolean = true,
+    public useLayerswitcher: boolean = false,
+    public center?: ol.Coordinate,
+    public maxZoom?: number,
+    public minZoom?: number,
+    public zoom?: number,
+    public geolocateZoom?: number
+  ) {}
+}
+
 export class MapUtil {
 
   public static transformBoundingboxToMapExtent(boundingbox: Boundingbox) {
@@ -180,15 +193,16 @@ export class MapUtil {
     return layer;
   }
 
-  public static createMap(target: Element, mapProjection: ol.proj.Projection): ol.Map {
+  public static createMap(target: Element, config: MapConfig): ol.Map {
     const map = new ol.Map({
       layers: [],
       target: target,
       view: new ol.View({
-        center: ol.extent.getCenter(mapProjection.getExtent()),
-        projection: mapProjection,
-        zoom: 2,
-        maxZoom: 21
+        center: config.center || ol.extent.getCenter(config.mapProjection.getExtent()),
+        projection: config.mapProjection,
+        zoom: config.zoom || 2,
+        maxZoom: config.maxZoom || 21,
+        minZoom: config.minZoom || 1
       }),
       controls: ol.control.defaults({
         attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
@@ -201,16 +215,22 @@ export class MapUtil {
     });
 
     map.addControl(new ol.control.ScaleLine());
-    map.addControl(new Geolocate({}));
-    const layerswitcherPanel = new LayerswitcherPanel({
-      title: 'Legende'
-    });
-    map.addControl(new Layerswitcher({
-      tipLabel: 'Verander de kaartlagen',
-      title: 'Kaartlagen',
-      panel: layerswitcherPanel
-    }));
-    map.addControl(layerswitcherPanel);
+
+    if (config.useGeolocate) {
+      map.addControl(new Geolocate({ zoomLevel: config.geolocateZoom }));
+    }
+
+    if (config.useLayerswitcher) {
+      const layerswitcherPanel = new LayerswitcherPanel({
+        title: 'Legende'
+      });
+      map.addControl(new Layerswitcher({
+        tipLabel: 'Verander de kaartlagen',
+        title: 'Kaartlagen',
+        panel: layerswitcherPanel
+      }));
+      map.addControl(layerswitcherPanel);
+    }
 
     return map;
   }
