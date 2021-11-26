@@ -1,1 +1,0 @@
-{"version":3,"sources":["tabs/tabs-pane.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,yDAA2D;AAG3D;IAAA;IAiBA,CAAC;IAhBW;QAAT,6BAAQ;;2CAAmB;IAClB;QAAT,6BAAQ;;yCAAiB;IAChB;QAAT,6BAAQ;;+CAAuB;IACtB;QAAT,6BAAQ;;4CAAyB;IACxB;QAAT,6BAAQ;;kDAA2B;IALzB,QAAQ;QADpB,kCAAa,EAAE;OACH,QAAQ,CAiBpB;IAAD,eAAC;CAjBD,AAiBC,IAAA;AAjBY,4BAAQ","file":"tabs-pane.js","sourceRoot":"../../../src/"}

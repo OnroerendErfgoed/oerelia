@@ -1,1 +1,0 @@
-{"version":3,"sources":["utilities/message/interfaces/IRestResult.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,iBAAiB,CAAC;AAEhD,MAAM,WAAW,WAAW;IAC1B,IAAI,EAAE,MAAM,CAAC;IACb,QAAQ,EAAE,aAAa,CAAC;CACzB","file":"IRestResult.d.ts","sourceRoot":"../../../../../src/"}

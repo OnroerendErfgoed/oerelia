@@ -1,1 +1,0 @@
-{"version":3,"sources":["zoneerder/models/buttonConfig.ts"],"names":[],"mappings":"AAAA,qBAAa,YAAY;IAChB,UAAU,EAAE,OAAO,CAAC;IACpB,SAAS,EAAE,OAAO,CAAC;IACnB,cAAc,EAAE,OAAO,CAAC;IACxB,eAAe,EAAE,OAAO,CAAC;IACzB,MAAM,EAAE,OAAO,CAAC;IAChB,YAAY,EAAE,OAAO,CAAC;CAC9B","file":"buttonConfig.d.ts","sourceRoot":"../../../../src/"}
