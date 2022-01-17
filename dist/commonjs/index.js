@@ -18,7 +18,8 @@ function configure(config) {
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/multi-select/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/value-converters/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/actor-widget/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/copy-button/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/copy-button/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/models/public-model'));
 }
 exports.configure = configure;
 
