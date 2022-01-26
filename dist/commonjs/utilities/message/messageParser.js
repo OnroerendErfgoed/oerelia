@@ -40,6 +40,11 @@ var MessageParser = (function () {
                 "Er liep iets mis bij het ophalen van " + url + ".<br>\n         Mail naar " + oeUrl + " om dit probleem te melden."
             ];
         }
+        else if (response.statusCode === 400) {
+            result.response.errors = [
+                "Er liep iets mis bij het opslaan van " + response.requestMessage.url
+            ];
+        }
         return result;
     };
     return MessageParser;
