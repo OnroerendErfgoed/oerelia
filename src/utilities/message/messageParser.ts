@@ -43,7 +43,7 @@ export class MessageParser {
       ];
     } else if (response.statusCode === 400) {
       result.response.errors = [
-        `Er liep iets mis bij het opslaan van ${response.requestMessage.url}`
+        `Fout bij valideren van ${response.requestMessage.url} (statuscode: 400)`
       ]
     }
     return result;
