@@ -46,3 +46,11 @@ export interface IActor {
     voornaam: string;
     zichtbaarheid: IType;
 }
+export interface IRangeHeader {
+    start: number;
+    end: number;
+}
+export interface IResponse<IType> {
+    content: IType[];
+    lastRow: number;
+}

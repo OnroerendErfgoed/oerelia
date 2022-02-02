@@ -50,4 +50,14 @@ export interface IActor {
   zichtbaarheid: IType;
 }
 
+export interface IRangeHeader {
+  start: number;
+  end: number;
+}
+
+export interface IResponse<IType> {
+  content: IType[];
+  lastRow: number
+}
+
 
