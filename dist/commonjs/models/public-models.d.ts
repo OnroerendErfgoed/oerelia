@@ -75,9 +75,8 @@ export interface IOrganisatieCode {
     description: string;
     value: string;
 }
-interface IAttributes {
+export interface IAttributes {
     cn: string;
     displayname: string;
     mail: string;
 }
-export {};
