@@ -60,6 +60,7 @@ export interface IResponse<IType> {
   lastRow: number
 }
 
+/* User object */
 export interface IUser {
   actor: IActor;
   attributes: IAttributes;
@@ -69,6 +70,25 @@ export interface IUser {
   sso_token: string;
   personid: string;
   userid: string;
+}
+
+export interface IPersoonsgegevens {
+  naam: string;
+  omschrijving: string;
+  voornaam: string;
+  rijksregisternummer: string;
+}
+
+export interface IOrganisatieCode {
+  type: string;
+  description: string;
+  value: string;
+}
+
+interface IAttributes {
+  cn: string;
+  displayname: string;
+  mail: string;
 }
 
 

@@ -64,3 +64,20 @@ export interface IUser {
     personid: string;
     userid: string;
 }
+export interface IPersoonsgegevens {
+    naam: string;
+    omschrijving: string;
+    voornaam: string;
+    rijksregisternummer: string;
+}
+export interface IOrganisatieCode {
+    type: string;
+    description: string;
+    value: string;
+}
+interface IAttributes {
+    cn: string;
+    displayname: string;
+    mail: string;
+}
+export {};

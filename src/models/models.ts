@@ -68,22 +68,3 @@ interface ISystemActor {
   uri: string;
   description?: string;
 }
-
-interface IAttributes {
-  cn: string;
-  displayname: string;
-  mail: string;
-}
-
-interface IPersoonsgegevens {
-  naam: string;
-  omschrijving: string;
-  voornaam: string;
-  rijksregisternummer: string;
-}
-
-interface IOrganisatieCode {
-  type: string;
-  description: string;
-  value: string;
-}
