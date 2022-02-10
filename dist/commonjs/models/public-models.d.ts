@@ -54,3 +54,13 @@ export interface IResponse<IType> {
     content: IType[];
     lastRow: number;
 }
+export interface IUser {
+    actor: IActor;
+    attributes: IAttributes;
+    organisatieCode: IOrganisatieCode;
+    persoonsgegevens: IPersoonsgegevens;
+    groups: string[];
+    sso_token: string;
+    personid: string;
+    userid: string;
+}
