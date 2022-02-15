@@ -1,1 +1,0 @@
-{"version":3,"sources":["zoneerder/models/contour.ts"],"names":[],"mappings":"AAAA;IAKE,iBAAY,CAAW;QACrB,IAAI,CAAC,EAAE;YACL,IAAI,CAAC,WAAW,GAAG,CAAC,CAAC,WAAW,CAAC;YACjC,IAAI,CAAC,GAAG,GAAG,CAAC,CAAC,GAAG,CAAC;YACjB,IAAI,CAAC,IAAI,GAAG,CAAC,CAAC,IAAI,CAAC;SACpB;IACH,CAAC;IACH,cAAC;AAAD,CAZA,AAYC,IAAA","file":"contour.js","sourceRoot":"../../../../src/"}
