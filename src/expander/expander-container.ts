@@ -1,5 +1,5 @@
 import { autoinject, children, bindable } from 'aurelia-framework';
-import { Expander } from '@resources/components/expander';
+import { Expander } from './expander';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 
 @autoinject
