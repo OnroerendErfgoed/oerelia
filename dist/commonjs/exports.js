@@ -27,5 +27,7 @@ __export(require("./multi-select/multi-select"));
 __export(require("./references-dialog/references-dialog"));
 __export(require("./actor-widget/actor-widget"));
 __export(require("./copy-button/copy-button"));
+__export(require("./expander/expander"));
+__export(require("./expander/expander-container"));
 
 //# sourceMappingURL=exports.js.map
