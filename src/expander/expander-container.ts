@@ -5,7 +5,7 @@ import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 @autoinject
 export class ExpanderContainer {
   @children('expander') expanders: Expander[] = [];
-  @bindable private collapseOthers = false;
+  @bindable private allowMultipleExpanded = false;
   private subscription: Subscription;
 
   constructor(private eventAggregator: EventAggregator) { }
@@ -15,7 +15,9 @@ export class ExpanderContainer {
   }
 
   public collapseAll() {
-    this.expanders.forEach((expander) => expander.expanded = false);
+    if(!this.allowMultipleExpanded){
+      this.expanders.forEach((expander) => expander.expanded = false);
+    }
   }
 
   public attached() {
