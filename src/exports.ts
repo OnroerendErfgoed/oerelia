@@ -38,3 +38,6 @@ export * from './references-dialog/references-dialog';
 export * from './actor-widget/actor-widget';
 
 export * from './copy-button/copy-button';
+
+export * from './expander/expander';
+export * from './expander/expander-container';
