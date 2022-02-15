@@ -1,0 +1,1 @@
+{"version":3,"sources":["expander/expander.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,eAAe,EAAE,MAAM,0BAA0B,CAAC;AAE3D,qBACa,QAAQ;IAKP,OAAO,CAAC,eAAe;IAJlB,MAAM,EAAE,MAAM,CAAC;IACf,OAAO,EAAE,MAAM,CAAC;IACvB,QAAQ,UAAS;gBAEP,eAAe,EAAE,eAAe;IAE7C,cAAc,CAAC,QAAQ,EAAE,OAAO;CAIxC","file":"expander.d.ts","sourceRoot":"../../../src/"}

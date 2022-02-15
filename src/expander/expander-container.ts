@@ -25,6 +25,6 @@ export class ExpanderContainer {
   }
 
   public detached() {
-    this.subscription?.dispose();
+    this.subscription && this.subscription.dispose();
   }
 }
