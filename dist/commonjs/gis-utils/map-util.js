@@ -135,7 +135,7 @@ var MapUtil = (function () {
             matrixIds: matrixIds
         });
         var ngiSource = new ol.source.WMTS({
-            urls: ['https://www.ngi.be/cartoweb/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
+            urls: ['https://cartoweb.wmts.ngi.be/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
             requestEncoding: 'REST',
             layer: layerId,
             matrixSet: '3812',
