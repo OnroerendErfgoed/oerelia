@@ -3,7 +3,6 @@ import { bindable } from 'aurelia-framework';
 
 export class TabsHeader {
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public tabs: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public showCheck = false;
 
   public click(id, event) {
     console.debug('tab-headers::click', event);

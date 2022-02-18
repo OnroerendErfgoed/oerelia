@@ -11,7 +11,6 @@ import { bindingMode } from 'aurelia-binding';
 import { bindable } from 'aurelia-framework';
 var TabsHeader = (function () {
     function TabsHeader() {
-        this.showCheck = false;
     }
     TabsHeader.prototype.click = function (id, event) {
         console.debug('tab-headers::click', event);
@@ -37,10 +36,6 @@ var TabsHeader = (function () {
         bindable({ defaultBindingMode: bindingMode.twoWay }),
         __metadata("design:type", Object)
     ], TabsHeader.prototype, "tabs", void 0);
-    __decorate([
-        bindable({ defaultBindingMode: bindingMode.twoWay }),
-        __metadata("design:type", Object)
-    ], TabsHeader.prototype, "showCheck", void 0);
     return TabsHeader;
 }());
 export { TabsHeader };
