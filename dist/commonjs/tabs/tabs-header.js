@@ -13,6 +13,7 @@ var aurelia_binding_1 = require("aurelia-binding");
 var aurelia_framework_1 = require("aurelia-framework");
 var TabsHeader = (function () {
     function TabsHeader() {
+        this.showCheck = false;
     }
     TabsHeader.prototype.click = function (id, event) {
         console.debug('tab-headers::click', event);
@@ -38,6 +39,10 @@ var TabsHeader = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
     ], TabsHeader.prototype, "tabs", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], TabsHeader.prototype, "showCheck", void 0);
     return TabsHeader;
 }());
 exports.TabsHeader = TabsHeader;
