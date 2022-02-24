@@ -1,37 +1,24 @@
 import * as ol from 'openlayers';
 
 export class Geolocate extends ol.control.Control {
-  public options: any;
+  public options;
   public element: Element;
-  public button: HTMLButtonElement;
-  public drawAction: any;
-  public geolocation: ol.Geolocation;
+  public layer: ol.layer.Vector;
 
-  constructor(optOptions: any) {
-    console.debug('Draw::constructor', optOptions);
+  constructor(optOptions) {
     super(optOptions);
     this.options = optOptions || {};
 
-    const tipLabel = this.options.tipLabel ? this.options.tipLabel : 'Teken';
+    const tipLabel = this.options.tipLabel ? this.options.tipLabel : 'Zoom naar je eigen locatie';
 
     this.element = document.createElement('div');
     this.element.className = 'ol-geolocate ol-control ol-unselectable';
 
-    this.button = document.createElement('button');
-    this.button.setAttribute('title', tipLabel);
-    this.button.innerHTML = '<i class="fa fa-map-marker"></i>';
-    this.element.appendChild(this.button);
-
-    this.geolocation = new ol.Geolocation({
-      projection: this.options.projection,
-      trackingOptions: {
-        enableHighAccuracy: true
-      }
-    });
-
-    this.button.onclick = () => {
-      this._zoomToLocation();
-    };
+    const button = document.createElement('button');
+    button.setAttribute('title', tipLabel);
+    button.innerHTML = '<i class="fa fa-map-marker"></i>';
+    this.element.appendChild(button);
+    button.addEventListener('click', this._zoomToLocation.bind(this), false);
 
     ol.control.Control.call(this, {
       element: this.element,
@@ -40,38 +27,57 @@ export class Geolocate extends ol.control.Control {
   }
 
   private _zoomToLocation() {
-    if (!this.geolocation) {
-      return;
-    }
-    const zoomLevel = this.options.zoomLevel;
     const map = this.getMap();
     const view = map.getView();
-    this.geolocation.setTracking(true);
-    this.geolocation.once('change:position', () => {
-      const position = this.geolocation.getPosition();
-      view.setCenter(position);
-      if (zoomLevel) {
-        view.setZoom(zoomLevel);
-      }
-      this.geolocation.setTracking(false);
+    const zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
 
-      const marker = document.getElementById('marker');
-      marker.classList.remove('hide');
-      const overlayId = 'markerOverlay';
-      const overlay = map.getOverlayById(overlayId);
-      if (!overlay) {
-        map.addOverlay(
-          new ol.Overlay({
-            id: overlayId,
-            position: position,
-            positioning: 'center-center',
-            element: marker,
-            stopEvent: false
-          })
-        );
-      } else {
-        overlay.setPosition(position);
-      }
+    if(!this.layer) {
+      this.layer = this._createLayer(map);
+    }
+    const source = this.layer.getSource();
+    source.clear(true);
+    const positionFeature = this._createFeature();
+
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      const coordinates = ol.proj.transform(
+        [pos.coords.longitude, pos.coords.latitude],
+        'EPSG:4326',
+        view.getProjection()
+      );
+      view.setCenter(coordinates);
+      view.setZoom(zoomLevel);
+      positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+      source.addFeatures([
+        positionFeature
+      ]);
     });
+  }
+
+  private _createLayer(map: ol.Map): ol.layer.Vector {
+    const source = new ol.source.Vector();
+    const layer = new ol.layer.Vector({
+      source: source
+    });
+    map.addLayer(layer);
+    return layer;
+  }
+
+  private _createFeature(): ol.Feature {
+    const feature = new ol.Feature();
+    feature.setStyle(
+      new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 6,
+          fill: new ol.style.Fill({
+            color: '#3399CC'
+          }),
+          stroke: new ol.style.Stroke({
+            color: '#fff',
+            width: 2
+          })
+        })
+      })
+    );
+    return feature;
   }
 }

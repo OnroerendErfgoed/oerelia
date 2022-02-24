@@ -1,11 +1,6 @@
-export declare class MultiSelect {
-    options: any[];
-    value: any[];
+import { MultiSelectBase } from './multi-select-base';
+export declare class MultiSelect extends MultiSelectBase {
     textValue: string;
-    placeholder: string;
-    disabled: boolean;
-    idProperty: string;
-    labelProperty: string;
     expanded: boolean;
     mouseover: boolean;
     element: Element;

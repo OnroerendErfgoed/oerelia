@@ -41,6 +41,10 @@ export class MessageParser {
         `Er liep iets mis bij het ophalen van ${url}.<br>
          Mail naar ${oeUrl} om dit probleem te melden.`
       ];
+    } else if (response.statusCode === 400) {
+      result.response.errors = [
+        `Fout bij valideren van ${response.requestMessage.url} (statuscode: 400)`
+      ]
     }
     return result;
   }

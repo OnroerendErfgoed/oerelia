@@ -40,3 +40,6 @@ export * from './actor-widget/actor-widget';
 export * from './copy-button/copy-button';
 
 export * from './models/public-models';
+
+export * from './expander/expander';
+export * from './expander/expander-container';

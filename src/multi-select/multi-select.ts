@@ -1,20 +1,16 @@
 import { bindable } from 'aurelia-templating';
 import { inject } from 'aurelia-dependency-injection';
+import { MultiSelectBase } from './multi-select-base';
 
 @inject(Element)
-export class MultiSelect {
-  @bindable public options: any[];
-  @bindable public value: any[];
+export class MultiSelect extends MultiSelectBase {
   @bindable public textValue: string = '';
-  @bindable public placeholder: string;
-  @bindable public disabled: boolean;
-  @bindable public idProperty: string;
-  @bindable public labelProperty: string;
   public expanded: boolean = false;
   public mouseover: boolean = false;
   public element: Element = null;
 
   constructor(element: Element) {
+    super();
     this.element = element;
   }
 
