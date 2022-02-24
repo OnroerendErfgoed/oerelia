@@ -1,0 +1,1 @@
+{"version":3,"sources":["multi-select/multi-select-base.ts"],"names":[],"mappings":"AAEA,8BAAsB,eAAe;IAClB,OAAO,EAAE,OAAO,EAAE,CAAC;IACnB,KAAK,EAAE,OAAO,EAAE,CAAC;IACjB,WAAW,EAAE,MAAM,CAAC;IACpB,QAAQ,EAAE,OAAO,CAAC;IAClB,UAAU,EAAE,MAAM,CAAQ;IAC1B,aAAa,EAAE,MAAM,CAAW;CAClD","file":"multi-select-base.d.ts","sourceRoot":"../../../src/"}

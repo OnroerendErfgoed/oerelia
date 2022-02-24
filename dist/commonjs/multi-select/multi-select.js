@@ -1,4 +1,17 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11,13 +24,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_templating_1 = require("aurelia-templating");
 var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
-var MultiSelect = (function () {
+var multi_select_base_1 = require("./multi-select-base");
+var MultiSelect = (function (_super) {
+    __extends(MultiSelect, _super);
     function MultiSelect(element) {
-        this.textValue = '';
-        this.expanded = false;
-        this.mouseover = false;
-        this.element = null;
-        this.element = element;
+        var _this = _super.call(this) || this;
+        _this.textValue = '';
+        _this.expanded = false;
+        _this.mouseover = false;
+        _this.element = null;
+        _this.element = element;
+        return _this;
     }
     MultiSelect.prototype.bind = function () {
         this.updateTextValue();
@@ -64,38 +81,14 @@ var MultiSelect = (function () {
     };
     __decorate([
         aurelia_templating_1.bindable,
-        __metadata("design:type", Array)
-    ], MultiSelect.prototype, "options", void 0);
-    __decorate([
-        aurelia_templating_1.bindable,
-        __metadata("design:type", Array)
-    ], MultiSelect.prototype, "value", void 0);
-    __decorate([
-        aurelia_templating_1.bindable,
         __metadata("design:type", String)
     ], MultiSelect.prototype, "textValue", void 0);
-    __decorate([
-        aurelia_templating_1.bindable,
-        __metadata("design:type", String)
-    ], MultiSelect.prototype, "placeholder", void 0);
-    __decorate([
-        aurelia_templating_1.bindable,
-        __metadata("design:type", Boolean)
-    ], MultiSelect.prototype, "disabled", void 0);
-    __decorate([
-        aurelia_templating_1.bindable,
-        __metadata("design:type", String)
-    ], MultiSelect.prototype, "idProperty", void 0);
-    __decorate([
-        aurelia_templating_1.bindable,
-        __metadata("design:type", String)
-    ], MultiSelect.prototype, "labelProperty", void 0);
     MultiSelect = __decorate([
         aurelia_dependency_injection_1.inject(Element),
         __metadata("design:paramtypes", [Element])
     ], MultiSelect);
     return MultiSelect;
-}());
+}(multi_select_base_1.MultiSelectBase));
 exports.MultiSelect = MultiSelect;
 
 //# sourceMappingURL=multi-select.js.map

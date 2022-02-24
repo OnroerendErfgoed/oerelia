@@ -1,0 +1,25 @@
+multi-select-extended .multi-input-container {
+  display: flex; }
+  multi-select-extended .multi-input-container .multi-input-icon {
+    min-width: 45px;
+    text-align: center;
+    padding: 12px;
+    border-left: 1px solid #d5d5d5;
+    cursor: pointer;
+    height: 100%; }
+
+multi-select-extended .multi-input-list {
+  list-style: none;
+  padding: 8px 20px 8px 8px;
+  border-top: 1px solid #d5d5d5;
+  margin: 0; }
+  multi-select-extended .multi-input-list li {
+    font-size: 14px;
+    border-bottom: 1px dashed #d5d5d5;
+    color: #3f3840;
+    line-height: 2em; }
+    multi-select-extended .multi-input-list li .multi-input-remove {
+      float: right;
+      cursor: pointer;
+      color: darkgray;
+      padding-top: 8px; }
