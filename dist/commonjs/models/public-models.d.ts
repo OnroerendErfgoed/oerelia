@@ -1,3 +1,4 @@
+import { HttpResponseMessage } from 'aurelia-http-client';
 export interface IErkenning {
     erkend_als: string;
     erkend_voor: string;
@@ -79,4 +80,17 @@ export interface IAttributes {
     cn: string;
     displayname: string;
     mail: string;
+}
+export interface IHeader {
+    key: string;
+    value: string;
+}
+export declare type ParamsType = Record<string, unknown>;
+export interface IHttpOptions {
+    params?: ParamsType;
+    headers?: IHeader[];
+    responseType?: string;
+}
+export interface IHttpResponse<IType> extends HttpResponseMessage {
+    content: IType;
 }
