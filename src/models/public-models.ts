@@ -110,3 +110,6 @@ export interface IHttpResponse<IType> extends HttpResponseMessage {
   content: IType;
 }
 
+export interface IApiObject {
+  etag?: string;
+}
