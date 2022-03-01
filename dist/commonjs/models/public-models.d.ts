@@ -97,3 +97,12 @@ export interface IHttpResponse<IType> extends HttpResponseMessage {
 export interface IApiObject {
     etag?: string;
 }
+export interface IValidationResult {
+    valid: boolean;
+    message: string;
+}
+export interface TabViewModel {
+    currentViewModel: {
+        validate?: () => Promise<IValidationResult>;
+    };
+}
