@@ -124,3 +124,30 @@ export interface TabViewModel {
     validate?: () => Promise<IValidationResult>
   };
 }
+
+export interface ITab<T> {
+  id: string;
+  label: string,
+  viewModel: string,
+  closable: boolean,
+  active: boolean,
+  model?: T,
+  edit?: boolean,
+  newTab?: boolean,
+  showInput?: boolean
+}
+
+export class Tab<T> {
+  public id: string;
+  public label: string;
+  public viewModel: string;
+  public closable: boolean;
+  public active: boolean;
+  public model?: T;
+  public edit?: boolean;
+  public newTab?: boolean;
+
+  constructor(tabApi: ITab<T>) {
+    Object.assign(this, tabApi);
+  }
+}
