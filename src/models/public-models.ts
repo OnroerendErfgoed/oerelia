@@ -52,6 +52,13 @@ export interface IActor {
   zichtbaarheid: IType;
 }
 
+export class Actor {
+  public erkenningen: IErkenning[];
+  public id: string;
+  public omschrijving: string;
+  public uri: string;
+}
+
 export interface IRangeHeader {
   start: number;
   end: number;

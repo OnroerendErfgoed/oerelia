@@ -47,6 +47,12 @@ export interface IActor {
     voornaam: string;
     zichtbaarheid: IType;
 }
+export declare class Actor {
+    erkenningen: IErkenning[];
+    id: string;
+    omschrijving: string;
+    uri: string;
+}
 export interface IRangeHeader {
     start: number;
     end: number;

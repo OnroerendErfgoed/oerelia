@@ -1,5 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var Actor = (function () {
+    function Actor() {
+    }
+    return Actor;
+}());
+exports.Actor = Actor;
 var Tab = (function () {
     function Tab(tabApi) {
         Object.assign(this, tabApi);
