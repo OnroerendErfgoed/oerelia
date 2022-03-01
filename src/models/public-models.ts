@@ -151,3 +151,10 @@ export class Tab<T> {
     Object.assign(this, tabApi);
   }
 }
+
+export interface IModel<T> {
+  model: T;
+  edit?: boolean;
+  active?: boolean;
+  tabid: string;
+}

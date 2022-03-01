@@ -128,3 +128,9 @@ export declare class Tab<T> {
     newTab?: boolean;
     constructor(tabApi: ITab<T>);
 }
+export interface IModel<T> {
+    model: T;
+    edit?: boolean;
+    active?: boolean;
+    tabid: string;
+}
