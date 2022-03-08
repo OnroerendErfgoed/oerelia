@@ -122,7 +122,6 @@ export interface ITab<T> {
     edit?: boolean;
     newTab?: boolean;
     showInput?: boolean;
-    application?: string;
 }
 export declare class Tab<T> {
     id: string;
@@ -140,4 +139,5 @@ export interface IModel<T> {
     edit?: boolean;
     active?: boolean;
     tabid: string;
+    application?: string;
 }
