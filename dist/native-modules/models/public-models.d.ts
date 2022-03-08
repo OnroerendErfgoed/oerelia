@@ -122,7 +122,7 @@ export interface ITab<T> {
     edit?: boolean;
     newTab?: boolean;
     showInput?: boolean;
-    application: string;
+    application?: string;
 }
 export declare class Tab<T> {
     id: string;

@@ -142,7 +142,7 @@ export interface ITab<T> {
   edit?: boolean,
   newTab?: boolean,
   showInput?: boolean,
-  application: string
+  application?: string
 }
 
 export class Tab<T> {
