@@ -304,6 +304,13 @@
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.8.16.tgz#a6cb24b1149d65293bd616923500014838e14e7d"
   integrity sha512-056oRlBBp7MDzr+HoU5su099s/s7wjZ3KcHxLfv+Byqb9MwdLUvsfLgw1VS97hsh3ddxSPyQu+olHMnoVTUY6g==
 
+"@types/jquery@*":
+  version "3.5.14"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.5.14.tgz#ac8e11ee591e94d4d58da602cb3a5a8320dee577"
+  integrity sha512-X1gtMRMbziVQkErhTQmSe2jFwwENA/Zr+PprCkF63vFq+Yt5PZ4AlKqgmeNlwgn7dhsXEK888eIW2520EpC+xg==
+  dependencies:
+    "@types/sizzle" "*"
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -319,15 +326,27 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.9.tgz#4f251a1ed77ac7ef09d456247d67fc8173f6b9da"
   integrity sha512-+6VygF9LbG7Gaqeog2G7u1+RUcmo0q1rI+2ZxdIg2fAUngk5Vz9fOCHXdloNUOHEPd1EuuOpL5O0CdgN9Fx5UQ==
 
-"@types/openlayers@^4.1.1":
-  version "4.6.17"
-  resolved "https://registry.yarnpkg.com/@types/openlayers/-/openlayers-4.6.17.tgz#39a8dce631e284a26cf0958664509932e6cd7c7d"
-  integrity sha512-vCCV5MY3XRmHyED1ndHxXJ/5IpeA3pX9J6IKZnMY+uTerhYNfG7pM451dgS90tSkBBxszd8ETPrF5ggQ9mqwlA==
+"@types/openlayers@^4.6.18":
+  version "4.6.18"
+  resolved "https://registry.yarnpkg.com/@types/openlayers/-/openlayers-4.6.18.tgz#745122d14bc3c7aab8839c5c1b1411e0fd7c75d3"
+  integrity sha512-srqcI4chyzzs11ZhYpnZqT6Lh1v/O5EXh+pPENDtAwhE7CM31h+JsGomt+ioGhuNVJ96Jl4UkHR1Lllb/XrQAA==
 
 "@types/proj4@^2.3.4":
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/@types/proj4/-/proj4-2.5.0.tgz#40f1ed1cb9ef66e442ab6e57eba32eadc0f0501a"
   integrity sha512-9bR9qvg4wZE6UiIlmhodCOZ2r38SeN8T35SsmMDuIMfACxxaMvIwiwoTJnEA9f/KEhL+BQSuD+arbZucUzYu7w==
+
+"@types/sizzle@*":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.3.tgz#ff5e2f1902969d305225a047c8a0fd5c915cebef"
+  integrity sha512-JYM8x9EGF163bEyhdJBpR2QX1R5naCJHC8ucJylJ3w9/CVBaskdQ8WqBf8MmQrd1kRvp/a4TS8HJ+bxzR7ZJYQ==
+
+"@types/toastr@^2.1.39":
+  version "2.1.39"
+  resolved "https://registry.yarnpkg.com/@types/toastr/-/toastr-2.1.39.tgz#d9a0691d2e7b20d6b818393d81a1e9d12596c506"
+  integrity sha512-jgbMLTjj7dsSY/EYYOoZXhK6OY/bR909Bn6YNnwL3Oq+f0AeFKbYa198XU/6bsmUqqCCWw5VvCi11FDN1/fetw==
+  dependencies:
+    "@types/jquery" "*"
 
 abbrev@1:
   version "1.1.1"

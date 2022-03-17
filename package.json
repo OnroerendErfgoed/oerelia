@@ -8,7 +8,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@types/openlayers": "^4.1.1",
     "@types/proj4": "^2.3.4",
     "ag-grid-aurelia": "^21.0.1",
     "ag-grid-community": "^23.2.1",
@@ -24,6 +23,8 @@
   "devDependencies": {
     "@types/jasmine": "^2.8.9",
     "@types/node": "^10.11.6",
+    "@types/openlayers": "^4.6.18",
+    "@types/toastr": "^2.1.39",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.3.2",
     "aurelia-cli": "1.2.2",
