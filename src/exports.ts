@@ -6,6 +6,12 @@ export * from './autocomplete/autocomplete';
 export * from './autocomplete/models/autocomplete-type';
 
 export * from './zoneerder/zoneerder';
+export * from './zoneerder/models/layerConfig';
+export * from './zoneerder/models/layerConfig.enums';
+export * from './zoneerder/models/layerConfig.defaults';
+export * from './zoneerder/models/buttonConfig';
+export * from './zoneerder/models/buttonConfig.defaults';
+
 
 export * from './systemfields/systemfields';
 
