@@ -344,7 +344,7 @@ var OlMap = (function () {
     OlMap.prototype._createLayers = function () {
         var _this = this;
         log.debug('Create layers', this.layerConfig);
-        var layers = this.layerConfig.baseLayers.map(function (layerOptions) { return _this._createLayer(layerOptions, false); });
+        var layers = this.layerConfig.baseLayers.map(function (layerOptions) { return _this._createLayer(layerOptions, true); });
         var baseLayerGroup = new ol.layer.Group({ layers: layers });
         baseLayerGroup.set('title', 'Achtergrond kaart');
         this.map.addLayer(baseLayerGroup);

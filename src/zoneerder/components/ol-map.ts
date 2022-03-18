@@ -397,7 +397,7 @@ export class OlMap {
 
   private _createLayers() {
     log.debug('Create layers', this.layerConfig);
-    const layers = this.layerConfig.baseLayers.map((layerOptions) => this._createLayer(layerOptions, false))
+    const layers = this.layerConfig.baseLayers.map((layerOptions) => this._createLayer(layerOptions, true))
     const baseLayerGroup = new ol.layer.Group({ layers });
     baseLayerGroup.set('title', 'Achtergrond kaart');
     this.map.addLayer(baseLayerGroup);
