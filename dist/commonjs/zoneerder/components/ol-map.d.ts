@@ -58,6 +58,7 @@ export declare class OlMap {
     private _createGrbLayer;
     private _createNgiLayer;
     private _createGrbWMSLayer;
+    private _createErfgoedWMSLayer;
     private _createVectorLayer;
     private _createMapButtons;
     private addFullscreenButton;

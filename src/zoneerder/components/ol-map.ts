@@ -397,15 +397,19 @@ export class OlMap {
 
   private _createLayers() {
     log.debug('Create layers', this.layerConfig);
-    const layers = this.layerConfig.baseLayers.map((layerOptions) => this._createLayer(layerOptions, true))
+    //BaseLayers
+    const layers = Object.keys(this.layerConfig.baseLayers)
+      .map((id) => ({ id, options: this.layerConfig.baseLayers[id] }))
+      .map(({ id, options }) => this._createLayer(id, options, true))
     const baseLayerGroup = new ol.layer.Group({ layers });
     baseLayerGroup.set('title', 'Achtergrond kaart');
     this.map.addLayer(baseLayerGroup);
 
     // Overlays
-    this.layerConfig.overlays.forEach((layer) => {
-      this.map.addLayer(this._createLayer(layer, false));
-    })
+    const overlays = Object.keys(this.layerConfig.overlays)
+      .map((id) => ({ id, options: this.layerConfig.overlays[id] }))
+      .map(({ id, options }) => this._createLayer(id, options, false))
+    overlays.forEach((layer) => this.map.addLayer(layer));
 
     // Vector layer
     this.drawLayer = this._createVectorLayer({
@@ -416,18 +420,17 @@ export class OlMap {
     this.map.addLayer(this.drawLayer);
   }
 
-  private _createLayer(layerOptions: LayerOptions, isBaseLayer: boolean) {
-    const { id, title, attributions } = layerOptions;
+  private _createLayer(id: string, layerOptions: LayerOptions, isBaseLayer: boolean) {
     let layer: ol.layer.Layer;
 
     if (layerOptions.type === LayerType.Grb) layer = this._createGrbLayer(id);
     else if (layerOptions.type === LayerType.GrbWMS) layer = this._createGrbWMSLayer(layerOptions.wmsLayers);
-    else layer = this._createNgiLayer(id);
+    else if (layerOptions.type === LayerType.ErfgoedWms) layer = this._createErfgoedWMSLayer(layerOptions.wmsLayers);
+    else if (layerOptions.type === LayerType.Ngi) layer = this._createNgiLayer(id);
 
-    layer.set('title', title)
+    layer.set('title', layerOptions.title)
     layer.set('type', isBaseLayer ? 'base' : 'overlay')
     layer.setVisible(!!layerOptions.visible)
-    if (attributions) layer.getSource().setAttributions(attributions);
 
     return layer;
   }
@@ -490,6 +493,20 @@ export class OlMap {
         url: 'https://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB/wms',
         params: { LAYERS: wmsLayers, TILED: true },
         serverType: 'geoserver'
+      })),
+      maxResolution: 2000,
+      visible: false
+    });
+  }
+
+  private _createErfgoedWMSLayer(wmsLayers: string) {
+    return new ol.layer.Tile({
+      extent: this.mapProjection.getExtent(),
+      source: new ol.source.TileWMS(({
+        url: oeAppConfig.beschermingenWMSUrl || 'https://geo.onroerenderfgoed.be/geoserver/wms',
+        params: { LAYERS: wmsLayers, TILED: true },
+        serverType: 'geoserver',
+        attributions: '© <a href="https://www.onroerenderfgoed.be">Onroerend Erfgoed</a>'
       })),
       maxResolution: 2000,
       visible: false

@@ -344,13 +344,22 @@ var OlMap = (function () {
     OlMap.prototype._createLayers = function () {
         var _this = this;
         log.debug('Create layers', this.layerConfig);
-        var layers = this.layerConfig.baseLayers.map(function (layerOptions) { return _this._createLayer(layerOptions, true); });
+        var layers = Object.keys(this.layerConfig.baseLayers)
+            .map(function (id) { return ({ id: id, options: _this.layerConfig.baseLayers[id] }); })
+            .map(function (_a) {
+            var id = _a.id, options = _a.options;
+            return _this._createLayer(id, options, true);
+        });
         var baseLayerGroup = new ol.layer.Group({ layers: layers });
         baseLayerGroup.set('title', 'Achtergrond kaart');
         this.map.addLayer(baseLayerGroup);
-        this.layerConfig.overlays.forEach(function (layer) {
-            _this.map.addLayer(_this._createLayer(layer, false));
+        var overlays = Object.keys(this.layerConfig.overlays)
+            .map(function (id) { return ({ id: id, options: _this.layerConfig.overlays[id] }); })
+            .map(function (_a) {
+            var id = _a.id, options = _a.options;
+            return _this._createLayer(id, options, false);
         });
+        overlays.forEach(function (layer) { return _this.map.addLayer(layer); });
         this.drawLayer = this._createVectorLayer({
             color: 'rgb(39, 146, 195)',
             fill: 'rgba(39, 146, 195, 0.3)',
@@ -358,20 +367,19 @@ var OlMap = (function () {
         });
         this.map.addLayer(this.drawLayer);
     };
-    OlMap.prototype._createLayer = function (layerOptions, isBaseLayer) {
-        var id = layerOptions.id, title = layerOptions.title, attributions = layerOptions.attributions;
+    OlMap.prototype._createLayer = function (id, layerOptions, isBaseLayer) {
         var layer;
         if (layerOptions.type === LayerType.Grb)
             layer = this._createGrbLayer(id);
         else if (layerOptions.type === LayerType.GrbWMS)
             layer = this._createGrbWMSLayer(layerOptions.wmsLayers);
-        else
+        else if (layerOptions.type === LayerType.ErfgoedWms)
+            layer = this._createErfgoedWMSLayer(layerOptions.wmsLayers);
+        else if (layerOptions.type === LayerType.Ngi)
             layer = this._createNgiLayer(id);
-        layer.set('title', title);
+        layer.set('title', layerOptions.title);
         layer.set('type', isBaseLayer ? 'base' : 'overlay');
         layer.setVisible(!!layerOptions.visible);
-        if (attributions)
-            layer.getSource().setAttributions(attributions);
         return layer;
     };
     OlMap.prototype._createGrbLayer = function (grbLayerId) {
@@ -426,6 +434,19 @@ var OlMap = (function () {
                 url: 'https://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB/wms',
                 params: { LAYERS: wmsLayers, TILED: true },
                 serverType: 'geoserver'
+            })),
+            maxResolution: 2000,
+            visible: false
+        });
+    };
+    OlMap.prototype._createErfgoedWMSLayer = function (wmsLayers) {
+        return new ol.layer.Tile({
+            extent: this.mapProjection.getExtent(),
+            source: new ol.source.TileWMS(({
+                url: oeAppConfig.beschermingenWMSUrl || 'https://geo.onroerenderfgoed.be/geoserver/wms',
+                params: { LAYERS: wmsLayers, TILED: true },
+                serverType: 'geoserver',
+                attributions: '© <a href="https://www.onroerenderfgoed.be">Onroerend Erfgoed</a>'
             })),
             maxResolution: 2000,
             visible: false
