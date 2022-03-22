@@ -1,5 +1,6 @@
 export enum LayerType {
   Grb = 'Grb',
   Ngi = 'Ngi',
-  GrbWMS = 'GrbWMS'
+  GrbWMS = 'GrbWMS',
+  ErfgoedWms = 'ErfgoedWms'
 }

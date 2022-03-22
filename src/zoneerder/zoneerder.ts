@@ -18,9 +18,9 @@ export class Zoneerder {
   @bindable public buttonConfig: ButtonConfig;
   @bindable public layerConfig: LayerConfig;
   @bindable public isCollapsed?: boolean = true;
-  public map: OlMap;
 
   protected suggest: { suggest: Function };
+  private map: OlMap;
 
   constructor(
     private http: HttpClient,

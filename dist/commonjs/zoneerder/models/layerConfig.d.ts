@@ -1,23 +1,30 @@
 import { LayerType } from './layerConfig.enums';
-interface baseLayerOptions {
+interface BaseLayerOptions {
     type: LayerType;
-    id: string;
     title: string;
     visible?: boolean;
-    attributions?: string;
 }
-interface GrbOrNgiLayerOptions extends baseLayerOptions {
+interface GrbOrNgiLayerOptions extends BaseLayerOptions {
     type: LayerType.Ngi | LayerType.Grb;
 }
-export interface GrbWmsLayerOptions extends baseLayerOptions {
-    type: LayerType.GrbWMS;
+interface WmsLayerOptions extends BaseLayerOptions {
     wmsLayers: string;
+}
+export interface GrbWmsLayerOptions extends WmsLayerOptions {
+    type: LayerType.GrbWMS;
+}
+export interface ErfgoedWmsLayerOptions extends WmsLayerOptions {
+    type: LayerType.ErfgoedWms;
 }
 export declare type GrbLayerOptions = GrbOrNgiLayerOptions;
 export declare type NgiLayerOptions = GrbOrNgiLayerOptions;
-export declare type LayerOptions = GrbLayerOptions | NgiLayerOptions | GrbWmsLayerOptions;
+export declare type LayerOptions = GrbLayerOptions | NgiLayerOptions | GrbWmsLayerOptions | ErfgoedWmsLayerOptions;
 export interface LayerConfig {
-    baseLayers: LayerOptions[];
-    overlays: LayerOptions[];
+    baseLayers: {
+        [layerId: string]: LayerOptions;
+    };
+    overlays: {
+        [layerId: string]: LayerOptions;
+    };
 }
 export {};

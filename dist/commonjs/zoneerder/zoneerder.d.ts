@@ -1,5 +1,4 @@
 import { HttpClient } from 'aurelia-http-client';
-import { OlMap } from './components/ol-map';
 import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
@@ -16,10 +15,10 @@ export declare class Zoneerder {
     buttonConfig: ButtonConfig;
     layerConfig: LayerConfig;
     isCollapsed?: boolean;
-    map: OlMap;
     protected suggest: {
         suggest: Function;
     };
+    private map;
     constructor(http: HttpClient, crabService: CrabService, geozoekdienstApiService: GeozoekdienstApiService);
     onMapLoaded($event: any): void;
     resize(): void;
