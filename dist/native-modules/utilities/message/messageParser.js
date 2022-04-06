@@ -9,6 +9,11 @@ var MessageParser = (function () {
                 errors: []
             }
         };
+        var reg = /^https?:\/\//i;
+        var url = response.requestMessage.url;
+        if (!reg.test(response.requestMessage.url)) {
+            url = response.requestMessage.baseUrl + "/" + url;
+        }
         if (response.content.errors || response.content.message) {
             var errors = response.content.errors || [response.content.message];
             errors.forEach(function (error, index) {
@@ -24,11 +29,6 @@ var MessageParser = (function () {
             result.response.message = response.content.errors ? response.content.message : 'Er is een fout opgetreden';
         }
         else if (response.statusCode === 0 || response.statusCode === 500) {
-            var reg = /^https?:\/\//i;
-            var url = response.requestMessage.url;
-            if (!reg.test(response.requestMessage.url)) {
-                url = response.requestMessage.baseUrl + "/" + url;
-            }
             var subject = 'Vraag of fout bij ' + response.requestMessage.url;
             var errorInfo = 'Opgetreden fout: ' + new Date().toString() + ' - ' + response.statusText + ' \n \n';
             var body = errorInfo + 'Gelieve hieronder uw probleem of vraag te omschrijven. Vermeld zeker de genomen stappen en voeg screenshots toe als bijlage ter verduidelijking:';
@@ -41,6 +41,12 @@ var MessageParser = (function () {
         else if (response.statusCode === 400) {
             result.response.errors = [
                 "Fout bij valideren van " + response.requestMessage.url + " (statuscode: 400)"
+            ];
+        }
+        else if (response.statusCode === 401 || response.statusCode === 403) {
+            result.response.message = "Niet bevoegd (" + response.statusCode + ")";
+            result.response.errors = [
+                "U hebt niet voldoende rechten om deze data op te halen: " + url
             ];
         }
         return result;
