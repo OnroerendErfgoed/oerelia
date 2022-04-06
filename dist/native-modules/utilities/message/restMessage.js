@@ -41,8 +41,11 @@ var RestMessage = (function () {
             });
             message.message = "<ul>" + message.message + "</ul>";
         }
-        else {
+        else if (config.errors.length === 1) {
             message.message = config.errors[0] === message.title ? '' : config.errors[0];
+        }
+        else {
+            message.message = 'geen verdere info beschikbaar';
         }
         return this.show(messageType.error, message);
     };
