@@ -2,7 +2,6 @@ var MessageParser = (function () {
     function MessageParser() {
     }
     MessageParser.parseHttpResponseMessage = function (response) {
-        console.debug('oerelia::MessageParser', response);
         var result;
         result = {
             code: response.statusCode,

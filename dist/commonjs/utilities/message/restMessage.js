@@ -44,7 +44,7 @@ var RestMessage = (function () {
             message.message = "<ul>" + message.message + "</ul>";
         }
         else {
-            message.message = config.errors[0];
+            message.message = config.errors[0] === message.title ? '' : config.errors[0];
         }
         return this.show(messageTypes_1.messageType.error, message);
     };

@@ -52,7 +52,7 @@ export class RestMessage {
       });
       message.message = `<ul>${message.message}</ul>`;
     } else {
-      message.message = config.errors[0];
+      message.message = config.errors[0] === message.title ? '' : config.errors[0];
     }
     return this.show(messageType.error, message);
   }
