@@ -1,4 +1,4 @@
-import ol from 'openlayers';
+import * as ol from 'openlayers';
 import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
 import { CrabService } from '../../services/crab.api-service';
@@ -16,7 +16,6 @@ export declare class OlMap {
     protected selectPerceel: boolean;
     private apiService;
     private buttonConfig;
-    private layerConfig;
     private map;
     private mapProjection;
     private extentVlaanderen;
@@ -30,9 +29,11 @@ export declare class OlMap {
     private circleIndex;
     constructor(element: Element, crabService: CrabService);
     attached(): void;
-    bind(): void;
+    private addZoneToDrawLayer;
+    zoneChanged(zone: any): void;
     updateMapSize(): void;
     disabledChanged(newValue: boolean, oldValue: boolean): void;
+    setBaseLayer(layerName: string): void;
     zoomToExtent(extent: ol.Extent): void;
     zoomToFeatures(): void;
     getMapInfo(): number;
@@ -52,14 +53,13 @@ export declare class OlMap {
     private toggleDrawZone;
     private _createMap;
     private _createInteractions;
-    private _defineProjections;
     private _createLayers;
-    private _createLayer;
+    private _defineProjections;
     private _createGrbLayer;
     private _createNgiLayer;
     private _createGrbWMSLayer;
-    private _createErfgoedWMSLayer;
     private _createVectorLayer;
+    private strip;
     private _createMapButtons;
     private addFullscreenButton;
     private addZoomButton;
@@ -67,5 +67,5 @@ export declare class OlMap {
     private addRotateButton;
     private getButtonStyle;
     private setStyleToButton;
-    private transformLambert72ToWebMercator;
+    private transformLabert72ToWebMercator;
 }
