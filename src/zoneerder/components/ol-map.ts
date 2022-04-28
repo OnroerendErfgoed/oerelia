@@ -65,7 +65,7 @@ export class OlMap {
     }));
     this.addZoneToDrawLayer();
     this.drawLayer.getSource().on('addfeature', (feature: any) => {
-      console.debug('olMap::drawLayer::addfeature', feature);
+      log.debug('olMap::drawLayer::addfeature', feature);
       this.addToZone(feature);
     });
   }
