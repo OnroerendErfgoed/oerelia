@@ -1,3 +1,5 @@
+import { HttpResponseMessage } from 'aurelia-http-client';
+
 export interface IErkenning {
   erkend_als: string;
   erkend_voor: string;
@@ -50,6 +52,13 @@ export interface IActor {
   zichtbaarheid: IType;
 }
 
+export class Actor {
+  public erkenningen: IErkenning[];
+  public id: string;
+  public omschrijving: string;
+  public uri: string;
+}
+
 export interface IRangeHeader {
   start: number;
   end: number;
@@ -91,4 +100,69 @@ export interface IAttributes {
   mail: string;
 }
 
+export interface IHeader {
+  key: string;
+  value: string;
+}
 
+export type ParamsType = Record<string, unknown>
+
+export interface IHttpOptions {
+  params?: ParamsType;
+  headers?: IHeader[];
+  responseType?: string;
+}
+
+export interface IHttpResponse<IType> extends HttpResponseMessage {
+  content: IType;
+}
+
+export interface IApiObject {
+  etag?: string;
+}
+
+export interface IValidationResult{
+  valid: boolean;
+  message: string;
+}
+
+export interface TabViewModel {
+  currentViewModel: {
+    validate?: () => Promise<IValidationResult>
+  };
+}
+
+export interface ITab<T> {
+  id: string;
+  label: string,
+  viewModel: string,
+  closable: boolean,
+  active: boolean,
+  model?: T,
+  edit?: boolean,
+  newTab?: boolean,
+  showInput?: boolean
+}
+
+export class Tab<T> {
+  public id: string;
+  public label: string;
+  public viewModel: string;
+  public closable: boolean;
+  public active: boolean;
+  public model?: T;
+  public edit?: boolean;
+  public newTab?: boolean;
+
+  constructor(tabApi: ITab<T>) {
+    Object.assign(this, tabApi);
+  }
+}
+
+export interface IModel<T> {
+  model: T;
+  edit?: boolean;
+  active?: boolean;
+  tabid: string;
+  application?: string;
+}
