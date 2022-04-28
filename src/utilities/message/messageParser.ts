@@ -9,9 +9,20 @@ export class MessageParser {
         errors : []
       }
     };
+    const reg = /^https?:\/\//i;
+    let url = response.requestMessage.url;
+    if (!reg.test(response.requestMessage.url)) {
+      url = `${response.requestMessage.baseUrl}/${url}`;
+    }
 
-    if (response.content.errors || response.content.message) {
-      var errors = response.content.errors || [response.content.message];
+    if (response.statusCode === 401 || response.statusCode === 403) {
+      result.response.message = `Niet bevoegd (${response.statusCode})`;
+      result.response.errors = [
+        `U hebt niet voldoende rechten om deze data op te halen: ${url}`
+      ]
+    }
+    else if (response.content.errors || response.content.message) {
+      let errors = response.content.errors || [response.content.message];
       errors.forEach(function (error, index) {
         if (error.indexOf('ict@onroerenderfgoed.be') !== -1) {
           const subject = 'Vraag of fout bij ' + response.requestMessage.url;
@@ -25,12 +36,6 @@ export class MessageParser {
       result.response.errors = errors;
       result.response.message = response.content.errors ? response.content.message : 'Er is een fout opgetreden';
     } else if (response.statusCode === 0 || response.statusCode === 500) {
-      const reg = /^https?:\/\//i;
-      let url = response.requestMessage.url;
-      if (!reg.test(response.requestMessage.url)) {
-        url = `${response.requestMessage.baseUrl}/${url}`;
-      }
-
       const subject = 'Vraag of fout bij ' + response.requestMessage.url;
       const errorInfo = 'Opgetreden fout: ' + new Date().toString() + ' - ' + response.statusText + ' \n \n';
       const body = errorInfo + 'Gelieve hieronder uw probleem of vraag te omschrijven. Vermeld zeker de genomen stappen en voeg screenshots toe als bijlage ter verduidelijking:';

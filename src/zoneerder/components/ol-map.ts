@@ -1,16 +1,20 @@
 import { bindingMode } from 'aurelia-binding';
-import { bindable, inject } from 'aurelia-framework';
-import * as ol from 'openlayers';
+import { bindable, inject, LogManager } from 'aurelia-framework';
+import ol from 'openlayers';
 import proj4 from 'proj4';
-import * as toastr from 'toastr';
 import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
 import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
 import { CrabService } from '../../services/crab.api-service';
+import { LayerConfig, LayerOptions } from '../models/layerConfig';
+import { LayerType } from '../models/layerConfig.enums';
+import { defaultButtonConfig } from '../models/buttonConfig.defaults';
+import { defaultLayerConfig } from '../models/layerConfig.defaults';
 
 declare const oeAppConfig: any;
+const log = LogManager.getLogger('ol-map');
 
 @inject(Element, CrabService)
 export class OlMap {
@@ -28,11 +32,12 @@ export class OlMap {
 
   @bindable private apiService: GeozoekdienstApiService;
   @bindable private buttonConfig: ButtonConfig;
+  @bindable private layerConfig: LayerConfig;
   private map: ol.Map;
   private mapProjection: ol.proj.Projection;
   private extentVlaanderen: ol.Extent = [9928.0, 66928.0, 272072.0, 329072.0];
   private drawLayer: ol.layer.Layer;
-  private baseLayers: any;
+  private baseLayers: { [key: string]: ol.layer.Layer };
   private mapInteractions: any;
   private initialized: boolean = false;
   private geoJsonFormatter: ol.format.GeoJSON;
@@ -44,12 +49,12 @@ export class OlMap {
     private element: Element,
     private crabService: CrabService
   ) {
-    console.debug('olMap::constructor', this.zone);
+    log.debug('olMap::constructor', this.zone);
     this._defineProjections();
   }
 
   public attached() {
-    console.debug('olMap::attached', this.zone);
+    log.debug('olMap::attached', this.zone);
     this._createMap();
     this._createMapButtons();
     this._createLayers();
@@ -72,30 +77,26 @@ export class OlMap {
     }
 
     this.drawLayer.getSource().on('addfeature', (feature: any) => {
-      console.debug('olMap::drawLayer::addfeature', feature);
+      log.debug('olMap::drawLayer::addfeature', feature);
       this.addToZone(feature);
     });
   }
 
+  public bind() {
+    this.buttonConfig = this.buttonConfig || defaultButtonConfig;
+    this.layerConfig = this.layerConfig || defaultLayerConfig;
+  }
+
   public updateMapSize() {
-    console.debug('olMap::updateMapSize');
+    log.debug('olMap::updateMapSize');
     this.map.updateSize();
   }
 
   public disabledChanged(newValue: boolean, oldValue: boolean) {
-    console.debug('olMap::disabledChanged', newValue, oldValue);
+    log.debug('olMap::disabledChanged', newValue, oldValue);
     if (this.initialized) {
       this.updateMapSize();
     }
-  }
-
-  public setBaseLayer(layerName: string) {
-    this.baseLayers.ortho.setVisible(layerName === 'ortho');
-    this.baseLayers.grb.setVisible(layerName === 'grb');
-    this.baseLayers.grbzw.setVisible(layerName === 'grbzw');
-    this.baseLayers.topo.setVisible(layerName === 'topo');
-    this.baseLayers.hill.setVisible(layerName === 'DHMV_II_HILL_25cm');
-    this.baseLayers.svf.setVisible(layerName === 'DHMV_II_SVF_25cm');
   }
 
   public zoomToExtent(extent: ol.Extent) {
@@ -131,11 +132,11 @@ export class OlMap {
     const lowerleft = this.transformLatLonToPoint(boundingbox.lowerleft.lat, boundingbox.lowerleft.lon);
     const upperright = this.transformLatLonToPoint(boundingbox.upperright.lat, boundingbox.upperright.lon);
     return ([lowerleft.getCoordinates()[0], lowerleft.getCoordinates()[1],
-    upperright.getCoordinates()[0], upperright.getCoordinates()[1]] as ol.Extent);
+      upperright.getCoordinates()[0], upperright.getCoordinates()[1]] as ol.Extent);
   }
 
   public transformLatLonToPoint(lat: number, lon: number) {
-    const point: ol.geom.Point = new ol.geom.Point([ lon, lat ]);
+    const point: ol.geom.Point = new ol.geom.Point([lon, lat]);
     return (point.transform('EPSG:4326', 'EPSG:31370') as ol.geom.Point);
   }
 
@@ -167,7 +168,7 @@ export class OlMap {
             if (this.geometryObjectList.indexOf(name) === -1) {
               this.geometryObjectList.push(name);
             }
-        });
+          });
         });
       });
     } else {
@@ -179,8 +180,8 @@ export class OlMap {
     this.toggleDrawZone(false);
     this.selectPerceel = true;
     this.map.on('click', (evt: any) => {
-      console.debug('Perceelselect', evt);
-      this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then( (result: any) => {
+      log.debug('Perceelselect', evt);
+      this.apiService.searchPerceel(evt.coordinate, this.mapProjection.getCode()).then((result: any) => {
         this.geoJsonFormatter.readFeatures(result).forEach((perceel) => { this.drawPerceel(perceel); });
       });
     });
@@ -223,7 +224,7 @@ export class OlMap {
         (this.drawLayer.getSource() as ol.source.Vector).removeFeature(f);
       } else {
         const geometry = f.getProperties().name.includes('Cirkel') ? ol.geom.Polygon.fromCircle(f.getGeometry())
-                                                                   : f.getGeometry();
+          : f.getGeometry();
         coordinates.push(geometry.getCoordinates());
       }
     });
@@ -256,14 +257,15 @@ export class OlMap {
     const view = this.map.getView();
     const center = view.getCenter();
     const zoom = view.getZoom();
-    const coordinates = this.transformLabert72ToWebMercator(center);
+    const coordinates = this.transformLambert72ToWebMercator(center);
 
-    //Zoom * 2 is some kind of hack so the zoom levels somewhat align with the zoom levels on crabpyUrl. Change if a better solution is found. 
+    //Zoom * 2 is some kind of hack so the zoom levels somewhat align with the zoom levels on crabpyUrl.
+    // Change if a better solution is found.
     window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
   }
 
   private addToZone(olFeature: ol.Feature) {
-    console.debug('addToZone', olFeature);
+    log.debug('addToZone', olFeature);
     const multiPolygon = new ol.geom.MultiPolygon([], 'XY');
     const features: ol.Feature[] = (this.drawLayer.getSource() as ol.source.Vector).getFeatures();
     features.forEach((feature: ol.Feature) => {
@@ -281,7 +283,7 @@ export class OlMap {
 
     const contour = this.formatGeoJson(multiPolygon);
     !!this.zone ? this.zone.coordinates = contour.coordinates
-                : this.zone = new Contour(contour);
+      : this.zone = new Contour(contour);
   }
 
   private resetSelect() {
@@ -292,7 +294,7 @@ export class OlMap {
   private toggleDrawZone(bool: boolean, type?: ol.geom.GeometryType) {
     type ? this._createInteractions(type, bool) : this._createInteractions('Polygon', false);
 
-    switch(type) {
+    switch (type) {
       case 'Polygon': {
         this.isDrawing = bool;
         this.isDrawingCircle = false;
@@ -347,11 +349,11 @@ export class OlMap {
   }
 
   private _createInteractions(type: ol.geom.GeometryType, setActive: boolean) {
-    console.debug('olMap::_createInteractions');
+    log.debug('olMap::_createInteractions');
     // Zone interactions
-    
+
     this.map.getInteractions().pop();
-    
+
     const drawZoneInteraction: ol.interaction.Draw = new ol.interaction.Draw({
       type: (type),
       source: this.drawLayer.getSource() as ol.source.Vector,
@@ -363,37 +365,6 @@ export class OlMap {
     this.mapInteractions = {
       drawZone: drawZoneInteraction
     };
-  }
-
-  private _createLayers() {
-    this.baseLayers = {};
-    const layerGroup: ol.layer.Group = new ol.layer.Group({
-      layers: [
-        this.baseLayers.ortho = this._createGrbLayer('omwrgbmrvl', 'Ortho', true),
-        this.baseLayers.grb = this._createGrbLayer('grb_bsk', 'GRB-Basiskaart', true),
-        this.baseLayers.grbzw = this._createGrbLayer('grb_bsk_grijs', 'GRB-Basiskaart in grijswaarden', true),
-        this.baseLayers.topo = this._createNgiLayer('topo', 'Topokaart', true),
-        this.baseLayers.hill = this._createGrbLayer('DHMV_II_HILL_25cm', 'Hillshade 25cm', true),
-        this.baseLayers.svf = this._createGrbLayer('DHMV_II_SVF_25cm', 'Skyview 25cm', true)
-      ]
-    });
-    layerGroup.set('title', 'Achtergrond kaart');
-    this.map.addLayer(layerGroup);
-
-    this.setBaseLayer('grbzw');
-
-    // Overlays
-    this.map.addLayer(this._createNgiLayer('overlay', 'Topokaart overlay', false));
-    this.map.addLayer(this._createGrbWMSLayer('GRB_GBG', 'GRB-Gebouwenlaag', false));
-    this.map.addLayer(this._createGrbWMSLayer('GRB_ADP_GRENS', 'GRB-Percelenlaag', false));
-
-    // Vector layer
-    this.drawLayer = this._createVectorLayer({
-      color: 'rgb(39, 146, 195)',
-      fill: 'rgba(39, 146, 195, 0.3)',
-      title: 'Zone'
-    });
-    this.map.addLayer(this.drawLayer);
   }
 
   private _defineProjections() {
@@ -424,91 +395,99 @@ export class OlMap {
     });
   }
 
-  private _createGrbLayer(grbLayerId: string, title: string, isBaseLayer: boolean) {
+  private _createLayers() {
+    log.debug('Create layers', this.layerConfig);
+    //BaseLayers
+    const layers = Object.keys(this.layerConfig.baseLayers)
+      .map((id) => ({ id, options: this.layerConfig.baseLayers[id] }))
+      .map(({ id, options }) => this._createLayer(id, options, true))
+    const baseLayerGroup = new ol.layer.Group({ layers });
+    baseLayerGroup.set('title', 'Achtergrond kaart');
+    this.map.addLayer(baseLayerGroup);
+
+    // Overlays
+    const overlays = Object.keys(this.layerConfig.overlays)
+      .map((id) => ({ id, options: this.layerConfig.overlays[id] }))
+      .map(({ id, options }) => this._createLayer(id, options, false))
+    overlays.forEach((layer) => this.map.addLayer(layer));
+
+    // Vector layer
+    this.drawLayer = this._createVectorLayer({
+      color: 'rgb(39, 146, 195)',
+      fill: 'rgba(39, 146, 195, 0.3)',
+      title: 'Zone'
+    });
+    this.map.addLayer(this.drawLayer);
+  }
+
+  private _createLayer(id: string, layerOptions: LayerOptions, isBaseLayer: boolean) {
+    let layer: ol.layer.Layer;
+
+    if (layerOptions.type === LayerType.Grb) layer = this._createGrbLayer(id);
+    else if (layerOptions.type === LayerType.GrbWMS) layer = this._createGrbWMSLayer(layerOptions.wmsLayers);
+    else if (layerOptions.type === LayerType.ErfgoedWms) layer = this._createErfgoedWMSLayer(layerOptions.wmsLayers);
+    else if (layerOptions.type === LayerType.Ngi) layer = this._createNgiLayer(id);
+
+    layer.set('title', layerOptions.title)
+    layer.set('type', isBaseLayer ? 'base' : 'overlay')
+    layer.setVisible(!!layerOptions.visible)
+
+    return layer;
+  }
+
+  private _createGrbLayer(grbLayerId: string) {
     const resolutions: number[] = [];
     const matrixIds: string[] = [];
-    const maxResolution: number = ol.extent.getWidth(this.mapProjection.getExtent()) / 256;
+    const maxResolution = ol.extent.getWidth(this.mapProjection.getExtent()) / 256;
+    const origin = ol.extent.getTopLeft(this.mapProjection.getExtent())
 
     for (let i: number = 0; i < 16; i++) {
       matrixIds[i] = i.toString();
       resolutions[i] = maxResolution / Math.pow(2, i);
     }
 
-    const tileGrid: ol.tilegrid.WMTS = new ol.tilegrid.WMTS({
-      origin: ol.extent.getTopLeft(this.mapProjection.getExtent()),
-      resolutions: resolutions,
-      matrixIds: matrixIds
-    });
-
-    const grbSource: ol.source.WMTS = new ol.source.WMTS({
-      url: '//tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts/',
-      layer: grbLayerId,
-      matrixSet: 'BPL72VL',
-      format: 'image/png',
-      projection: this.mapProjection,
-      style: '',
-      tileGrid: tileGrid,
-      attributions: [
-        new ol.Attribution({
-          html: '© <a href="https://overheid.vlaanderen.be/informatie-vlaanderen" target="_blank" ' +
+    return new ol.layer.Tile({
+      source: new ol.source.WMTS({
+        url: '//tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts/',
+        layer: grbLayerId,
+        matrixSet: 'BPL72VL',
+        format: 'image/png',
+        projection: this.mapProjection,
+        style: '',
+        tileGrid: new ol.tilegrid.WMTS({ origin, resolutions, matrixIds }),
+        attributions: '© <a href="https://overheid.vlaanderen.be/informatie-vlaanderen" target="_blank" ' +
           'title="Informatie Vlaanderen" class="copyrightLink">Informatie Vlaanderen</a>'
-        })
-      ]
-    });
-
-    const layer: ol.layer.Layer = new ol.layer.Tile({
-      source: grbSource,
+      }),
       extent: this.mapProjection.getExtent()
     });
-
-    layer.set('title', title);
-    layer.set('type', isBaseLayer ? 'base' : 'overlay');
-
-    return layer;
   }
 
-  private _createNgiLayer(layerId: string, title: string, isBaseLayer: boolean) {
+  private _createNgiLayer(layerId: string) {
     const matrixIds = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
     const resolutions = [1058.3333333327998, 529.1666666663999, 211.66666666656, 132.29166666659998, 66.14583333344,
       26.45833333332, 13.22916666666, 6.614583333344, 2.6458333333319994, 1.3229166666659997, 0.6614583333343999];
+    const origin: ol.Coordinate = [450000, 800000];
 
-    const tileGrid: ol.tilegrid.WMTS = new ol.tilegrid.WMTS({
-      origin: [450000, 800000],
-      resolutions: resolutions,
-      matrixIds: matrixIds
-    });
-
-    const ngiSource: ol.source.WMTS = new ol.source.WMTS({
-      urls: ['https://cartoweb.wmts.ngi.be/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
-      requestEncoding: 'REST',
-      layer: layerId,
-      matrixSet: '3812',
-      format: 'image/png',
-      projection: 'EPSG:3812',
-      style: 'default',
-      tileGrid: tileGrid,
-      attributions: [
-        new ol.Attribution({
-          html: '© <a href="https://www.ngi.be/" target="_blank" title="Nationaal Geografisch Instituut" ' +
+    return new ol.layer.Tile({
+      source: new ol.source.WMTS({
+        urls: ['https://cartoweb.wmts.ngi.be/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
+        requestEncoding: 'REST',
+        layer: layerId,
+        matrixSet: '3812',
+        format: 'image/png',
+        projection: 'EPSG:3812',
+        style: 'default',
+        tileGrid: new ol.tilegrid.WMTS({ origin, resolutions, matrixIds }),
+        attributions: '© <a href="https://www.ngi.be/" target="_blank" title="Nationaal Geografisch Instituut" ' +
           'class="copyrightLink">NGI</a>'
-        })
-      ]
-    });
-
-    const layer: ol.layer.Layer = new ol.layer.Tile({
-      source: ngiSource,
+      }),
       visible: false
       // extent: this.mapProjection.getExtent()
     });
-
-    layer.set('title', title);
-    layer.set('type', isBaseLayer ? 'base' : 'overlay');
-
-    return layer;
   }
 
-  private _createGrbWMSLayer(wmsLayers: string, title: string, isBaseLayer: boolean) {
-    const layer = new ol.layer.Tile({
+  private _createGrbWMSLayer(wmsLayers: string) {
+    return new ol.layer.Tile({
       extent: this.mapProjection.getExtent(),
       source: new ol.source.TileWMS(({
         url: 'https://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB/wms',
@@ -518,9 +497,20 @@ export class OlMap {
       maxResolution: 2000,
       visible: false
     });
-    layer.set('title', title);
-    layer.set('type', isBaseLayer ? 'base' : 'overlay');
-    return layer;
+  }
+
+  private _createErfgoedWMSLayer(wmsLayers: string) {
+    return new ol.layer.Tile({
+      extent: this.mapProjection.getExtent(),
+      source: new ol.source.TileWMS(({
+        url: oeAppConfig.beschermingenWMSUrl || 'https://geo.onroerenderfgoed.be/geoserver/wms',
+        params: { LAYERS: wmsLayers, TILED: true },
+        serverType: 'geoserver',
+        attributions: '© <a href="https://www.onroerenderfgoed.be">Onroerend Erfgoed</a>'
+      })),
+      maxResolution: 2000,
+      visible: false
+    });
   }
 
   private _createVectorLayer(options: any) {
@@ -566,34 +556,10 @@ export class OlMap {
     return vLayer;
   }
 
-  private strip(geom: any, test: (a: any, b: any) => boolean) {
-    if (!geom.length) {
-      return;
-    }
-    if (typeof geom[0] !== 'number') {
-      return geom.map((g: any) => this.strip(g, test));
-    }
-    return geom.filter(test);
-  }
-
   private _createMapButtons(): void {
     const buttonHeight = 2.2;
     const target = this.map.getTargetElement();
     let top = 2.4;
-
-    if (!this.buttonConfig) {
-      let className = 'zoom';
-      let style = this.getButtonStyle(top);
-      this.addZoomButton(className);
-      this.setStyleToButton(target, className, style);
-      top += 3.8;
-
-      className = 'layer-switcher';
-      style = this.getButtonStyle(top);
-      this.setStyleToButton(target, className, style);
-
-      return;
-    }
 
     if (this.buttonConfig.fullscreen) {
       const className = 'full-screen';
@@ -646,7 +612,7 @@ export class OlMap {
     }
   }
 
-  private addFullscreenButton(className: string): void {    
+  private addFullscreenButton(className: string): void {
     this.map.addControl(new ol.control.FullScreen({
       tipLabel: 'Vergroot / verklein het scherm',
       className: className,
@@ -673,11 +639,11 @@ export class OlMap {
 
   private addRotateButton(className: string): void {
     this.map.addControl(new ol.control.Rotate({
-      tipLabel: "Draai de kaart naar het noorden",
+      tipLabel: 'Draai de kaart naar het noorden',
       className: className
     }));
   }
-  
+
   private getButtonStyle(top: number): string {
     return 'top: ' + top + 'em; left: ' + .5 + 'em;'
   }
@@ -688,10 +654,10 @@ export class OlMap {
       .setAttribute('style', style);
   }
 
-  private transformLabert72ToWebMercator(center: ol.Coordinate): ol.Coordinate {
-    const point: ol.geom.Point = new ol.geom.Point([ center[0], center[1] ]);
+  private transformLambert72ToWebMercator(center: ol.Coordinate): ol.Coordinate {
+    const point: ol.geom.Point = new ol.geom.Point([center[0], center[1]]);
     const transFormedPoint = (point.transform('EPSG:31370', 'EPSG:3857') as ol.geom.Point);
-    
+
     return transFormedPoint.getCoordinates();
   }
 }

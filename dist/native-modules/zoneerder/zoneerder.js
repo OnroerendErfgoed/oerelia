@@ -7,12 +7,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { bindable, bindingMode, inject } from 'aurelia-framework';
+import { bindable, bindingMode, inject, LogManager } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
-import { ButtonConfig } from './models/buttonConfig';
+var log = LogManager.getLogger('ol-map');
 var Zoneerder = (function () {
     function Zoneerder(http, crabService, geozoekdienstApiService) {
         var _this = this;
@@ -24,7 +24,7 @@ var Zoneerder = (function () {
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     }
     Zoneerder.prototype.onMapLoaded = function ($event) {
-        console.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
+        log.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
     };
     Zoneerder.prototype.resize = function () {
         if (this.map) {
@@ -62,8 +62,12 @@ var Zoneerder = (function () {
     ], Zoneerder.prototype, "adrespunten", void 0);
     __decorate([
         bindable,
-        __metadata("design:type", ButtonConfig)
+        __metadata("design:type", Object)
     ], Zoneerder.prototype, "buttonConfig", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], Zoneerder.prototype, "layerConfig", void 0);
     __decorate([
         bindable,
         __metadata("design:type", Boolean)

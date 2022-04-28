@@ -1,14 +1,13 @@
 {
   "name": "oerelia",
   "description": "Onroerend Erfgoed Aurelia component library",
-  "version": "0.10.0-alpha.2",
+  "version": "0.10.0-alpha.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/OnroerendErfgoed/oerelia.git"
   },
   "license": "MIT",
   "dependencies": {
-    "@types/openlayers": "^4.1.1",
     "@types/proj4": "^2.3.4",
     "ag-grid-aurelia": "^21.0.1",
     "ag-grid-community": "^23.2.1",
@@ -24,6 +23,8 @@
   "devDependencies": {
     "@types/jasmine": "^2.8.9",
     "@types/node": "^10.11.6",
+    "@types/openlayers": "^4.6.18",
+    "@types/toastr": "^2.1.39",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.3.2",
     "aurelia-cli": "1.2.2",
@@ -44,7 +45,7 @@
     "gulp-typescript": "^5.0.0",
     "gulp-watch": "^5.0.1",
     "jasmine-core": "^3.2.1",
-    "karma": "^4.1.0",
+    "karma": "^6.3.16",
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.7",
