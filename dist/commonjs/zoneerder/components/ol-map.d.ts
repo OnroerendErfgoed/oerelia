@@ -30,6 +30,8 @@ export declare class OlMap {
     private circleIndex;
     constructor(element: Element, crabService: CrabService);
     attached(): void;
+    private addZoneToDrawLayer;
+    zoneChanged(zone: any): void;
     bind(): void;
     updateMapSize(): void;
     disabledChanged(newValue: boolean, oldValue: boolean): void;

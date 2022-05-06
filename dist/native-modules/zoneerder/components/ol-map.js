@@ -44,21 +44,38 @@ var OlMap = (function () {
         this.element.dispatchEvent(new CustomEvent('loaded', {
             bubbles: true
         }));
-        if (this.zone) {
-            this.zone.coordinates.forEach(function (coords) {
-                var feature = new ol.Feature({
-                    name: 'Zone',
-                    geometry: new ol.geom.Polygon(coords)
-                });
-                _this.drawLayer.getSource().addFeature(feature);
-            });
-            this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
-            this.geometryObjectList.push('Zone');
-        }
+        this.addZoneToDrawLayer();
         this.drawLayer.getSource().on('addfeature', function (feature) {
             log.debug('olMap::drawLayer::addfeature', feature);
             _this.addToZone(feature);
         });
+    };
+    OlMap.prototype.addZoneToDrawLayer = function () {
+        if (!this.drawLayer) {
+            return;
+        }
+        var drawSource = this.drawLayer.getSource();
+        drawSource.getFeatures().forEach(function (f) {
+            drawSource.removeFeature(f);
+        });
+        this.geometryObjectList = [];
+        if (!this.zone) {
+            return;
+        }
+        this.zone.coordinates.forEach(function (coords) {
+            var feature = new ol.Feature({
+                name: 'Zone',
+                geometry: new ol.geom.Polygon(coords)
+            });
+            drawSource.addFeature(feature);
+        });
+        if (this.geometryObjectList.indexOf('Zone') === -1) {
+            this.geometryObjectList.push('Zone');
+        }
+        this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
+    };
+    OlMap.prototype.zoneChanged = function (zone) {
+        this.addZoneToDrawLayer();
     };
     OlMap.prototype.bind = function () {
         this.buttonConfig = this.buttonConfig || defaultButtonConfig;

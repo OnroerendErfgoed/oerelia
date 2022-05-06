@@ -63,23 +63,40 @@ export class OlMap {
     this.element.dispatchEvent(new CustomEvent('loaded', {
       bubbles: true
     }));
-
-    if (this.zone) {
-      this.zone.coordinates.forEach((coords: any) => {
-        const feature = new ol.Feature({
-          name: 'Zone',
-          geometry: new ol.geom.Polygon(coords)
-        });
-        (this.drawLayer.getSource() as ol.source.Vector).addFeature(feature);
-      });
-      this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
-      this.geometryObjectList.push('Zone');
-    }
-
+    this.addZoneToDrawLayer();
     this.drawLayer.getSource().on('addfeature', (feature: any) => {
       log.debug('olMap::drawLayer::addfeature', feature);
       this.addToZone(feature);
     });
+  }
+
+  private addZoneToDrawLayer() {
+    if (!this.drawLayer) {
+      return;
+    }
+    const drawSource = (this.drawLayer.getSource() as ol.source.Vector);
+    drawSource.getFeatures().forEach((f: any) => {
+      drawSource.removeFeature(f);
+    });
+    this.geometryObjectList = [];
+    if (!this.zone) {
+      return;
+    }
+    this.zone.coordinates.forEach((coords: any) => {
+      const feature = new ol.Feature({
+        name: 'Zone',
+        geometry: new ol.geom.Polygon(coords)
+      });
+      drawSource.addFeature(feature);
+    });
+    if (this.geometryObjectList.indexOf('Zone') === -1) {
+        this.geometryObjectList.push('Zone');
+    }
+    this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
+  }
+
+  public zoneChanged(zone) {
+    this.addZoneToDrawLayer();
   }
 
   public bind() {
