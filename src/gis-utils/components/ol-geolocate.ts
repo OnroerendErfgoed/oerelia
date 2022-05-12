@@ -29,18 +29,16 @@ export class Geolocate extends ol.control.Control {
   private _zoomToLocation() {
     const map = this.getMap();
     const view = map.getView();
-    const zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
 
     if(!this.layer) {
       this.layer = this._createLayer(map);
     }
     const source = this.layer.getSource();
     source.clear(true);
-    const positionFeature = this._createFeature();
 
     if (this.options.geolocateTracking) {
       navigator.geolocation.watchPosition(function(pos) {
-        this._addPositionFeature(pos, view, zoomLevel, positionFeature, source);
+        this._addPositionFeature(pos, view, source);
       },
       function (error) {
         console.debug(error);
@@ -50,7 +48,7 @@ export class Geolocate extends ol.control.Control {
       });
     } else {
       navigator.geolocation.getCurrentPosition(function(pos) {
-        this._addPositionFeature();
+        this._addPositionFeature(pos, view, source);
       });
     }
   }
@@ -83,7 +81,10 @@ export class Geolocate extends ol.control.Control {
     return feature;
   }
 
-  private _addPositionFeature(pos, view, zoomLevel, positionFeature, source) {
+  private _addPositionFeature(pos, view, source) {
+    const zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
+
+    const positionFeature = this._createFeature();
     const coordinates = ol.proj.transform(
       [pos.coords.longitude, pos.coords.latitude],
       'EPSG:4326',

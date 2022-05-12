@@ -36,16 +36,14 @@ var Geolocate = (function (_super) {
     Geolocate.prototype._zoomToLocation = function () {
         var map = this.getMap();
         var view = map.getView();
-        var zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
         if (!this.layer) {
             this.layer = this._createLayer(map);
         }
         var source = this.layer.getSource();
         source.clear(true);
-        var positionFeature = this._createFeature();
         if (this.options.geolocateTracking) {
             navigator.geolocation.watchPosition(function (pos) {
-                this._addPositionFeature(pos, view, zoomLevel, positionFeature, source);
+                this._addPositionFeature(pos, view, source);
             }, function (error) {
                 console.debug(error);
             }, {
@@ -54,7 +52,7 @@ var Geolocate = (function (_super) {
         }
         else {
             navigator.geolocation.getCurrentPosition(function (pos) {
-                this._addPositionFeature();
+                this._addPositionFeature(pos, view, source);
             });
         }
     };
@@ -82,7 +80,9 @@ var Geolocate = (function (_super) {
         }));
         return feature;
     };
-    Geolocate.prototype._addPositionFeature = function (pos, view, zoomLevel, positionFeature, source) {
+    Geolocate.prototype._addPositionFeature = function (pos, view, source) {
+        var zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
+        var positionFeature = this._createFeature();
         var coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
         view.setCenter(coordinates);
         view.setZoom(zoomLevel);
