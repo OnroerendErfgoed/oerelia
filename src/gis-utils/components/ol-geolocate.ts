@@ -36,9 +36,11 @@ export class Geolocate extends ol.control.Control {
     const source = this.layer.getSource();
     source.clear(true);
 
+    const self = this;
+
     if (this.options.geolocateTracking) {
       navigator.geolocation.watchPosition(function(pos) {
-        this._addPositionFeature(pos, view, source);
+        self._addPositionFeature(pos, view, source);
       },
       function (error) {
         console.debug(error);
@@ -48,7 +50,7 @@ export class Geolocate extends ol.control.Control {
       });
     } else {
       navigator.geolocation.getCurrentPosition(function(pos) {
-        this._addPositionFeature(pos, view, source);
+        self._addPositionFeature(pos, view, source);
       });
     }
   }

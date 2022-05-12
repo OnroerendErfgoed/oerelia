@@ -41,9 +41,10 @@ var Geolocate = (function (_super) {
         }
         var source = this.layer.getSource();
         source.clear(true);
+        var self = this;
         if (this.options.geolocateTracking) {
             navigator.geolocation.watchPosition(function (pos) {
-                this._addPositionFeature(pos, view, source);
+                self._addPositionFeature(pos, view, source);
             }, function (error) {
                 console.debug(error);
             }, {
@@ -52,7 +53,7 @@ var Geolocate = (function (_super) {
         }
         else {
             navigator.geolocation.getCurrentPosition(function (pos) {
-                this._addPositionFeature(pos, view, source);
+                self._addPositionFeature(pos, view, source);
             });
         }
     };
