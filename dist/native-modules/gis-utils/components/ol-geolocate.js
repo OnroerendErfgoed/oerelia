@@ -43,13 +43,7 @@ var Geolocate = (function (_super) {
         var positionFeature = this._createFeature();
         if (this.options.geolocateTracking) {
             navigator.geolocation.watchPosition(function (pos) {
-                var coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
-                view.setCenter(coordinates);
-                view.setZoom(zoomLevel);
-                positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
-                source.addFeatures([
-                    positionFeature
-                ]);
+                this._addPositionFeature(pos, view, zoomLevel, positionFeature, source);
             }, function (error) {
                 console.debug(error);
             }, {
@@ -58,13 +52,7 @@ var Geolocate = (function (_super) {
         }
         else {
             navigator.geolocation.getCurrentPosition(function (pos) {
-                var coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
-                view.setCenter(coordinates);
-                view.setZoom(zoomLevel);
-                positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
-                source.addFeatures([
-                    positionFeature
-                ]);
+                this._addPositionFeature();
             });
         }
     };
@@ -91,6 +79,15 @@ var Geolocate = (function (_super) {
             })
         }));
         return feature;
+    };
+    Geolocate.prototype._addPositionFeature = function (pos, view, zoomLevel, positionFeature, source) {
+        var coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
+        view.setCenter(coordinates);
+        view.setZoom(zoomLevel);
+        positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+        source.addFeatures([
+            positionFeature
+        ]);
     };
     return Geolocate;
 }(ol.control.Control));

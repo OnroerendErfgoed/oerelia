@@ -7,4 +7,5 @@ export declare class Geolocate extends ol.control.Control {
     private _zoomToLocation;
     private _createLayer;
     private _createFeature;
+    private _addPositionFeature;
 }

@@ -40,17 +40,7 @@ export class Geolocate extends ol.control.Control {
 
     if (this.options.geolocateTracking) {
       navigator.geolocation.watchPosition(function(pos) {
-        const coordinates = ol.proj.transform(
-          [pos.coords.longitude, pos.coords.latitude],
-          'EPSG:4326',
-          view.getProjection()
-        );
-        view.setCenter(coordinates);
-        view.setZoom(zoomLevel);
-        positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
-        source.addFeatures([
-          positionFeature
-        ]);
+        this._addPositionFeature(pos, view, zoomLevel, positionFeature, source);
       },
       function (error) {
         console.debug(error);
@@ -60,17 +50,7 @@ export class Geolocate extends ol.control.Control {
       });
     } else {
       navigator.geolocation.getCurrentPosition(function(pos) {
-        const coordinates = ol.proj.transform(
-          [pos.coords.longitude, pos.coords.latitude],
-          'EPSG:4326',
-          view.getProjection()
-        );
-        view.setCenter(coordinates);
-        view.setZoom(zoomLevel);
-        positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
-        source.addFeatures([
-          positionFeature
-        ]);
+        this._addPositionFeature();
       });
     }
   }
@@ -101,5 +81,19 @@ export class Geolocate extends ol.control.Control {
       })
     );
     return feature;
+  }
+
+  private _addPositionFeature(pos, view, zoomLevel, positionFeature, source) {
+    const coordinates = ol.proj.transform(
+      [pos.coords.longitude, pos.coords.latitude],
+      'EPSG:4326',
+      view.getProjection()
+    )
+    view.setCenter(coordinates);
+    view.setZoom(zoomLevel);
+    positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+    source.addFeatures([
+      positionFeature
+    ]);
   }
 }
