@@ -38,19 +38,41 @@ export class Geolocate extends ol.control.Control {
     source.clear(true);
     const positionFeature = this._createFeature();
 
-    navigator.geolocation.getCurrentPosition(function(pos) {
-      const coordinates = ol.proj.transform(
-        [pos.coords.longitude, pos.coords.latitude],
-        'EPSG:4326',
-        view.getProjection()
-      );
-      view.setCenter(coordinates);
-      view.setZoom(zoomLevel);
-      positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
-      source.addFeatures([
-        positionFeature
-      ]);
-    });
+    if (this.options.geolocateTracking) {
+      navigator.geolocation.watchPosition(function(pos) {
+        const coordinates = ol.proj.transform(
+          [pos.coords.longitude, pos.coords.latitude],
+          'EPSG:4326',
+          view.getProjection()
+        );
+        view.setCenter(coordinates);
+        view.setZoom(zoomLevel);
+        positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+        source.addFeatures([
+          positionFeature
+        ]);
+      },
+      function (error) {
+        console.debug(error);
+      },
+      {
+        enableHighAccuracy: true
+      });
+    } else {
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        const coordinates = ol.proj.transform(
+          [pos.coords.longitude, pos.coords.latitude],
+          'EPSG:4326',
+          view.getProjection()
+        );
+        view.setCenter(coordinates);
+        view.setZoom(zoomLevel);
+        positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+        source.addFeatures([
+          positionFeature
+        ]);
+      });
+    }
   }
 
   private _createLayer(map: ol.Map): ol.layer.Vector {
