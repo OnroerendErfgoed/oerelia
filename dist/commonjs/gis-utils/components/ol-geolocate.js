@@ -58,6 +58,17 @@ var Geolocate = (function (_super) {
                 enableHighAccuracy: true
             });
         }
+        else {
+            navigator.geolocation.getCurrentPosition(function (pos) {
+                var coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
+                view.setCenter(coordinates);
+                view.setZoom(zoomLevel);
+                positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+                source.addFeatures([
+                    positionFeature
+                ]);
+            });
+        }
     };
     Geolocate.prototype._createLayer = function (map) {
         var source = new ol.source.Vector();
