@@ -16,6 +16,7 @@ var Geolocate = (function (_super) {
     __extends(Geolocate, _super);
     function Geolocate(optOptions) {
         var _this = _super.call(this, optOptions) || this;
+        _this.addPositionFeatureCounter = 0;
         _this.options = optOptions || {};
         var tipLabel = _this.options.tipLabel ? _this.options.tipLabel : 'Zoom naar je eigen locatie';
         _this.element = document.createElement('div');
@@ -32,6 +33,7 @@ var Geolocate = (function (_super) {
         return _this;
     }
     Geolocate.prototype._zoomToLocation = function () {
+        console.debug('ol-geolocate::_zoomToLocation');
         var map = this.getMap();
         var view = map.getView();
         if (!this.layer) {
@@ -39,10 +41,11 @@ var Geolocate = (function (_super) {
         }
         var source = this.layer.getSource();
         source.clear(true);
+        var positionFeature = this._createFeature();
         var self = this;
         if (this.options.geolocateTracking) {
             navigator.geolocation.watchPosition(function (pos) {
-                self._addPositionFeature(pos, view, source);
+                self._addPositionFeature(pos, view, source, positionFeature);
             }, function (error) {
                 console.debug(error);
             }, {
@@ -51,7 +54,7 @@ var Geolocate = (function (_super) {
         }
         else {
             navigator.geolocation.getCurrentPosition(function (pos) {
-                self._addPositionFeature(pos, view, source);
+                self._addPositionFeature(pos, view, source, positionFeature);
             });
         }
     };
@@ -79,13 +82,18 @@ var Geolocate = (function (_super) {
         }));
         return feature;
     };
-    Geolocate.prototype._addPositionFeature = function (pos, view, source) {
+    Geolocate.prototype._addPositionFeature = function (pos, view, source, positionFeature) {
+        console.debug('ol-geolocate::_addPositionFeature', pos.coords);
+        this.addPositionFeatureCounter++;
         var zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
-        var positionFeature = this._createFeature();
         var coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
-        view.setCenter(coordinates);
-        view.setZoom(zoomLevel);
+        if (this.addPositionFeatureCounter < 3) {
+            view.setCenter(coordinates);
+            view.setZoom(zoomLevel);
+            positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+        }
         positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+        source.clear(true);
         source.addFeatures([
             positionFeature
         ]);
