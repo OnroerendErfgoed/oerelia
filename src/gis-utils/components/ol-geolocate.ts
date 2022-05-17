@@ -46,7 +46,7 @@ export class Geolocate extends ol.control.Control {
         self._addPositionFeature(pos, view, source, positionFeature);
       },
       function (error) {
-        console.debug(error);
+        console.error(error);
       },
       {
         enableHighAccuracy: true
