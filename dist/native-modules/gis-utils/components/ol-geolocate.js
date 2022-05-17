@@ -33,6 +33,7 @@ var Geolocate = (function (_super) {
         return _this;
     }
     Geolocate.prototype._zoomToLocation = function () {
+        this.addPositionFeatureCounter = 0;
         var map = this.getMap();
         var view = map.getView();
         if (!this.layer) {

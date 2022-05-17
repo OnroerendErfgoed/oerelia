@@ -28,6 +28,7 @@ export class Geolocate extends ol.control.Control {
   }
 
   private _zoomToLocation() {
+    this.addPositionFeatureCounter = 0;
     const map = this.getMap();
     const view = map.getView();
 
