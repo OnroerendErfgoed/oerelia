@@ -42,7 +42,7 @@ export class Geolocate extends ol.control.Control {
     const self = this;
 
     if (this.options.geolocateTracking) {
-      navigator.geolocation.watchPosition(function(pos) {
+      navigator.geolocation.watchPosition(function(pos: Position) {
         self._addPositionFeature(pos, view, source, positionFeature);
       },
       function (error) {
@@ -52,7 +52,7 @@ export class Geolocate extends ol.control.Control {
         enableHighAccuracy: true
       });
     } else {
-      navigator.geolocation.getCurrentPosition(function(pos) {
+      navigator.geolocation.getCurrentPosition(function(pos: Position) {
         self._addPositionFeature(pos, view, source, positionFeature);
       });
     }
