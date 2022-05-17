@@ -90,7 +90,6 @@ var Geolocate = (function (_super) {
         if (this.addPositionFeatureCounter < 3) {
             view.setCenter(coordinates);
             view.setZoom(zoomLevel);
-            positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
         }
         positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
         source.clear(true);
