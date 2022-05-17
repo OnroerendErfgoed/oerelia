@@ -28,5 +28,6 @@ export * from './copy-button/copy-button';
 export * from './models/public-models';
 export * from './expander/expander';
 export * from './expander/expander-container';
+export * from './datepicker/aurelia-pikaday-datepicker';
 
 //# sourceMappingURL=exports.js.map

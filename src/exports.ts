@@ -12,7 +12,6 @@ export * from './zoneerder/models/layerConfig.defaults';
 export * from './zoneerder/models/buttonConfig';
 export * from './zoneerder/models/buttonConfig.defaults';
 
-
 export * from './systemfields/systemfields';
 
 export * from './telefoon-select/telefoon-select';
@@ -49,3 +48,5 @@ export * from './models/public-models';
 
 export * from './expander/expander';
 export * from './expander/expander-container';
+
+export * from './datepicker/aurelia-pikaday-datepicker'

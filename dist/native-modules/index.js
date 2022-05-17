@@ -14,7 +14,8 @@ export function configure(config) {
         .feature(PLATFORM.moduleName('oerelia/value-converters/index'))
         .feature(PLATFORM.moduleName('oerelia/actor-widget/index'))
         .feature(PLATFORM.moduleName('oerelia/copy-button/index'))
-        .feature(PLATFORM.moduleName('oerelia/expander/index'));
+        .feature(PLATFORM.moduleName('oerelia/expander/index'))
+        .feature(PLATFORM.moduleName('oerelia/datepicker/index'));
 }
 
 //# sourceMappingURL=index.js.map
