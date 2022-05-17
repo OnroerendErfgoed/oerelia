@@ -28,7 +28,6 @@ export class Geolocate extends ol.control.Control {
   }
 
   private _zoomToLocation() {
-    console.debug('ol-geolocate::_zoomToLocation');
     const map = this.getMap();
     const view = map.getView();
 
@@ -87,7 +86,6 @@ export class Geolocate extends ol.control.Control {
   }
 
   private _addPositionFeature(pos, view, source, positionFeature) {
-    console.debug('ol-geolocate::_addPositionFeature', pos.coords);
     this.addPositionFeatureCounter++;
     const zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
     const coordinates = ol.proj.transform(

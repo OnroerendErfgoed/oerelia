@@ -35,7 +35,6 @@ var Geolocate = (function (_super) {
         return _this;
     }
     Geolocate.prototype._zoomToLocation = function () {
-        console.debug('ol-geolocate::_zoomToLocation');
         var map = this.getMap();
         var view = map.getView();
         if (!this.layer) {
@@ -85,7 +84,6 @@ var Geolocate = (function (_super) {
         return feature;
     };
     Geolocate.prototype._addPositionFeature = function (pos, view, source, positionFeature) {
-        console.debug('ol-geolocate::_addPositionFeature', pos.coords);
         this.addPositionFeatureCounter++;
         var zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
         var coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
