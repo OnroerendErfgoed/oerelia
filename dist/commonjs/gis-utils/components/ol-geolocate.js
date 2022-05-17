@@ -42,22 +42,17 @@ var Geolocate = (function (_super) {
             this.layer = this._createLayer(map);
         }
         var source = this.layer.getSource();
-        source.clear(true);
         var positionFeature = this._createFeature();
         var self = this;
+        navigator.geolocation.getCurrentPosition(function (pos) {
+            self._addPositionFeature(pos, view, source, positionFeature);
+        });
         if (this.options.geolocateTracking) {
-            navigator.geolocation.watchPosition(function (pos) {
-                self._addPositionFeature(pos, view, source, positionFeature);
-            }, function (error) {
-                console.error(error);
-            }, {
-                enableHighAccuracy: true
-            });
-        }
-        else {
-            navigator.geolocation.getCurrentPosition(function (pos) {
-                self._addPositionFeature(pos, view, source, positionFeature);
-            });
+            window.setInterval(function () {
+                navigator.geolocation.getCurrentPosition(function (pos) {
+                    self._addPositionFeature(pos, view, source, positionFeature);
+                });
+            }, 60000);
         }
     };
     Geolocate.prototype._createLayer = function (map) {

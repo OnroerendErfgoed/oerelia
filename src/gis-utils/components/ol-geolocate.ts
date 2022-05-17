@@ -36,25 +36,19 @@ export class Geolocate extends ol.control.Control {
       this.layer = this._createLayer(map);
     }
     const source = this.layer.getSource();
-    source.clear(true);
     const positionFeature = this._createFeature();
 
     const self = this;
 
+    navigator.geolocation.getCurrentPosition(function(pos: Position) {
+      self._addPositionFeature(pos, view, source, positionFeature);
+    });
     if (this.options.geolocateTracking) {
-      navigator.geolocation.watchPosition(function(pos: Position) {
-        self._addPositionFeature(pos, view, source, positionFeature);
-      },
-      function (error) {
-        console.error(error);
-      },
-      {
-        enableHighAccuracy: true
-      });
-    } else {
-      navigator.geolocation.getCurrentPosition(function(pos: Position) {
-        self._addPositionFeature(pos, view, source, positionFeature);
-      });
+      window.setInterval(() => {
+        navigator.geolocation.getCurrentPosition(function(pos: Position) {
+          self._addPositionFeature(pos, view, source, positionFeature);
+        })
+      }, 60000);
     }
   }
 
