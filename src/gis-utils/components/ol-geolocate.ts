@@ -4,7 +4,7 @@ export class Geolocate extends ol.control.Control {
   public options;
   public element: Element;
   public layer: ol.layer.Vector;
-  private addPositionFeatureCounter: number = 0;
+  private watchId = null;
 
   constructor(optOptions) {
     super(optOptions);
@@ -28,7 +28,6 @@ export class Geolocate extends ol.control.Control {
   }
 
   private _zoomToLocation() {
-    this.addPositionFeatureCounter = 0;
     const map = this.getMap();
     const view = map.getView();
 
@@ -40,15 +39,26 @@ export class Geolocate extends ol.control.Control {
 
     const self = this;
 
-    navigator.geolocation.getCurrentPosition(function(pos: Position) {
-      self._addPositionFeature(pos, view, source, positionFeature);
-    });
     if (this.options.geolocateTracking) {
-      window.setInterval(() => {
-        navigator.geolocation.getCurrentPosition(function(pos: Position) {
+      if (this.watchId) {
+        navigator.geolocation.clearWatch(this.watchId);
+        source.clear(true);
+        this.watchId = null;
+      } else {
+        this.watchId =  navigator.geolocation.watchPosition(function(pos) {
           self._addPositionFeature(pos, view, source, positionFeature);
-        })
-      }, 60000);
+        },
+        function (error) {
+          console.error(error);
+        },
+        {
+          enableHighAccuracy: true
+        });
+      }
+    } else {
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        self._addPositionFeature(pos, view, source, positionFeature);
+      });
     }
   }
 
@@ -81,7 +91,6 @@ export class Geolocate extends ol.control.Control {
   }
 
   private _addPositionFeature(pos, view, source, positionFeature) {
-    this.addPositionFeatureCounter++;
     const zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
     const coordinates = ol.proj.transform(
       [pos.coords.longitude, pos.coords.latitude],
@@ -89,10 +98,8 @@ export class Geolocate extends ol.control.Control {
       view.getProjection()
     )
 
-    if (this.addPositionFeatureCounter < 3) {
-      view.setCenter(coordinates);
-      view.setZoom(zoomLevel);
-    }
+    view.setCenter(coordinates);
+    view.setZoom(zoomLevel);
     positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
     source.clear(true);
     source.addFeatures([
