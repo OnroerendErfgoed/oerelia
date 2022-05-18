@@ -33,5 +33,6 @@ __export(require("./copy-button/copy-button"));
 __export(require("./models/public-models"));
 __export(require("./expander/expander"));
 __export(require("./expander/expander-container"));
+__export(require("./datepicker/aurelia-pikaday-datepicker"));
 
 //# sourceMappingURL=exports.js.map

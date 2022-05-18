@@ -17,4 +17,5 @@ export function configure(config: FrameworkConfiguration) {
     .feature(PLATFORM.moduleName('oerelia/actor-widget/index'))
     .feature(PLATFORM.moduleName('oerelia/copy-button/index'))
     .feature(PLATFORM.moduleName('oerelia/expander/index'))
+    .feature(PLATFORM.moduleName('oerelia/datepicker/index'))
 }
