@@ -45,7 +45,7 @@ export class Geolocate extends ol.control.Control {
         source.clear(true);
         this.watchId = null;
       } else {
-        this.watchId =  navigator.geolocation.watchPosition(function(pos) {
+        this.watchId =  navigator.geolocation.watchPosition(function(pos: Position) {
           self._addPositionFeature(pos, view, source, positionFeature);
         },
         function (error) {
@@ -56,7 +56,7 @@ export class Geolocate extends ol.control.Control {
         });
       }
     } else {
-      navigator.geolocation.getCurrentPosition(function(pos) {
+      navigator.geolocation.getCurrentPosition(function(pos: Position) {
         self._addPositionFeature(pos, view, source, positionFeature);
       });
     }
