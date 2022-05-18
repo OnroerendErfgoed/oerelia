@@ -4,9 +4,10 @@ var ol = require("openlayers");
 var ol_geolocate_1 = require("./components/ol-geolocate");
 var ol_layerswitcher_1 = require("./components/ol-layerswitcher");
 var MapConfig = (function () {
-    function MapConfig(mapProjection, useGeolocate, useLayerswitcher, center, maxZoom, minZoom, zoom, geolocateZoom) {
+    function MapConfig(mapProjection, useGeolocate, useLayerswitcher, center, maxZoom, minZoom, zoom, geolocateZoom, geolocateTracking) {
         if (useGeolocate === void 0) { useGeolocate = true; }
         if (useLayerswitcher === void 0) { useLayerswitcher = false; }
+        if (geolocateTracking === void 0) { geolocateTracking = false; }
         this.mapProjection = mapProjection;
         this.useGeolocate = useGeolocate;
         this.useLayerswitcher = useLayerswitcher;
@@ -15,6 +16,7 @@ var MapConfig = (function () {
         this.minZoom = minZoom;
         this.zoom = zoom;
         this.geolocateZoom = geolocateZoom;
+        this.geolocateTracking = geolocateTracking;
     }
     return MapConfig;
 }());
@@ -195,7 +197,8 @@ var MapUtil = (function () {
         });
         map.addControl(new ol.control.ScaleLine());
         if (config.useGeolocate) {
-            map.addControl(new ol_geolocate_1.Geolocate({ zoomLevel: config.geolocateZoom }));
+            map.addControl(new ol_geolocate_1.Geolocate({ zoomLevel: config.geolocateZoom,
+                geolocateTracking: config.geolocateTracking }));
         }
         if (config.useLayerswitcher) {
             var layerswitcherPanel = new ol_layerswitcher_1.LayerswitcherPanel({

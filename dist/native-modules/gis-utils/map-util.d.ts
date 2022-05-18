@@ -9,7 +9,8 @@ export declare class MapConfig {
     minZoom?: number;
     zoom?: number;
     geolocateZoom?: number;
-    constructor(mapProjection: ol.proj.Projection, useGeolocate?: boolean, useLayerswitcher?: boolean, center?: ol.Coordinate, maxZoom?: number, minZoom?: number, zoom?: number, geolocateZoom?: number);
+    geolocateTracking: boolean;
+    constructor(mapProjection: ol.proj.Projection, useGeolocate?: boolean, useLayerswitcher?: boolean, center?: ol.Coordinate, maxZoom?: number, minZoom?: number, zoom?: number, geolocateZoom?: number, geolocateTracking?: boolean);
 }
 export declare class MapUtil {
     static transformBoundingboxToMapExtent(boundingbox: Boundingbox): [number, number, number, number];

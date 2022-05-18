@@ -18,6 +18,7 @@ var Geolocate = (function (_super) {
     __extends(Geolocate, _super);
     function Geolocate(optOptions) {
         var _this = _super.call(this, optOptions) || this;
+        _this.watchId = null;
         _this.options = optOptions || {};
         var tipLabel = _this.options.tipLabel ? _this.options.tipLabel : 'Zoom naar je eigen locatie';
         _this.element = document.createElement('div');
@@ -36,22 +37,33 @@ var Geolocate = (function (_super) {
     Geolocate.prototype._zoomToLocation = function () {
         var map = this.getMap();
         var view = map.getView();
-        var zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
         if (!this.layer) {
             this.layer = this._createLayer(map);
         }
         var source = this.layer.getSource();
-        source.clear(true);
         var positionFeature = this._createFeature();
-        navigator.geolocation.getCurrentPosition(function (pos) {
-            var coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
-            view.setCenter(coordinates);
-            view.setZoom(zoomLevel);
-            positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
-            source.addFeatures([
-                positionFeature
-            ]);
-        });
+        var self = this;
+        if (this.options.geolocateTracking) {
+            if (this.watchId) {
+                navigator.geolocation.clearWatch(this.watchId);
+                source.clear(true);
+                this.watchId = null;
+            }
+            else {
+                this.watchId = navigator.geolocation.watchPosition(function (pos) {
+                    self._addPositionFeature(pos, view, source, positionFeature);
+                }, function (error) {
+                    console.error(error);
+                }, {
+                    enableHighAccuracy: true
+                });
+            }
+        }
+        else {
+            navigator.geolocation.getCurrentPosition(function (pos) {
+                self._addPositionFeature(pos, view, source, positionFeature);
+            });
+        }
     };
     Geolocate.prototype._createLayer = function (map) {
         var source = new ol.source.Vector();
@@ -76,6 +88,17 @@ var Geolocate = (function (_super) {
             })
         }));
         return feature;
+    };
+    Geolocate.prototype._addPositionFeature = function (pos, view, source, positionFeature) {
+        var zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
+        var coordinates = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', view.getProjection());
+        view.setCenter(coordinates);
+        view.setZoom(zoomLevel);
+        positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+        source.clear(true);
+        source.addFeatures([
+            positionFeature
+        ]);
     };
     return Geolocate;
 }(ol.control.Control));
