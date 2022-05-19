@@ -9,26 +9,32 @@ var MessageParser = (function () {
                 errors: []
             }
         };
-        if (response.content.errors || response.content.message) {
-            var errors = response.content.errors || [response.content.message];
-            errors.forEach(function (error, index) {
+        var reg = /^https?:\/\//i;
+        var url = response.requestMessage.url;
+        if (!reg.test(response.requestMessage.url)) {
+            url = response.requestMessage.baseUrl + "/" + url;
+        }
+        if (response.statusCode === 401 || response.statusCode === 403) {
+            result.response.message = "Niet bevoegd (" + response.statusCode + ")";
+            result.response.errors = [
+                "U hebt niet voldoende rechten om deze data op te halen: " + url
+            ];
+        }
+        else if (response.content.errors || response.content.message) {
+            var errors_1 = response.content.errors || [response.content.message];
+            errors_1.forEach(function (error, index) {
                 if (error.indexOf('ict@onroerenderfgoed.be') !== -1) {
                     var subject = 'Vraag of fout bij ' + response.requestMessage.url;
                     var errorInfo = 'Opgetreden fout: ' + new Date().toString() + ' - ' + response.statusText + ' \n \n';
                     var body = errorInfo + 'Gelieve hieronder uw probleem of vraag te omschrijven. Vermeld zeker de genomen stappen en voeg screenshots toe als bijlage ter verduidelijking:';
                     var hrefUrl = 'mailto: ict@onroerenderfgoed.be?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-                    errors[index] = error.replace('ict@onroerenderfgoed.be', "<a href='" + hrefUrl + "' target='_blank'>ict@onroerenderfgoed.be</a>");
+                    errors_1[index] = error.replace('ict@onroerenderfgoed.be', "<a href='" + hrefUrl + "' target='_blank'>ict@onroerenderfgoed.be</a>");
                 }
             });
-            result.response.errors = errors;
+            result.response.errors = errors_1;
             result.response.message = response.content.errors ? response.content.message : 'Er is een fout opgetreden';
         }
         else if (response.statusCode === 0 || response.statusCode === 500) {
-            var reg = /^https?:\/\//i;
-            var url = response.requestMessage.url;
-            if (!reg.test(response.requestMessage.url)) {
-                url = response.requestMessage.baseUrl + "/" + url;
-            }
             var subject = 'Vraag of fout bij ' + response.requestMessage.url;
             var errorInfo = 'Opgetreden fout: ' + new Date().toString() + ' - ' + response.statusText + ' \n \n';
             var body = errorInfo + 'Gelieve hieronder uw probleem of vraag te omschrijven. Vermeld zeker de genomen stappen en voeg screenshots toe als bijlage ter verduidelijking:';

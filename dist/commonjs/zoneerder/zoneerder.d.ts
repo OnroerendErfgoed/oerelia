@@ -3,6 +3,7 @@ import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
 import { ButtonConfig } from './models/buttonConfig';
+import { LayerConfig } from './models/layerConfig';
 export declare class Zoneerder {
     private http;
     private crabService;
@@ -12,6 +13,7 @@ export declare class Zoneerder {
     zone: Contour;
     adrespunten?: Contour[];
     buttonConfig: ButtonConfig;
+    layerConfig: LayerConfig;
     isCollapsed?: boolean;
     protected suggest: {
         suggest: Function;

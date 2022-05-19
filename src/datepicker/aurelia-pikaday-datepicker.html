@@ -1,0 +1,13 @@
+<template>
+  <require from="./value-converters/date"></require>
+  <require from="./styles/aurelia-pikaday-datepicker.css"></require>
+  
+  <div class="datepicker-container">
+    <div class="input-container">
+      <input type="text" value.bind="value | date & updateTrigger:'change'" keydown.delegate="keydown($event)" placeholder.bind="placeholder" disabled.bind="disabled">
+    </div>
+    <div class="icon-container">
+      <i class="fa fa-calendar"></i>
+    </div>
+  </div>
+</template>

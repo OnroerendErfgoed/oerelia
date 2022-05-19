@@ -1,10 +1,13 @@
-import { bindable, bindingMode, inject } from 'aurelia-framework';
+import { bindable, bindingMode, inject, LogManager } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { OlMap } from './components/ol-map';
 import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
 import { ButtonConfig } from './models/buttonConfig';
+import { LayerConfig } from './models/layerConfig';
+
+const log = LogManager.getLogger('ol-map');
 
 @inject(HttpClient, CrabService, GeozoekdienstApiService)
 export class Zoneerder {
@@ -13,6 +16,7 @@ export class Zoneerder {
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
   @bindable public adrespunten?: Contour[];
   @bindable public buttonConfig: ButtonConfig;
+  @bindable public layerConfig: LayerConfig;
   @bindable public isCollapsed?: boolean = true;
 
   protected suggest: { suggest: Function };
@@ -27,7 +31,7 @@ export class Zoneerder {
   }
 
   public onMapLoaded($event) {
-    console.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
+    log.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
   }
 
   public resize() {

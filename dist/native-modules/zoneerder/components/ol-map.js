@@ -8,15 +8,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { bindingMode } from 'aurelia-binding';
-import { bindable, inject } from 'aurelia-framework';
-import * as ol from 'openlayers';
+import { bindable, inject, LogManager } from 'aurelia-framework';
+import ol from 'openlayers';
 import proj4 from 'proj4';
-import * as toastr from 'toastr';
 import { Contour } from '../models/contour';
-import { ButtonConfig } from '../models/buttonConfig';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { Layerswitcher } from './ol-layerswitcher';
 import { CrabService } from '../../services/crab.api-service';
+import { LayerType } from '../models/layerConfig.enums';
+import { defaultButtonConfig } from '../models/buttonConfig.defaults';
+import { defaultLayerConfig } from '../models/layerConfig.defaults';
+var log = LogManager.getLogger('ol-map');
 var OlMap = (function () {
     function OlMap(element, crabService) {
         this.element = element;
@@ -29,12 +31,12 @@ var OlMap = (function () {
         this.initialized = false;
         this.polygonIndex = 1;
         this.circleIndex = 1;
-        console.debug('olMap::constructor', this.zone);
+        log.debug('olMap::constructor', this.zone);
         this._defineProjections();
     }
     OlMap.prototype.attached = function () {
         var _this = this;
-        console.debug('olMap::attached', this.zone);
+        log.debug('olMap::attached', this.zone);
         this._createMap();
         this._createMapButtons();
         this._createLayers();
@@ -42,39 +44,52 @@ var OlMap = (function () {
         this.element.dispatchEvent(new CustomEvent('loaded', {
             bubbles: true
         }));
-        if (this.zone) {
-            this.zone.coordinates.forEach(function (coords) {
-                var feature = new ol.Feature({
-                    name: 'Zone',
-                    geometry: new ol.geom.Polygon(coords)
-                });
-                _this.drawLayer.getSource().addFeature(feature);
-            });
-            this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
-            this.geometryObjectList.push('Zone');
-        }
+        this.addZoneToDrawLayer();
         this.drawLayer.getSource().on('addfeature', function (feature) {
-            console.debug('olMap::drawLayer::addfeature', feature);
+            log.debug('olMap::drawLayer::addfeature', feature);
             _this.addToZone(feature);
         });
     };
+    OlMap.prototype.addZoneToDrawLayer = function () {
+        if (!this.drawLayer) {
+            return;
+        }
+        var drawSource = this.drawLayer.getSource();
+        drawSource.getFeatures().forEach(function (f) {
+            drawSource.removeFeature(f);
+        });
+        this.geometryObjectList = [];
+        if (!this.zone) {
+            return;
+        }
+        this.zone.coordinates.forEach(function (coords) {
+            var feature = new ol.Feature({
+                name: 'Zone',
+                geometry: new ol.geom.Polygon(coords)
+            });
+            drawSource.addFeature(feature);
+        });
+        if (this.geometryObjectList.indexOf('Zone') === -1) {
+            this.geometryObjectList.push('Zone');
+        }
+        this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
+    };
+    OlMap.prototype.zoneChanged = function (zone) {
+        this.addZoneToDrawLayer();
+    };
+    OlMap.prototype.bind = function () {
+        this.buttonConfig = this.buttonConfig || defaultButtonConfig;
+        this.layerConfig = this.layerConfig || defaultLayerConfig;
+    };
     OlMap.prototype.updateMapSize = function () {
-        console.debug('olMap::updateMapSize');
+        log.debug('olMap::updateMapSize');
         this.map.updateSize();
     };
     OlMap.prototype.disabledChanged = function (newValue, oldValue) {
-        console.debug('olMap::disabledChanged', newValue, oldValue);
+        log.debug('olMap::disabledChanged', newValue, oldValue);
         if (this.initialized) {
             this.updateMapSize();
         }
-    };
-    OlMap.prototype.setBaseLayer = function (layerName) {
-        this.baseLayers.ortho.setVisible(layerName === 'ortho');
-        this.baseLayers.grb.setVisible(layerName === 'grb');
-        this.baseLayers.grbzw.setVisible(layerName === 'grbzw');
-        this.baseLayers.topo.setVisible(layerName === 'topo');
-        this.baseLayers.hill.setVisible(layerName === 'DHMV_II_HILL_25cm');
-        this.baseLayers.svf.setVisible(layerName === 'DHMV_II_SVF_25cm');
     };
     OlMap.prototype.zoomToExtent = function (extent) {
         this.updateMapSize();
@@ -152,7 +167,7 @@ var OlMap = (function () {
         this.toggleDrawZone(false);
         this.selectPerceel = true;
         this.map.on('click', function (evt) {
-            console.debug('Perceelselect', evt);
+            log.debug('Perceelselect', evt);
             _this.apiService.searchPerceel(evt.coordinate, _this.mapProjection.getCode()).then(function (result) {
                 _this.geoJsonFormatter.readFeatures(result).forEach(function (perceel) { _this.drawPerceel(perceel); });
             });
@@ -228,11 +243,11 @@ var OlMap = (function () {
         var view = this.map.getView();
         var center = view.getCenter();
         var zoom = view.getZoom();
-        var coordinates = this.transformLabert72ToWebMercator(center);
+        var coordinates = this.transformLambert72ToWebMercator(center);
         window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
     };
     OlMap.prototype.addToZone = function (olFeature) {
-        console.debug('addToZone', olFeature);
+        log.debug('addToZone', olFeature);
         var multiPolygon = new ol.geom.MultiPolygon([], 'XY');
         var features = this.drawLayer.getSource().getFeatures();
         features.forEach(function (feature) {
@@ -310,7 +325,7 @@ var OlMap = (function () {
         this.initialized = true;
     };
     OlMap.prototype._createInteractions = function (type, setActive) {
-        console.debug('olMap::_createInteractions');
+        log.debug('olMap::_createInteractions');
         this.map.getInteractions().pop();
         var drawZoneInteraction = new ol.interaction.Draw({
             type: (type),
@@ -322,31 +337,6 @@ var OlMap = (function () {
         this.mapInteractions = {
             drawZone: drawZoneInteraction
         };
-    };
-    OlMap.prototype._createLayers = function () {
-        this.baseLayers = {};
-        var layerGroup = new ol.layer.Group({
-            layers: [
-                this.baseLayers.ortho = this._createGrbLayer('omwrgbmrvl', 'Ortho', true),
-                this.baseLayers.grb = this._createGrbLayer('grb_bsk', 'GRB-Basiskaart', true),
-                this.baseLayers.grbzw = this._createGrbLayer('grb_bsk_grijs', 'GRB-Basiskaart in grijswaarden', true),
-                this.baseLayers.topo = this._createNgiLayer('topo', 'Topokaart', true),
-                this.baseLayers.hill = this._createGrbLayer('DHMV_II_HILL_25cm', 'Hillshade 25cm', true),
-                this.baseLayers.svf = this._createGrbLayer('DHMV_II_SVF_25cm', 'Skyview 25cm', true)
-            ]
-        });
-        layerGroup.set('title', 'Achtergrond kaart');
-        this.map.addLayer(layerGroup);
-        this.setBaseLayer('grbzw');
-        this.map.addLayer(this._createNgiLayer('overlay', 'Topokaart overlay', false));
-        this.map.addLayer(this._createGrbWMSLayer('GRB_GBG', 'GRB-Gebouwenlaag', false));
-        this.map.addLayer(this._createGrbWMSLayer('GRB_ADP_GRENS', 'GRB-Percelenlaag', false));
-        this.drawLayer = this._createVectorLayer({
-            color: 'rgb(39, 146, 195)',
-            fill: 'rgba(39, 146, 195, 0.3)',
-            title: 'Zone'
-        });
-        this.map.addLayer(this.drawLayer);
     };
     OlMap.prototype._defineProjections = function () {
         proj4.defs('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 ' +
@@ -368,77 +358,94 @@ var OlMap = (function () {
             featureProjection: this.mapProjection
         });
     };
-    OlMap.prototype._createGrbLayer = function (grbLayerId, title, isBaseLayer) {
+    OlMap.prototype._createLayers = function () {
+        var _this = this;
+        log.debug('Create layers', this.layerConfig);
+        var layers = Object.keys(this.layerConfig.baseLayers)
+            .map(function (id) { return ({ id: id, options: _this.layerConfig.baseLayers[id] }); })
+            .map(function (_a) {
+            var id = _a.id, options = _a.options;
+            return _this._createLayer(id, options, true);
+        });
+        var baseLayerGroup = new ol.layer.Group({ layers: layers });
+        baseLayerGroup.set('title', 'Achtergrond kaart');
+        this.map.addLayer(baseLayerGroup);
+        var overlays = Object.keys(this.layerConfig.overlays)
+            .map(function (id) { return ({ id: id, options: _this.layerConfig.overlays[id] }); })
+            .map(function (_a) {
+            var id = _a.id, options = _a.options;
+            return _this._createLayer(id, options, false);
+        });
+        overlays.forEach(function (layer) { return _this.map.addLayer(layer); });
+        this.drawLayer = this._createVectorLayer({
+            color: 'rgb(39, 146, 195)',
+            fill: 'rgba(39, 146, 195, 0.3)',
+            title: 'Zone'
+        });
+        this.map.addLayer(this.drawLayer);
+    };
+    OlMap.prototype._createLayer = function (id, layerOptions, isBaseLayer) {
+        var layer;
+        if (layerOptions.type === LayerType.Grb)
+            layer = this._createGrbLayer(id);
+        else if (layerOptions.type === LayerType.GrbWMS)
+            layer = this._createGrbWMSLayer(layerOptions.wmsLayers);
+        else if (layerOptions.type === LayerType.ErfgoedWms)
+            layer = this._createErfgoedWMSLayer(layerOptions.wmsLayers);
+        else if (layerOptions.type === LayerType.Ngi)
+            layer = this._createNgiLayer(id);
+        layer.set('title', layerOptions.title);
+        layer.set('type', isBaseLayer ? 'base' : 'overlay');
+        layer.setVisible(!!layerOptions.visible);
+        return layer;
+    };
+    OlMap.prototype._createGrbLayer = function (grbLayerId) {
         var resolutions = [];
         var matrixIds = [];
         var maxResolution = ol.extent.getWidth(this.mapProjection.getExtent()) / 256;
+        var origin = ol.extent.getTopLeft(this.mapProjection.getExtent());
         for (var i = 0; i < 16; i++) {
             matrixIds[i] = i.toString();
             resolutions[i] = maxResolution / Math.pow(2, i);
         }
-        var tileGrid = new ol.tilegrid.WMTS({
-            origin: ol.extent.getTopLeft(this.mapProjection.getExtent()),
-            resolutions: resolutions,
-            matrixIds: matrixIds
-        });
-        var grbSource = new ol.source.WMTS({
-            url: '//tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts/',
-            layer: grbLayerId,
-            matrixSet: 'BPL72VL',
-            format: 'image/png',
-            projection: this.mapProjection,
-            style: '',
-            tileGrid: tileGrid,
-            attributions: [
-                new ol.Attribution({
-                    html: '© <a href="https://overheid.vlaanderen.be/informatie-vlaanderen" target="_blank" ' +
-                        'title="Informatie Vlaanderen" class="copyrightLink">Informatie Vlaanderen</a>'
-                })
-            ]
-        });
-        var layer = new ol.layer.Tile({
-            source: grbSource,
+        return new ol.layer.Tile({
+            source: new ol.source.WMTS({
+                url: '//tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts/',
+                layer: grbLayerId,
+                matrixSet: 'BPL72VL',
+                format: 'image/png',
+                projection: this.mapProjection,
+                style: '',
+                tileGrid: new ol.tilegrid.WMTS({ origin: origin, resolutions: resolutions, matrixIds: matrixIds }),
+                attributions: '© <a href="https://overheid.vlaanderen.be/informatie-vlaanderen" target="_blank" ' +
+                    'title="Informatie Vlaanderen" class="copyrightLink">Informatie Vlaanderen</a>'
+            }),
             extent: this.mapProjection.getExtent()
         });
-        layer.set('title', title);
-        layer.set('type', isBaseLayer ? 'base' : 'overlay');
-        return layer;
     };
-    OlMap.prototype._createNgiLayer = function (layerId, title, isBaseLayer) {
+    OlMap.prototype._createNgiLayer = function (layerId) {
         var matrixIds = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
         var resolutions = [1058.3333333327998, 529.1666666663999, 211.66666666656, 132.29166666659998, 66.14583333344,
             26.45833333332, 13.22916666666, 6.614583333344, 2.6458333333319994, 1.3229166666659997, 0.6614583333343999];
-        var tileGrid = new ol.tilegrid.WMTS({
-            origin: [450000, 800000],
-            resolutions: resolutions,
-            matrixIds: matrixIds
-        });
-        var ngiSource = new ol.source.WMTS({
-            urls: ['https://www.ngi.be/cartoweb/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
-            requestEncoding: 'REST',
-            layer: layerId,
-            matrixSet: '3812',
-            format: 'image/png',
-            projection: 'EPSG:3812',
-            style: 'default',
-            tileGrid: tileGrid,
-            attributions: [
-                new ol.Attribution({
-                    html: '© <a href="https://www.ngi.be/" target="_blank" title="Nationaal Geografisch Instituut" ' +
-                        'class="copyrightLink">NGI</a>'
-                })
-            ]
-        });
-        var layer = new ol.layer.Tile({
-            source: ngiSource,
+        var origin = [450000, 800000];
+        return new ol.layer.Tile({
+            source: new ol.source.WMTS({
+                urls: ['https://cartoweb.wmts.ngi.be/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
+                requestEncoding: 'REST',
+                layer: layerId,
+                matrixSet: '3812',
+                format: 'image/png',
+                projection: 'EPSG:3812',
+                style: 'default',
+                tileGrid: new ol.tilegrid.WMTS({ origin: origin, resolutions: resolutions, matrixIds: matrixIds }),
+                attributions: '© <a href="https://www.ngi.be/" target="_blank" title="Nationaal Geografisch Instituut" ' +
+                    'class="copyrightLink">NGI</a>'
+            }),
             visible: false
         });
-        layer.set('title', title);
-        layer.set('type', isBaseLayer ? 'base' : 'overlay');
-        return layer;
     };
-    OlMap.prototype._createGrbWMSLayer = function (wmsLayers, title, isBaseLayer) {
-        var layer = new ol.layer.Tile({
+    OlMap.prototype._createGrbWMSLayer = function (wmsLayers) {
+        return new ol.layer.Tile({
             extent: this.mapProjection.getExtent(),
             source: new ol.source.TileWMS(({
                 url: 'https://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB/wms',
@@ -448,9 +455,19 @@ var OlMap = (function () {
             maxResolution: 2000,
             visible: false
         });
-        layer.set('title', title);
-        layer.set('type', isBaseLayer ? 'base' : 'overlay');
-        return layer;
+    };
+    OlMap.prototype._createErfgoedWMSLayer = function (wmsLayers) {
+        return new ol.layer.Tile({
+            extent: this.mapProjection.getExtent(),
+            source: new ol.source.TileWMS(({
+                url: oeAppConfig.beschermingenWMSUrl || 'https://geo.onroerenderfgoed.be/geoserver/wms',
+                params: { LAYERS: wmsLayers, TILED: true },
+                serverType: 'geoserver',
+                attributions: '© <a href="https://www.onroerenderfgoed.be">Onroerend Erfgoed</a>'
+            })),
+            maxResolution: 2000,
+            visible: false
+        });
     };
     OlMap.prototype._createVectorLayer = function (options) {
         var vectorSource = new ol.source.Vector({});
@@ -491,43 +508,22 @@ var OlMap = (function () {
         vLayer.set('type', 'overlay');
         return vLayer;
     };
-    OlMap.prototype.strip = function (geom, test) {
-        var _this = this;
-        if (!geom.length) {
-            return;
-        }
-        if (typeof geom[0] !== 'number') {
-            return geom.map(function (g) { return _this.strip(g, test); });
-        }
-        return geom.filter(test);
-    };
     OlMap.prototype._createMapButtons = function () {
         var buttonHeight = 2.2;
         var target = this.map.getTargetElement();
         var top = 2.4;
-        if (!this.buttonConfig) {
-            var className_1 = 'zoom';
-            var style_1 = this.getButtonStyle(top);
-            this.addZoomButton(className_1);
-            this.setStyleToButton(target, className_1, style_1);
-            top += 3.8;
-            className_1 = 'layer-switcher';
-            style_1 = this.getButtonStyle(top);
-            this.setStyleToButton(target, className_1, style_1);
-            return;
-        }
         if (this.buttonConfig.fullscreen) {
-            var className_2 = 'full-screen';
-            var style_2 = this.getButtonStyle(top);
-            this.addFullscreenButton(className_2);
-            this.setStyleToButton(target, className_2, style_2);
+            var className_1 = 'full-screen';
+            var style_1 = this.getButtonStyle(top);
+            this.addFullscreenButton(className_1);
+            this.setStyleToButton(target, className_1, style_1);
             top += buttonHeight;
         }
         if (this.buttonConfig.zoomInOut) {
-            var className_3 = 'zoom';
-            var style_3 = this.getButtonStyle(top);
-            this.addZoomButton(className_3);
-            this.setStyleToButton(target, className_3, style_3);
+            var className_2 = 'zoom';
+            var style_2 = this.getButtonStyle(top);
+            this.addZoomButton(className_2);
+            this.setStyleToButton(target, className_2, style_2);
             top += 3.8;
         }
         var className = 'layer-switcher';
@@ -535,29 +531,29 @@ var OlMap = (function () {
         this.setStyleToButton(target, className, style);
         top += buttonHeight;
         if (this.buttonConfig.zoomFullExtent) {
-            var className_4 = 'fullextent';
-            var style_4 = this.getButtonStyle(top);
-            this.addZoomToExtentButton(className_4);
-            this.setStyleToButton(target, className_4, style_4);
+            var className_3 = 'fullextent';
+            var style_3 = this.getButtonStyle(top);
+            this.addZoomToExtentButton(className_3);
+            this.setStyleToButton(target, className_3, style_3);
             top += buttonHeight;
         }
         if (this.buttonConfig.zoomGeoLocation) {
-            var className_5 = 'geolocation';
-            var style_5 = this.getButtonStyle(top);
-            this.setStyleToButton(target, className_5, style_5);
+            var className_4 = 'geolocation';
+            var style_4 = this.getButtonStyle(top);
+            this.setStyleToButton(target, className_4, style_4);
             top += buttonHeight;
         }
         if (this.buttonConfig.rotate) {
-            var className_6 = 'rotate';
-            var style_6 = this.getButtonStyle(top);
-            this.addRotateButton(className_6);
-            this.setStyleToButton(target, className_6, style_6);
+            var className_5 = 'rotate';
+            var style_5 = this.getButtonStyle(top);
+            this.addRotateButton(className_5);
+            this.setStyleToButton(target, className_5, style_5);
             top += buttonHeight;
         }
         if (this.buttonConfig.zoomSwitcher) {
-            var className_7 = 'zoom-switcher';
-            var style_7 = this.getButtonStyle(top);
-            this.setStyleToButton(target, className_7, style_7);
+            var className_6 = 'zoom-switcher';
+            var style_6 = this.getButtonStyle(top);
+            this.setStyleToButton(target, className_6, style_6);
         }
     };
     OlMap.prototype.addFullscreenButton = function (className) {
@@ -584,7 +580,7 @@ var OlMap = (function () {
     };
     OlMap.prototype.addRotateButton = function (className) {
         this.map.addControl(new ol.control.Rotate({
-            tipLabel: "Draai de kaart naar het noorden",
+            tipLabel: 'Draai de kaart naar het noorden',
             className: className
         }));
     };
@@ -596,7 +592,7 @@ var OlMap = (function () {
             .item(0)
             .setAttribute('style', style);
     };
-    OlMap.prototype.transformLabert72ToWebMercator = function (center) {
+    OlMap.prototype.transformLambert72ToWebMercator = function (center) {
         var point = new ol.geom.Point([center[0], center[1]]);
         var transFormedPoint = point.transform('EPSG:31370', 'EPSG:3857');
         return transFormedPoint.getCoordinates();
@@ -623,8 +619,12 @@ var OlMap = (function () {
     ], OlMap.prototype, "apiService", void 0);
     __decorate([
         bindable,
-        __metadata("design:type", ButtonConfig)
+        __metadata("design:type", Object)
     ], OlMap.prototype, "buttonConfig", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], OlMap.prototype, "layerConfig", void 0);
     OlMap = __decorate([
         inject(Element, CrabService),
         __metadata("design:paramtypes", [Element,

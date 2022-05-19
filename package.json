@@ -1,14 +1,14 @@
 {
   "name": "oerelia",
   "description": "Onroerend Erfgoed Aurelia component library",
-  "version": "0.9.9",
+  "version": "0.10.0-alpha.7",
   "repository": {
     "type": "git",
     "url": "https://github.com/OnroerendErfgoed/oerelia.git"
   },
   "license": "MIT",
   "dependencies": {
-    "@types/openlayers": "^4.1.1",
+    "@types/pikaday": "^1.7.5",
     "@types/proj4": "^2.3.4",
     "ag-grid-aurelia": "^21.0.1",
     "ag-grid-community": "^23.2.1",
@@ -17,6 +17,7 @@
     "aurelia-validation": "^1.5.0",
     "moment": "^2.29.2",
     "openlayers": "^4.2.0",
+    "pikaday": "^1.8.2",
     "primer-tooltips": "^2.0.0",
     "proj4": "^2.4.3",
     "toastr": "^2.1.4"
@@ -24,6 +25,8 @@
   "devDependencies": {
     "@types/jasmine": "^2.8.9",
     "@types/node": "^10.11.6",
+    "@types/openlayers": "^4.6.18",
+    "@types/toastr": "^2.1.39",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.3.2",
     "aurelia-cli": "1.2.2",

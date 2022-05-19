@@ -4,6 +4,7 @@ export class Geolocate extends ol.control.Control {
   public options;
   public element: Element;
   public layer: ol.layer.Vector;
+  private watchId = null;
 
   constructor(optOptions) {
     super(optOptions);
@@ -29,28 +30,36 @@ export class Geolocate extends ol.control.Control {
   private _zoomToLocation() {
     const map = this.getMap();
     const view = map.getView();
-    const zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
 
     if(!this.layer) {
       this.layer = this._createLayer(map);
     }
     const source = this.layer.getSource();
-    source.clear(true);
     const positionFeature = this._createFeature();
 
-    navigator.geolocation.getCurrentPosition(function(pos) {
-      const coordinates = ol.proj.transform(
-        [pos.coords.longitude, pos.coords.latitude],
-        'EPSG:4326',
-        view.getProjection()
-      );
-      view.setCenter(coordinates);
-      view.setZoom(zoomLevel);
-      positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
-      source.addFeatures([
-        positionFeature
-      ]);
-    });
+    const self = this;
+
+    if (this.options.geolocateTracking) {
+      if (this.watchId) {
+        navigator.geolocation.clearWatch(this.watchId);
+        source.clear(true);
+        this.watchId = null;
+      } else {
+        this.watchId =  navigator.geolocation.watchPosition(function(pos: Position) {
+          self._addPositionFeature(pos, view, source, positionFeature);
+        },
+        function (error) {
+          console.error(error);
+        },
+        {
+          enableHighAccuracy: true
+        });
+      }
+    } else {
+      navigator.geolocation.getCurrentPosition(function(pos: Position) {
+        self._addPositionFeature(pos, view, source, positionFeature);
+      });
+    }
   }
 
   private _createLayer(map: ol.Map): ol.layer.Vector {
@@ -79,5 +88,22 @@ export class Geolocate extends ol.control.Control {
       })
     );
     return feature;
+  }
+
+  private _addPositionFeature(pos, view, source, positionFeature) {
+    const zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
+    const coordinates = ol.proj.transform(
+      [pos.coords.longitude, pos.coords.latitude],
+      'EPSG:4326',
+      view.getProjection()
+    )
+
+    view.setCenter(coordinates);
+    view.setZoom(zoomLevel);
+    positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+    source.clear(true);
+    source.addFeatures([
+      positionFeature
+    ]);
   }
 }

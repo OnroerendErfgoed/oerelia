@@ -2,9 +2,10 @@ import * as ol from 'openlayers';
 import { Geolocate } from './components/ol-geolocate';
 import { Layerswitcher, LayerswitcherPanel } from './components/ol-layerswitcher';
 var MapConfig = (function () {
-    function MapConfig(mapProjection, useGeolocate, useLayerswitcher, center, maxZoom, minZoom, zoom, geolocateZoom) {
+    function MapConfig(mapProjection, useGeolocate, useLayerswitcher, center, maxZoom, minZoom, zoom, geolocateZoom, geolocateTracking) {
         if (useGeolocate === void 0) { useGeolocate = true; }
         if (useLayerswitcher === void 0) { useLayerswitcher = false; }
+        if (geolocateTracking === void 0) { geolocateTracking = false; }
         this.mapProjection = mapProjection;
         this.useGeolocate = useGeolocate;
         this.useLayerswitcher = useLayerswitcher;
@@ -13,6 +14,7 @@ var MapConfig = (function () {
         this.minZoom = minZoom;
         this.zoom = zoom;
         this.geolocateZoom = geolocateZoom;
+        this.geolocateTracking = geolocateTracking;
     }
     return MapConfig;
 }());
@@ -133,7 +135,7 @@ var MapUtil = (function () {
             matrixIds: matrixIds
         });
         var ngiSource = new ol.source.WMTS({
-            urls: ['https://www.ngi.be/cartoweb/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
+            urls: ['https://cartoweb.wmts.ngi.be/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
             requestEncoding: 'REST',
             layer: layerId,
             matrixSet: '3812',
@@ -193,7 +195,8 @@ var MapUtil = (function () {
         });
         map.addControl(new ol.control.ScaleLine());
         if (config.useGeolocate) {
-            map.addControl(new Geolocate({ zoomLevel: config.geolocateZoom }));
+            map.addControl(new Geolocate({ zoomLevel: config.geolocateZoom,
+                geolocateTracking: config.geolocateTracking }));
         }
         if (config.useLayerswitcher) {
             var layerswitcherPanel = new LayerswitcherPanel({

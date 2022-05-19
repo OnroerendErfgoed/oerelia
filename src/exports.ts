@@ -6,6 +6,11 @@ export * from './autocomplete/autocomplete';
 export * from './autocomplete/models/autocomplete-type';
 
 export * from './zoneerder/zoneerder';
+export * from './zoneerder/models/layerConfig';
+export * from './zoneerder/models/layerConfig.enums';
+export * from './zoneerder/models/layerConfig.defaults';
+export * from './zoneerder/models/buttonConfig';
+export * from './zoneerder/models/buttonConfig.defaults';
 
 export * from './systemfields/systemfields';
 
@@ -38,3 +43,10 @@ export * from './references-dialog/references-dialog';
 export * from './actor-widget/actor-widget';
 
 export * from './copy-button/copy-button';
+
+export * from './models/public-models';
+
+export * from './expander/expander';
+export * from './expander/expander-container';
+
+export * from './datepicker/aurelia-pikaday-datepicker'

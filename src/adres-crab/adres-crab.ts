@@ -149,7 +149,7 @@ export class AdresCrab {
     const gemeente = this.data.gemeente ? this.data.gemeente.id : undefined;
     return new Promise((resolve) => {
       if (gemeente) {
-        this.crabService.getPostcodes(gemeente).then(postcodes => {
+        this.crabService.getPostcodes(gemeente).then((postcodes) => {
           postcodes.forEach(postcode => { postcode.naam = String(postcode.id); });
           resolve(this.suggestFilter(postcodes, value));
         });

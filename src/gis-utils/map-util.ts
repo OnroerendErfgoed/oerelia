@@ -14,7 +14,8 @@ export class MapConfig {
     public maxZoom?: number,
     public minZoom?: number,
     public zoom?: number,
-    public geolocateZoom?: number
+    public geolocateZoom?: number,
+    public geolocateTracking: boolean = false
   ) {}
 }
 
@@ -149,7 +150,7 @@ export class MapUtil {
     });
 
     const ngiSource: ol.source.WMTS = new ol.source.WMTS({
-      urls: ['https://www.ngi.be/cartoweb/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
+      urls: ['https://cartoweb.wmts.ngi.be/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
       requestEncoding: 'REST',
       layer: layerId,
       matrixSet: '3812',
@@ -217,7 +218,8 @@ export class MapUtil {
     map.addControl(new ol.control.ScaleLine());
 
     if (config.useGeolocate) {
-      map.addControl(new Geolocate({ zoomLevel: config.geolocateZoom }));
+      map.addControl(new Geolocate({ zoomLevel: config.geolocateZoom,
+        geolocateTracking: config.geolocateTracking }));
     }
 
     if (config.useLayerswitcher) {
