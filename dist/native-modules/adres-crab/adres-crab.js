@@ -106,7 +106,12 @@ var AdresCrab = (function () {
         this.copiedAdres = this.data;
     };
     AdresCrab.prototype.pasteAdres = function () {
-        this.data = this.copiedAdres;
+        this.data.id = this.copiedAdres.id;
+        this.data.land = this.copiedAdres.land;
+        this.data.gemeente = this.copiedAdres.gemeente;
+        this.data.postcode = this.copiedAdres.postcode;
+        this.data.straat = this.copiedAdres.straat;
+        this.data.subadres = this.copiedAdres.subadres;
     };
     AdresCrab.prototype.loadLanden = function () {
         var _this = this;
