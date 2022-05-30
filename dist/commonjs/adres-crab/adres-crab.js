@@ -25,6 +25,7 @@ var AdresCrab = (function () {
         this.config = {
             huisnummer: { required: true, autocompleteType: autocomplete_type_1.autocompleteType.Auto }
         };
+        this.copyAvailable = false;
         this.landen = [];
         this.suggest = {};
         this.controller = this.controllerFactory.createForCurrentScope();
@@ -102,6 +103,12 @@ var AdresCrab = (function () {
         else {
             return undefined;
         }
+    };
+    AdresCrab.prototype.copyAdres = function () {
+        this.copiedAdres = this.data;
+    };
+    AdresCrab.prototype.pasteAdres = function () {
+        this.data = this.copiedAdres;
     };
     AdresCrab.prototype.loadLanden = function () {
         var _this = this;
@@ -190,6 +197,14 @@ var AdresCrab = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Object)
     ], AdresCrab.prototype, "config", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", adres_1.Adres)
+    ], AdresCrab.prototype, "copiedAdres", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], AdresCrab.prototype, "copyAvailable", void 0);
     AdresCrab = __decorate([
         aurelia_framework_1.inject(aurelia_validation_1.ValidationController, aurelia_validation_1.ValidationControllerFactory, crab_api_service_1.CrabService, aurelia_framework_1.BindingEngine),
         __metadata("design:paramtypes", [aurelia_validation_1.ValidationController,

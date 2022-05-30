@@ -1,24 +1,23 @@
 <template>
   <require from="./styles/adres-crab.css"></require>
   <div class="adres-crab">
-    <div class="row">
-      <div class="small-1 columns">
-        Adres
+    <div class="row" if.bind="copyAvailable">
+      <div class="small-2 columns">
+        <label>Adres</label>
       </div>
-      <div class="small-11 columns">
+      <div class="small-10 columns">
         <div class="right">
-          <button class="clipboard-button paste-button button tiny" title="Plakken" style="margin-left: 5px;">
+          <button class="clipboard-button paste-button button tiny" title="Plakken" style="margin-left: 5px;" click.delegate="copyAdres()">
             <i class="fa fa-paste"></i>
           </button>
-          <button class="clipboard-button copy-button button tiny" title="Kopiëren">
+          <button class="clipboard-button copy-button button tiny" title="Kopiëren" click.delegate="pasteAdres()">
             <i class="fa fa-copy"></i>
           </button>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="small-2 columns"></div>
-      <div class="small-10 columns">
+      <div class="small-push-2 small-10 columns">
         <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
           <label>Land</label>
           <select value.bind="data.land" disabled.bind="disabled">
@@ -31,8 +30,7 @@
     </div>
     
     <div class="row">
-      <div class="small-2 columns"></div>
-      <div class="small-10 columns">
+      <div class="small-push-2 small-10 columns">
         <div if.bind="data.land === 'BE'">
           <div class="placeholder-container ${ !data.land || disabled ? 'placeholder-disabled' : '' }">
             <label>Gemeente <span
@@ -100,8 +98,7 @@
     </div>
     
     <div class="row">
-      <div class="small-2 columns"></div>
-      <div class="small-10 columns">
+      <div class="small-push-2 small-10 columns">
         <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
           <label>Busnr.</label>
           <input type="text" value.bind="data.subadres" placeholder="postbus" disabled.bind="disabled">

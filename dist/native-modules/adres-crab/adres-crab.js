@@ -23,6 +23,7 @@ var AdresCrab = (function () {
         this.config = {
             huisnummer: { required: true, autocompleteType: autocompleteType.Auto }
         };
+        this.copyAvailable = false;
         this.landen = [];
         this.suggest = {};
         this.controller = this.controllerFactory.createForCurrentScope();
@@ -100,6 +101,12 @@ var AdresCrab = (function () {
         else {
             return undefined;
         }
+    };
+    AdresCrab.prototype.copyAdres = function () {
+        this.copiedAdres = this.data;
+    };
+    AdresCrab.prototype.pasteAdres = function () {
+        this.data = this.copiedAdres;
     };
     AdresCrab.prototype.loadLanden = function () {
         var _this = this;
@@ -188,6 +195,14 @@ var AdresCrab = (function () {
         bindable,
         __metadata("design:type", Object)
     ], AdresCrab.prototype, "config", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Adres)
+    ], AdresCrab.prototype, "copiedAdres", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], AdresCrab.prototype, "copyAvailable", void 0);
     AdresCrab = __decorate([
         inject(ValidationController, ValidationControllerFactory, CrabService, BindingEngine),
         __metadata("design:paramtypes", [ValidationController,

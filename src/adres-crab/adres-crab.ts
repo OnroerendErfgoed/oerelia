@@ -13,6 +13,9 @@ export class AdresCrab {
   @bindable public config: IAdresCrabConfig = {
     huisnummer: { required: true, autocompleteType: autocompleteType.Auto }
   };
+  @bindable copiedAdres: Adres;
+  @bindable copyAvailable = false;
+
   public landen: any[] = [];
   public gemeente: string;
   public postcode: string;
@@ -110,6 +113,14 @@ export class AdresCrab {
     } else {
       return undefined;
     }
+  }
+
+  public copyAdres(): void {
+    this.copiedAdres = this.data;
+  }
+
+  public pasteAdres(): void {
+    this.data = this.copiedAdres;
   }
 
   private loadLanden() {
