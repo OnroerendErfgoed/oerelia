@@ -7,12 +7,10 @@
       </div>
       <div class="small-10 columns">
         <div class="right">
-          <button class="clipboard-button copy-button button tiny" title="Kopiëren" style="margin-left: 5px;"
-            click.delegate="copyAdres()">
+          <button class="clipboard-button copy-button button tiny" title="Kopiëren" click.delegate="copyAdres()">
             <i class="fa fa-copy"></i>
           </button>
-          <button class="${!copiedAdres ? 'disabled' : '' } clipboard-button paste-button button tiny" title="Plakken"
-            click.delegate="pasteAdres()">
+          <button class="${!copiedAdres ? 'disabled' : '' } clipboard-button paste-button button tiny" title="Plakken" click.delegate="pasteAdres()">
             <i class="fa fa-paste"></i>
           </button>
         </div>
