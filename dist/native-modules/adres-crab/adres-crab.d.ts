@@ -11,6 +11,8 @@ export declare class AdresCrab {
     disabled: boolean;
     data: Adres;
     config: IAdresCrabConfig;
+    copiedAdres: Adres;
+    copyAvailable: boolean;
     landen: any[];
     gemeente: string;
     postcode: string;
@@ -24,6 +26,8 @@ export declare class AdresCrab {
     gemeenteChanged(): void;
     straatChanged(): void;
     huisnummerParser(value: any): Huisnummer;
+    copyAdres(): void;
+    pasteAdres(): void;
     private loadLanden;
     private loadGemeenten;
     private loadPostcodes;

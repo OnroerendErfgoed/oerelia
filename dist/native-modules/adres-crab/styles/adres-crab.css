@@ -3,3 +3,6 @@
   border: none; }
   .adres-crab div.placeholder-container label {
     width: 30%; }
+
+.adres-crab .copy-button {
+  margin-left: 5px; }
