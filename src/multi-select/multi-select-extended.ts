@@ -4,7 +4,7 @@ import { MultiSelectBase } from './multi-select-base';
 @autoinject
 export class MultiSelectExtended extends MultiSelectBase {
   @bindable public addOnChange: boolean = false;
-  public inputValue: string;
+  public inputValue: string|number;
 
   public addInput() {
     if (this.inputValue) {
