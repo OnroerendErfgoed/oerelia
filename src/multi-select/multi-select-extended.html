@@ -4,7 +4,7 @@
   <div class="multi-input-container" show.bind="!disabled">
     <select value.bind="inputValue" change.delegate="addOnChange ? addInput(): null">
       <option if.bind="placeholder" model.bind="null" selected style="display: none;">${placeholder}</option>
-      <option repeat.for="item of options" value.bind="item[idProperty]">${item[labelProperty]}</option>
+      <option repeat.for="item of options" model.bind="item[idProperty]">${item[labelProperty]}</option>
     </select>
     <div if.bind="!addOnChange" class="fa fa-plus multi-input-icon" click.trigger="!disabled ? addInput() : null"></div>
   </div>
