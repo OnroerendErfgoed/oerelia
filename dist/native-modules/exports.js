@@ -11,6 +11,7 @@ export * from './systemfields/systemfields';
 export * from './telefoon-select/telefoon-select';
 export * from './adres-crab/adres-crab';
 export * from './spinner/spinner';
+export * from './beheer-header/beheer-header';
 export * from './gis-utils/projection-util';
 export * from './gis-utils/map-util';
 export * from './utilities/message/message';
