@@ -1,0 +1,151 @@
+/* Header */
+$header-height: 50px;
+$mid-purple: rgb(148,78,161);
+$white: rgb(255,255,255);
+$light-purple: rgb(176,93,191);
+$dark-purple: rgb(117,63,127);
+
+.appHeader {
+  background-color: $mid-purple;
+  //overflow: hidden;
+  width: 100%;
+  height: $header-height;
+
+  .header-title {
+    background-color: $white;
+    padding-left: 20px;
+    display: inline-block;
+    height: $header-height;
+    cursor: pointer;
+
+    > * {
+      float: left;
+      height: $header-height;
+    }
+
+    .header-logo {
+      background: url('img/pyoes/OE-vlaanderen-logo.png') no-repeat center left;
+      padding-left: 40px;
+      background-size: 40px;
+      margin: 0 10px 0 15px;
+    }
+
+    h1{ margin: 0; padding: 0; font-size: 24px !important; line-height: $header-height; }
+    h2 { font-size: 23px; color: $mid-purple !important; margin: 0; padding: 5px 0 0 0; }
+    h4 { font-size: 12px; color: $mid-purple !important; margin: -3px 0 0 0; padding-left: 3px; }
+  }
+
+  .trianglePlaceholder {
+    width: 0;
+    height: 30px !important;
+    border-top: $header-height solid $mid-purple;
+    border-left: 20px solid transparent;
+  }
+
+  a {
+    line-height: inherit;
+    text-decoration: none;
+  }
+
+  .menu-button {
+    float: right;
+  }
+
+  .menu-button > ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    height: $header-height;
+  }
+
+  .menu-button > ul > li {
+    outline: none;
+    display: inline-block;
+    height: $header-height;
+    border-right: 1px solid $light-purple;
+    min-width: 100px;
+    position: relative;
+
+    &.last {
+      border-right: none;
+      border-left: 1px solid $light-purple;
+      padding: 5px 20px;
+      font-size: 13px;
+    }
+  }
+
+  .menu-button > ul > li span {
+    color: $white;
+    padding: 0 5px;
+  }
+
+  .menu-button > ul > li > a {
+    outline: none;
+    padding: 0 5px 10px 5px;
+    color: $white;
+    display: inline-block;
+    height: $header-height;
+    text-align: center;
+    width: 100%;
+    font-size: 13px;
+
+    > * {
+      vertical-align: middle;
+    }
+  }
+
+  .menu-button .logoutLink {
+    float: right !important;
+    width: 95px !important;
+    padding: 0px 8px 5px 8px;
+    background-color: $dark-purple;
+    height: 22px;
+    margin-bottom: 3px;
+    border: 1px solid $mid-purple;
+  }
+
+  .menu-button .logoutLink:hover {
+    //background-color: $mid-purple;
+    border: 1px solid $light-purple;
+  }
+
+  .menu-button > ul > li > a:hover
+  {
+    background-color: $dark-purple;
+  }
+
+  .menu-label {
+    display: block;
+    vertical-align: baseline;
+  }
+}
+
+.navigate-dialog {
+  width: 800px;
+
+  .archLink {
+    margin: 0 0 0 175px;
+  }
+
+  a:not(.archLink) {
+    text-decoration: underline;
+    color: #86abbe;
+  }
+
+  a:not(.archLink):hover {
+
+  }
+}
+
+// VLAANDEREN BANNERS
+.iwgf2-drawer-toggle {
+  display: none;
+}
+
+.iw2-wrapper.iw2-custom-margin { padding:0 21px !important; }
+.iw2-layout.iw2-custom-breakpoint { min-width: 100% !important; }
+
+.nihilo .dijitTabContainer .tabStripButton-top {
+  display: none !important;
+}
+
