@@ -1,0 +1,9 @@
+.appFooter {
+  margin: 0;
+  border-top: 1px #efefef solid;
+  height: 25px;
+  width: 100%;
+  background: #ffffff url("../img/OE-vlaanderen-logo.png") no-repeat center left;
+  background-size: 24px;
+  padding-left: 24px;
+  font-size: 0.875rem; }

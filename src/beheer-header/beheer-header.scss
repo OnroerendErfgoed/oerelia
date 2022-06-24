@@ -5,7 +5,7 @@ $white: rgb(255,255,255);
 $light-purple: rgb(176,93,191);
 $dark-purple: rgb(117,63,127);
 
-.appHeader {
+.app-header {
   background-color: $mid-purple;
   //overflow: hidden;
   width: 100%;
@@ -24,7 +24,7 @@ $dark-purple: rgb(117,63,127);
     }
 
     .header-logo {
-      background: url('img/pyoes/OE-vlaanderen-logo.png') no-repeat center left;
+      background: url('../img/OE-vlaanderen-logo.png') no-repeat center left;
       padding-left: 40px;
       background-size: 40px;
       margin: 0 10px 0 15px;
@@ -119,33 +119,3 @@ $dark-purple: rgb(117,63,127);
     vertical-align: baseline;
   }
 }
-
-.navigate-dialog {
-  width: 800px;
-
-  .archLink {
-    margin: 0 0 0 175px;
-  }
-
-  a:not(.archLink) {
-    text-decoration: underline;
-    color: #86abbe;
-  }
-
-  a:not(.archLink):hover {
-
-  }
-}
-
-// VLAANDEREN BANNERS
-.iwgf2-drawer-toggle {
-  display: none;
-}
-
-.iw2-wrapper.iw2-custom-margin { padding:0 21px !important; }
-.iw2-layout.iw2-custom-breakpoint { min-width: 100% !important; }
-
-.nihilo .dijitTabContainer .tabStripButton-top {
-  display: none !important;
-}
-
