@@ -1,4 +1,4 @@
-export declare class Header {
+export declare class BeheerHeader {
     role: string;
     title: string;
     baseUrl: string;

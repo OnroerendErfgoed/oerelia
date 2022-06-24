@@ -10,31 +10,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
-var Header = (function () {
-    function Header() {
+var BeheerHeader = (function () {
+    function BeheerHeader() {
     }
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", String)
-    ], Header.prototype, "role", void 0);
+    ], BeheerHeader.prototype, "role", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", String)
-    ], Header.prototype, "title", void 0);
+    ], BeheerHeader.prototype, "title", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", String)
-    ], Header.prototype, "baseUrl", void 0);
+    ], BeheerHeader.prototype, "baseUrl", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", String)
-    ], Header.prototype, "afmeldenUrl", void 0);
+    ], BeheerHeader.prototype, "afmeldenUrl", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", String)
-    ], Header.prototype, "username", void 0);
-    return Header;
+    ], BeheerHeader.prototype, "username", void 0);
+    return BeheerHeader;
 }());
-exports.Header = Header;
+exports.BeheerHeader = BeheerHeader;
 
 //# sourceMappingURL=beheer-header.js.map

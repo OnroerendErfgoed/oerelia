@@ -8,31 +8,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { bindable } from 'aurelia-framework';
-var Header = (function () {
-    function Header() {
+var BeheerHeader = (function () {
+    function BeheerHeader() {
     }
     __decorate([
         bindable,
         __metadata("design:type", String)
-    ], Header.prototype, "role", void 0);
+    ], BeheerHeader.prototype, "role", void 0);
     __decorate([
         bindable,
         __metadata("design:type", String)
-    ], Header.prototype, "title", void 0);
+    ], BeheerHeader.prototype, "title", void 0);
     __decorate([
         bindable,
         __metadata("design:type", String)
-    ], Header.prototype, "baseUrl", void 0);
+    ], BeheerHeader.prototype, "baseUrl", void 0);
     __decorate([
         bindable,
         __metadata("design:type", String)
-    ], Header.prototype, "afmeldenUrl", void 0);
+    ], BeheerHeader.prototype, "afmeldenUrl", void 0);
     __decorate([
         bindable,
         __metadata("design:type", String)
-    ], Header.prototype, "username", void 0);
-    return Header;
+    ], BeheerHeader.prototype, "username", void 0);
+    return BeheerHeader;
 }());
-export { Header };
+export { BeheerHeader };
 
 //# sourceMappingURL=beheer-header.js.map

@@ -1,6 +1,6 @@
 import { bindable } from 'aurelia-framework';
 
-export class Header {
+export class BeheerHeader {
   @bindable public role: string;
   @bindable public title: string;
   @bindable public baseUrl: string;
