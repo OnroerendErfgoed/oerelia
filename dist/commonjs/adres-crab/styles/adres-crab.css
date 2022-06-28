@@ -1,8 +1,10 @@
 .adres-crab div.placeholder-container {
   margin: 0;
-  border: none; }
-  .adres-crab div.placeholder-container label {
-    width: 30%; }
-
+  border: none;
+}
+.adres-crab div.placeholder-container label {
+  width: 30%;
+}
 .adres-crab .copy-button {
-  margin-left: 5px; }
+  margin-left: 5px;
+}
