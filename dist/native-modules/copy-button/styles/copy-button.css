@@ -1,13 +1,16 @@
 .tabs-content {
-  background: #ededed;
+  background: rgb(237, 237, 237);
   padding: 5px 10px;
-  margin-top: 1px; }
+  margin-top: 1px;
+}
 
 .tabs dd {
-  margin-right: 1px !important; }
+  margin-right: 1px !important;
+}
 
 .tooltipped {
-  position: relative; }
+  position: relative;
+}
 
 .tooltipped::after {
   position: absolute;
@@ -16,7 +19,7 @@
   padding: 0.5em 0.75em;
   font: normal normal 11px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   -webkit-font-smoothing: subpixel-antialiased;
-  color: white;
+  color: rgb(255, 255, 255);
   text-align: center;
   text-decoration: none;
   text-shadow: none;
@@ -26,9 +29,10 @@
   white-space: pre;
   pointer-events: none;
   content: attr(aria-label);
-  background: black;
+  background: rgb(0, 0, 0);
   border-radius: 3px;
-  opacity: 0; }
+  opacity: 0;
+}
 
 .tooltipped::before {
   position: absolute;
@@ -36,18 +40,21 @@
   display: none;
   width: 0;
   height: 0;
-  color: black;
+  color: rgb(0, 0, 0);
   pointer-events: none;
   content: "";
   border: 6px solid transparent;
-  opacity: 0; }
+  opacity: 0;
+}
 
 @keyframes tooltip-appear {
   from {
-    opacity: 0; }
+    opacity: 0;
+  }
   to {
-    opacity: 1; } }
-
+    opacity: 1;
+  }
+}
 .tooltipped:hover::before, .tooltipped:hover::after,
 .tooltipped:active::before,
 .tooltipped:active::after,
@@ -59,27 +66,30 @@
   animation-duration: 0.1s;
   animation-fill-mode: forwards;
   animation-timing-function: ease-in;
-  animation-delay: 0.4s; }
+  animation-delay: 0.4s;
+}
 
 .tooltipped-no-delay:hover::before, .tooltipped-no-delay:hover::after,
 .tooltipped-no-delay:active::before,
 .tooltipped-no-delay:active::after,
 .tooltipped-no-delay:focus::before,
 .tooltipped-no-delay:focus::after {
-  animation-delay: 0s; }
+  animation-delay: 0s;
+}
 
 .tooltipped-multiline:hover::after,
 .tooltipped-multiline:active::after,
 .tooltipped-multiline:focus::after {
-  display: table-cell; }
+  display: table-cell;
+}
 
 .tooltipped-s::after,
 .tooltipped-se::after,
 .tooltipped-sw::after {
   top: 100%;
   right: 50%;
-  margin-top: 6px; }
-
+  margin-top: 6px;
+}
 .tooltipped-s::before,
 .tooltipped-se::before,
 .tooltipped-sw::before {
@@ -87,23 +97,26 @@
   right: 50%;
   bottom: -7px;
   margin-right: -6px;
-  border-bottom-color: black; }
+  border-bottom-color: rgb(0, 0, 0);
+}
 
 .tooltipped-se::after {
   right: auto;
   left: 50%;
-  margin-left: -16px; }
+  margin-left: -16px;
+}
 
 .tooltipped-sw::after {
-  margin-right: -16px; }
+  margin-right: -16px;
+}
 
 .tooltipped-n::after,
 .tooltipped-ne::after,
 .tooltipped-nw::after {
   right: 50%;
   bottom: 100%;
-  margin-bottom: 6px; }
-
+  margin-bottom: 6px;
+}
 .tooltipped-n::before,
 .tooltipped-ne::before,
 .tooltipped-nw::before {
@@ -111,112 +124,132 @@
   right: 50%;
   bottom: auto;
   margin-right: -6px;
-  border-top-color: black; }
+  border-top-color: rgb(0, 0, 0);
+}
 
 .tooltipped-ne::after {
   right: auto;
   left: 50%;
-  margin-left: -16px; }
+  margin-left: -16px;
+}
 
 .tooltipped-nw::after {
-  margin-right: -16px; }
+  margin-right: -16px;
+}
 
 .tooltipped-s::after,
 .tooltipped-n::after {
-  transform: translateX(50%); }
+  transform: translateX(50%);
+}
 
 .tooltipped-w::after {
   right: 100%;
   bottom: 50%;
   margin-right: 6px;
-  transform: translateY(50%); }
-
+  transform: translateY(50%);
+}
 .tooltipped-w::before {
   top: 50%;
   bottom: 50%;
   left: -7px;
   margin-top: -6px;
-  border-left-color: black; }
+  border-left-color: rgb(0, 0, 0);
+}
 
 .tooltipped-e::after {
   bottom: 50%;
   left: 100%;
   margin-left: 6px;
-  transform: translateY(50%); }
-
+  transform: translateY(50%);
+}
 .tooltipped-e::before {
   top: 50%;
   right: -7px;
   bottom: 50%;
   margin-top: -6px;
-  border-right-color: black; }
+  border-right-color: rgb(0, 0, 0);
+}
 
 .tooltipped-align-right-1::after,
 .tooltipped-align-right-2::after {
   right: 0;
-  margin-right: 0; }
+  margin-right: 0;
+}
 
 .tooltipped-align-right-1::before {
-  right: 10px; }
+  right: 10px;
+}
 
 .tooltipped-align-right-2::before {
-  right: 15px; }
+  right: 15px;
+}
 
 .tooltipped-align-left-1::after,
 .tooltipped-align-left-2::after {
   left: 0;
-  margin-left: 0; }
+  margin-left: 0;
+}
 
 .tooltipped-align-left-1::before {
-  left: 5px; }
+  left: 5px;
+}
 
 .tooltipped-align-left-2::before {
-  left: 10px; }
+  left: 10px;
+}
 
 .tooltipped-multiline::after {
   width: max-content;
   max-width: 250px;
   word-wrap: break-word;
   white-space: pre-line;
-  border-collapse: separate; }
-
+  border-collapse: separate;
+}
 .tooltipped-multiline.tooltipped-s::after, .tooltipped-multiline.tooltipped-n::after {
   right: auto;
   left: 50%;
-  transform: translateX(-50%); }
-
+  transform: translateX(-50%);
+}
 .tooltipped-multiline.tooltipped-w::after, .tooltipped-multiline.tooltipped-e::after {
-  right: 100%; }
+  right: 100%;
+}
 
-@media screen and (min-width: 0\0) {
+@media screen and (min-width: 0\0 ) {
   .tooltipped-multiline::after {
-    width: 250px; } }
-
+    width: 250px;
+  }
+}
 .tooltipped-sticky::before, .tooltipped-sticky::after {
-  display: inline-block; }
-
+  display: inline-block;
+}
 .tooltipped-sticky.tooltipped-multiline::after {
-  display: table-cell; }
+  display: table-cell;
+}
 
 .copy-icon {
-  cursor: pointer; }
-  .copy-icon.fa.fa-check {
-    color: #43AC6A; }
-  .copy-icon-container {
-    margin: 0;
-    text-decoration: none;
-    display: inline-block;
-    padding: 0;
-    background-color: white;
-    border-color: unset;
-    color: inherit;
-    transition: none;
-    display: inline-block; }
-    .copy-icon-container:hover {
-      background-color: white !important;
-      color: inherit !important; }
-    .copy-icon-container:focus {
-      background-color: white !important;
-      color: inherit !important;
-      border: none;
-      outline: none; }
+  cursor: pointer;
+}
+.copy-icon.fa.fa-check {
+  color: #43AC6A;
+}
+.copy-icon-container {
+  margin: 0;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0;
+  background-color: white;
+  border-color: unset;
+  color: inherit;
+  transition: none;
+  display: inline-block;
+}
+.copy-icon-container:hover {
+  background-color: white !important;
+  color: inherit !important;
+}
+.copy-icon-container:focus {
+  background-color: white !important;
+  color: inherit !important;
+  border: none;
+  outline: none;
+}
