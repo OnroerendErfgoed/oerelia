@@ -1,90 +1,110 @@
 /* Header */
 .app-header {
-  background-color: #944ea1;
+  background-color: rgb(148, 78, 161);
   width: 100%;
-  height: 50px; }
-  .app-header .header-title {
-    background-color: white;
-    padding-left: 20px;
-    display: inline-block;
-    height: 50px;
-    cursor: pointer; }
-    .app-header .header-title > * {
-      float: left;
-      height: 50px; }
-    .app-header .header-title .header-logo {
-      background: url("static/img/pyoes/OE-vlaanderen-logo.png") no-repeat center left;
-      padding-left: 40px;
-      background-size: 40px;
-      margin: 0 10px 0 15px; }
-    .app-header .header-title h1 {
-      margin: 0;
-      padding: 0;
-      font-size: 24px !important;
-      line-height: 50px; }
-    .app-header .header-title h2 {
-      font-size: 23px;
-      color: #944ea1 !important;
-      margin: 0;
-      padding: 5px 0 0 0; }
-    .app-header .header-title h4 {
-      font-size: 12px;
-      color: #944ea1 !important;
-      margin: -3px 0 0 0;
-      padding-left: 3px; }
-  .app-header .trianglePlaceholder {
-    width: 0;
-    height: 30px !important;
-    border-top: 50px solid #944ea1;
-    border-left: 20px solid transparent; }
-  .app-header a {
-    line-height: inherit;
-    text-decoration: none; }
-  .app-header .menu-button {
-    float: right; }
-  .app-header .menu-button > ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    height: 50px; }
-  .app-header .menu-button > ul > li {
-    outline: none;
-    display: inline-block;
-    height: 50px;
-    border-right: 1px solid #b05dbf;
-    min-width: 100px;
-    position: relative; }
-    .app-header .menu-button > ul > li.last {
-      border-right: none;
-      border-left: 1px solid #b05dbf;
-      padding: 5px 20px;
-      font-size: 13px; }
-  .app-header .menu-button > ul > li span {
-    color: white;
-    padding: 0 5px; }
-  .app-header .menu-button > ul > li > a {
-    outline: none;
-    padding: 0 5px 10px 5px;
-    color: white;
-    display: inline-block;
-    height: 50px;
-    text-align: center;
-    width: 100%;
-    font-size: 13px; }
-    .app-header .menu-button > ul > li > a > * {
-      vertical-align: middle; }
-  .app-header .menu-button .logoutLink {
-    float: right !important;
-    width: 95px !important;
-    padding: 0px 8px 5px 8px;
-    background-color: #753f7f;
-    height: 22px;
-    margin-bottom: 3px;
-    border: 1px solid #944ea1; }
-  .app-header .menu-button .logoutLink:hover {
-    border: 1px solid #b05dbf; }
-  .app-header .menu-button > ul > li > a:hover {
-    background-color: #753f7f; }
-  .app-header .menu-label {
-    display: block;
-    vertical-align: baseline; }
+  height: 50px;
+}
+.app-header .header-title {
+  background-color: rgb(255, 255, 255);
+  padding-left: 20px;
+  display: inline-block;
+  height: 50px;
+  cursor: pointer;
+}
+.app-header .header-title > * {
+  float: left;
+  height: 50px;
+}
+.app-header .header-title .header-logo {
+  background: url("static/img/pyoes/OE-vlaanderen-logo.png") no-repeat center left;
+  padding-left: 40px;
+  background-size: 40px;
+  margin: 0 10px 0 15px;
+}
+.app-header .header-title h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 24px !important;
+  line-height: 50px;
+}
+.app-header .header-title h2 {
+  font-size: 23px;
+  color: rgb(148, 78, 161) !important;
+  margin: 0;
+  padding: 5px 0 0 0;
+}
+.app-header .header-title h4 {
+  font-size: 12px;
+  color: rgb(148, 78, 161) !important;
+  margin: -3px 0 0 0;
+  padding-left: 3px;
+}
+.app-header .trianglePlaceholder {
+  width: 0;
+  height: 30px !important;
+  border-top: 50px solid rgb(148, 78, 161);
+  border-left: 20px solid transparent;
+}
+.app-header a {
+  line-height: inherit;
+  text-decoration: none;
+}
+.app-header .menu-button {
+  float: right;
+}
+.app-header .menu-button > ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  height: 50px;
+}
+.app-header .menu-button > ul > li {
+  outline: none;
+  display: inline-block;
+  height: 50px;
+  border-right: 1px solid rgb(176, 93, 191);
+  min-width: 100px;
+  position: relative;
+}
+.app-header .menu-button > ul > li.last {
+  border-right: none;
+  border-left: 1px solid rgb(176, 93, 191);
+  padding: 5px 20px;
+  font-size: 13px;
+}
+.app-header .menu-button > ul > li span {
+  color: rgb(255, 255, 255);
+  padding: 0 5px;
+}
+.app-header .menu-button > ul > li > a {
+  outline: none;
+  padding: 0 5px 10px 5px;
+  color: rgb(255, 255, 255);
+  display: inline-block;
+  height: 50px;
+  text-align: center;
+  width: 100%;
+  font-size: 13px;
+}
+.app-header .menu-button > ul > li > a > * {
+  vertical-align: middle;
+}
+.app-header .menu-button .logoutLink {
+  float: right !important;
+  width: 95px !important;
+  padding: 0px 8px 5px 8px;
+  background-color: rgb(117, 63, 127);
+  height: 22px;
+  margin-bottom: 3px;
+  border: 1px solid rgb(148, 78, 161);
+}
+.app-header .menu-button .logoutLink:hover {
+  border: 1px solid rgb(176, 93, 191);
+}
+.app-header .menu-button > ul > li > a:hover {
+  background-color: rgb(117, 63, 127);
+}
+.app-header .menu-label {
+  display: block;
+  vertical-align: baseline;
+}
