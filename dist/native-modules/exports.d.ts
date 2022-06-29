@@ -14,6 +14,8 @@ export * from './telefoon-select/telefoon-select';
 export * from './adres-crab/adres-crab';
 export * from './adres-crab/types/adres-crab-config';
 export * from './spinner/spinner';
+export * from './beheer-header/beheer-header';
+export * from './beheer-footer/beheer-footer';
 export * from './gis-utils/projection-util';
 export * from './gis-utils/map-util';
 export * from './utilities/message/message';

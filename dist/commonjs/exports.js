@@ -16,6 +16,8 @@ __export(require("./systemfields/systemfields"));
 __export(require("./telefoon-select/telefoon-select"));
 __export(require("./adres-crab/adres-crab"));
 __export(require("./spinner/spinner"));
+__export(require("./beheer-header/beheer-header"));
+__export(require("./beheer-footer/beheer-footer"));
 __export(require("./gis-utils/projection-util"));
 __export(require("./gis-utils/map-util"));
 __export(require("./utilities/message/message"));
