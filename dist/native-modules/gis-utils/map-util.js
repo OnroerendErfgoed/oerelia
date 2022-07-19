@@ -1,6 +1,7 @@
 import * as ol from 'openlayers';
 import { Geolocate } from './components/ol-geolocate';
 import { Layerswitcher, LayerswitcherPanel } from './components/ol-layerswitcher';
+import * as jsts from 'jsts';
 var MapConfig = (function () {
     function MapConfig(mapProjection, useGeolocate, useLayerswitcher, center, maxZoom, minZoom, zoom, geolocateZoom, geolocateTracking) {
         if (useGeolocate === void 0) { useGeolocate = true; }

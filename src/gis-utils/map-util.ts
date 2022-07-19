@@ -2,8 +2,7 @@ import * as ol from 'openlayers';
 import { Boundingbox } from './models/boundingbox';
 import { Geolocate } from './components/ol-geolocate';
 import { Layerswitcher, LayerswitcherPanel } from './components/ol-layerswitcher';
-
-declare const jsts: any;
+import * as jsts from 'jsts';
 
 export class MapConfig {
   constructor(
