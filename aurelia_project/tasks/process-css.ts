@@ -3,7 +3,7 @@ import * as gulp from 'gulp';
 import * as project from '../aurelia.json';
 import * as dartSass from 'sass';
 import * as gulpSass from 'gulp-sass';
-const sass = gulpSass( dartSass );
+const sass = gulpSass(dartSass);
 
 export default function processCSS() {
   return gulp.src(project.cssProcessor.source, {sourcemaps: true})
