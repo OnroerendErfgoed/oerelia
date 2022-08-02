@@ -4297,6 +4297,11 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+jsts@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/jsts/-/jsts-2.0.2.tgz#dc7928adb08e36232dd90ac5ab5dfdf5139432a9"
+  integrity sha512-Vi9x6vSQtzCDEUBW9xLFh3i8GBsOI16K+jjq9JECFAgEBpNAXnwptxrFUGeHrkkzr85WT51fUR9tYhMEuykc8Q==
+
 junk@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/junk/-/junk-2.1.0.tgz#f431b4b7f072dc500a5f10ce7f4ec71930e70134"
