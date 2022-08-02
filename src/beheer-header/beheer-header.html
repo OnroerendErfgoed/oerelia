@@ -1,0 +1,26 @@
+<template>
+  <require from="./beheer-header.css"></require>
+  <div class="app-header">
+    <div class="header-title left">
+      <a href="${baseUrl}" target="_blank">
+        <h1>${title}</h1>
+      </a>
+      <a href="https://www.onroerenderfgoed.be/" target="_blank">
+        <div class="header-logo" title="Onroerend Erfgoed">
+          <h2>Vlaanderen</h2>
+          <h4>is erfgoed</h4>
+        </div>
+      </a>
+      <div class="trianglePlaceholder"></div>
+    </div>
+    <nav class="right menu-button">
+      <ul>
+        <li class="last">
+          <b><span>${username}</span></b>
+          <em>(<span>${role}</span>)</em><br>
+          <a href="${afmeldenUrl}" title="Meld je af" class="logoutLink"><i class="fa fa-sign-out"></i> Afmelden</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</template>

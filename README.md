@@ -1,3 +1,10 @@
+(wim) Error: You must provide the URL of lib/mappings.wasm by calling SourceMapConsumer.initialize
+```
+export NODE_OPTIONS=--no-experimental-fetch
+```
+(End)
+
+
 # Oerelia
 Onroerend Erfgoed library of common Aurelia components
 
