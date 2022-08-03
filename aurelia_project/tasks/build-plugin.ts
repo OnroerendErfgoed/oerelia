@@ -5,6 +5,7 @@ import { pluginCSS } from './process-css';
 import { pluginJson } from './process-json';
 import { buildPluginJavaScript } from './transpile';
 import { CLIOptions } from 'aurelia-cli';
+import { pluginCopyFiles } from "./copy-files";
 
 function clean() {
   return del('dist');
@@ -17,12 +18,14 @@ let build = gulp.series(
     pluginCSS('dist/native-modules'),
     pluginJson('dist/native-modules'),
     buildPluginJavaScript('dist/native-modules', 'es2015'),
+    pluginCopyFiles('dist/native-modules'),
 
     // package.json "main" field pointing to dist/native-modules/index.js
     pluginMarkup('dist/commonjs'),
     pluginCSS('dist/commonjs'),
     pluginJson('dist/commonjs'),
     buildPluginJavaScript('dist/commonjs', 'commonjs'),
+    pluginCopyFiles('dist/commonjs')
   ), (done) => {
     console.log('Finish building Aurelia plugin to dist/commonjs and dist/native-modules.');
     done();

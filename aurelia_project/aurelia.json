@@ -100,6 +100,9 @@
         ]
       }
     ],
+    "pluginCopyFiles": {
+      "src/beheer-header/img/*": "beheer-header/img"
+    },
     "loader": {
       "type": "require",
       "configTarget": "vendor-bundle.js",
