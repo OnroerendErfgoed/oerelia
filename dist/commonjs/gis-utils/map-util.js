@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var ol = require("openlayers");
 var ol_geolocate_1 = require("./components/ol-geolocate");
 var ol_layerswitcher_1 = require("./components/ol-layerswitcher");
+var jsts = require("jsts");
 var MapConfig = (function () {
     function MapConfig(mapProjection, useGeolocate, useLayerswitcher, center, maxZoom, minZoom, zoom, geolocateZoom, geolocateTracking) {
         if (useGeolocate === void 0) { useGeolocate = true; }
