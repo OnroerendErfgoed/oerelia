@@ -9,10 +9,10 @@ export default function copyFiles(done) {
     return;
   }
 
-  const instruction = getNormalizedInstruction(project.build.copyFiles);
+  const instruction = getNormalizedInstruction();
   const files = Object.keys(instruction);
 
-  return gulp.src(files, { since: gulp.lastRun(copyFiles) })
+  return gulp.src(files, {since: gulp.lastRun(copyFiles)})
     .pipe(gulp.dest(x => {
       const filePath = prepareFilePath(x.path);
       const key = files.find(f => minimatch(filePath, f));
@@ -20,26 +20,8 @@ export default function copyFiles(done) {
     }));
 }
 
-
-export function pluginCopyFiles(dest) {
-  return function processPluginCopyFiles() {
-    const instruction = getNormalizedInstruction(project.build.pluginCopyFiles);
-    const files = Object.keys(instruction);
-
-    return gulp
-      .src(files, { since: gulp.lastRun(pluginCopyFiles) })
-      .pipe(gulp.dest(
-        (x) => {
-          const filePath = prepareFilePath(x.path);
-          const key = files.find(f => minimatch(filePath, f));
-          return `${dest}/${instruction[key]}`.replace('//', '/');
-        }));
-  };
-
-
-}
-
-function getNormalizedInstruction(files) {
+function getNormalizedInstruction() {
+  const files = project.build.copyFiles;
   let normalizedInstruction = {};
 
   for (let key in files) {
