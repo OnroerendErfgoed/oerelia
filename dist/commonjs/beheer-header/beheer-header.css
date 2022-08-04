@@ -16,7 +16,7 @@
   height: 50px;
 }
 .app-header .header-title .header-logo {
-  background: url("/OE-vlaanderen-logo.png") no-repeat center left;
+  background: url("./img/OE-vlaanderen-logo.png") no-repeat center left;
   padding-left: 40px;
   background-size: 40px;
   margin: 0 10px 0 15px;
