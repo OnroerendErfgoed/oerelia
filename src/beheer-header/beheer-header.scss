@@ -118,4 +118,13 @@ $dark-purple: rgb(117,63,127);
     display: block;
     vertical-align: baseline;
   }
+
+  .mijn-gegevens-link {
+    display: inline !important;
+  
+    &:hover {
+      background-color: inherit !important;
+      text-decoration: underline;
+    }
+  }
 }

@@ -6,4 +6,6 @@ export class BeheerHeader {
   @bindable public baseUrl: string;
   @bindable public afmeldenUrl: string;
   @bindable public username: string;
+  @bindable public userUrl: string;
+  @bindable public showMijnGegevens = false;
 }

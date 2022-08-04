@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var BeheerHeader = (function () {
     function BeheerHeader() {
+        this.showMijnGegevens = false;
     }
     __decorate([
         aurelia_framework_1.bindable,
@@ -33,6 +34,14 @@ var BeheerHeader = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", String)
     ], BeheerHeader.prototype, "username", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", String)
+    ], BeheerHeader.prototype, "userUrl", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], BeheerHeader.prototype, "showMijnGegevens", void 0);
     return BeheerHeader;
 }());
 exports.BeheerHeader = BeheerHeader;

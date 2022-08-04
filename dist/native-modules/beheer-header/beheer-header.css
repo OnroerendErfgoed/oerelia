@@ -108,3 +108,10 @@
   display: block;
   vertical-align: baseline;
 }
+.app-header .mijn-gegevens-link {
+  display: inline !important;
+}
+.app-header .mijn-gegevens-link:hover {
+  background-color: inherit !important;
+  text-decoration: underline;
+}
