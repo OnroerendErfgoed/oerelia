@@ -1,5 +1,4 @@
-// this var is needed to build, but will be overridden by the app that implements the component
-$static-oerelia-path: 'img' !default;
+$pyoes-img-path: './img' !default;
 
 /* Header */
 $header-height: 50px;
@@ -26,7 +25,7 @@ $dark-purple: rgb(117,63,127);
     }
 
     .header-logo {
-      background: url($static-oerelia-path + '/OE-vlaanderen-logo.png') no-repeat center left;
+      background: url('#{$pyoes-img-path}/OE-vlaanderen-logo.png') no-repeat center left;
       padding-left: 40px;
       background-size: 40px;
       margin: 0 10px 0 15px;
