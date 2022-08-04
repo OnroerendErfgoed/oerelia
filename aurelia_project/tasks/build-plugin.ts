@@ -5,7 +5,7 @@ import { pluginCSS } from './process-css';
 import { pluginJson } from './process-json';
 import { buildPluginJavaScript } from './transpile';
 import { CLIOptions } from 'aurelia-cli';
-import { pluginCopyFiles } from "./copy-files";
+import { pluginCopyFiles } from './copy-files';
 
 function clean() {
   return del('dist');
