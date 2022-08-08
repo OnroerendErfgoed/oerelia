@@ -141,3 +141,12 @@ export interface IModel<T> {
     tabid: string;
     application?: string;
 }
+export interface IStatus {
+    id: number;
+    status_id: number;
+    naam: string;
+    opmerkingen: string;
+    datum: string;
+    aanpasser_uri: string;
+    aanpasser_omschrijving: string;
+}
