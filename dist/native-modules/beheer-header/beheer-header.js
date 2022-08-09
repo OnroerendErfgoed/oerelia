@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { bindable } from 'aurelia-framework';
 var BeheerHeader = (function () {
     function BeheerHeader() {
+        this.showMijnGegevens = false;
     }
     __decorate([
         bindable,
@@ -31,6 +32,14 @@ var BeheerHeader = (function () {
         bindable,
         __metadata("design:type", String)
     ], BeheerHeader.prototype, "username", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", String)
+    ], BeheerHeader.prototype, "userUrl", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], BeheerHeader.prototype, "showMijnGegevens", void 0);
     return BeheerHeader;
 }());
 export { BeheerHeader };
