@@ -1,1 +1,0 @@
-{"version":3,"sources":["systemfields/models/ISystemFields.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,YAAY,EAAE,MAAM,gBAAgB,CAAC;AAE9C,MAAM,WAAW,aAAa;IAC1B,UAAU,EAAE,MAAM,CAAC;IACnB,UAAU,EAAE,MAAM,CAAC;IACnB,UAAU,EAAE,YAAY,CAAC;IACzB,UAAU,EAAE,YAAY,CAAC;CAC5B","file":"ISystemFields.d.ts","sourceRoot":"../../../../src/"}
