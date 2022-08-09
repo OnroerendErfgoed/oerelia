@@ -1,13 +1,14 @@
-// this var is needed to build, but will be overridden by the app that implements the component
-$static-path: 'static';
+$pyoes-img-path: '' !default;
 
-.appFooter {
-  margin: 0;
-  border-top: 1px #efefef solid;
-  height: 25px;
-  width: 100%;
-  background: #ffffff url($static-path + '/img/pyoes/OE-vlaanderen-logo.png') no-repeat center left;
-  background-size: 24px;
-  padding-left: 24px;
-  font-size: 0.875rem;
+beheer-footer {
+  .appFooter {
+    margin: 0;
+    border-top: 1px #efefef solid;
+    height: 25px;
+    width: 100%;
+    background: #ffffff url('#{$pyoes-img-path}/OE-vlaanderen-logo.png') no-repeat center left;
+    background-size: 24px;
+    padding-left: 24px;
+    font-size: 0.875rem;
+  }
 }

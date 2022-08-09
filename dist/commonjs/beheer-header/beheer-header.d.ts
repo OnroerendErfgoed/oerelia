@@ -4,4 +4,6 @@ export declare class BeheerHeader {
     baseUrl: string;
     afmeldenUrl: string;
     username: string;
+    userUrl: string;
+    showMijnGegevens: boolean;
 }

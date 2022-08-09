@@ -1,7 +1,6 @@
 import { bindable } from 'aurelia-framework';
+import { IStatus, ISystemFields } from 'models/public-models';
 import * as moment from 'moment';
-import { ISystemFields } from './models/ISystemFields';
-import { IStatus } from './models/IStatus';
 
 export class Systemfields {
   @bindable public systemfields: ISystemFields;

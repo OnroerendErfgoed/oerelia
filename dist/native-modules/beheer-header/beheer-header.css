@@ -1,64 +1,64 @@
 /* Header */
-.app-header {
+beheer-header .app-header {
   background-color: rgb(148, 78, 161);
   width: 100%;
   height: 50px;
 }
-.app-header .header-title {
+beheer-header .app-header .header-title {
   background-color: rgb(255, 255, 255);
   padding-left: 20px;
   display: inline-block;
   height: 50px;
   cursor: pointer;
 }
-.app-header .header-title > * {
+beheer-header .app-header .header-title > * {
   float: left;
   height: 50px;
 }
-.app-header .header-title .header-logo {
-  background: url("static/img/pyoes/OE-vlaanderen-logo.png") no-repeat center left;
+beheer-header .app-header .header-title .header-logo {
+  background: url("/OE-vlaanderen-logo.png") no-repeat center left;
   padding-left: 40px;
   background-size: 40px;
   margin: 0 10px 0 15px;
 }
-.app-header .header-title h1 {
+beheer-header .app-header .header-title h1 {
   margin: 0;
   padding: 0;
   font-size: 24px !important;
   line-height: 50px;
 }
-.app-header .header-title h2 {
+beheer-header .app-header .header-title h2 {
   font-size: 23px;
   color: rgb(148, 78, 161) !important;
   margin: 0;
   padding: 5px 0 0 0;
 }
-.app-header .header-title h4 {
+beheer-header .app-header .header-title h4 {
   font-size: 12px;
   color: rgb(148, 78, 161) !important;
   margin: -3px 0 0 0;
   padding-left: 3px;
 }
-.app-header .trianglePlaceholder {
+beheer-header .app-header .trianglePlaceholder {
   width: 0;
   height: 30px !important;
   border-top: 50px solid rgb(148, 78, 161);
   border-left: 20px solid transparent;
 }
-.app-header a {
+beheer-header .app-header a {
   line-height: inherit;
   text-decoration: none;
 }
-.app-header .menu-button {
+beheer-header .app-header .menu-button {
   float: right;
 }
-.app-header .menu-button > ul {
+beheer-header .app-header .menu-button > ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
   height: 50px;
 }
-.app-header .menu-button > ul > li {
+beheer-header .app-header .menu-button > ul > li {
   outline: none;
   display: inline-block;
   height: 50px;
@@ -66,17 +66,17 @@
   min-width: 100px;
   position: relative;
 }
-.app-header .menu-button > ul > li.last {
+beheer-header .app-header .menu-button > ul > li.last {
   border-right: none;
   border-left: 1px solid rgb(176, 93, 191);
   padding: 5px 20px;
   font-size: 13px;
 }
-.app-header .menu-button > ul > li span {
+beheer-header .app-header .menu-button > ul > li span {
   color: rgb(255, 255, 255);
   padding: 0 5px;
 }
-.app-header .menu-button > ul > li > a {
+beheer-header .app-header .menu-button > ul > li > a {
   outline: none;
   padding: 0 5px 10px 5px;
   color: rgb(255, 255, 255);
@@ -86,10 +86,10 @@
   width: 100%;
   font-size: 13px;
 }
-.app-header .menu-button > ul > li > a > * {
+beheer-header .app-header .menu-button > ul > li > a > * {
   vertical-align: middle;
 }
-.app-header .menu-button .logoutLink {
+beheer-header .app-header .menu-button .logoutLink {
   float: right !important;
   width: 95px !important;
   padding: 0px 8px 5px 8px;
@@ -98,13 +98,20 @@
   margin-bottom: 3px;
   border: 1px solid rgb(148, 78, 161);
 }
-.app-header .menu-button .logoutLink:hover {
+beheer-header .app-header .menu-button .logoutLink:hover {
   border: 1px solid rgb(176, 93, 191);
 }
-.app-header .menu-button > ul > li > a:hover {
+beheer-header .app-header .menu-button > ul > li > a:hover {
   background-color: rgb(117, 63, 127);
 }
-.app-header .menu-label {
+beheer-header .app-header .menu-label {
   display: block;
   vertical-align: baseline;
+}
+beheer-header .app-header .mijn-gegevens-link {
+  display: inline !important;
+}
+beheer-header .app-header .mijn-gegevens-link:hover {
+  background-color: inherit !important;
+  text-decoration: underline;
 }
