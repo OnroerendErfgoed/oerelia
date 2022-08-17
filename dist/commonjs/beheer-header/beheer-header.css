@@ -49,9 +49,6 @@ beheer-header .app-header a {
   line-height: inherit;
   text-decoration: none;
 }
-beheer-header .app-header .menu-button {
-  float: right;
-}
 beheer-header .app-header .menu-button > ul {
   margin: 0;
   padding: 0;
@@ -60,7 +57,7 @@ beheer-header .app-header .menu-button > ul {
 }
 beheer-header .app-header .menu-button > ul > li {
   outline: none;
-  display: inline-block;
+  float: left;
   height: 50px;
   border-right: 1px solid rgb(176, 93, 191);
   min-width: 100px;
