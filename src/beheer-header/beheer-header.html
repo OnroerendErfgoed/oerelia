@@ -13,11 +13,13 @@
       </a>
       <div class="trianglePlaceholder"></div>
     </div>
+    <template part="left-menu" replaceable></template>
     <nav class="right menu-button">
       <ul>
+        <template part="right-menu" replaceable></template>
         <li class="last">
           <b><span>${username}</span></b>
-          <em>(<span>${role}</span>)</em><br>
+          <em if.bind="!!role">(<span>${role}</span>)</em><br>
           <a href="${userUrl}" if.bind="showMijnGegevens" title="Ga naar mijn gegevens" class="mijn-gegevens-link">Mijn gegevens</a>
           <a href="${afmeldenUrl}" title="Meld je af" class="logoutLink"><i class="fa fa-sign-out"></i> Afmelden</a>
         </li>

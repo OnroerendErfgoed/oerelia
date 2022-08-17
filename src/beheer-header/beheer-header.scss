@@ -66,50 +66,65 @@ beheer-header {
       text-decoration: none;
     }
 
-    .menu-button {
-      float: right;
-    }
-
     .menu-button>ul {
       margin: 0;
       padding: 0;
       list-style-type: none;
       height: $header-height;
-    }
 
-    .menu-button>ul>li {
-      outline: none;
-      display: inline-block;
-      height: $header-height;
-      border-right: 1px solid $light-purple;
-      min-width: 100px;
-      position: relative;
+      &>li {
+        outline: none;
+        float: left;
+        height: $header-height;
+        border-right: 1px solid $light-purple;
+        min-width: 100px;
+        position: relative;
 
-      &.last {
-        border-right: none;
-        border-left: 1px solid $light-purple;
-        padding: 5px 20px;
-        font-size: 13px;
-      }
-    }
+        span {
+          color: $white;
+          padding: 0 5px;
+        }
 
-    .menu-button>ul>li span {
-      color: $white;
-      padding: 0 5px;
-    }
+        &>a {
+          outline: none;
+          padding: 0 5px 10px 5px;
+          color: $white;
+          display: inline-block;
+          height: $header-height;
+          text-align: center;
+          width: 100%;
+          font-size: 13px;
 
-    .menu-button>ul>li>a {
-      outline: none;
-      padding: 0 5px 10px 5px;
-      color: $white;
-      display: inline-block;
-      height: $header-height;
-      text-align: center;
-      width: 100%;
-      font-size: 13px;
+          &:hover {
+            background-color: $dark-purple;
+          }
+    
+          >* {
+            vertical-align: middle;
+          }
+    
+          span.fa {
+            line-height: 18px;
+            margin-top: 8px;
+            font-size: 18px;
+          }
+        }
+  
+        &.last {
+          border-right: none;
+          border-left: 1px solid $light-purple;
+          padding: 5px 20px;
+          font-size: 13px;
+        }
 
-      >* {
-        vertical-align: middle;
+        &.first {
+          border-left: 1px solid $light-purple;
+          border-right: none;
+          line-height: 2.8125rem;
+          >a {
+            display: block;
+          }
+        }
       }
     }
 
@@ -127,13 +142,8 @@ beheer-header {
       border: 1px solid $light-purple;
     }
 
-    .menu-button>ul>li>a:hover {
-      background-color: $dark-purple;
-    }
-
     .menu-label {
       display: block;
-      vertical-align: baseline;
     }
 
     .mijn-gegevens-link {
