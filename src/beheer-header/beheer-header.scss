@@ -116,6 +116,12 @@ beheer-header {
           padding: 5px 20px;
           font-size: 13px;
         }
+
+        &.first {
+          border-left: 1px solid $light-purple;
+          border-right: none;
+          line-height: 2.8125rem;
+        }
       }
     }
 

@@ -20,6 +20,7 @@
     </nav>
     <nav class="right menu-button">
       <ul>
+        <template part="right-menu" replaceable></template>
         <li class="last">
           <b><span>${username}</span></b>
           <em if.bind="!!role">(<span>${role}</span>)</em><br>

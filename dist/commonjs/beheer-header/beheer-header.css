@@ -94,6 +94,11 @@ beheer-header .app-header .menu-button > ul > li.last {
   padding: 5px 20px;
   font-size: 13px;
 }
+beheer-header .app-header .menu-button > ul > li.first {
+  border-left: 1px solid rgb(176, 93, 191);
+  border-right: none;
+  line-height: 2.8125rem;
+}
 beheer-header .app-header .menu-button .logoutLink {
   float: right !important;
   width: 95px !important;
