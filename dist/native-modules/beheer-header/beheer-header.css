@@ -99,6 +99,9 @@ beheer-header .app-header .menu-button > ul > li.first {
   border-right: none;
   line-height: 2.8125rem;
 }
+beheer-header .app-header .menu-button > ul > li.first > a {
+  display: block;
+}
 beheer-header .app-header .menu-button .logoutLink {
   float: right !important;
   width: 95px !important;

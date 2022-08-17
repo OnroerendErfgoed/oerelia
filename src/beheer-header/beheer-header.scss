@@ -121,6 +121,9 @@ beheer-header {
           border-left: 1px solid $light-purple;
           border-right: none;
           line-height: 2.8125rem;
+          >a {
+            display: block;
+          }
         }
       }
     }
