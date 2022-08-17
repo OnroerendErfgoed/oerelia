@@ -66,12 +66,6 @@ beheer-header .app-header .menu-button > ul > li {
   min-width: 100px;
   position: relative;
 }
-beheer-header .app-header .menu-button > ul > li.last {
-  border-right: none;
-  border-left: 1px solid rgb(176, 93, 191);
-  padding: 5px 20px;
-  font-size: 13px;
-}
 beheer-header .app-header .menu-button > ul > li span {
   color: rgb(255, 255, 255);
   padding: 0 5px;
@@ -86,8 +80,22 @@ beheer-header .app-header .menu-button > ul > li > a {
   width: 100%;
   font-size: 13px;
 }
+beheer-header .app-header .menu-button > ul > li > a:hover {
+  background-color: rgb(117, 63, 127);
+}
 beheer-header .app-header .menu-button > ul > li > a > * {
   vertical-align: middle;
+}
+beheer-header .app-header .menu-button > ul > li > a span.fa {
+  line-height: 18px;
+  margin-top: 8px;
+  font-size: 18px;
+}
+beheer-header .app-header .menu-button > ul > li.last {
+  border-right: none;
+  border-left: 1px solid rgb(176, 93, 191);
+  padding: 5px 20px;
+  font-size: 13px;
 }
 beheer-header .app-header .menu-button .logoutLink {
   float: right !important;
@@ -101,12 +109,8 @@ beheer-header .app-header .menu-button .logoutLink {
 beheer-header .app-header .menu-button .logoutLink:hover {
   border: 1px solid rgb(176, 93, 191);
 }
-beheer-header .app-header .menu-button > ul > li > a:hover {
-  background-color: rgb(117, 63, 127);
-}
 beheer-header .app-header .menu-label {
   display: block;
-  vertical-align: baseline;
 }
 beheer-header .app-header .mijn-gegevens-link {
   display: inline !important;
