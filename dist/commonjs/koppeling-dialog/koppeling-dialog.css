@@ -1,33 +1,33 @@
-koppeling-dialog ux-dialog.koppeling-dialog expander-container {
+ux-dialog.koppeling-dialog expander-container {
   margin-top: rem-calc(20);
 }
-koppeling-dialog ux-dialog.koppeling-dialog .expander-icon {
+ux-dialog.koppeling-dialog .expander-icon {
   margin-top: 0 !important;
 }
-koppeling-dialog ux-dialog.koppeling-dialog .fa.fa-info-circle {
+ux-dialog.koppeling-dialog .fa.fa-info-circle {
   color: #944EA1;
 }
-koppeling-dialog ux-dialog.koppeling-dialog ux-dialog-footer {
+ux-dialog.koppeling-dialog ux-dialog-footer {
   border-top: none;
 }
-koppeling-dialog ux-dialog.koppeling-dialog ux-dialog-footer button {
+ux-dialog.koppeling-dialog ux-dialog-footer button {
   margin-bottom: 0;
 }
-koppeling-dialog ux-dialog.koppeling-dialog .total-ref-tekst {
+ux-dialog.koppeling-dialog .total-ref-tekst {
   font-size: rem-calc(20);
   color: #989898;
 }
-koppeling-dialog ux-dialog.koppeling-dialog .oe-dialog-list {
+ux-dialog.koppeling-dialog .oe-dialog-list {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-koppeling-dialog ux-dialog.koppeling-dialog .oe-dialog-list-item {
+ux-dialog.koppeling-dialog .oe-dialog-list-item {
   margin-bottom: rem-calc(10);
 }
-koppeling-dialog ux-dialog.koppeling-dialog .oe-dialog-list-item a {
+ux-dialog.koppeling-dialog .oe-dialog-list-item a {
   text-decoration: underline;
 }
-koppeling-dialog ux-dialog.koppeling-dialog .oe-dialog-list-item a:hover {
+ux-dialog.koppeling-dialog .oe-dialog-list-item a:hover {
   text-decoration: none;
 }

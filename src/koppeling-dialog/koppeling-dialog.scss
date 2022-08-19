@@ -1,4 +1,4 @@
-koppeling-dialog {
+ux-dialog.koppeling-dialog {
   $title-silent-font-size: rem-calc(20);
   $title-silent-color: #989898;
 
@@ -6,50 +6,48 @@ koppeling-dialog {
 
   $list-margin: rem-calc(10);
 
-  ux-dialog.koppeling-dialog {
-    expander-container {
-      margin-top: $application-margin;
+  expander-container {
+    margin-top: $application-margin;
+  }
+
+  .expander-icon {
+    margin-top: 0 !important;
+  }
+
+  .fa.fa-info-circle {
+    color: #944EA1;
+  }
+
+  ux-dialog-footer {
+    border-top: none;
+
+    button {
+      margin-bottom: 0;
     }
+  }
 
-    .expander-icon {
-      margin-top: 0 !important;
-    }
+  .total-ref-tekst {
+    font-size: $title-silent-font-size;
+    color: $title-silent-color;
+  }
 
-    .fa.fa-info-circle {
-      color: #944EA1;
-    }
+  .oe-dialog {
+    &-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
 
-    ux-dialog-footer {
-      border-top: none;
+      &-item {
+        margin-bottom: $list-margin;
 
-      button {
-        margin-bottom: 0;
-      }
-    }
+        a {
+          text-decoration: underline;
 
-    .total-ref-tekst {
-      font-size: $title-silent-font-size;
-      color: $title-silent-color;
-    }
-
-    .oe-dialog {
-      &-list {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-
-        &-item {
-          margin-bottom: $list-margin;
-
-          a {
-            text-decoration: underline;
-
-            &:hover {
-              text-decoration: none;
-            }
+          &:hover {
+            text-decoration: none;
           }
-
         }
+
       }
     }
   }
