@@ -1,5 +1,6 @@
 import { autoinject, LogManager } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
+import { IKoppelingResponse } from 'exports';
 
 const log = LogManager.getLogger('koppeling-dialog');
 

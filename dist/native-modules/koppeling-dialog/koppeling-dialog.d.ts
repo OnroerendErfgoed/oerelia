@@ -1,4 +1,5 @@
 import { DialogController } from 'aurelia-dialog';
+import { IKoppelingResponse } from 'exports';
 export declare class KoppelingDialog {
     controller: DialogController;
     loading: boolean;

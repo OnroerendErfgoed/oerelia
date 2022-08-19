@@ -59,11 +59,6 @@ interface ISystemActor {
     uri: string;
     description?: string;
 }
-interface IKoppelingResponse {
-    total_ref_tekst: string;
-    applications: IApplication[];
-    zichtbaarheid_tekst: string;
-}
 interface IApplicationItem {
     uri: string;
     title: string;
