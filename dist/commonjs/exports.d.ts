@@ -28,6 +28,7 @@ export * from './services/id-service.api-service';
 export * from './value-converters';
 export * from './multi-select/multi-select';
 export * from './references-dialog/references-dialog';
+export * from './koppeling-dialog/koppeling-dialog';
 export * from './actor-widget/actor-widget';
 export * from './copy-button/copy-button';
 export * from './models/public-models';

@@ -64,9 +64,11 @@ var KoppelingDialog = (function () {
                         return [4, model.koppelingCall(model.id)];
                     case 1:
                         koppelingResponse = _a.sent();
-                        this.totalReftekst = koppelingResponse.total_ref_tekst;
-                        this.applications = koppelingResponse.applications;
                         this.isExtern = model.isExtern;
+                        if (koppelingResponse) {
+                            this.totalReftekst = koppelingResponse.total_ref_tekst;
+                            this.applications = koppelingResponse.applications;
+                        }
                         return [3, 4];
                     case 2:
                         e_1 = _a.sent();

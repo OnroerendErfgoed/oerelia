@@ -43,6 +43,7 @@ export * from './value-converters';
 export * from './multi-select/multi-select';
 
 export * from './references-dialog/references-dialog';
+export * from './koppeling-dialog/koppeling-dialog';
 
 export * from './actor-widget/actor-widget';
 
