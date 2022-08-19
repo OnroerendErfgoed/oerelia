@@ -20,9 +20,9 @@
         </template>
         <expander-container>
           <template repeat.for="application of applications">
-            <expander header.bind="application.title + ' (' + application.count + ' referenties)'" expanded.bind="false" class="application-expander">
+            <expander header.bind="application.title + ' (' + application.count || 0 + ' referenties)'" expanded.bind="false" class="application-expander">
               <template replace-part="expander-content">
-                <ul if.bind="application.count" class="oe-dialog-list">
+                <ul if.bind="application.count > 0" class="oe-dialog-list">
                   <li repeat.for="item of application.items" class="oe-dialog-list-item">
                     <i class="fa fa-angle-right"></i>
                     <a href="${item.uri}" target="_blank">${item.title}</a>
