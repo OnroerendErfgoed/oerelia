@@ -150,3 +150,8 @@ export interface IStatus {
     aanpasser_uri: string;
     aanpasser_omschrijving: string;
 }
+export interface IKoppelingResponse {
+    total_ref_tekst: string;
+    applications: IApplication[];
+    zichtbaarheid_tekst: string;
+}

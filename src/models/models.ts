@@ -68,3 +68,14 @@ interface ISystemActor {
   uri: string;
   description?: string;
 }
+
+interface IApplicationItem {
+  uri: string;
+  title: string;
+}
+
+interface IApplication {
+  title: string;
+  count: number;
+  items: IApplicationItem[];
+}
