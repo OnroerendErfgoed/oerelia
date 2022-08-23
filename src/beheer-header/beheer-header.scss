@@ -12,6 +12,7 @@ beheer-header {
     background-color: $mid-purple;
     width: 100%;
     height: $header-height;
+    overflow: hidden;
 
     .header-title {
       background-color: $white;
