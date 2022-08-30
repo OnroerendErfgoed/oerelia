@@ -14,7 +14,7 @@
       </div>
 
       <div if.bind="!loading">
-        <p class="total-ref-tekst">${totalReftekst}</p>
+        <p class="total-ref-tekst" innerhtml.bind="totalReftekst"></p>
         <template if.bind="koppelingResponse && !!koppelingResponse.zichtbaarheid_tekst">
           <i class="fa fa-info-circle"></i> ${koppelingResponse.zichtbaarheid_tekst}
         </template>
