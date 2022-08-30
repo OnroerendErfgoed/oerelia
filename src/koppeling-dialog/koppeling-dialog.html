@@ -20,7 +20,7 @@
         </template>
         <expander-container>
           <template repeat.for="application of applications">
-            <expander header.bind="application.title + ' (' + (application.count || 0) + (application.count === 1 ? ' referentie' : ' referenties') + ')'" expanded.bind="false" class="application-expander">
+            <expander header.bind="'<strong>' + application.title + '</strong> (' + (application.count || 0) + (application.count === 1 ? ' referentie' : ' referenties') + ')'" expanded.bind="false" class="application-expander">
               <template replace-part="expander-content">
                 <ul if.bind="application.count && application.count > 0" class="oe-dialog-list">
                   <li repeat.for="item of application.items" class="oe-dialog-list-item">
