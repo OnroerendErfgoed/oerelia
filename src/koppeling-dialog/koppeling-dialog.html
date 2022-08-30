@@ -15,8 +15,8 @@
 
       <div if.bind="!loading">
         <p class="total-ref-tekst" innerhtml.bind="totalReftekst"></p>
-        <template if.bind="koppelingResponse && !!koppelingResponse.zichtbaarheid_tekst">
-          <i class="fa fa-info-circle"></i> ${koppelingResponse.zichtbaarheid_tekst}
+        <template if.bind="zichtbaarheidTekst">
+          <i class="fa fa-info-circle"></i> ${zichtbaarheidTekst}
         </template>
         <expander-container>
           <template repeat.for="application of applications">

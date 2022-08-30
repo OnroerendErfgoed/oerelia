@@ -9,6 +9,7 @@ export class KoppelingDialog {
   public loading: boolean = true;
   public totalReftekst: string;
   public applications: IApplication[] = [];
+  public zichtbaarheidTekst: string;
 
   constructor(public controller: DialogController) { }
 
@@ -18,6 +19,7 @@ export class KoppelingDialog {
       if (koppelingResponse) {
         this.totalReftekst = koppelingResponse.total_ref_tekst;
         this.applications = koppelingResponse.applications;
+        this.zichtbaarheidTekst = koppelingResponse.zichtbaarheid_tekst;
       }
     } catch (e) {
       log.error(e);

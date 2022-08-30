@@ -5,6 +5,7 @@ export declare class KoppelingDialog {
     loading: boolean;
     totalReftekst: string;
     applications: IApplication[];
+    zichtbaarheidTekst: string;
     constructor(controller: DialogController);
     activate(model: {
         koppelingCall: (id: number) => Promise<IKoppelingResponse>;
