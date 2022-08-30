@@ -15,8 +15,8 @@
 
       <div if.bind="!loading">
         <p class="total-ref-tekst">${totalReftekst}</p>
-        <template if.bind="isExtern">
-          <i class="fa fa-info-circle"></i> Sommige referenties zijn voor jou niet zichtbaar op basis van je rechten.
+        <template if.bind="koppelingResponse && !!koppelingResponse.zichtbaarheid_tekst">
+          <i class="fa fa-info-circle"></i> ${koppelingResponse.zichtbaarheid_tekst}
         </template>
         <expander-container>
           <template repeat.for="application of applications">
