@@ -12,7 +12,7 @@ export class KoppelingDialog {
 
   constructor(public controller: DialogController) { }
 
-  public async activate(model: { koppelingCall: (id: number) => Promise<IKoppelingResponse>, id: number, isExtern: boolean }) {
+  public async activate(model: { koppelingCall: (id: number) => Promise<IKoppelingResponse>, id: number }) {
     try {
       const koppelingResponse = await model.koppelingCall(model.id);
       if (koppelingResponse) {

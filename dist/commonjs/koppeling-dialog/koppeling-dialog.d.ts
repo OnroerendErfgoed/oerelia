@@ -9,6 +9,5 @@ export declare class KoppelingDialog {
     activate(model: {
         koppelingCall: (id: number) => Promise<IKoppelingResponse>;
         id: number;
-        isExtern: boolean;
     }): Promise<void>;
 }
