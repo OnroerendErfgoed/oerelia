@@ -1,0 +1,54 @@
+ux-dialog.koppeling-dialog {
+  $title-silent-font-size: rem-calc(20);
+  $title-silent-color: #989898;
+
+  $application-margin: rem-calc(20);
+
+  $list-margin: rem-calc(10);
+
+  expander-container {
+    margin-top: $application-margin;
+  }
+
+  .expander-icon {
+    margin-top: 0 !important;
+  }
+
+  .fa.fa-info-circle {
+    color: #944EA1;
+  }
+
+  ux-dialog-footer {
+    border-top: none;
+
+    button {
+      margin-bottom: 0;
+    }
+  }
+
+  .total-ref-tekst {
+    font-size: $title-silent-font-size;
+    color: $title-silent-color;
+  }
+
+  .oe-dialog {
+    &-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      &-item {
+        margin-bottom: $list-margin;
+
+        a {
+          text-decoration: underline;
+
+          &:hover {
+            text-decoration: none;
+          }
+        }
+
+      }
+    }
+  }
+}

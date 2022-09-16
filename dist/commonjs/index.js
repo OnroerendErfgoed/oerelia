@@ -22,7 +22,8 @@ function configure(config) {
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/actor-widget/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/copy-button/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/expander/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/datepicker/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/datepicker/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('oerelia/koppeling-dialog/index'));
 }
 exports.configure = configure;
 

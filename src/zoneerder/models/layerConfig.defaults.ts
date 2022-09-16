@@ -21,12 +21,26 @@ export const defaultLayerConfig: LayerConfig = {
         'vioe_geoportaal:bes_arch_site,' +
         'vioe_geoportaal:bes_monument,' +
         'vioe_geoportaal:bes_overgangszone,' +
-        'vioe_geoportaal:erfgoedls', title: 'Beschermd Onroerend Erfgoed'
+        'vioe_geoportaal:erfgoedls',
+        title: 'Beschermd Onroerend Erfgoed'
     },
     gga: {
       type: LayerType.ErfgoedWms,
       wmsLayers: 'vioe_geoportaal:gga_gewestelijk,vioe_geoportaal:gga_gemeentelijk',
       title: 'Gebieden geen archeologie'
+    },
+    vast: {
+      type: LayerType.ErfgoedWms,
+      wmsLayers: 'vioe_geoportaal:vast_la',
+      title: 'Vastgesteld landschapsrelict',
+      visible: false
+    },
+    UNESCO: {
+      type: LayerType.ErfgoedWms,
+      wmsLayers: 'vioe_geoportaal:unesco_kern,' +
+      'vioe_geoportaal:unesco_buffer',
+      title: 'UNESCO',
+      visible: false
     }
   }
 }
