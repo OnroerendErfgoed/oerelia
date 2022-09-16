@@ -34,6 +34,7 @@ export const defaultLayerConfig: LayerConfig = {
       wmsLayers: 'vioe_geoportaal:unesco_kern,' +
       'vioe_geoportaal:unesco_buffer',
       title: 'UNESCO',
-      visible: false }
+      visible: false
+    }
   }
 }
