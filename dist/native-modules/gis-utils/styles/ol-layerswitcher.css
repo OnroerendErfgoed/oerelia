@@ -6,8 +6,6 @@
   top: 9em;
   left: 0.5em;
   text-align: left;
-  height: 290px;
-  overflow-y: auto;
 }
 .layer-switcher button.open-button.selected, .layer-switcher button.open-button:hover, .layer-switcher button.open-button:focus {
   background-color: rgba(0, 60, 136, 0.65);
@@ -62,8 +60,4 @@
 
 .ol-unselectable.panel-container.ol-control.layer-switcher {
   background-color: #FFF;
-}
-
-.ol-control, .ol-control:hover {
-  background-color: inherit !important;
 }
