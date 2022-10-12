@@ -576,7 +576,7 @@ export class OlMap {
   private _createMapButtons(): void {
     const buttonHeight = 2.2;
     const target = this.map.getTargetElement();
-    let top = 2.4;
+    let top = 0.8;
 
     if (this.buttonConfig.fullscreen) {
       const className = 'full-screen';

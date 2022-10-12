@@ -7,6 +7,8 @@
   top: 9em;
   left: 0.5em;
   text-align: left;
+  height: 290px;
+  overflow-y: auto;
 
   button.open-button {
     &.selected,
@@ -78,4 +80,8 @@
 
 .ol-unselectable.panel-container.ol-control.layer-switcher {
   background-color: #FFF;
+}
+
+.ol-control, .ol-control:hover {
+  background-color: inherit !important;
 }
