@@ -22,6 +22,13 @@ var MessageParser = (function () {
                 "U hebt niet voldoende rechten om deze data op te halen: " + url
             ];
         }
+        else if (response.statusCode === 412) {
+            result.response.message = "Er is een fout opgetreden";
+            result.response.errors = [
+                "Het was niet mogelijk om de wijzigingen aan deze fiche op te slaan omdat sinds het opvragen " +
+                    "van dit object een andere gebruiker deze fiche heeft gewijzigd."
+            ];
+        }
         else if (response.content.errors || response.content.message) {
             var errors_1 = response.content.errors || [response.content.message];
             errors_1.forEach(function (error, index) {
