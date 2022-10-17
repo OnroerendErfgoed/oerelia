@@ -513,7 +513,7 @@ var OlMap = (function () {
     OlMap.prototype._createMapButtons = function () {
         var buttonHeight = 2.2;
         var target = this.map.getTargetElement();
-        var top = 2.4;
+        var top = 0.8;
         if (this.buttonConfig.fullscreen) {
             var className_1 = 'full-screen';
             var style_1 = this.getButtonStyle(top);

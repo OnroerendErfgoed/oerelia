@@ -158,7 +158,9 @@ zoneerder {
     left: 0.5em;
     text-align: left;
     z-index: 999;
-  
+    height: 290px;
+    overflow-y: auto;
+
     &.shown .panel {
       display: block;
       margin: 0;
@@ -210,5 +212,9 @@ zoneerder {
         background-color: rgba($fresh-blue, 0.5);
       }
     }
+
+    &.ol-control, .ol-control:hover {
+      background-color: inherit !important;
+    }  
   }
 }
