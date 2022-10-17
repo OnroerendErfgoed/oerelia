@@ -215,13 +215,11 @@ var OlMap = (function () {
             else {
                 var geometry = f.getProperties().name.includes('Cirkel') ? openlayers_1.default.geom.Polygon.fromCircle(f.getGeometry())
                     : f.getGeometry();
-                coordinates.push(geometry.getCoordinates());
+                coordinates.push(geometry.getCoordinates()[0]);
             }
         });
-        if (coordinates.length > 0) {
-            this.zone.coordinates = coordinates;
-        }
-        else {
+        this.zone.coordinates = coordinates;
+        if (this.zone.coordinates.length === 0) {
             this.zone = null;
         }
         this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
@@ -513,7 +511,7 @@ var OlMap = (function () {
     OlMap.prototype._createMapButtons = function () {
         var buttonHeight = 2.2;
         var target = this.map.getTargetElement();
-        var top = 2.4;
+        var top = 0.8;
         if (this.buttonConfig.fullscreen) {
             var className_1 = 'full-screen';
             var style_1 = this.getButtonStyle(top);

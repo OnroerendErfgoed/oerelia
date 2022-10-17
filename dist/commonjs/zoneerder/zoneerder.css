@@ -211,6 +211,8 @@ zoneerder {
   left: 0.5em;
   text-align: left;
   z-index: 999;
+  height: 290px;
+  overflow-y: auto;
 }
 .zoneerder-content .layer-switcher.shown .panel {
   display: block;
@@ -253,4 +255,7 @@ zoneerder {
 }
 .zoneerder-content .layer-switcher button:hover {
   background-color: rgba(45, 163, 206, 0.5);
+}
+.zoneerder-content .layer-switcher.ol-control, .zoneerder-content .layer-switcher .ol-control:hover {
+  background-color: inherit !important;
 }

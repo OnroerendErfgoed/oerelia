@@ -242,14 +242,15 @@ export class OlMap {
       } else {
         const geometry = f.getProperties().name.includes('Cirkel') ? ol.geom.Polygon.fromCircle(f.getGeometry())
           : f.getGeometry();
-        coordinates.push(geometry.getCoordinates());
+        coordinates.push(geometry.getCoordinates()[0]);
       }
     });
-    if (coordinates.length > 0) {
-      this.zone.coordinates = coordinates;
-    } else {
+    this.zone.coordinates = coordinates;
+
+    if (this.zone.coordinates.length === 0) {
       this.zone = null;
     }
+
     this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
   }
 
@@ -576,7 +577,7 @@ export class OlMap {
   private _createMapButtons(): void {
     const buttonHeight = 2.2;
     const target = this.map.getTargetElement();
-    let top = 2.4;
+    let top = 0.8;
 
     if (this.buttonConfig.fullscreen) {
       const className = 'full-screen';
