@@ -14,13 +14,13 @@
       </div>
 
       <div if.bind="!loading">
-        <p class="total-ref-tekst">${totalReftekst}</p>
-        <template if.bind="isExtern">
-          <i class="fa fa-info-circle"></i> Sommige referenties zijn voor jou niet zichtbaar op basis van je rechten.
+        <p class="total-ref-tekst" innerhtml.bind="totalReftekst"></p>
+        <template if.bind="zichtbaarheidTekst">
+          <i class="fa fa-info-circle"></i> ${zichtbaarheidTekst}
         </template>
         <expander-container>
           <template repeat.for="application of applications">
-            <expander header.bind="application.title + ' (' + application.count || 0 + ' referenties)'" expanded.bind="false" class="application-expander">
+            <expander header.bind="'<strong>' + application.title + '</strong> (' + (application.count || 0) + (application.count === 1 ? ' referentie' : ' referenties') + ')'" expanded.bind="false" class="application-expander">
               <template replace-part="expander-content">
                 <ul if.bind="application.count && application.count > 0" class="oe-dialog-list">
                   <li repeat.for="item of application.items" class="oe-dialog-list-item">
