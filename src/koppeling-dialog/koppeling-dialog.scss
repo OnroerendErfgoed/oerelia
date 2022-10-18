@@ -26,6 +26,10 @@ ux-dialog.koppeling-dialog {
     }
   }
 
+  ux-dialog-body {
+    width: 65vh;
+  }
+
   .total-ref-tekst {
     font-size: $title-silent-font-size;
     color: $title-silent-color;

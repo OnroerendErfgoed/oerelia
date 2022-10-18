@@ -5,11 +5,10 @@ export declare class KoppelingDialog {
     loading: boolean;
     totalReftekst: string;
     applications: IApplication[];
-    isExtern: boolean;
+    zichtbaarheidTekst: string;
     constructor(controller: DialogController);
     activate(model: {
         koppelingCall: (id: number) => Promise<IKoppelingResponse>;
         id: number;
-        isExtern: boolean;
     }): Promise<void>;
 }

@@ -62,10 +62,10 @@ var KoppelingDialog = (function () {
                         return [4, model.koppelingCall(model.id)];
                     case 1:
                         koppelingResponse = _a.sent();
-                        this.isExtern = model.isExtern;
                         if (koppelingResponse) {
                             this.totalReftekst = koppelingResponse.total_ref_tekst;
                             this.applications = koppelingResponse.applications;
+                            this.zichtbaarheidTekst = koppelingResponse.zichtbaarheid_tekst;
                         }
                         return [3, 4];
                     case 2:
