@@ -155,3 +155,55 @@ export interface IKoppelingResponse {
     applications: IApplication[];
     zichtbaarheid_tekst: string;
 }
+export interface IAuteur {
+    id: number;
+    naam: string;
+    voornaam?: string;
+    uri?: string;
+    actor_uri?: string;
+    pseudoniem: string;
+    achternaam_voornaam?: string;
+    omschrijving?: string;
+    naamsvermelding: INaamsVermelding;
+    type: IAuteurType;
+    afkorting: string;
+    orcid: string;
+    kbo?: string;
+    ror?: string;
+    wikidata?: string;
+    status?: IAuteurStatus;
+    statussen: IAuteurStatus[];
+    emailadressen: IAuteurEmailAdres[];
+    relaties: IAuteurRelatie[];
+    systemfields: ISystemFields;
+}
+export interface IAuteurStatus {
+    id: number;
+    status_id: number;
+    naam: ActiefStatus;
+    opmerkingen: string;
+    datum: string;
+    aanpasser_uri: string;
+    aanpasser_omschrijving: string;
+}
+export interface IAuteurEmailAdres {
+    auteur_id: number;
+    emailadres: string;
+    verborgen: boolean;
+    primair: boolean;
+}
+export interface IAuteurRelatie {
+    id?: number;
+    type?: IRelatieType;
+    van_id?: number;
+    naar_id: number;
+    van_omschrijving?: string;
+    naar_omschrijving?: string;
+    naar_uri?: string;
+    startdatum?: string;
+    einddatum?: string;
+}
+export interface IRelatieType {
+    id: number;
+    naam: AuteurRelatieTypeEnum;
+}
