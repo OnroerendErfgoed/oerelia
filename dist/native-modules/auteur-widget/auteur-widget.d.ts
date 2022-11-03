@@ -1,10 +1,9 @@
 import { DialogController, DialogService } from 'aurelia-dialog';
-import { IAuteur, IRangeHeader, IResponse, ParamsType } from 'models/public-models';
 export declare class AuteurWidget {
     dialogService: DialogService;
     controller: DialogController;
     auteurType: string;
-    getAll: (params: ParamsType, range?: IRangeHeader) => Promise<IResponse<IAuteur>>;
+    service: unknown;
     auteursUrl: string;
     zoekterm: string;
     title: string;

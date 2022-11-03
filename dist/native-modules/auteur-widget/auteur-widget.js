@@ -90,7 +90,7 @@ var AuteurWidget = (function () {
                                 case 0:
                                     sortParameters = this.setParameters(params);
                                     params.context.gridOptions.api.showLoadingOverlay();
-                                    return [4, params.context.getAll(sortParameters, { start: params.startRow, end: params.endRow })
+                                    return [4, params.context.service.getAll(sortParameters, { start: params.startRow, end: params.endRow })
                                             .catch(function (e) { return log.error(e); })];
                                 case 1:
                                     data = _a.sent();
@@ -205,8 +205,8 @@ var AuteurWidget = (function () {
     ], AuteurWidget.prototype, "auteurType", void 0);
     __decorate([
         bindable,
-        __metadata("design:type", Function)
-    ], AuteurWidget.prototype, "getAll", void 0);
+        __metadata("design:type", Object)
+    ], AuteurWidget.prototype, "service", void 0);
     __decorate([
         bindable,
         __metadata("design:type", String)

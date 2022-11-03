@@ -8,7 +8,7 @@ const log = LogManager.getLogger('auteur-widget');
 @autoinject
 export class AuteurWidget {
   @bindable auteurType: string;
-  @bindable getAll: (params: ParamsType, range?: IRangeHeader) => Promise<IResponse<IAuteur>>;
+  @bindable service: unknown;
   @bindable auteursUrl: string;
 
   public zoekterm: string;
@@ -46,8 +46,9 @@ export class AuteurWidget {
       getRows: async (params) => {
         const sortParameters = this.setParameters(params);
         params.context.gridOptions.api.showLoadingOverlay();
-        const data = await params.context.getAll(sortParameters, { start: params.startRow, end: params.endRow } as IRangeHeader)
-                                         .catch((e) => log.error(e));
+        const data 
+          = await params.context.service.getAll(sortParameters, { start: params.startRow, end: params.endRow } as IRangeHeader)
+                                        .catch((e) => log.error(e));
 
         if (data) {
           params.successCallback(data.content, data.lastRow);
