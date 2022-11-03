@@ -1,5 +1,5 @@
 import { DialogController, DialogService } from 'aurelia-dialog';
-import { autoinject, LogManager } from 'aurelia-framework';
+import { autoinject, LogManager, bindable } from 'aurelia-framework';
 import { ColDef, GridOptions, IGetRowsParams } from 'ag-grid-community';
 import { IAuteur, IRangeHeader, IResponse, ParamsType } from 'models/public-models';
 
@@ -7,28 +7,16 @@ const log = LogManager.getLogger('auteur-widget');
 
 @autoinject
 export class AuteurWidget {
+  @bindable auteurType: string;
+  @bindable getAll: (params: ParamsType, range?: IRangeHeader) => Promise<IResponse<IAuteur>>;
+  @bindable auteursUrl: string;
+
   public zoekterm: string;
   public title: string = 'Auteur toevoegen';
   private gridOptions = {} as GridOptions;
-  private auteurType: string;
   private buttonActief = false;
-  public getAll: (params: ParamsType, range?: IRangeHeader) => Promise<IResponse<IAuteur>>;
-  public auteursUrl: string;
 
-  constructor(
-    public dialogService: DialogService,
-    public controller: DialogController
-  ) { }
-
-  public activate(model: {
-    auteurType: string,
-    getAll: (params: ParamsType, range?: IRangeHeader) => Promise<IResponse<IAuteur>>,
-    auteursUrl: string
-  }): void {
-    this.auteurType = model.auteurType;
-    this.getAll = model.getAll;
-    this.auteursUrl = model.auteursUrl;
-  }
+  constructor(public dialogService: DialogService, public controller: DialogController) { }
 
   public bind() {
     this.gridOptions.context = this;
@@ -58,10 +46,8 @@ export class AuteurWidget {
       getRows: async (params) => {
         const sortParameters = this.setParameters(params);
         params.context.gridOptions.api.showLoadingOverlay();
-        const data = await params.context.apiService.getAll(sortParameters,
-          { start: params.startRow, end: params.endRow } as IRangeHeader
-        )
-        .catch((e) => log.error(e));
+        const data = await params.context.getAll(sortParameters, { start: params.startRow, end: params.endRow } as IRangeHeader)
+                                         .catch((e) => log.error(e));
 
         if (data) {
           params.successCallback(data.content, data.lastRow);

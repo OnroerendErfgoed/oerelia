@@ -44,7 +44,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { DialogController, DialogService } from 'aurelia-dialog';
-import { autoinject, LogManager } from 'aurelia-framework';
+import { autoinject, LogManager, bindable } from 'aurelia-framework';
 var log = LogManager.getLogger('auteur-widget');
 var AuteurWidget = (function () {
     function AuteurWidget(dialogService, controller) {
@@ -54,11 +54,6 @@ var AuteurWidget = (function () {
         this.gridOptions = {};
         this.buttonActief = false;
     }
-    AuteurWidget.prototype.activate = function (model) {
-        this.auteurType = model.auteurType;
-        this.getAll = model.getAll;
-        this.auteursUrl = model.auteursUrl;
-    };
     AuteurWidget.prototype.bind = function () {
         var _this = this;
         this.gridOptions.context = this;
@@ -95,7 +90,7 @@ var AuteurWidget = (function () {
                                 case 0:
                                     sortParameters = this.setParameters(params);
                                     params.context.gridOptions.api.showLoadingOverlay();
-                                    return [4, params.context.apiService.getAll(sortParameters, { start: params.startRow, end: params.endRow })
+                                    return [4, params.context.getAll(sortParameters, { start: params.startRow, end: params.endRow })
                                             .catch(function (e) { return log.error(e); })];
                                 case 1:
                                     data = _a.sent();
@@ -204,10 +199,21 @@ var AuteurWidget = (function () {
         }
         return paramsObj;
     };
+    __decorate([
+        bindable,
+        __metadata("design:type", String)
+    ], AuteurWidget.prototype, "auteurType", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Function)
+    ], AuteurWidget.prototype, "getAll", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", String)
+    ], AuteurWidget.prototype, "auteursUrl", void 0);
     AuteurWidget = __decorate([
         autoinject,
-        __metadata("design:paramtypes", [DialogService,
-            DialogController])
+        __metadata("design:paramtypes", [DialogService, DialogController])
     ], AuteurWidget);
     return AuteurWidget;
 }());

@@ -3,19 +3,14 @@ import { IAuteur, IRangeHeader, IResponse, ParamsType } from 'models/public-mode
 export declare class AuteurWidget {
     dialogService: DialogService;
     controller: DialogController;
+    auteurType: string;
+    getAll: (params: ParamsType, range?: IRangeHeader) => Promise<IResponse<IAuteur>>;
+    auteursUrl: string;
     zoekterm: string;
     title: string;
     private gridOptions;
-    private auteurType;
     private buttonActief;
-    getAll: (params: ParamsType, range?: IRangeHeader) => Promise<IResponse<IAuteur>>;
-    auteursUrl: string;
     constructor(dialogService: DialogService, controller: DialogController);
-    activate(model: {
-        auteurType: string;
-        getAll: (params: ParamsType, range?: IRangeHeader) => Promise<IResponse<IAuteur>>;
-        auteursUrl: string;
-    }): void;
     bind(): void;
     setRowData(): Promise<void>;
     onGridReady(): void;
