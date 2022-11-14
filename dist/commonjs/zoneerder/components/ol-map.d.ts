@@ -49,7 +49,7 @@ export declare class OlMap {
     removeGeometryObject(name: string): void;
     geoLocationClick(): void;
     zoomButtonClick(): void;
-    private addToZone;
+    private drawLayerToZone;
     private resetSelect;
     private toggleDrawZone;
     private _createMap;

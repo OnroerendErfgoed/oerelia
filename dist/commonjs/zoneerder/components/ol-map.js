@@ -49,7 +49,7 @@ var OlMap = (function () {
         this.addZoneToDrawLayer();
         this.drawLayer.getSource().on('addfeature', function (feature) {
             log.debug('olMap::drawLayer::addfeature', feature);
-            _this.addToZone(feature);
+            _this.drawLayerToZone();
         });
     };
     OlMap.prototype.addZoneToDrawLayer = function () {
@@ -206,19 +206,14 @@ var OlMap = (function () {
         }
     };
     OlMap.prototype.removeGeometryObject = function (name) {
-        var _this = this;
-        var coordinates = [];
-        this.drawLayer.getSource().getFeatures().forEach(function (f) {
-            if (f.getProperties().name === name) {
-                _this.drawLayer.getSource().removeFeature(f);
-            }
-            else {
-                var geometry = f.getProperties().name.includes('Cirkel') ? openlayers_1.default.geom.Polygon.fromCircle(f.getGeometry())
-                    : f.getGeometry();
-                coordinates.push(geometry.getCoordinates()[0]);
-            }
+        var drawLayerSource = this.drawLayer.getSource();
+        var featureToRemove = drawLayerSource.getFeatures().find(function (feature) {
+            return feature.getProperties().name === name;
         });
-        this.zone.coordinates = coordinates;
+        if (featureToRemove) {
+            drawLayerSource.removeFeature(featureToRemove);
+        }
+        this.drawLayerToZone();
         if (this.zone.coordinates.length === 0) {
             this.zone = null;
         }
@@ -246,8 +241,7 @@ var OlMap = (function () {
         var coordinates = this.transformLambert72ToWebMercator(center);
         window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
     };
-    OlMap.prototype.addToZone = function (olFeature) {
-        log.debug('addToZone', olFeature);
+    OlMap.prototype.drawLayerToZone = function () {
         var multiPolygon = new openlayers_1.default.geom.MultiPolygon([], 'XY');
         var features = this.drawLayer.getSource().getFeatures();
         features.forEach(function (feature) {
