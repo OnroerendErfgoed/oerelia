@@ -66,7 +66,7 @@ export class OlMap {
     this.addZoneToDrawLayer();
     this.drawLayer.getSource().on('addfeature', (feature: any) => {
       log.debug('olMap::drawLayer::addfeature', feature);
-      this.addToZone(feature);
+      this.drawLayerToZone();
     });
   }
 
@@ -235,18 +235,13 @@ export class OlMap {
   }
 
   public removeGeometryObject(name: string) {
-    const coordinates: any[] = [];
-    (this.drawLayer.getSource() as ol.source.Vector).getFeatures().forEach((f: any) => {
-      if (f.getProperties().name === name) {
-        (this.drawLayer.getSource() as ol.source.Vector).removeFeature(f);
-      } else {
-        const geometry = f.getProperties().name.includes('Cirkel') ? ol.geom.Polygon.fromCircle(f.getGeometry())
-          : f.getGeometry();
-        coordinates.push(geometry.getCoordinates()[0]);
-      }
-    });
-    this.zone.coordinates = coordinates;
-
+    const drawLayerSource = this.drawLayer.getSource() as  ol.source.Vector;
+    const featureToRemove = drawLayerSource.getFeatures().find((feature) =>
+      feature.getProperties().name === name);
+    if (featureToRemove) {
+      drawLayerSource.removeFeature(featureToRemove);
+    }
+    this.drawLayerToZone();
     if (this.zone.coordinates.length === 0) {
       this.zone = null;
     }
@@ -282,8 +277,7 @@ export class OlMap {
     window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
   }
 
-  private addToZone(olFeature: ol.Feature) {
-    log.debug('addToZone', olFeature);
+  private drawLayerToZone() {
     const multiPolygon = new ol.geom.MultiPolygon([], 'XY');
     const features: ol.Feature[] = (this.drawLayer.getSource() as ol.source.Vector).getFeatures();
     features.forEach((feature: ol.Feature) => {
