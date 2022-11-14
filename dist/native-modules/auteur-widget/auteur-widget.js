@@ -189,7 +189,7 @@ var AuteurWidget = (function () {
     };
     AuteurWidget.prototype.setParameters = function (params) {
         var paramsObj = {
-            tekst: this.zoekterm || null,
+            tekst: this.zoekterm + '*' || null,
             sort: null,
             type: this.auteurType
         };
