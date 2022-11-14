@@ -148,7 +148,7 @@ export class AuteurWidget {
 
   private setParameters(params: IGetRowsParams) {
     const paramsObj = {
-      tekst: this.zoekterm + '*' || null,
+      tekst: this.zoekterm ? this.zoekterm + '*' : null,
       sort: null,
       type: this.auteurType
     };
