@@ -1,0 +1,23 @@
+auteur-widget {
+  .auteur-toevoegen {
+    &-grid-container {
+      margin-bottom: 2rem;
+
+      & .ag-body-viewport.ag-layout-auto-height {
+        overflow-y: auto;
+        max-height: 300px
+      }
+
+      &-actions {
+        a:first-child {
+          margin-right: 1rem;
+        }
+      }
+    }
+
+    &-dialog {
+      max-width: 1000px;
+      width: 95vw;
+    }
+  }
+}

@@ -32,6 +32,7 @@ __export(require("./multi-select/multi-select"));
 __export(require("./references-dialog/references-dialog"));
 __export(require("./koppeling-dialog/koppeling-dialog"));
 __export(require("./actor-widget/actor-widget"));
+__export(require("./auteur-widget/auteur-widget"));
 __export(require("./copy-button/copy-button"));
 __export(require("./models/public-models"));
 __export(require("./expander/expander"));
