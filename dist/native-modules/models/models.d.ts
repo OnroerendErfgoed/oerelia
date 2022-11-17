@@ -68,3 +68,11 @@ interface IApplication {
     count: number;
     items: IApplicationItem[];
 }
+interface INaamsVermelding {
+    id: number;
+    naam: string;
+}
+interface IAuteurType {
+    id: number;
+    naam: string;
+}

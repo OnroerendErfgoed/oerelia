@@ -1,0 +1,36 @@
+<template>
+  <require from="./styles/auteur-widget.css"></require>
+  <ux-dialog class="oe-dialog auteur-toevoegen-dialog">
+    <ux-dialog-header>
+      <h3>${title}</h3>
+    </ux-dialog-header>
+
+    <ux-dialog-body>
+      <div class="row">
+        <div class="large-12 columns">
+          <div class="placeholder-container">
+            <input type="text" placeholder="&#xF002; Zoek een auteur" value.bind="zoekterm"
+              keydown.delegate="search() & debounce:300" style="font-family: FontAwesome, 'Flanders Art Sans'">
+          </div>
+        </div>
+      </div>
+      <div class="row auteur-toevoegen-grid-container">
+        <ag-grid-aurelia class="ag-theme-balham large-12 columns"
+          grid-size-changed.call="gridOptions.api.sizeColumnsToFit()" grid-ready.call="onGridReady()"
+          grid-options.bind="gridOptions">
+        </ag-grid-aurelia>
+      </div>
+      <div class="row auteur-toevoegen-grid-container-actions">
+        <div class="large-3 columns push-9">
+          <a href="${auteursUrl}/beheer/#/auteurs" target="_blank"><i class="fa fa-plus-circle"></i> Toevoegen</a>
+          <a click.delegate="refresh()" class="menu-link"><i class="fa fa-refresh"></i> Vernieuwen</a>
+        </div>
+      </div>
+    </ux-dialog-body>
+
+    <ux-dialog-footer style="text-align: center">
+      <button class="button tiny ${buttonActief ? '' : 'disabled'}" style="margin-right: 15px;" click.delegate="addAuteur()">Toevoegen</button>
+      <button class="button tiny" click.delegate="controller.cancel()">Annuleren</button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>

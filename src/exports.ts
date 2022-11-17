@@ -46,6 +46,7 @@ export * from './references-dialog/references-dialog';
 export * from './koppeling-dialog/koppeling-dialog';
 
 export * from './actor-widget/actor-widget';
+export * from './auteur-widget/auteur-widget';
 
 export * from './copy-button/copy-button';
 
