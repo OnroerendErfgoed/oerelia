@@ -3,7 +3,7 @@ auteur-widget .auteur-toevoegen-grid-container {
 }
 auteur-widget .auteur-toevoegen-grid-container .ag-body-viewport.ag-layout-auto-height {
   overflow-y: auto;
-  max-height: 300px;
+  height: 300px;
 }
 auteur-widget .auteur-toevoegen-grid-container-actions a:first-child {
   margin-right: 1rem;
