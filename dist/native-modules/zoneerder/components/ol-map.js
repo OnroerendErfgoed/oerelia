@@ -205,12 +205,12 @@ var OlMap = (function () {
     };
     OlMap.prototype.removeGeometryObject = function (name) {
         var drawLayerSource = this.drawLayer.getSource();
-        var featureToRemove = drawLayerSource.getFeatures().find(function (feature) {
+        var featuresToRemove = drawLayerSource.getFeatures().filter(function (feature) {
             return feature.getProperties().name === name;
         });
-        if (featureToRemove) {
+        featuresToRemove.forEach(function (featureToRemove) {
             drawLayerSource.removeFeature(featureToRemove);
-        }
+        });
         this.drawLayerToZone();
         if (this.zone.coordinates.length === 0) {
             this.zone = null;
