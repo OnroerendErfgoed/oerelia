@@ -236,11 +236,11 @@ export class OlMap {
 
   public removeGeometryObject(name: string) {
     const drawLayerSource = this.drawLayer.getSource() as  ol.source.Vector;
-    const featureToRemove = drawLayerSource.getFeatures().find((feature) =>
+    const featuresToRemove = drawLayerSource.getFeatures().filter((feature) =>
       feature.getProperties().name === name);
-    if (featureToRemove) {
+    featuresToRemove.forEach((featureToRemove)=>{
       drawLayerSource.removeFeature(featureToRemove);
-    }
+    })
     this.drawLayerToZone();
     if (this.zone.coordinates.length === 0) {
       this.zone = null;
