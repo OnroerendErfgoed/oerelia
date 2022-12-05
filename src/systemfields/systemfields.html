@@ -4,7 +4,7 @@
     <ul>
         <li>Status: ${status.naam}</li>
         <li>Aangemaakt door: ${createdBy} op ${createdAt}</li>
-        <li>Laatst bewerkt door: ${updatedBy} op ${updatedAt}</li>
+        <li if.bind="updatedBy">Laatst bewerkt door: ${updatedBy} op ${updatedAt}</li>
         <template part="extra-content" replaceable></template>
     </ul>
 </template>
