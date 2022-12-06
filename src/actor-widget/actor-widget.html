@@ -34,7 +34,7 @@
       </div>
       <div if.bind="showTable" class="row">
         <div class="large-11 small-10 columns" style="padding-right: 0;">
-          <input type="text" value.bind="zoekterm" placeholder="Zoek een actor" keydown.delegate="keydown($event)">
+          <input type="text" tabindex="0" value.bind="zoekterm" placeholder="Zoek een actor" keydown.delegate="keydown($event)">
         </div>
         <div class="large-1 small-2 columns" style="padding-left: 0;">
           <button class="button postfix" click.delegate="search()" title="Zoeken">
