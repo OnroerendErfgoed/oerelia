@@ -9,7 +9,7 @@
       <div class="row">
         <div class="large-12 columns">
           <div class="placeholder-container">
-            <input type="text" autofocus placeholder="&#xF002; Zoek een auteur" value.bind="zoekterm"
+            <input type="text" focus.bind="true" placeholder="&#xF002; Zoek een auteur" value.bind="zoekterm"
               keydown.delegate="search() & debounce:300" style="font-family: FontAwesome, 'Flanders Art Sans'">
           </div>
         </div>
