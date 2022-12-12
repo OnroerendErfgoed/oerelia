@@ -74,6 +74,8 @@ beheer-header .app-header .menu-button .dropdown .dropdown__content {
   top: 100%;
   left: 0;
   width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 beheer-header .app-header .menu-button > ul {
   margin: 0;
