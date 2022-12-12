@@ -95,7 +95,12 @@ beheer-header {
         width: 100%;
 
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        a {
+          padding: 1rem 0;
+        }
       }
     }
   }
