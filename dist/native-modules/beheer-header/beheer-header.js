@@ -11,7 +11,11 @@ import { bindable } from 'aurelia-framework';
 var BeheerHeader = (function () {
     function BeheerHeader() {
         this.showMijnGegevens = false;
+        this.navOpen = false;
     }
+    BeheerHeader.prototype.toggleNav = function () {
+        this.navOpen = !this.navOpen;
+    };
     __decorate([
         bindable,
         __metadata("design:type", String)
@@ -40,6 +44,10 @@ var BeheerHeader = (function () {
         bindable,
         __metadata("design:type", Object)
     ], BeheerHeader.prototype, "showMijnGegevens", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", String)
+    ], BeheerHeader.prototype, "changeUrl", void 0);
     return BeheerHeader;
 }());
 export { BeheerHeader };

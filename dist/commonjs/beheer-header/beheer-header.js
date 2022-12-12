@@ -13,7 +13,11 @@ var aurelia_framework_1 = require("aurelia-framework");
 var BeheerHeader = (function () {
     function BeheerHeader() {
         this.showMijnGegevens = false;
+        this.navOpen = false;
     }
+    BeheerHeader.prototype.toggleNav = function () {
+        this.navOpen = !this.navOpen;
+    };
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", String)
@@ -42,6 +46,10 @@ var BeheerHeader = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Object)
     ], BeheerHeader.prototype, "showMijnGegevens", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", String)
+    ], BeheerHeader.prototype, "changeUrl", void 0);
     return BeheerHeader;
 }());
 exports.BeheerHeader = BeheerHeader;

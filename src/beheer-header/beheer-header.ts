@@ -8,4 +8,14 @@ export class BeheerHeader {
   @bindable public username: string;
   @bindable public userUrl: string;
   @bindable public showMijnGegevens = false;
+  @bindable public changeUrl?: string;
+
+  navOpen = false;
+
+  /**
+   * toggleNav
+   */
+  public toggleNav() {
+    this.navOpen = !this.navOpen;
+  }
 }
