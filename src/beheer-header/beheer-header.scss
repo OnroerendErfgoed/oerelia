@@ -93,6 +93,9 @@ beheer-header {
         top: 100%;
         left: 0;
         width: 100%;
+
+        display: flex;
+        flex-direction: row;
       }
     }
   }
