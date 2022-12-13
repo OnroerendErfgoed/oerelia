@@ -99,7 +99,7 @@ beheer-header {
         gap: 0.25rem;
 
         a {
-          padding: 1rem 0;
+          padding: 1rem;
         }
       }
     }
@@ -166,20 +166,6 @@ beheer-header {
           }
         }
       }
-    }
-
-    .menu-button .logoutLink {
-      float: right !important;
-      width: 95px !important;
-      padding: 0px 8px 5px 8px;
-      background-color: $dark-purple;
-      height: 22px;
-      margin-bottom: 3px;
-      border: 1px solid $mid-purple;
-    }
-
-    .menu-button .logoutLink:hover {
-      border: 1px solid $light-purple;
     }
 
     .menu-label {
