@@ -100,6 +100,11 @@ beheer-header {
 
         a {
           padding: 1rem;
+          background-color: $mid-purple;
+
+          &:hover {
+            background-color: $dark-purple;
+          }
         }
       }
     }
