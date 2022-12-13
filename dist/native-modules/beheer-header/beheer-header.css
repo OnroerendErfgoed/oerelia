@@ -1,0 +1,168 @@
+/* Header */
+beheer-header .app-header {
+  background-color: rgb(148, 78, 161);
+  width: 100%;
+  height: 50px;
+}
+beheer-header .app-header .header-title {
+  background-color: rgb(255, 255, 255);
+  padding-left: 20px;
+  display: inline-block;
+  height: 50px;
+  cursor: pointer;
+}
+beheer-header .app-header .header-title > * {
+  float: left;
+  height: 50px;
+}
+beheer-header .app-header .header-title .header-logo {
+  background: url("/OE-vlaanderen-logo.png") no-repeat center left;
+  padding-left: 40px;
+  background-size: 40px;
+  margin: 0 10px 0 15px;
+}
+beheer-header .app-header .header-title h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 24px !important;
+  line-height: 50px;
+}
+beheer-header .app-header .header-title h2 {
+  font-size: 23px;
+  color: rgb(148, 78, 161) !important;
+  margin: 0;
+  padding: 5px 0 0 0;
+}
+beheer-header .app-header .header-title h4 {
+  font-size: 12px;
+  color: rgb(148, 78, 161) !important;
+  margin: -3px 0 0 0;
+  padding-left: 3px;
+}
+beheer-header .app-header .trianglePlaceholder {
+  width: 0;
+  height: 30px !important;
+  border-top: 50px solid rgb(148, 78, 161);
+  border-left: 20px solid transparent;
+}
+beheer-header .app-header a {
+  line-height: inherit;
+  text-decoration: none;
+}
+beheer-header .app-header .menu-button {
+  height: 50px;
+}
+beheer-header .app-header .menu-button > div {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+beheer-header .app-header .menu-button .dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  height: 100%;
+}
+beheer-header .app-header .menu-button .dropdown.dropdown--open .dropdown__toggle {
+  background-color: rgb(117, 63, 127);
+}
+beheer-header .app-header .menu-button .dropdown .dropdown__toggle {
+  margin: 0;
+  margin-bottom: 0.25rem;
+  height: 100%;
+  position: relative;
+  padding-right: 2.5rem;
+}
+beheer-header .app-header .menu-button .dropdown .dropdown__toggle::after {
+  content: "";
+  border: inset 5px;
+  border-top-color: currentcolor;
+  border-top-style: inset;
+  border-right-color: currentcolor;
+  border-bottom-color: currentcolor;
+  border-left-color: currentcolor;
+  border-top-style: solid;
+  display: block;
+  height: 0;
+  width: 0;
+  border-color: rgba(255, 255, 255, 0.4) transparent transparent transparent;
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+}
+beheer-header .app-header .menu-button .dropdown .dropdown__content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background-color: rgb(148, 78, 161);
+}
+beheer-header .app-header .menu-button .dropdown .dropdown__content a {
+  padding: 1rem;
+  color: rgb(255, 255, 255);
+}
+beheer-header .app-header .menu-button .dropdown .dropdown__content a:hover {
+  background-color: rgb(117, 63, 127);
+}
+beheer-header .app-header .menu-button > ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  height: 50px;
+}
+beheer-header .app-header .menu-button > ul > li {
+  outline: none;
+  float: left;
+  height: 50px;
+  border-right: 1px solid rgb(176, 93, 191);
+  min-width: 100px;
+  position: relative;
+}
+beheer-header .app-header .menu-button > ul > li span {
+  color: rgb(255, 255, 255);
+  padding: 0 5px;
+}
+beheer-header .app-header .menu-button > ul > li > a {
+  outline: none;
+  padding: 0 5px 10px 5px;
+  color: rgb(255, 255, 255);
+  display: inline-block;
+  height: 50px;
+  text-align: center;
+  width: 100%;
+  font-size: 13px;
+}
+beheer-header .app-header .menu-button > ul > li > a:hover {
+  background-color: rgb(117, 63, 127);
+}
+beheer-header .app-header .menu-button > ul > li > a > * {
+  vertical-align: middle;
+}
+beheer-header .app-header .menu-button > ul > li > a span.fa {
+  line-height: 18px;
+  margin-top: 8px;
+  font-size: 18px;
+}
+beheer-header .app-header .menu-button > ul > li.last {
+  border-right: none;
+  border-left: 1px solid rgb(176, 93, 191);
+  padding: 5px 20px;
+  font-size: 13px;
+}
+beheer-header .app-header .menu-label {
+  display: block;
+}
+beheer-header .app-header .first {
+  border-left: 1px solid rgb(176, 93, 191);
+  border-right: none;
+  line-height: 2.8125rem;
+}
+beheer-header .app-header .first > a {
+  display: block;
+  color: rgb(255, 255, 255);
+}

@@ -1,0 +1,14 @@
+auteur-widget .auteur-toevoegen-grid-container {
+  margin-bottom: 2rem;
+}
+auteur-widget .auteur-toevoegen-grid-container .ag-body-viewport.ag-layout-auto-height {
+  overflow-y: auto;
+  height: 300px;
+}
+auteur-widget .auteur-toevoegen-grid-container-actions a:first-child {
+  margin-right: 1rem;
+}
+auteur-widget .auteur-toevoegen-dialog {
+  max-width: 1000px;
+  width: 95vw;
+}

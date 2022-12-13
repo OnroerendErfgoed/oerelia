@@ -1,0 +1,36 @@
+ux-dialog.koppeling-dialog expander-container {
+  margin-top: rem-calc(20);
+}
+ux-dialog.koppeling-dialog .expander-icon {
+  margin-top: 0 !important;
+}
+ux-dialog.koppeling-dialog .fa.fa-info-circle {
+  color: #944EA1;
+}
+ux-dialog.koppeling-dialog ux-dialog-footer {
+  border-top: none;
+}
+ux-dialog.koppeling-dialog ux-dialog-footer button {
+  margin-bottom: 0;
+}
+ux-dialog.koppeling-dialog ux-dialog-body {
+  width: 65vh;
+}
+ux-dialog.koppeling-dialog .total-ref-tekst {
+  font-size: rem-calc(20);
+  color: #989898;
+}
+ux-dialog.koppeling-dialog .oe-dialog-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ux-dialog.koppeling-dialog .oe-dialog-list-item {
+  margin-bottom: rem-calc(10);
+}
+ux-dialog.koppeling-dialog .oe-dialog-list-item a {
+  text-decoration: underline;
+}
+ux-dialog.koppeling-dialog .oe-dialog-list-item a:hover {
+  text-decoration: none;
+}
