@@ -22,7 +22,7 @@
         <template part="right-menu" replaceable></template>
 
         <div class="dropdown ${dropdownOpen ? 'dropdown--open' : ''}">
-          <button click.delegate="toggleNav()" class="dropdown__toggle">
+          <button click.delegate="toggleDropdown()" class="dropdown__toggle">
             <b><span>${username}</span></b>
 
             <em if.bind="!!role">(<span>${role}</span>)</em><br>
