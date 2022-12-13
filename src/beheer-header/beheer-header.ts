@@ -9,13 +9,4 @@ export class BeheerHeader {
   @bindable public userUrl: string;
   @bindable public showMijnGegevens = false;
   @bindable public changeUrl?: string;
-
-  dropdownOpen = false;
-
-  /**
-   * toggleNav
-   */
-  public toggleDropdown() {
-    this.dropdownOpen = !this.dropdownOpen;
-  }
 }

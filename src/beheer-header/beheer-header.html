@@ -21,8 +21,8 @@
       <div>
         <template part="right-menu" replaceable></template>
 
-        <div class="dropdown ${dropdownOpen ? 'dropdown--open' : ''}">
-          <button click.delegate="toggleDropdown()" class="dropdown__toggle">
+        <div class="dropdown">
+          <button class="dropdown__toggle">
             <b><span>${username}</span></b>
 
             <em if.bind="!!role">(<span>${role}</span>)</em><br>

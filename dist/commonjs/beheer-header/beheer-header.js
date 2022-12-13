@@ -13,11 +13,7 @@ var aurelia_framework_1 = require("aurelia-framework");
 var BeheerHeader = (function () {
     function BeheerHeader() {
         this.showMijnGegevens = false;
-        this.dropdownOpen = false;
     }
-    BeheerHeader.prototype.toggleDropdown = function () {
-        this.dropdownOpen = !this.dropdownOpen;
-    };
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", String)

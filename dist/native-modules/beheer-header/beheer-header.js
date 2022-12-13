@@ -11,11 +11,7 @@ import { bindable } from 'aurelia-framework';
 var BeheerHeader = (function () {
     function BeheerHeader() {
         this.showMijnGegevens = false;
-        this.dropdownOpen = false;
     }
-    BeheerHeader.prototype.toggleDropdown = function () {
-        this.dropdownOpen = !this.dropdownOpen;
-    };
     __decorate([
         bindable,
         __metadata("design:type", String)
