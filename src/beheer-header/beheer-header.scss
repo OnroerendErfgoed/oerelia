@@ -97,10 +97,11 @@ beheer-header {
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
+        
+        background-color: $mid-purple;
 
         a {
           padding: 1rem;
-          background-color: $mid-purple;
 
           &:hover {
             background-color: $dark-purple;
@@ -177,13 +178,13 @@ beheer-header {
       display: block;
     }
 
-    .mijn-gegevens-link {
-      display: inline !important;
+    // .mijn-gegevens-link {
+    //   display: inline !important;
 
-      &:hover {
-        background-color: inherit !important;
-        text-decoration: underline;
-      }
-    }
+    //   &:hover {
+    //     background-color: inherit !important;
+    //     text-decoration: underline;
+    //   }
+    // }
   }
 }
