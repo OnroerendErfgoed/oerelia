@@ -65,9 +65,31 @@ beheer-header .app-header .menu-button .dropdown {
   margin: 0;
   height: 100%;
 }
+beheer-header .app-header .menu-button .dropdown.dropdown--open .dropdown__toggle {
+  background-color: rgb(117, 63, 127);
+}
 beheer-header .app-header .menu-button .dropdown .dropdown__toggle {
   margin: 0;
   height: 100%;
+  position: relative;
+  padding-right: 2.5rem;
+}
+beheer-header .app-header .menu-button .dropdown .dropdown__toggle::after {
+  content: "";
+  border: inset 5px;
+  border-top-color: currentcolor;
+  border-top-style: inset;
+  border-right-color: currentcolor;
+  border-bottom-color: currentcolor;
+  border-left-color: currentcolor;
+  border-top-style: solid;
+  display: block;
+  height: 0;
+  width: 0;
+  border-color: rgba(255, 255, 255, 0.4) transparent transparent transparent;
+  position: absolute;
+  top: 50%;
+  right: 1rem;
 }
 beheer-header .app-header .menu-button .dropdown .dropdown__content {
   position: absolute;
@@ -81,6 +103,7 @@ beheer-header .app-header .menu-button .dropdown .dropdown__content {
 }
 beheer-header .app-header .menu-button .dropdown .dropdown__content a {
   padding: 1rem;
+  color: rgb(255, 255, 255);
 }
 beheer-header .app-header .menu-button .dropdown .dropdown__content a:hover {
   background-color: rgb(117, 63, 127);

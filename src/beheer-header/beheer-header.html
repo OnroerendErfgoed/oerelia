@@ -21,14 +21,14 @@
       <div>
         <template part="right-menu" replaceable></template>
 
-        <div class="dropdown">
-          <button class="dropdown__toggle">
+        <div class="dropdown ${dropdownOpen ? 'dropdown--open' : ''}">
+          <button click.delegate="toggleNav()" class="dropdown__toggle">
             <b><span>${username}</span></b>
 
             <em if.bind="!!role">(<span>${role}</span>)</em><br>
           </button>
 
-          <div class="dropdown__content">
+          <div if.bind="dropdownOpen" class="dropdown__content">
             <a href="${userUrl}" if.bind="showMijnGegevens" title="Ga naar mijn gegevens" class="mijn-gegevens-link">
               Mijn profiel
             </a>

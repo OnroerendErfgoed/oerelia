@@ -11,10 +11,10 @@ import { bindable } from 'aurelia-framework';
 var BeheerHeader = (function () {
     function BeheerHeader() {
         this.showMijnGegevens = false;
-        this.navOpen = false;
+        this.dropdownOpen = false;
     }
-    BeheerHeader.prototype.toggleNav = function () {
-        this.navOpen = !this.navOpen;
+    BeheerHeader.prototype.toggleDropdown = function () {
+        this.dropdownOpen = !this.dropdownOpen;
     };
     __decorate([
         bindable,

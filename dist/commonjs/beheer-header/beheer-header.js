@@ -13,10 +13,10 @@ var aurelia_framework_1 = require("aurelia-framework");
 var BeheerHeader = (function () {
     function BeheerHeader() {
         this.showMijnGegevens = false;
-        this.navOpen = false;
+        this.dropdownOpen = false;
     }
-    BeheerHeader.prototype.toggleNav = function () {
-        this.navOpen = !this.navOpen;
+    BeheerHeader.prototype.toggleDropdown = function () {
+        this.dropdownOpen = !this.dropdownOpen;
     };
     __decorate([
         aurelia_framework_1.bindable,

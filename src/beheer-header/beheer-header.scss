@@ -83,9 +83,39 @@ beheer-header {
       margin: 0;
       height: 100%;
 
+      &.dropdown--open {
+        .dropdown__toggle {
+          background-color: $dark-purple;
+        }
+      }
+
       .dropdown__toggle {
         margin: 0;
         height: 100%;
+
+        position: relative;
+        padding-right: 2.5rem;
+
+        &::after {
+          content: "";
+
+          border: inset 5px;
+          border-top-color: currentcolor;
+          border-top-style: inset;
+          border-right-color: currentcolor;
+          border-bottom-color: currentcolor;
+          border-left-color: currentcolor;
+          border-top-style: solid;
+
+          display: block;
+          height: 0;
+          width: 0;
+          border-color: rgba(255, 255, 255, 0.4) transparent transparent transparent;
+
+          position: absolute;
+          top: 50%;
+          right: 1rem;
+        }
       }
 
       .dropdown__content {
@@ -102,6 +132,7 @@ beheer-header {
 
         a {
           padding: 1rem;
+          color: $white;
 
           &:hover {
             background-color: $dark-purple;

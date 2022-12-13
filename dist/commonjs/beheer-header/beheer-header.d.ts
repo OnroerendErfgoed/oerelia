@@ -7,6 +7,6 @@ export declare class BeheerHeader {
     userUrl: string;
     showMijnGegevens: boolean;
     changeUrl?: string;
-    navOpen: boolean;
-    toggleNav(): void;
+    dropdownOpen: boolean;
+    toggleDropdown(): void;
 }
