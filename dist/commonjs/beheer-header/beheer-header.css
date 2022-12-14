@@ -66,7 +66,7 @@ beheer-header .app-header .menu-button .dropdown {
   height: 100%;
 }
 beheer-header .app-header .menu-button .dropdown:hover .dropdown__toggle {
-  background-color: rgb(117, 63, 127);
+  background-color: rgb(33, 7, 41);
 }
 beheer-header .app-header .menu-button .dropdown:hover .dropdown__content {
   max-height: 500px;
@@ -74,7 +74,6 @@ beheer-header .app-header .menu-button .dropdown:hover .dropdown__content {
 }
 beheer-header .app-header .menu-button .dropdown .dropdown__toggle {
   margin: 0;
-  margin-bottom: 0.25rem;
   height: 100%;
   position: relative;
   padding-right: 2.5rem;
@@ -115,7 +114,7 @@ beheer-header .app-header .menu-button .dropdown .dropdown__content a {
   color: rgb(255, 255, 255);
 }
 beheer-header .app-header .menu-button .dropdown .dropdown__content a:hover {
-  background-color: rgb(117, 63, 127);
+  background-color: rgb(33, 7, 41);
 }
 beheer-header .app-header .menu-button > ul {
   margin: 0;
@@ -166,7 +165,6 @@ beheer-header .app-header .menu-label {
   display: block;
 }
 beheer-header .app-header .first {
-  border-left: 1px solid rgb(176, 93, 191);
   border-right: none;
   line-height: 2.8125rem;
 }
