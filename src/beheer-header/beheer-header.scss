@@ -79,8 +79,11 @@ beheer-header {
 
       .dropdown {
         position: relative;
+        z-index: 20;
+
         display: flex;
         align-items: center;
+
         margin: 0;
         height: 100%;
 

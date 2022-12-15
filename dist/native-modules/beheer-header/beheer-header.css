@@ -60,6 +60,7 @@ beheer-header .app-header .menu-button > div {
 }
 beheer-header .app-header .menu-button .dropdown {
   position: relative;
+  z-index: 20;
   display: flex;
   align-items: center;
   margin: 0;
