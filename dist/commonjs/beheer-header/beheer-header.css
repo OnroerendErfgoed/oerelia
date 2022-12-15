@@ -39,6 +39,9 @@ beheer-header .app-header .header-title h4 {
   margin: -3px 0 0 0;
   padding-left: 3px;
 }
+beheer-header .app-header li {
+  list-style-type: none;
+}
 beheer-header .app-header .trianglePlaceholder {
   width: 0;
   height: 30px !important;
