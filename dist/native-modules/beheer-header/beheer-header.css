@@ -65,6 +65,10 @@ beheer-header .app-header .menu-button .dropdown {
   align-items: center;
   margin: 0;
   height: 100%;
+  font-size: 0.875rem;
+}
+beheer-header .app-header .menu-button .dropdown b {
+  font-size: 0.875rem;
 }
 beheer-header .app-header .menu-button .dropdown:hover .dropdown__toggle {
   background-color: rgb(33, 7, 41);

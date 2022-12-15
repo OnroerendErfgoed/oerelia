@@ -87,6 +87,12 @@ beheer-header {
         margin: 0;
         height: 100%;
 
+        font-size: 0.875rem;
+
+        b {
+          font-size: 0.875rem;
+        }
+
         &:hover {
           .dropdown__toggle {
             background-color: $black;
