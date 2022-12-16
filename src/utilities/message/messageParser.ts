@@ -14,7 +14,7 @@ export class MessageParser {
     let url = response.requestMessage.url;
 
     if (url.includes('beeldbank.onroerenderfgoed.be')) {
-      customMessage = 'Er is een fout opgetreden - call naar Beeldbank mislukt.';
+      customMessage = 'Er is een fout opgetreden - Aanvraag tot informatie bij Beeldbank mislukt';
     }
 
     if (!reg.test(response.requestMessage.url)) {

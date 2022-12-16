@@ -13,7 +13,7 @@ var MessageParser = (function () {
         var customMessage = 'Er is een fout opgetreden';
         var url = response.requestMessage.url;
         if (url.includes('beeldbank.onroerenderfgoed.be')) {
-            customMessage = 'Er is een fout opgetreden - call naar Beeldbank mislukt.';
+            customMessage = 'Er is een fout opgetreden - Aanvraag tot informatie bij Beeldbank mislukt';
         }
         if (!reg.test(response.requestMessage.url)) {
             url = response.requestMessage.baseUrl + "/" + url;
