@@ -11,6 +11,11 @@ export class MessageParser {
     };
     const reg = /^https?:\/\//i;
     let url = response.requestMessage.url;
+
+    if (url.includes('beeldbank.onroerenderfgoed.be')) {
+      response.content.message = 'Call naar Beeldbank mislukt.';
+    }
+
     if (!reg.test(response.requestMessage.url)) {
       url = `${response.requestMessage.baseUrl}/${url}`;
     }
