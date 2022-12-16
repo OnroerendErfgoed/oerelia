@@ -13,7 +13,7 @@ export class MessageParser {
     let url = response.requestMessage.url;
 
     if (url.includes('beeldbank.onroerenderfgoed.be')) {
-      response.content.message = 'Call naar Beeldbank mislukt.';
+      response.content.message = 'Call naar Beeldbank mislukt: ' + response.content.message;
     }
 
     if (!reg.test(response.requestMessage.url)) {
