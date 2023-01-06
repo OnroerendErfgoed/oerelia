@@ -6,6 +6,10 @@ var MessageParser = (function () {
     MessageParser.parseHttpResponseMessage = function (response) {
         var result;
         result = {
+            requestMessage: {
+                url: response.requestMessage.url,
+                method: response.requestMessage.method
+            },
             code: response.statusCode,
             response: {
                 errors: []

@@ -2,6 +2,7 @@ import { messageType } from './enums/messageTypes';
 import { IMessage } from './interfaces/IMessage';
 import { IRestMessage } from './interfaces/IRestMessage';
 import { IRestResponse } from './interfaces/IRestResponse';
+import { IRestResult } from './interfaces/IRestResult';
 import { Message } from './message';
 
 export class RestMessage {
@@ -32,7 +33,7 @@ export class RestMessage {
     if (this.restSuccess && !this.customErrorFailed) {
       this.success(config.success);
     } else {
-      this.error(config.result.response);
+      this.error(config.result);
     }
   }
 
@@ -44,17 +45,20 @@ export class RestMessage {
     return this.show(messageType.success, config);
   }
 
-  private error(config: IRestResponse): Message {
-    const message: IMessage = { title: config.message, message: '' };
-    if (config.errors.length > 1) {
-      config.errors.forEach((error) => {
+  private error(result: IRestResult): Message {
+    const message: IMessage = { title: result.response.message, message: '' };
+    if (result.response.errors.length > 1) {
+      result.response.errors.forEach((error) => {
         message.message += `<li>${error}</li>`;
       });
       message.message = `<ul>${message.message}</ul>`;
-    } else if (config.errors.length === 1) {
-      message.message = config.errors[0] === message.title ? '' : config.errors[0];
+    } else if (result.response.errors.length === 1) {
+      message.message = result.response.errors[0] === message.title ? '' : result.response.errors[0];
     } else {
-      message.message = 'geen verdere info beschikbaar';
+      message.message = `Er is iets mis gelopen:<br>` + 
+      `<b>method:</b> ${result.requestMessage.method}<br>` + 
+      `<b>url:</b> ${result.requestMessage.url}<br>` + 
+      `<b>code:</b> ${result.code}<br>`;
     }
     return this.show(messageType.error, message);
   }
