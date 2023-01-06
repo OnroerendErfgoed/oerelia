@@ -4,9 +4,13 @@ export class MessageParser {
   public static parseHttpResponseMessage(response): IRestResult {
     let result: IRestResult;
     result = {
+      requestMessage: {
+        url: response.requestMessage.url,
+        method: response.requestMessage.method
+      },
       code: response.statusCode,
       response: {
-        errors : []
+        errors: []
       }
     };
     const reg = /^https?:\/\//i;
