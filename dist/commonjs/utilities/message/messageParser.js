@@ -6,13 +6,21 @@ var MessageParser = (function () {
     MessageParser.parseHttpResponseMessage = function (response) {
         var result;
         result = {
+            requestMessage: {
+                url: response.requestMessage.url,
+                method: response.requestMessage.method
+            },
             code: response.statusCode,
             response: {
                 errors: []
             }
         };
         var reg = /^https?:\/\//i;
+        var customMessage = 'Er is een fout opgetreden';
         var url = response.requestMessage.url;
+        if (url.includes('beeldbank.onroerenderfgoed.be')) {
+            customMessage = 'Er is een fout opgetreden - Aanvraag tot informatie bij Beeldbank mislukt';
+        }
         if (!reg.test(response.requestMessage.url)) {
             url = response.requestMessage.baseUrl + "/" + url;
         }
@@ -23,10 +31,10 @@ var MessageParser = (function () {
             ];
         }
         else if (response.statusCode === 412) {
-            result.response.message = "Er is een fout opgetreden";
+            result.response.message = customMessage;
             result.response.errors = [
-                "Het was niet mogelijk om de wijzigingen aan deze fiche op te slaan omdat sinds het opvragen " +
-                    "van dit object een andere gebruiker deze fiche heeft gewijzigd."
+                'Het was niet mogelijk om de wijzigingen aan deze fiche op te slaan omdat sinds het opvragen ' +
+                    'van dit object een andere gebruiker deze fiche heeft gewijzigd.'
             ];
         }
         else if (response.content.errors || response.content.message) {
@@ -41,7 +49,7 @@ var MessageParser = (function () {
                 }
             });
             result.response.errors = errors_1;
-            result.response.message = response.content.errors ? response.content.message : 'Er is een fout opgetreden';
+            result.response.message = response.content.errors ? response.content.message : customMessage;
         }
         else if (response.statusCode === 0 || response.statusCode === 500) {
             var subject = 'Vraag of fout bij ' + response.requestMessage.url;

@@ -23,7 +23,7 @@ var RestMessage = (function () {
             this.success(config.success);
         }
         else {
-            this.error(config.result.response);
+            this.error(config.result);
         }
     }
     RestMessage.display = function (config) {
@@ -35,19 +35,22 @@ var RestMessage = (function () {
     RestMessage.prototype.success = function (config) {
         return this.show(messageTypes_1.messageType.success, config);
     };
-    RestMessage.prototype.error = function (config) {
-        var message = { title: config.message, message: '' };
-        if (config.errors.length > 1) {
-            config.errors.forEach(function (error) {
+    RestMessage.prototype.error = function (result) {
+        var message = { title: result.response.message, message: '' };
+        if (result.response.errors.length > 1) {
+            result.response.errors.forEach(function (error) {
                 message.message += "<li>" + error + "</li>";
             });
             message.message = "<ul>" + message.message + "</ul>";
         }
-        else if (config.errors.length === 1) {
-            message.message = config.errors[0] === message.title ? '' : config.errors[0];
+        else if (result.response.errors.length === 1) {
+            message.message = result.response.errors[0] === message.title ? '' : result.response.errors[0];
         }
         else {
-            message.message = 'geen verdere info beschikbaar';
+            message.message = "Er is iets mis gelopen:<br>" +
+                ("<b>method:</b> " + result.requestMessage.method + "<br>") +
+                ("<b>url:</b> " + result.requestMessage.url + "<br>") +
+                ("<b>code:</b> " + result.code + "<br>");
         }
         return this.show(messageTypes_1.messageType.error, message);
     };

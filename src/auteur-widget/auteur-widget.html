@@ -9,7 +9,7 @@
       <div class="row">
         <div class="large-12 columns">
           <div class="placeholder-container">
-            <input type="text" placeholder="&#xF002; Zoek een auteur" value.bind="zoekterm"
+            <input type="text" focus.one-way="true" placeholder="&#xF002; Zoek een auteur" value.bind="zoekterm"
               keydown.delegate="search() & debounce:300" style="font-family: FontAwesome, 'Flanders Art Sans'">
           </div>
         </div>
@@ -21,8 +21,8 @@
         </ag-grid-aurelia>
       </div>
       <div class="row auteur-toevoegen-grid-container-actions">
-        <div class="large-3 columns push-9">
-          <a href="${auteursUrl}/beheer/#/auteurs" target="_blank"><i class="fa fa-plus-circle"></i> Toevoegen</a>
+        <div class="large-4 columns push-8">
+          <a href="${auteursUrl}/beheer/#/auteurs" target="_blank"><i class="fa fa-plus-circle"></i> Auteur aanmaken</a>
           <a click.delegate="refresh()" class="menu-link"><i class="fa fa-refresh"></i> Vernieuwen</a>
         </div>
       </div>
