@@ -1,7 +1,7 @@
 {
   "name": "oerelia",
   "description": "Onroerend Erfgoed Aurelia component library",
-  "version": "0.20.2",
+  "version": "0.21.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/OnroerendErfgoed/oerelia.git"
@@ -54,7 +54,7 @@
     "karma-jasmine": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-typescript-preprocessor": "^0.4.0",
-    "minimatch": "^3.0.4",
+    "minimatch": "^3.0.5",
     "promise-polyfill": "^8.1.0",
     "requirejs": "^2.3.6",
     "sass": "^1.53.0",

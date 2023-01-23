@@ -34,3 +34,4 @@ node_modules
 /src/environment.ts
 /test/coverage-jest
 /test/coverage-karma
+*.tgz
