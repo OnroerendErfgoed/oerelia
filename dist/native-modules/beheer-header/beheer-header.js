@@ -40,6 +40,10 @@ var BeheerHeader = (function () {
         bindable,
         __metadata("design:type", Object)
     ], BeheerHeader.prototype, "showMijnGegevens", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", String)
+    ], BeheerHeader.prototype, "changeUrl", void 0);
     return BeheerHeader;
 }());
 export { BeheerHeader };

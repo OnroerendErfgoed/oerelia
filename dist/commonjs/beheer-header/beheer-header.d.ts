@@ -6,4 +6,5 @@ export declare class BeheerHeader {
     username: string;
     userUrl: string;
     showMijnGegevens: boolean;
+    changeUrl?: string;
 }
