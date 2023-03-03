@@ -41,7 +41,7 @@ var TelefoonSelect = (function () {
         this.collapse();
     };
     TelefoonSelect.prototype.toggleSuggestions = function () {
-        if (this.isDisabled()) {
+        if (this.disabled) {
             return;
         }
         this.suggestions = this.countryCodeList;
@@ -88,9 +88,6 @@ var TelefoonSelect = (function () {
             return;
         }
         return true;
-    };
-    TelefoonSelect.prototype.isDisabled = function () {
-        return this.disabled;
     };
     __decorate([
         bindable,
