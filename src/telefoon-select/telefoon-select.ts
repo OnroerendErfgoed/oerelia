@@ -37,7 +37,7 @@ export class TelefoonSelect {
   }
 
   public toggleSuggestions() {
-    if (this.isDisabled()) {
+    if (this.disabled) {
       return;
     }
 
@@ -93,9 +93,5 @@ export class TelefoonSelect {
     }
 
     return true;
-  }
-
-  public isDisabled(): boolean {
-    return this.disabled;
   }
 }
