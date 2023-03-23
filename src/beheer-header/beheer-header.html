@@ -24,8 +24,7 @@
         <div class="dropdown">
           <button class="dropdown__toggle">
             <b><span>${username}</span></b>
-
-            <em if.bind="!!role">(<span>${role}</span>)</em><br>
+            <em if.bind="!!role"><span class="role">${role}</span></em><br>
           </button>
 
           <div class="dropdown__content">
