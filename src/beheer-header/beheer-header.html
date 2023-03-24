@@ -17,29 +17,30 @@
 
     <template part="left-menu" replaceable></template>
 
-    <nav class="right menu-button">
-      <div>
-        <template part="right-menu" replaceable></template>
-
-        <div class="dropdown">
-          <button class="dropdown__toggle">
-            <b><span>${username}</span></b>
-            <em if.bind="!!role"><span class="role">${role}</span></em><br>
-          </button>
-
-          <div class="dropdown__content">
-            <a href="${userUrl}" if.bind="showMijnGegevens" title="Ga naar mijn gegevens" class="mijn-gegevens-link">
-              Mijn profiel
-            </a>
-
-            <a if.bind="changeUrl" href="${changeUrl}" title="Wissel van profiel">Wisselen</a>
-
-            <a href="${afmeldenUrl}" title="Meld je af" class="logoutLink">
-              Afmelden
-            </a>
+    <div class="menu-button-container">
+      <nav class="right menu-button">
+        <div>
+          <template part="right-menu" replaceable></template>
+  
+          <div class="dropdown">
+            <button class="dropdown__toggle">
+              <b><span>${username}</span></b>
+              <em if.bind="!!role"><span class="role">${role}</span></em><br>
+            </button>
+  
+            <div class="dropdown__content">
+              <a href="${userUrl}" if.bind="showMijnGegevens" title="Ga naar mijn gegevens" class="mijn-gegevens-link">
+                Mijn profiel
+              </a>
+  
+              <a if.bind="changeUrl" href="${changeUrl}" title="Wissel van profiel">Wisselen</a>
+              <a href="${afmeldenUrl}" title="Meld je af" class="logoutLink">
+                Afmelden
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   </div>
 </template>

@@ -13,6 +13,7 @@ beheer-header {
     background-color: $mid-purple;
     width: 100%;
     height: $header-height;
+    display: flex;
 
     .header-title {
       background-color: $white;
@@ -73,6 +74,7 @@ beheer-header {
 
     .menu-button {
       height: $header-height;
+      flex: 1;
 
       &>div {
         height: 100%;
@@ -155,7 +157,7 @@ beheer-header {
           overflow: hidden;
 
           transition: max-height 0.2s ease-in-out;
-          
+
 
           a {
             padding: 1rem;
@@ -166,6 +168,10 @@ beheer-header {
             }
           }
         }
+      }
+
+      &-container {
+        flex: 1;
       }
     }
 
@@ -241,11 +247,34 @@ beheer-header {
 
   .role {
     font-size: small;
+
     &:before {
       content: " (";
     }
+
     &::after {
       content: ")";
+    }
+  }
+
+  /* CSS styles for screens smaller than 700 pixels */
+  @media (max-width: 700px) {
+    .menu-button {
+      width: 100%;
+      background-color: rgb(148, 78, 161);
+
+      div:first-of-type {
+        float: right;
+      }
+    }
+
+    .app-header {
+      display: block !important;
+      background-color: white;
+    }
+
+    .trianglePlaceholder {
+      border-top: none !important;
     }
   }
 }

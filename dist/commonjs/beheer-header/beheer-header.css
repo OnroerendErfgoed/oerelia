@@ -1,8 +1,12 @@
 /* Header */
+beheer-header {
+  /* CSS styles for screens smaller than 700 pixels */
+}
 beheer-header .app-header {
   background-color: rgb(148, 78, 161);
   width: 100%;
   height: 50px;
+  display: flex;
 }
 beheer-header .app-header .header-title {
   background-color: rgb(255, 255, 255);
@@ -54,6 +58,7 @@ beheer-header .app-header a {
 }
 beheer-header .app-header .menu-button {
   height: 50px;
+  flex: 1;
 }
 beheer-header .app-header .menu-button > div {
   height: 100%;
@@ -124,6 +129,9 @@ beheer-header .app-header .menu-button .dropdown .dropdown__content a {
 beheer-header .app-header .menu-button .dropdown .dropdown__content a:hover {
   background-color: rgb(33, 7, 41);
 }
+beheer-header .app-header .menu-button-container {
+  flex: 1;
+}
 beheer-header .app-header .menu-button > ul {
   margin: 0;
   padding: 0;
@@ -188,4 +196,20 @@ beheer-header .role:before {
 }
 beheer-header .role::after {
   content: ")";
+}
+@media (max-width: 700px) {
+  beheer-header .menu-button {
+    width: 100%;
+    background-color: rgb(148, 78, 161);
+  }
+  beheer-header .menu-button div:first-of-type {
+    float: right;
+  }
+  beheer-header .app-header {
+    display: block !important;
+    background-color: white;
+  }
+  beheer-header .trianglePlaceholder {
+    border-top: none !important;
+  }
 }
