@@ -48,11 +48,6 @@ export class GeozoekdienstApiService {
   }
 
   public searchPerceel(coordinate, srsname): Promise<any> {
-    // todo: kan via een GET call gebeuren:
-    // https://geoservices.informatievlaanderen.be/overdrachtdiensten/GRB/wfs?
-    // service=WFS&request=getFeature&typeNames=GRB:ADP&srsName=EPSG:31370&cql_filter=.
-    // INTERSECTS(SHAPE,%20POINT(126460.95527100001%20154113.8250585))&outputFormat=application/json
-
     const filter = new ol.format.filter.Intersects(
       'SHAPE',
       new ol.geom.Point(coordinate, 'XY'),
@@ -61,7 +56,7 @@ export class GeozoekdienstApiService {
 
     const featureRequest = new ol.format.WFS().writeGetFeature({
       srsName: srsname,
-      featureNS: 'informatievlaanderen.be/grb',
+      featureNS: 'https://geo.api.vlaanderen.be/GRB',
       featurePrefix: 'GRB',
       featureTypes: ['ADP'],
       outputFormat: 'application/json',

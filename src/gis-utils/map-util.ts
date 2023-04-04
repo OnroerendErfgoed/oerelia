@@ -50,7 +50,7 @@ export class MapUtil {
     });
 
     const grbSource: ol.source.WMTS = new ol.source.WMTS({
-      url: '//tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts/',
+      url: '//geo.api.vlaanderen.be/GRB/wmts/',
       layer: grbLayerId,
       matrixSet: 'BPL72VL',
       format: 'image/png',
@@ -181,7 +181,7 @@ export class MapUtil {
     const layer = new ol.layer.Tile({
       extent: mapProjection.getExtent(),
       source: new ol.source.TileWMS(({
-        url: 'https://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB/wms',
+        url: '//geo.api.vlaanderen.be/GRB/wms',
         params: { LAYERS: wmsLayers, TILED: true },
         serverType: 'geoserver'
       })),

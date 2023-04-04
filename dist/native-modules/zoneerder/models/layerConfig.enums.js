@@ -1,6 +1,6 @@
 export var LayerType;
 (function (LayerType) {
-    LayerType["Grb"] = "Grb";
+    LayerType["GRB"] = "GRB";
     LayerType["Ngi"] = "Ngi";
     LayerType["GrbWMS"] = "GrbWMS";
     LayerType["ErfgoedWms"] = "ErfgoedWms";
