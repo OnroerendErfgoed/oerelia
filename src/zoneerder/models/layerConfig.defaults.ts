@@ -3,12 +3,12 @@ import { LayerConfig } from './layerConfig';
 
 export const defaultLayerConfig: LayerConfig = {
   baseLayers: {
-    omwrgbmrvl: { type: LayerType.Grb, title: 'Ortho', visible: false },
-    grb_bsk: { type: LayerType.Grb, title: 'GRB-Basiskaart', visible: false },
-    grb_bsk_grijs: { type: LayerType.Grb, title: 'GRB-Basiskaart in grijswaarden', visible: true },
+    omwrgbmrvl: { type: LayerType.GRB, title: 'Ortho', visible: false },
+    grb_bsk: { type: LayerType.GRB, title: 'GRB-Basiskaart', visible: false },
+    grb_bsk_grijs: { type: LayerType.GRB, title: 'GRB-Basiskaart in grijswaarden', visible: true },
     topo: { type: LayerType.Ngi, title: 'Topokaart', visible: false },
-    DHMV_II_HILL_25cm: { type: LayerType.Grb, title: 'Hillshade 25cm', visible: false },
-    DHMV_II_SVF_25cm: { type: LayerType.Grb, title: 'Skyview 25cm', visible: false }
+    DHMV_II_HILL_25cm: { type: LayerType.GRB, title: 'Hillshade 25cm', visible: false },
+    DHMV_II_SVF_25cm: { type: LayerType.GRB, title: 'Skyview 25cm', visible: false }
   },
   overlays: {
     overlay: { type: LayerType.Ngi, title: 'Topokaart overlay' },

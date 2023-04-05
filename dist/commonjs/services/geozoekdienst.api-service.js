@@ -50,7 +50,7 @@ var GeozoekdienstApiService = (function () {
         var filter = new ol.format.filter.Intersects('SHAPE', new ol.geom.Point(coordinate, 'XY'), 'urn:x-ogc:def:crs:EPSG:31370');
         var featureRequest = new ol.format.WFS().writeGetFeature({
             srsName: srsname,
-            featureNS: 'informatievlaanderen.be/grb',
+            featureNS: 'https://geo.api.vlaanderen.be/GRB',
             featurePrefix: 'GRB',
             featureTypes: ['ADP'],
             outputFormat: 'application/json',

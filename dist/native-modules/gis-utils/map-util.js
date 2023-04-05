@@ -33,7 +33,7 @@ var MapUtil = (function () {
         var point = new ol.geom.Point([lon, lat]);
         return point.transform('EPSG:4326', 'EPSG:31370');
     };
-    MapUtil.createGrbLayer = function (grbLayerId, title, isBaseLayer, visible, mapProjection) {
+    MapUtil.createGrbLayer = function (grbLayerId, type, title, isBaseLayer, visible, mapProjection) {
         var resolutions = [];
         var matrixIds = [];
         var maxResolution = ol.extent.getWidth(mapProjection.getExtent()) / 256;
@@ -47,7 +47,7 @@ var MapUtil = (function () {
             matrixIds: matrixIds
         });
         var grbSource = new ol.source.WMTS({
-            url: '//tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts/',
+            url: '//geo.api.vlaanderen.be/' + type + '/wmts',
             layer: grbLayerId,
             matrixSet: 'BPL72VL',
             format: 'image/png',
@@ -163,7 +163,7 @@ var MapUtil = (function () {
         var layer = new ol.layer.Tile({
             extent: mapProjection.getExtent(),
             source: new ol.source.TileWMS(({
-                url: 'https://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB/wms',
+                url: '//geo.api.vlaanderen.be/GRB/wms',
                 params: { LAYERS: wmsLayers, TILED: true },
                 serverType: 'geoserver'
             })),

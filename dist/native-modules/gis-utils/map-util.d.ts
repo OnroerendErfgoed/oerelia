@@ -15,7 +15,7 @@ export declare class MapConfig {
 export declare class MapUtil {
     static transformBoundingboxToMapExtent(boundingbox: Boundingbox): [number, number, number, number];
     static transformLatLonToPoint(lat: number, lon: number): ol.geom.Point;
-    static createGrbLayer(grbLayerId: string, title: string, isBaseLayer: boolean, visible: boolean, mapProjection: ol.proj.Projection): ol.layer.Layer;
+    static createGrbLayer(grbLayerId: string, type: string, title: string, isBaseLayer: boolean, visible: boolean, mapProjection: ol.proj.Projection): ol.layer.Layer;
     static createVectorLayer(options: any): ol.layer.Vector;
     static createNgiLayer(layerId: string, title: string, isBaseLayer: boolean): ol.layer.Layer;
     static createGrbWMSLayer(wmsLayers: string, title: string, isBaseLayer: boolean, mapProjection: ol.proj.Projection): ol.layer.Tile;

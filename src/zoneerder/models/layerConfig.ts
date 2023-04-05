@@ -7,7 +7,7 @@ interface BaseLayerOptions {
 }
 
 interface GrbOrNgiLayerOptions extends BaseLayerOptions {
-  type: LayerType.Ngi | LayerType.Grb;
+  type: LayerType.Ngi | LayerType.GRB;
 }
 
 interface WmsLayerOptions extends BaseLayerOptions {
