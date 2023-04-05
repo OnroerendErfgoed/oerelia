@@ -32,7 +32,7 @@ export class MapUtil {
     return (point.transform('EPSG:4326', 'EPSG:31370') as ol.geom.Point);
   }
 
-  public static createGrbLayer(grbLayerId: string, title: string, isBaseLayer: boolean, visible: boolean,
+  public static createGrbLayer(grbLayerId: string, type: string, title: string, isBaseLayer: boolean, visible: boolean,
                                mapProjection: ol.proj.Projection) {
     const resolutions: number[] = [];
     const matrixIds: string[] = [];
@@ -50,7 +50,7 @@ export class MapUtil {
     });
 
     const grbSource: ol.source.WMTS = new ol.source.WMTS({
-      url: '//tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts/',
+      url: '//geo.api.vlaanderen.be/' + type + '/wmts',
       layer: grbLayerId,
       matrixSet: 'BPL72VL',
       format: 'image/png',
@@ -181,7 +181,7 @@ export class MapUtil {
     const layer = new ol.layer.Tile({
       extent: mapProjection.getExtent(),
       source: new ol.source.TileWMS(({
-        url: 'https://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB/wms',
+        url: '//geo.api.vlaanderen.be/GRB/wms',
         params: { LAYERS: wmsLayers, TILED: true },
         serverType: 'geoserver'
       })),

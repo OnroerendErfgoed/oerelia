@@ -378,7 +378,7 @@ var OlMap = (function () {
     };
     OlMap.prototype._createLayer = function (id, layerOptions, isBaseLayer) {
         var layer;
-        if (layerOptions.type === LayerType.Grb)
+        if (layerOptions.type === LayerType.GRB)
             layer = this._createGrbLayer(id);
         else if (layerOptions.type === LayerType.GrbWMS)
             layer = this._createGrbWMSLayer(layerOptions.wmsLayers);
@@ -402,15 +402,15 @@ var OlMap = (function () {
         }
         return new ol.layer.Tile({
             source: new ol.source.WMTS({
-                url: '//tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts/',
+                url: '//geo.api.vlaanderen.be/' + LayerType.GRB + '/wmts',
                 layer: grbLayerId,
                 matrixSet: 'BPL72VL',
                 format: 'image/png',
                 projection: this.mapProjection,
                 style: '',
                 tileGrid: new ol.tilegrid.WMTS({ origin: origin, resolutions: resolutions, matrixIds: matrixIds }),
-                attributions: '© <a href="https://overheid.vlaanderen.be/informatie-vlaanderen" target="_blank" ' +
-                    'title="Informatie Vlaanderen" class="copyrightLink">Informatie Vlaanderen</a>'
+                attributions: '© <a href="https://www.vlaanderen.be/digitaal-vlaanderen" target="_blank" ' +
+                    'title="Informatie Vlaanderen" class="copyrightLink">Digitaal Vlaanderen</a>'
             }),
             extent: this.mapProjection.getExtent()
         });
@@ -440,7 +440,7 @@ var OlMap = (function () {
         return new ol.layer.Tile({
             extent: this.mapProjection.getExtent(),
             source: new ol.source.TileWMS(({
-                url: 'https://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB/wms',
+                url: '//geo.api.vlaanderen.be/' + LayerType.GRB + '/wms',
                 params: { LAYERS: wmsLayers, TILED: true },
                 serverType: 'geoserver'
             })),
