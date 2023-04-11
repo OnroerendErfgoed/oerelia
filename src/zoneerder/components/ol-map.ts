@@ -12,8 +12,8 @@ import { LayerConfig, LayerOptions } from '../models/layerConfig';
 import { LayerType } from '../models/layerConfig.enums';
 import { defaultButtonConfig } from '../models/buttonConfig.defaults';
 import { defaultLayerConfig } from '../models/layerConfig.defaults';
+import { IZoneerderServiceConfig } from 'exports';
 
-declare const oeAppConfig: any;
 const log = LogManager.getLogger('ol-map');
 
 @inject(Element, CrabService)
@@ -22,6 +22,7 @@ export class OlMap {
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
   @bindable public adrespunten?: Contour[];
   @bindable public isCollapsed: boolean;
+  @bindable public serviceConfig: IZoneerderServiceConfig;
 
   public geometryObjectList: string[] = [];
   public WKTstring!: string;
@@ -274,7 +275,7 @@ export class OlMap {
 
     //Zoom * 2 is some kind of hack so the zoom levels somewhat align with the zoom levels on crabpyUrl.
     // Change if a better solution is found.
-    window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
+    window.open((this.serviceConfig.crabpyUrl) + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
   }
 
   private drawLayerToZone() {
@@ -515,7 +516,7 @@ export class OlMap {
     return new ol.layer.Tile({
       extent: this.mapProjection.getExtent(),
       source: new ol.source.TileWMS(({
-        url: oeAppConfig.beschermingenWMSUrl || 'https://geo.onroerenderfgoed.be/geoserver/wms',
+        url: this.serviceConfig.beschermingenWMSUrl || 'https://geo.onroerenderfgoed.be/geoserver/wms',
         params: { LAYERS: wmsLayers, TILED: true },
         serverType: 'geoserver',
         attributions: '© <a href="https://www.onroerenderfgoed.be">Onroerend Erfgoed</a>'

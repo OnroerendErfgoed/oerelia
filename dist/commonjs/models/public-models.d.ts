@@ -207,3 +207,8 @@ export interface IRelatieType {
     id: number;
     naam: AuteurRelatieTypeEnum;
 }
+export interface IZoneerderServiceConfig {
+    crabpyUrl: string;
+    agivGrbUrl: string;
+    beschermingenWMSUrl: string;
+}
