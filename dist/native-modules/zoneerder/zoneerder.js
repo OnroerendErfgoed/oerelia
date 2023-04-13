@@ -70,6 +70,10 @@ var Zoneerder = (function () {
     ], Zoneerder.prototype, "layerConfig", void 0);
     __decorate([
         bindable,
+        __metadata("design:type", Object)
+    ], Zoneerder.prototype, "serviceConfig", void 0);
+    __decorate([
+        bindable,
         __metadata("design:type", Boolean)
     ], Zoneerder.prototype, "isCollapsed", void 0);
     Zoneerder = __decorate([

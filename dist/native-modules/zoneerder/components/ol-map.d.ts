@@ -2,6 +2,7 @@ import ol from 'openlayers';
 import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
 import { CrabService } from '../../services/crab.api-service';
+import { IZoneerderServiceConfig } from 'exports';
 export declare class OlMap {
     private element;
     private crabService;
@@ -9,6 +10,7 @@ export declare class OlMap {
     zone: Contour;
     adrespunten?: Contour[];
     isCollapsed: boolean;
+    serviceConfig: IZoneerderServiceConfig;
     geometryObjectList: string[];
     WKTstring: string;
     protected isDrawing: boolean;
