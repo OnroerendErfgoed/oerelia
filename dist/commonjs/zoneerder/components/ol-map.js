@@ -239,7 +239,7 @@ var OlMap = (function () {
         var center = view.getCenter();
         var zoom = view.getZoom();
         var coordinates = this.transformLambert72ToWebMercator(center);
-        window.open(oeAppConfig.crabpyUrl + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
+        window.open((this.serviceConfig.crabpyUrl) + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
     };
     OlMap.prototype.drawLayerToZone = function () {
         var multiPolygon = new openlayers_1.default.geom.MultiPolygon([], 'XY');
@@ -454,7 +454,7 @@ var OlMap = (function () {
         return new openlayers_1.default.layer.Tile({
             extent: this.mapProjection.getExtent(),
             source: new openlayers_1.default.source.TileWMS(({
-                url: oeAppConfig.beschermingenWMSUrl || 'https://geo.onroerenderfgoed.be/geoserver/wms',
+                url: this.serviceConfig.beschermingenWMSUrl || 'https://geo.onroerenderfgoed.be/geoserver/wms',
                 params: { LAYERS: wmsLayers, TILED: true },
                 serverType: 'geoserver',
                 attributions: '© <a href="https://www.onroerenderfgoed.be">Onroerend Erfgoed</a>'
@@ -607,6 +607,10 @@ var OlMap = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Boolean)
     ], OlMap.prototype, "isCollapsed", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], OlMap.prototype, "serviceConfig", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", geozoekdienst_api_service_1.GeozoekdienstApiService)

@@ -6,6 +6,7 @@ import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
 import { Contour } from './models/contour';
 import { ButtonConfig } from './models/buttonConfig';
 import { LayerConfig } from './models/layerConfig';
+import { IZoneerderServiceConfig } from 'models/public-models';
 
 const log = LogManager.getLogger('ol-map');
 
@@ -17,6 +18,7 @@ export class Zoneerder {
   @bindable public adrespunten?: Contour[];
   @bindable public buttonConfig: ButtonConfig;
   @bindable public layerConfig: LayerConfig;
+  @bindable public serviceConfig: IZoneerderServiceConfig;
   @bindable public isCollapsed?: boolean = true;
 
   protected suggest: { suggest: Function };
