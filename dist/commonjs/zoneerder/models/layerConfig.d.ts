@@ -16,9 +16,15 @@ export interface GrbWmsLayerOptions extends WmsLayerOptions {
 export interface ErfgoedWmsLayerOptions extends WmsLayerOptions {
     type: LayerType.ErfgoedWms;
 }
+export interface DHMVLayerOptions extends BaseLayerOptions {
+    type: LayerType.DHMV;
+}
+export interface OMWRGBMRVLOptions extends BaseLayerOptions {
+    type: LayerType.OMWRGBMRVL;
+}
 export declare type GrbLayerOptions = GrbOrNgiLayerOptions;
 export declare type NgiLayerOptions = GrbOrNgiLayerOptions;
-export declare type LayerOptions = GrbLayerOptions | NgiLayerOptions | GrbWmsLayerOptions | ErfgoedWmsLayerOptions;
+export declare type LayerOptions = GrbLayerOptions | NgiLayerOptions | GrbWmsLayerOptions | ErfgoedWmsLayerOptions | DHMVLayerOptions | OMWRGBMRVLOptions;
 export interface LayerConfig {
     baseLayers: {
         [layerId: string]: LayerOptions;

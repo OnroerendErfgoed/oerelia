@@ -3,12 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var layerConfig_enums_1 = require("./layerConfig.enums");
 exports.defaultLayerConfig = {
     baseLayers: {
-        omwrgbmrvl: { type: layerConfig_enums_1.LayerType.GRB, title: 'Ortho', visible: false },
+        omwrgbmrvl: { type: layerConfig_enums_1.LayerType.OMWRGBMRVL, title: 'Ortho', visible: false },
         grb_bsk: { type: layerConfig_enums_1.LayerType.GRB, title: 'GRB-Basiskaart', visible: false },
         grb_bsk_grijs: { type: layerConfig_enums_1.LayerType.GRB, title: 'GRB-Basiskaart in grijswaarden', visible: true },
         topo: { type: layerConfig_enums_1.LayerType.Ngi, title: 'Topokaart', visible: false },
-        DHMV_II_HILL_25cm: { type: layerConfig_enums_1.LayerType.GRB, title: 'Hillshade 25cm', visible: false },
-        DHMV_II_SVF_25cm: { type: layerConfig_enums_1.LayerType.GRB, title: 'Skyview 25cm', visible: false }
+        DHMV_II_HILL_25cm: { type: layerConfig_enums_1.LayerType.DHMV, title: 'Hillshade 25cm', visible: false },
+        DHMV_II_SVF_25cm: { type: layerConfig_enums_1.LayerType.DHMV, title: 'Skyview 25cm', visible: false }
     },
     overlays: {
         overlay: { type: layerConfig_enums_1.LayerType.Ngi, title: 'Topokaart overlay' },
