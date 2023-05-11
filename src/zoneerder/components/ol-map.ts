@@ -436,7 +436,7 @@ export class OlMap {
   private _createLayer(id: string, layerOptions: LayerOptions, isBaseLayer: boolean) {
     let layer: ol.layer.Layer;
 
-    if (layerOptions.type === LayerType.GRB) layer = this._createGrbLayer(id);
+    if (layerOptions.type === LayerType.GRB || layerOptions.type === LayerType.DHMV || layerOptions.type === LayerType.OMWRGBMRVL) layer = this._createGrbLayer(id, layerOptions.type);
     else if (layerOptions.type === LayerType.GrbWMS) layer = this._createGrbWMSLayer(layerOptions.wmsLayers);
     else if (layerOptions.type === LayerType.ErfgoedWms) layer = this._createErfgoedWMSLayer(layerOptions.wmsLayers);
     else if (layerOptions.type === LayerType.Ngi) layer = this._createNgiLayer(id);
@@ -448,7 +448,7 @@ export class OlMap {
     return layer;
   }
 
-  private _createGrbLayer(grbLayerId: string) {
+  private _createGrbLayer(grbLayerId: string, type: LayerType) {
     const resolutions: number[] = [];
     const matrixIds: string[] = [];
     const maxResolution = ol.extent.getWidth(this.mapProjection.getExtent()) / 256;
@@ -461,7 +461,7 @@ export class OlMap {
 
     return new ol.layer.Tile({
       source: new ol.source.WMTS({
-        url: '//geo.api.vlaanderen.be/' + LayerType.GRB + '/wmts',
+        url: '//geo.api.vlaanderen.be/' + type + '/wmts',
         layer: grbLayerId,
         matrixSet: 'BPL72VL',
         format: 'image/png',
