@@ -380,8 +380,8 @@ var OlMap = (function () {
     };
     OlMap.prototype._createLayer = function (id, layerOptions, isBaseLayer) {
         var layer;
-        if (layerOptions.type === layerConfig_enums_1.LayerType.GRB)
-            layer = this._createGrbLayer(id);
+        if (layerOptions.type === layerConfig_enums_1.LayerType.GRB || layerOptions.type === layerConfig_enums_1.LayerType.DHMV || layerOptions.type === layerConfig_enums_1.LayerType.OMWRGBMRVL)
+            layer = this._createGrbLayer(id, layerOptions.type);
         else if (layerOptions.type === layerConfig_enums_1.LayerType.GrbWMS)
             layer = this._createGrbWMSLayer(layerOptions.wmsLayers);
         else if (layerOptions.type === layerConfig_enums_1.LayerType.ErfgoedWms)
@@ -393,7 +393,7 @@ var OlMap = (function () {
         layer.setVisible(!!layerOptions.visible);
         return layer;
     };
-    OlMap.prototype._createGrbLayer = function (grbLayerId) {
+    OlMap.prototype._createGrbLayer = function (grbLayerId, type) {
         var resolutions = [];
         var matrixIds = [];
         var maxResolution = openlayers_1.default.extent.getWidth(this.mapProjection.getExtent()) / 256;
@@ -404,7 +404,7 @@ var OlMap = (function () {
         }
         return new openlayers_1.default.layer.Tile({
             source: new openlayers_1.default.source.WMTS({
-                url: '//geo.api.vlaanderen.be/' + layerConfig_enums_1.LayerType.GRB + '/wmts',
+                url: '//geo.api.vlaanderen.be/' + type + '/wmts',
                 layer: grbLayerId,
                 matrixSet: 'BPL72VL',
                 format: 'image/png',
