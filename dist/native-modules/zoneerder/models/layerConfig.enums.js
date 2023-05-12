@@ -4,6 +4,8 @@ export var LayerType;
     LayerType["Ngi"] = "Ngi";
     LayerType["GrbWMS"] = "GrbWMS";
     LayerType["ErfgoedWms"] = "ErfgoedWms";
+    LayerType["DHMV"] = "DHMV";
+    LayerType["OMWRGBMRVL"] = "OMWRGBMRVL";
 })(LayerType || (LayerType = {}));
 
 //# sourceMappingURL=layerConfig.enums.js.map
