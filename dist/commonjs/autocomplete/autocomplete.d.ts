@@ -34,5 +34,6 @@ export declare class Autocomplete {
     blur(): void;
     suggestionClicked(suggestion: any): void;
     focus(): void;
+    resetUserInput(): void;
     private defaultParser;
 }

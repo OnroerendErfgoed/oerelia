@@ -70,7 +70,6 @@ export class Autocomplete {
   public select(suggestion) {
     this.value = suggestion;
     const name = this.getName(this.value);
-    this.userInput = name;
     this.display(name);
     this.collapse();
   }
@@ -192,6 +191,10 @@ export class Autocomplete {
 
   public focus() {
     (<HTMLElement> this.element.firstElementChild).focus();
+  }
+
+  public resetUserInput() {
+    this.userInput = '';
   }
 
   private defaultParser(value) {
