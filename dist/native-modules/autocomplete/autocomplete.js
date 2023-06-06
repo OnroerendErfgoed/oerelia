@@ -67,7 +67,6 @@ var Autocomplete = (function () {
     Autocomplete.prototype.select = function (suggestion) {
         this.value = suggestion;
         var name = this.getName(this.value);
-        this.userInput = name;
         this.display(name);
         this.collapse();
     };
@@ -181,6 +180,9 @@ var Autocomplete = (function () {
     };
     Autocomplete.prototype.focus = function () {
         this.element.firstElementChild.focus();
+    };
+    Autocomplete.prototype.resetUserInput = function () {
+        this.userInput = '';
     };
     Autocomplete.prototype.defaultParser = function (value) {
         return value.trim();
