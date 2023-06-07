@@ -60,7 +60,7 @@ var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_http_client_1 = require("aurelia-http-client");
 var restMessage_1 = require("../utilities/message/restMessage");
 var messageParser_1 = require("../utilities/message/messageParser");
-var message_1 = require("utilities/message/message");
+var message_1 = require("../utilities/message/message");
 var IdServiceApiService = (function () {
     function IdServiceApiService(http) {
         this.http = http;

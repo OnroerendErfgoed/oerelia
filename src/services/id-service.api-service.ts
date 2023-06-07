@@ -2,9 +2,9 @@ import { autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { RestMessage } from '../utilities/message/restMessage';
 import { MessageParser } from '../utilities/message/messageParser';
+import { Message } from '../utilities/message/message';
 import { IHttpResponse } from 'models/public-models';
 import { IIdServiceResponse } from './models/idServiceResponse';
-import { Message } from 'utilities/message/message';
 
 declare const oeAppConfig: any;
 

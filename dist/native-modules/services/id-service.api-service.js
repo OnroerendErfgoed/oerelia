@@ -58,7 +58,7 @@ import { autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { RestMessage } from '../utilities/message/restMessage';
 import { MessageParser } from '../utilities/message/messageParser';
-import { Message } from 'utilities/message/message';
+import { Message } from '../utilities/message/message';
 var IdServiceApiService = (function () {
     function IdServiceApiService(http) {
         this.http = http;
