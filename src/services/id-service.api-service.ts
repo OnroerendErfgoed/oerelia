@@ -42,15 +42,16 @@ export class IdServiceApiService {
 
   public async getByUri<T>(uri: string, getSso: () => Promise<string>): Promise<IHttpResponse<T>> {
     try {
+      const sso = await getSso();
       const response = await this.http.createRequest(`${oeAppConfig.idServiceUrl + '/uris?uri=' + uri}`)
       .asGet()
-      .withHeader('Authorization', 'Bearer ' + await getSso())
+      .withHeader('Authorization', 'Bearer ' + sso)
       .send() as IHttpResponse<IIdServiceResponse>; 
 
       if (response.content.location) {
         try {
           const locationResponse = await this.http.createRequest(response.content.location).asGet()
-          .withHeader('Authorization', 'Bearer ' + await getSso())
+          .withHeader('Authorization', 'Bearer ' + sso)
           .send() as IHttpResponse<T>;
 
           const content = locationResponse.content;
