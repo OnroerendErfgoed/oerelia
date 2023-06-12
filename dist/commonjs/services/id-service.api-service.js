@@ -70,7 +70,7 @@ var IdServiceApiService = (function () {
             x.withInterceptor({
                 responseError: function (res) {
                     restMessage_1.RestMessage.display({ result: messageParser_1.MessageParser.parseHttpResponseMessage(res) });
-                    return res;
+                    throw res;
                 }
             });
         });

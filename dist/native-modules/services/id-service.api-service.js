@@ -68,7 +68,7 @@ var IdServiceApiService = (function () {
             x.withInterceptor({
                 responseError: function (res) {
                     RestMessage.display({ result: MessageParser.parseHttpResponseMessage(res) });
-                    return res;
+                    throw res;
                 }
             });
         });

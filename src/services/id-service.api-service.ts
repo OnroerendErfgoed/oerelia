@@ -21,7 +21,7 @@ export class IdServiceApiService {
       x.withInterceptor({
         responseError(res) {
           RestMessage.display({ result: MessageParser.parseHttpResponseMessage(res) });
-          return res;
+          throw res;
         }
       });
     });
