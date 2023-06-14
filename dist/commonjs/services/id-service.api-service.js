@@ -89,12 +89,10 @@ var IdServiceApiService = (function () {
     };
     IdServiceApiService.prototype.getByUri = function (uri, getSso) {
         return __awaiter(this, void 0, void 0, function () {
-            var sso, response, locationResponse, content, etag, e_1, e_2;
+            var sso, response, locationResponse, content, etag;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 7, , 8]);
-                        return [4, getSso()];
+                    case 0: return [4, getSso()];
                     case 1:
                         sso = _a.sent();
                         return [4, this.http.createRequest("" + (oeAppConfig.idServiceUrl + '/uris?uri=' + uri))
@@ -103,30 +101,21 @@ var IdServiceApiService = (function () {
                                 .send()];
                     case 2:
                         response = _a.sent();
-                        if (!response.content.location) return [3, 6];
-                        _a.label = 3;
-                    case 3:
-                        _a.trys.push([3, 5, , 6]);
+                        if (!response.content.location) {
+                            message_1.Message.error({
+                                title: 'Fout',
+                                message: "Er ging iets mis bij het ophalen van uri: " + uri
+                            });
+                            throw "Could not retrieve uri " + uri;
+                        }
                         return [4, this.http.createRequest(response.content.location).asGet()
                                 .withHeader('Authorization', 'Bearer ' + sso)
                                 .send()];
-                    case 4:
+                    case 3:
                         locationResponse = _a.sent();
                         content = locationResponse.content;
                         etag = locationResponse.headers.get('ETag');
                         return [2, __assign(__assign({}, locationResponse), { content: __assign(__assign({}, content), { etag: etag }) })];
-                    case 5:
-                        e_1 = _a.sent();
-                        return [2];
-                    case 6: return [3, 8];
-                    case 7:
-                        e_2 = _a.sent();
-                        message_1.Message.error({
-                            title: 'Fout',
-                            message: 'Er ging iets mis bij het ophalen van uri: ' + uri
-                        });
-                        return [2];
-                    case 8: return [2];
                 }
             });
         });
