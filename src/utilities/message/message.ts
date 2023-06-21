@@ -5,14 +5,20 @@ import { IMessageEmitterOptions } from './interfaces/IMessageEmitterOptions';
 import { IMessageStyle } from './interfaces/IMessageStyle';
 
 export class Message {
+  readonly defaults = {
+    emitterOptions: {
+      timeOut: 10000, // toast disappears after 10 seconds without user interaction
+      extendedTimeOut: 0, // toast will not disappear while hovering over it
+    },
+    preventDuplicates: true,
+    preventOpenDuplicates: true
+  }
 
   public static info(config: IMessage): Message {
     return new Message(messageType.info, config);
   }
 
   public static success(config: IMessage): Message {
-    config.emitterOptions = config.emitterOptions || {};
-    config.emitterOptions = { timeOut: 10000, extendedTimeOut: 5000, ...config.emitterOptions };
     return new Message(messageType.success, config);
   }
 
@@ -22,15 +28,21 @@ export class Message {
 
   public static error(config: IMessage): Message {
     config.emitterOptions = config.emitterOptions || {};
-    config.emitterOptions = { timeOut: 0, extendedTimeOut: 0, closeButton: true, ...config.emitterOptions };
+    config.emitterOptions = { closeButton: true, ...config.emitterOptions };
     return new Message(messageType.error, config);
   }
 
   private emitter: any = toastr;
 
   private constructor(type: messageType, config: IMessage) {
-    this.applyDefaultOptions();
-    this.applyOptions(config.emitterOptions);
+    config = {
+      ...this.defaults,
+      ...config,
+      emitterOptions: {
+        ...this.defaults.emitterOptions,
+        ...(config.emitterOptions || {})
+      }
+    };
     const messageElement = this.show(type, config);
     this.applyStyle(messageElement, config.style);
   }
@@ -52,20 +64,5 @@ export class Message {
         }
       }
     } catch (e) { console.debug('[MESSAGE]: Failed to apply styles' + e); }
-  }
-
-  private applyDefaultOptions() {
-    try {
-      const defaultOptions = { preventDuplicates: true, preventOpenDuplicates: true };
-      this.applyOptions(defaultOptions);
-    } catch (e) { console.debug('[MESSAGE]: Failed to apply default emitter options' + e); }
-  }
-
-  private applyOptions(options: IMessageEmitterOptions) {
-    try {
-      for (const option in options) {
-        if (options[option] !== undefined) { this.emitter.options[option] = options[option]; }
-      }
-    } catch (e) { console.debug('[MESSAGE]: Failed to apply emitter options' + e); }
   }
 }
