@@ -1,7 +1,6 @@
 import * as toastr from 'toastr';
 import { messageType } from './enums/messageTypes';
 import { IMessage } from './interfaces/IMessage';
-import { IMessageEmitterOptions } from './interfaces/IMessageEmitterOptions';
 import { IMessageStyle } from './interfaces/IMessageStyle';
 
 export class Message {
