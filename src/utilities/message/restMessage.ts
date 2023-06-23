@@ -31,18 +31,10 @@ export class RestMessage {
     }
 
     if (this.restSuccess && !this.customErrorFailed) {
-      this.success(config.success);
+      Message.success(config.success);
     } else {
       this.error(config.result);
     }
-  }
-
-  private show(type: messageType, config: IMessage): Message {
-    return config ? Message[type](config) : undefined;
-  }
-
-  private success(config: IMessage): Message {
-    return this.show(messageType.success, config);
   }
 
   private error(result: IRestResult): Message {
@@ -60,10 +52,10 @@ export class RestMessage {
       `<b>url:</b> ${result.requestMessage.url}<br>` + 
       `<b>code:</b> ${result.code}<br>`;
     }
-    return this.show(messageType.error, message);
+    return Message.error(message);
   }
 
   private customError(config: IMessage): Message {
-    return this.show(messageType.error, config);
+    return Message.error(config);
   }
 }

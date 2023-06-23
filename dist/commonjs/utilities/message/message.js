@@ -15,9 +15,16 @@ var toastr = require("toastr");
 var messageTypes_1 = require("./enums/messageTypes");
 var Message = (function () {
     function Message(type, config) {
+        this.defaults = {
+            emitterOptions: {
+                timeOut: 10000,
+                extendedTimeOut: 0,
+            },
+            preventDuplicates: true,
+            preventOpenDuplicates: true
+        };
         this.emitter = toastr;
-        this.applyDefaultOptions();
-        this.applyOptions(config.emitterOptions);
+        config = __assign(__assign(__assign({}, this.defaults), config), { emitterOptions: __assign(__assign({}, this.defaults.emitterOptions), (config.emitterOptions || {})) });
         var messageElement = this.show(type, config);
         this.applyStyle(messageElement, config.style);
     }
@@ -25,8 +32,6 @@ var Message = (function () {
         return new Message(messageTypes_1.messageType.info, config);
     };
     Message.success = function (config) {
-        config.emitterOptions = config.emitterOptions || {};
-        config.emitterOptions = __assign({ timeOut: 10000, extendedTimeOut: 5000 }, config.emitterOptions);
         return new Message(messageTypes_1.messageType.success, config);
     };
     Message.warning = function (config) {
@@ -34,7 +39,7 @@ var Message = (function () {
     };
     Message.error = function (config) {
         config.emitterOptions = config.emitterOptions || {};
-        config.emitterOptions = __assign({ timeOut: 0, extendedTimeOut: 0, closeButton: true }, config.emitterOptions);
+        config.emitterOptions = __assign({ closeButton: true }, config.emitterOptions);
         return new Message(messageTypes_1.messageType.error, config);
     };
     Message.prototype.show = function (type, config) {
@@ -58,27 +63,6 @@ var Message = (function () {
         }
         catch (e) {
             console.debug('[MESSAGE]: Failed to apply styles' + e);
-        }
-    };
-    Message.prototype.applyDefaultOptions = function () {
-        try {
-            var defaultOptions = { preventDuplicates: true, preventOpenDuplicates: true };
-            this.applyOptions(defaultOptions);
-        }
-        catch (e) {
-            console.debug('[MESSAGE]: Failed to apply default emitter options' + e);
-        }
-    };
-    Message.prototype.applyOptions = function (options) {
-        try {
-            for (var option in options) {
-                if (options[option] !== undefined) {
-                    this.emitter.options[option] = options[option];
-                }
-            }
-        }
-        catch (e) {
-            console.debug('[MESSAGE]: Failed to apply emitter options' + e);
         }
     };
     return Message;

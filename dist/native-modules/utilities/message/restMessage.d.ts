@@ -4,8 +4,6 @@ export declare class RestMessage {
     private restSuccess;
     private customErrorFailed;
     private constructor();
-    private show;
-    private success;
     private error;
     private customError;
 }
