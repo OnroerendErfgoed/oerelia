@@ -1,4 +1,3 @@
-import { messageType } from './enums/messageTypes';
 import { Message } from './message';
 var RestMessage = (function () {
     function RestMessage(config) {
@@ -18,7 +17,7 @@ var RestMessage = (function () {
             }
         }
         if (this.restSuccess && !this.customErrorFailed) {
-            this.success(config.success);
+            Message.success(config.success);
         }
         else {
             this.error(config.result);
@@ -26,12 +25,6 @@ var RestMessage = (function () {
     }
     RestMessage.display = function (config) {
         return new RestMessage(config);
-    };
-    RestMessage.prototype.show = function (type, config) {
-        return config ? Message[type](config) : undefined;
-    };
-    RestMessage.prototype.success = function (config) {
-        return this.show(messageType.success, config);
     };
     RestMessage.prototype.error = function (result) {
         var message = { title: result.response.message, message: '' };
@@ -50,10 +43,10 @@ var RestMessage = (function () {
                 ("<b>url:</b> " + result.requestMessage.url + "<br>") +
                 ("<b>code:</b> " + result.code + "<br>");
         }
-        return this.show(messageType.error, message);
+        return Message.error(message);
     };
     RestMessage.prototype.customError = function (config) {
-        return this.show(messageType.error, config);
+        return Message.error(config);
     };
     return RestMessage;
 }());

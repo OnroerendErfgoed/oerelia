@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var messageTypes_1 = require("./enums/messageTypes");
 var message_1 = require("./message");
 var RestMessage = (function () {
     function RestMessage(config) {
@@ -20,7 +19,7 @@ var RestMessage = (function () {
             }
         }
         if (this.restSuccess && !this.customErrorFailed) {
-            this.success(config.success);
+            message_1.Message.success(config.success);
         }
         else {
             this.error(config.result);
@@ -28,12 +27,6 @@ var RestMessage = (function () {
     }
     RestMessage.display = function (config) {
         return new RestMessage(config);
-    };
-    RestMessage.prototype.show = function (type, config) {
-        return config ? message_1.Message[type](config) : undefined;
-    };
-    RestMessage.prototype.success = function (config) {
-        return this.show(messageTypes_1.messageType.success, config);
     };
     RestMessage.prototype.error = function (result) {
         var message = { title: result.response.message, message: '' };
@@ -52,10 +45,10 @@ var RestMessage = (function () {
                 ("<b>url:</b> " + result.requestMessage.url + "<br>") +
                 ("<b>code:</b> " + result.code + "<br>");
         }
-        return this.show(messageTypes_1.messageType.error, message);
+        return message_1.Message.error(message);
     };
     RestMessage.prototype.customError = function (config) {
-        return this.show(messageTypes_1.messageType.error, config);
+        return message_1.Message.error(config);
     };
     return RestMessage;
 }());
