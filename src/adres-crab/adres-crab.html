@@ -71,7 +71,7 @@
             </autocomplete>
           </div>
         </div>
-        <div if.bind="data.land !== 'BE'">
+        <div if.bind="data.land.code !== 'BE'">
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Gemeente <span
                 title="Opgelet, enkel de hoofdgemeenten (en niet de deelgemeenten) kunnen ingevuld worden.">(?)</span></label>
