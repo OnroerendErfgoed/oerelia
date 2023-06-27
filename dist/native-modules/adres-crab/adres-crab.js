@@ -207,8 +207,7 @@ var AdresCrab = (function () {
         return postcodes.filter(function (postcode) { return postcode.postcode.includes(searchPostcode); });
     };
     AdresCrab.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
-        var filteredAdressen = uniqBy(sortBy(adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); })), 'huisnummer');
-        return filteredAdressen.map(function (adres) { return adres.huisnummer; });
+        return uniqBy(sortBy(adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); })), 'huisnummer');
     };
     AdresCrab.prototype.filterBusnummers = function (adressen, searchBusnummer) {
         return adressen.filter(function (adres) { return adres.busnummer.includes(searchBusnummer); });

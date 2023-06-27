@@ -226,9 +226,8 @@ export class AdresCrab {
     return postcodes.filter((postcode: IPostinfo) => postcode.postcode.includes(searchPostcode));
   }
 
-  private filterHuisnummers(adressen: IAdresregisterAdres[], searchHuisnummer: string): string[] | [] {
-    const filteredAdressen = uniqBy(sortBy(adressen.filter((adres: IAdresregisterAdres) => adres.huisnummer.includes(searchHuisnummer))), 'huisnummer') as IAdresregisterAdres[];
-    return filteredAdressen.map((adres: IAdresregisterAdres) => adres.huisnummer);
+  private filterHuisnummers(adressen: IAdresregisterAdres[], searchHuisnummer: string): IAdresregisterAdres[] | [] {
+    return uniqBy(sortBy(adressen.filter((adres: IAdresregisterAdres) => adres.huisnummer.includes(searchHuisnummer))), 'huisnummer') as IAdresregisterAdres[];
   }
 
   private filterBusnummers(adressen: IAdresregisterAdres[], searchBusnummer: string): IAdresregisterAdres[] | [] {

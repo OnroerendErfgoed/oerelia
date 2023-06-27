@@ -64,9 +64,9 @@
             <label>Huisnummer</label>
             <autocomplete service.bind="suggest.huisnummers" label="huisnummer"
               placeholder="huisnummer" minlength="1" disabled.bind="!data.straat || disabled"
-              value.bind="data.adres.huisnummer & validate" type.bind="config.huisnummer.autocompleteType">
+              value.bind="data.adres & validate" type.bind="config.huisnummer.autocompleteType">
               <template replace-part="suggestion">
-                ${suggestion}
+                ${suggestion.huisnummer}
               </template>
             </autocomplete>
           </div>
@@ -102,10 +102,10 @@
         <div class="placeholder-container ${ !data.adres.huisnummer || disabled ? 'placeholder-disabled' : '' }">
           <label>Busnr.</label>
           <autocomplete service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
-            disabled.bind="!data.adres.huisnummer || disabled" value.bind="data.adres.busnummer & validate" change.delegate="busnummerChanged()"
+            disabled.bind="!data.adres || disabled" value.bind="data.adres & validate" change.delegate="busnummerChanged()"
             type.bind="config.busnummer.autocompleteType">
             <template replace-part="suggestion">
-              ${suggestion}
+              ${suggestion.busnummer}
             </template>
           </autocomplete>
         </div>

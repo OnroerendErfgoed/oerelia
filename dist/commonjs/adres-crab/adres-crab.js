@@ -209,8 +209,7 @@ var AdresCrab = (function () {
         return postcodes.filter(function (postcode) { return postcode.postcode.includes(searchPostcode); });
     };
     AdresCrab.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
-        var filteredAdressen = lodash_1.uniqBy(lodash_1.sortBy(adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); })), 'huisnummer');
-        return filteredAdressen.map(function (adres) { return adres.huisnummer; });
+        return lodash_1.uniqBy(lodash_1.sortBy(adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); })), 'huisnummer');
     };
     AdresCrab.prototype.filterBusnummers = function (adressen, searchBusnummer) {
         return adressen.filter(function (adres) { return adres.busnummer.includes(searchBusnummer); });
