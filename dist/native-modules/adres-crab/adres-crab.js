@@ -31,6 +31,7 @@ var AdresCrab = (function () {
         this.suggest.gemeenten = { suggest: function (value) { return _this.loadGemeenten(value); } };
         this.suggest.postcodes = { suggest: function (value) { return _this.loadPostcodes(value); } };
         this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
+        this.suggest.huisnummers = { suggest: function (value) { return _this.loadHuisnrs(value); } };
     }
     AdresCrab.prototype.bind = function () {
         var _this = this;
@@ -93,9 +94,6 @@ var AdresCrab = (function () {
         if (!this.data.straat) {
             this.data.adres = undefined;
         }
-    };
-    AdresCrab.prototype.huisnummerParser = function (value) {
-        return value;
     };
     AdresCrab.prototype.copyAdres = function () {
         this.copiedAdres = this.data;
@@ -165,6 +163,17 @@ var AdresCrab = (function () {
             }
         });
     };
+    AdresCrab.prototype.loadHuisnrs = function (value) {
+        var _this = this;
+        var straat = this.data.straat ? this.data.straat.id : undefined;
+        return new Promise(function (resolve) {
+            if (straat) {
+                _this.adresregisterService.getAdressen(straat).then(function (huisnrs) {
+                    resolve(_this.filterHuisnummers(huisnrs, value));
+                });
+            }
+        });
+    };
     AdresCrab.prototype.suggestFilter = function (data, value) {
         return data.filter(function (obj) {
             return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1;
@@ -172,6 +181,9 @@ var AdresCrab = (function () {
     };
     AdresCrab.prototype.filterPostcodes = function (postcodes, searchPostcode) {
         return postcodes.filter(function (postcode) { return postcode.postcode.includes(searchPostcode); });
+    };
+    AdresCrab.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
+        return adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); });
     };
     __decorate([
         bindable,

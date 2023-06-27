@@ -36,7 +36,7 @@ export class AdresCrab {
     this.suggest.gemeenten = { suggest: (value: string) => this.loadGemeenten(value) };
     this.suggest.postcodes = { suggest: (value) => this.loadPostcodes(value) };
     this.suggest.straten = { suggest: (value) => this.loadStraten(value) };
-    // this.suggest.huisnummers = { suggest: (value) => this.loadHuisnrs(value) };
+    this.suggest.huisnummers = { suggest: (value) => this.loadHuisnrs(value) };
   }
 
   public bind() {
@@ -109,15 +109,15 @@ export class AdresCrab {
     }
   }
 
-  public huisnummerParser(value) {
-    // if (value) {
-    //   return new Huisnummer(null, value);
-    // } else {
-    //   return undefined;
-    // }
+  // public huisnummerParser(value) {
+  //   // if (value) {
+  //   //   return new Huisnummer(null, value);
+  //   // } else {
+  //   //   return undefined;
+  //   // }
 
-    return value;
-  }
+  //   return value;
+  // }
 
   public copyAdres(): void {
     this.copiedAdres = this.data;
@@ -188,16 +188,16 @@ export class AdresCrab {
     });
   }
 
-  // private loadHuisnrs(value: string) {
-  //   const straat = this.data.straat ? this.data.straat.id : undefined;
-  //   return new Promise((resolve) => {
-  //     if (straat) {
-  //       this.crabService.getHuisnrs(straat).then(huisnrs => {
-  //         resolve(this.suggestFilter(huisnrs, value));
-  //       });
-  //     }
-  //   });
-  // }
+  private loadHuisnrs(value: string) {
+    const straat = this.data.straat ? this.data.straat.id : undefined;
+    return new Promise((resolve) => {
+      if (straat) {
+        this.adresregisterService.getAdressen(straat).then(huisnrs => {
+          resolve(this.filterHuisnummers(huisnrs, value));
+        });
+      }
+    });
+  }
 
   private suggestFilter(data: any, value: string) {
     return data.filter((obj) => {
@@ -207,5 +207,9 @@ export class AdresCrab {
 
   private filterPostcodes(postcodes: IPostinfo[], searchPostcode: string): IPostinfo[] | [] {
     return postcodes.filter((postcode: IPostinfo) => postcode.postcode.includes(searchPostcode));
+  }
+
+  private filterHuisnummers(adressen: IAdresregisterAdres[], searchHuisnummer: string): IAdresregisterAdres[] | [] {
+    return adressen.filter((adres: IAdresregisterAdres) => adres.huisnummer.includes(searchHuisnummer));
   }
 }

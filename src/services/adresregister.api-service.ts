@@ -3,7 +3,7 @@ import { HttpClient } from 'aurelia-http-client';
 import { RestMessage } from '../utilities/message/restMessage';
 import { MessageParser } from '../utilities/message/messageParser';
 import { sortBy } from 'lodash';
-import { IGemeente, IGewest, ILand, IPostinfo, IProvincie, IStraat } from './models/locatie';
+import { IAdresregisterAdres, IGemeente, IGewest, ILand, IPostinfo, IProvincie, IStraat } from './models/locatie';
 import { Niscode } from './models/niscode.enum';
 
 declare const oeAppConfig: any;
@@ -127,11 +127,11 @@ export class AdresregisterService {
     return this.crabGet<IStraat[]>(`adressenregister/gemeenten/${gemeente}/straten`);
   }
 
-  getAdressen(straat: string, huisnummer?: string): Promise<IAdres[]> {
+  getAdressen(straat: string, huisnummer?: string): Promise<IAdresregisterAdres[]> {
     if (huisnummer) {
-      return this.crabGet<IAdres[]>(`adressenregister/straten/${straat}/huisnummers/${huisnummer}`);
+      return this.crabGet<IAdresregisterAdres[]>(`adressenregister/straten/${straat}/huisnummers/${huisnummer}`);
     }
-    return this.crabGet<IAdres[]>(`adressenregister/straten/${straat}/adressen`);
+    return this.crabGet<IAdresregisterAdres[]>(`adressenregister/straten/${straat}/adressen`);
   }
 
   public suggestLocatie(value: string) {

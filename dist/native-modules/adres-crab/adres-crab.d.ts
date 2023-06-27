@@ -25,13 +25,14 @@ export declare class AdresCrab {
     landChanged(nv: ILand, ov: ILand): void;
     gemeenteChanged(): void;
     straatChanged(): void;
-    huisnummerParser(value: any): any;
     copyAdres(): void;
     pasteAdres(): void;
     private loadLanden;
     private loadGemeenten;
     private loadPostcodes;
     private loadStraten;
+    private loadHuisnrs;
     private suggestFilter;
     private filterPostcodes;
+    private filterHuisnummers;
 }
