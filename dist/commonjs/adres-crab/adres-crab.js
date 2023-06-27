@@ -14,6 +14,7 @@ var aurelia_validation_1 = require("aurelia-validation");
 var foundation_validation_renderer_1 = require("../foundation-validation-renderer/foundation-validation-renderer");
 var adresregister_api_service_1 = require("../services/adresregister.api-service");
 var autocomplete_type_1 = require("../autocomplete/models/autocomplete-type");
+var lodash_1 = require("lodash");
 var AdresCrab = (function () {
     function AdresCrab(controller, controllerFactory, adresregisterService, bindingEngine) {
         var _this = this;
@@ -203,7 +204,7 @@ var AdresCrab = (function () {
         return postcodes.filter(function (postcode) { return postcode.postcode.includes(searchPostcode); });
     };
     AdresCrab.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
-        return adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); });
+        return lodash_1.uniqBy(lodash_1.sortBy(adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); })), 'huisnummer');
     };
     AdresCrab.prototype.filterBusnummers = function (adressen, searchBusnummer) {
         return adressen.filter(function (adres) { return adres.busnummer.includes(searchBusnummer); });

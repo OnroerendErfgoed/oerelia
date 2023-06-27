@@ -5,6 +5,7 @@ import { AdresregisterService } from '../services/adresregister.api-service';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 import { IAdresCrabConfig } from './types/adres-crab-config';
 import { IAdresregisterAdres, ICrabAdres, IGemeente, ILand, IPostcode, IPostinfo, IStraat } from 'services/models/locatie';
+import { sortBy, uniqBy } from 'lodash';
 
 @inject(ValidationController, ValidationControllerFactory, AdresregisterService, BindingEngine)
 export class AdresCrab {
@@ -219,7 +220,10 @@ export class AdresCrab {
   }
 
   private filterHuisnummers(adressen: IAdresregisterAdres[], searchHuisnummer: string): IAdresregisterAdres[] | [] {
-    return adressen.filter((adres: IAdresregisterAdres) => adres.huisnummer.includes(searchHuisnummer));
+    return uniqBy(
+      sortBy(adressen.filter((adres: IAdresregisterAdres) => adres.huisnummer.includes(searchHuisnummer))),
+      'huisnummer'
+    );
   }
 
   private filterBusnummers(adressen: IAdresregisterAdres[], searchBusnummer: string): IAdresregisterAdres[] | [] {

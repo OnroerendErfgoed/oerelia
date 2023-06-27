@@ -12,6 +12,7 @@ import { ValidationController, ValidationControllerFactory, ValidationRules } fr
 import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
 import { AdresregisterService } from '../services/adresregister.api-service';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
+import { sortBy, uniqBy } from 'lodash';
 var AdresCrab = (function () {
     function AdresCrab(controller, controllerFactory, adresregisterService, bindingEngine) {
         var _this = this;
@@ -201,7 +202,7 @@ var AdresCrab = (function () {
         return postcodes.filter(function (postcode) { return postcode.postcode.includes(searchPostcode); });
     };
     AdresCrab.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
-        return adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); });
+        return uniqBy(sortBy(adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); })), 'huisnummer');
     };
     AdresCrab.prototype.filterBusnummers = function (adressen, searchBusnummer) {
         return adressen.filter(function (adres) { return adres.busnummer.includes(searchBusnummer); });
