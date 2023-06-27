@@ -145,7 +145,7 @@ var AdresCrab = (function () {
         return new Promise(function (resolve) {
             if (gemeente) {
                 _this.adresregisterService.getPostinfo(gemeente).then(function (postcodes) {
-                    resolve(_this.suggestFilter(postcodes, value));
+                    resolve(_this.filterPostcodes(postcodes, value));
                 });
             }
             else {
@@ -157,6 +157,9 @@ var AdresCrab = (function () {
         return data.filter(function (obj) {
             return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1;
         });
+    };
+    AdresCrab.prototype.filterPostcodes = function (postcodes, searchPostcode) {
+        return postcodes.filter(function (postcode) { return postcode.postcode.includes(searchPostcode); });
     };
     __decorate([
         bindable,

@@ -4,7 +4,7 @@ import { FoundationValidationRenderer } from '../foundation-validation-renderer/
 import { AdresregisterService } from '../services/adresregister.api-service';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 import { IAdresCrabConfig } from './types/adres-crab-config';
-import { IAdresregisterAdres, ICrabAdres, IGemeente, ILand, IPostcode, IStraat } from 'services/models/locatie';
+import { IAdresregisterAdres, ICrabAdres, IGemeente, ILand, IPostcode, IPostinfo, IStraat } from 'services/models/locatie';
 
 @inject(ValidationController, ValidationControllerFactory, AdresregisterService, BindingEngine)
 export class AdresCrab {
@@ -169,7 +169,7 @@ export class AdresCrab {
     return new Promise((resolve) => {
       if (gemeente) {
         this.adresregisterService.getPostinfo(gemeente).then((postcodes) => {
-          resolve(this.suggestFilter(postcodes, value));
+          resolve(this.filterPostcodes(postcodes, value));
         });
       } else {
         this.data.postcode = undefined;
@@ -203,5 +203,9 @@ export class AdresCrab {
     return data.filter((obj) => {
       return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1;
     });
+  }
+
+  private filterPostcodes(postcodes: IPostinfo[], searchPostcode: string): IPostinfo[] {
+    return postcodes.filter((postcode: IPostinfo) => postcode.postcode.includes(searchPostcode));
   }
 }

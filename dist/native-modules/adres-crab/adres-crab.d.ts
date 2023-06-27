@@ -32,4 +32,5 @@ export declare class AdresCrab {
     private loadGemeenten;
     private loadPostcodes;
     private suggestFilter;
+    private filterPostcodes;
 }
