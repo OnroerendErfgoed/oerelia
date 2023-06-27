@@ -21,7 +21,7 @@
         <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
           <label>Land</label>
           <select value.bind="data.land" disabled.bind="disabled">
-            <option repeat.for="land of landen" value.bind="land.id">
+            <option repeat.for="land of landen" value.bind="land">
               ${land.naam}
             </option>
           </select>
@@ -31,7 +31,7 @@
     
     <div class="row">
       <div class="small-push-2 small-10 columns">
-        <div if.bind="data.land === 'BE'">
+        <div if.bind="data.land.code === 'BE'">
           <div class="placeholder-container ${ !data.land || disabled ? 'placeholder-disabled' : '' }">
             <label>Gemeente <span
                 title="Opgelet, enkel de hoofdgemeenten (en niet de deelgemeenten) kunnen ingevuld worden.">(?)</span></label>
