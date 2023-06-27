@@ -42,19 +42,19 @@
               </template>
             </autocomplete>
           </div>
-          <div class="placeholder-container ${ !data.gemeente.id || disabled ? 'placeholder-disabled' : '' }">
+          <div class="placeholder-container ${ !data.gemeente || disabled ? 'placeholder-disabled' : '' }">
             <label>Postcode</label>
             <autocomplete service.bind="suggest.postcodes" value.bind="data.postcode & validate" label="naam"
-              placeholder="postcode" disabled.bind="!data.gemeente.id || disabled">
+              placeholder="postcode" disabled.bind="!data.gemeente || disabled">
               <template replace-part="suggestion">
                 ${suggestion.naam}
               </template>
             </autocomplete>
           </div>
-          <div class="placeholder-container ${ !data.gemeente.id || disabled ? 'placeholder-disabled' : '' }">
+          <div class="placeholder-container ${ !data.gemeente || disabled ? 'placeholder-disabled' : '' }">
             <label>Straat</label>
             <autocomplete service.bind="suggest.straten" value.bind="data.straat & validate" label="naam"
-              placeholder="straat" disabled.bind="!data.gemeente.id || disabled" change.delegate="straatChanged()">
+              placeholder="straat" disabled.bind="!data.gemeente || disabled" change.delegate="straatChanged()">
               <template replace-part="suggestion">
                 ${suggestion.naam}
               </template>
