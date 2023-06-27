@@ -22,7 +22,7 @@ export declare class AdresCrab {
     constructor(controller: ValidationController, controllerFactory: ValidationControllerFactory, adresregisterService: AdresregisterService, bindingEngine: BindingEngine);
     bind(): void;
     parseField(value: any, property: any): void;
-    landChanged(nv: any, ov: any): void;
+    landChanged(nv: ILand, ov: ILand): void;
     gemeenteChanged(): void;
     straatChanged(): void;
     huisnummerParser(value: any): any;

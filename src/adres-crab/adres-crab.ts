@@ -80,8 +80,8 @@ export class AdresCrab {
     this.data[property] = { naam: value };
   }
 
-  public landChanged(nv, ov) {
-    if (nv === 'BE' || ov === 'BE') {
+  public landChanged(nv: ILand, ov: ILand) {
+    if (nv.code === 'BE' || ov.code === 'BE') {
       this.gemeente = undefined;
       this.straat = undefined;
       this.postcode = undefined;
