@@ -35,7 +35,7 @@ export class AdresCrab {
     this.loadLanden();
     this.suggest.gemeenten = { suggest: (value: string) => this.loadGemeenten(value) };
     this.suggest.postcodes = { suggest: (value) => this.loadPostcodes(value) };
-    // this.suggest.straten = { suggest: (value) => this.loadStraten(value) };
+    this.suggest.straten = { suggest: (value) => this.loadStraten(value) };
     // this.suggest.huisnummers = { suggest: (value) => this.loadHuisnrs(value) };
   }
 
@@ -177,16 +177,16 @@ export class AdresCrab {
     });
   }
 
-  // private loadStraten(value: string) {
-  //   const gemeente = this.data.gemeente ? this.data.gemeente.id : undefined;
-  //   return new Promise((resolve) => {
-  //     if (gemeente) {
-  //       this.crabService.getStraten(gemeente).then(straten => {
-  //         resolve(this.suggestFilter(straten, value));
-  //       });
-  //     }
-  //   });
-  // }
+  private loadStraten(value: string) {
+    const gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;
+    return new Promise((resolve) => {
+      if (gemeente) {
+        this.adresregisterService.getStraten(gemeente).then(straten => {
+          resolve(this.suggestFilter(straten, value));
+        });
+      }
+    });
+  }
 
   // private loadHuisnrs(value: string) {
   //   const straat = this.data.straat ? this.data.straat.id : undefined;

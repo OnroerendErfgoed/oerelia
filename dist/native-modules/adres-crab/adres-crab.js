@@ -30,6 +30,7 @@ var AdresCrab = (function () {
         this.loadLanden();
         this.suggest.gemeenten = { suggest: function (value) { return _this.loadGemeenten(value); } };
         this.suggest.postcodes = { suggest: function (value) { return _this.loadPostcodes(value); } };
+        this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
     }
     AdresCrab.prototype.bind = function () {
         var _this = this;
@@ -150,6 +151,17 @@ var AdresCrab = (function () {
             }
             else {
                 _this.data.postcode = undefined;
+            }
+        });
+    };
+    AdresCrab.prototype.loadStraten = function (value) {
+        var _this = this;
+        var gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;
+        return new Promise(function (resolve) {
+            if (gemeente) {
+                _this.adresregisterService.getStraten(gemeente).then(function (straten) {
+                    resolve(_this.suggestFilter(straten, value));
+                });
             }
         });
     };
