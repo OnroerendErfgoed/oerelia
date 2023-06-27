@@ -33,7 +33,7 @@ export class AdresCrab {
     this.controller.addRenderer(new FoundationValidationRenderer());
 
     this.loadLanden();
-    // this.suggest.gemeenten = { suggest: (value) => this.loadGemeenten(value) };
+    this.suggest.gemeenten = { suggest: (value: string) => this.loadGemeenten(value) };
     // this.suggest.postcodes = { suggest: (value) => this.loadPostcodes(value) };
     // this.suggest.straten = { suggest: (value) => this.loadStraten(value) };
     // this.suggest.huisnummers = { suggest: (value) => this.loadHuisnrs(value) };
@@ -156,13 +156,13 @@ export class AdresCrab {
     });
   }
 
-  // private loadGemeenten(value: string) {
-  //   return new Promise(resolve => {
-  //     this.crabService.getGemeenten().then(gemeenten => {
-  //       resolve(this.suggestFilter(gemeenten, value));
-  //     });
-  //   });
-  // }
+  private loadGemeenten(value: string) {
+    return new Promise(resolve => {
+      this.adresregisterService.getGemeenten().then(gemeenten => {
+        resolve(this.suggestFilter(gemeenten, value));
+      });
+    });
+  }
 
   // private loadPostcodes(value: string) {
   //   const gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;

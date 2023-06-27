@@ -29,5 +29,6 @@ export declare class AdresCrab {
     copyAdres(): void;
     pasteAdres(): void;
     private loadLanden;
+    private loadGemeenten;
     private suggestFilter;
 }

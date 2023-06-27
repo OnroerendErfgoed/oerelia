@@ -14,6 +14,7 @@ import { AdresregisterService } from '../services/adresregister.api-service';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 var AdresCrab = (function () {
     function AdresCrab(controller, controllerFactory, adresregisterService, bindingEngine) {
+        var _this = this;
         this.controller = controller;
         this.controllerFactory = controllerFactory;
         this.adresregisterService = adresregisterService;
@@ -27,6 +28,7 @@ var AdresCrab = (function () {
         this.controller = this.controllerFactory.createForCurrentScope();
         this.controller.addRenderer(new FoundationValidationRenderer());
         this.loadLanden();
+        this.suggest.gemeenten = { suggest: function (value) { return _this.loadGemeenten(value); } };
     }
     AdresCrab.prototype.bind = function () {
         var _this = this;
@@ -126,6 +128,14 @@ var AdresCrab = (function () {
             }
         }).catch(function (error) {
             console.debug(error);
+        });
+    };
+    AdresCrab.prototype.loadGemeenten = function (value) {
+        var _this = this;
+        return new Promise(function (resolve) {
+            _this.adresregisterService.getGemeenten().then(function (gemeenten) {
+                resolve(_this.suggestFilter(gemeenten, value));
+            });
         });
     };
     AdresCrab.prototype.suggestFilter = function (data, value) {
