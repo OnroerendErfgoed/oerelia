@@ -102,7 +102,7 @@
         <div class="placeholder-container ${ !data.adres.huisnummer || disabled ? 'placeholder-disabled' : '' }">
           <label>Busnr.</label>
           <autocomplete service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
-            disabled.bind="!data.adres.huisnummer || disabled" value.bind="data.adres & validate"
+            disabled.bind="!data.adres.huisnummer || disabled" value.bind="data.adres & validate" change.delegate="busnummerChanged()"
             type.bind="config.busnummer.autocompleteType">
             <template replace-part="suggestion">
               ${suggestion.busnummer}

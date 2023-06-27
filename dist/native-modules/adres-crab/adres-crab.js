@@ -98,8 +98,12 @@ var AdresCrab = (function () {
         }
     };
     AdresCrab.prototype.huisnummerChanged = function () {
-        if (!this.data.adres.huisnummer) {
-            this.data.adres.huisnummer = undefined;
+        this.oldHuisnummerAdres = this.adres;
+    };
+    AdresCrab.prototype.busnummerChanged = function () {
+        if (this.oldHuisnummerAdres && !this.adres) {
+            this.adres = this.oldHuisnummerAdres;
+            this.oldHuisnummerAdres = undefined;
         }
     };
     AdresCrab.prototype.copyAdres = function () {
@@ -202,7 +206,8 @@ var AdresCrab = (function () {
         return postcodes.filter(function (postcode) { return postcode.postcode.includes(searchPostcode); });
     };
     AdresCrab.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
-        return uniqBy(sortBy(adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); })), 'huisnummer');
+        var filteredAdressen = uniqBy(sortBy(adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); })), 'huisnummer');
+        return filteredAdressen.map(function (adres) { return adres.huisnummer; });
     };
     AdresCrab.prototype.filterBusnummers = function (adressen, searchBusnummer) {
         return adressen.filter(function (adres) { return adres.busnummer.includes(searchBusnummer); });

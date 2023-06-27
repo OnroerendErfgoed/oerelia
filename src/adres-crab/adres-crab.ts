@@ -22,6 +22,7 @@ export class AdresCrab {
   public postcode: IPostcode;
   public straat: IStraat;
   public adres: IAdresregisterAdres;
+  private oldHuisnummerAdres: IAdresregisterAdres;
   private suggest: any = {};
 
   constructor(
@@ -112,8 +113,13 @@ export class AdresCrab {
   }
 
   public huisnummerChanged() {
-    if (!this.data.adres.huisnummer) {
-      this.data.adres.huisnummer = undefined;
+    this.oldHuisnummerAdres = this.adres;
+  }
+
+  public busnummerChanged() {
+    if (this.oldHuisnummerAdres && !this.adres) {
+      this.adres = this.oldHuisnummerAdres;
+      this.oldHuisnummerAdres = undefined;
     }
   }
 
@@ -219,11 +225,9 @@ export class AdresCrab {
     return postcodes.filter((postcode: IPostinfo) => postcode.postcode.includes(searchPostcode));
   }
 
-  private filterHuisnummers(adressen: IAdresregisterAdres[], searchHuisnummer: string): IAdresregisterAdres[] | [] {
-    return uniqBy(
-      sortBy(adressen.filter((adres: IAdresregisterAdres) => adres.huisnummer.includes(searchHuisnummer))),
-      'huisnummer'
-    );
+  private filterHuisnummers(adressen: IAdresregisterAdres[], searchHuisnummer: string): string[] | [] {
+    const filteredAdressen = uniqBy(sortBy(adressen.filter((adres: IAdresregisterAdres) => adres.huisnummer.includes(searchHuisnummer))), 'huisnummer') as IAdresregisterAdres[];
+    return filteredAdressen.map((adres: IAdresregisterAdres) => adres.huisnummer);
   }
 
   private filterBusnummers(adressen: IAdresregisterAdres[], searchBusnummer: string): IAdresregisterAdres[] | [] {
