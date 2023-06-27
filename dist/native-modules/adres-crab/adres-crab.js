@@ -37,6 +37,7 @@ var AdresCrab = (function () {
     }
     AdresCrab.prototype.bind = function () {
         var _this = this;
+        this.data.adres = { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
         ValidationRules
             .ensure('land').required()
             .ensure('gemeente').required()
