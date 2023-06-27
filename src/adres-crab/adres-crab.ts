@@ -37,6 +37,7 @@ export class AdresCrab {
     this.suggest.postcodes = { suggest: (value) => this.loadPostcodes(value) };
     this.suggest.straten = { suggest: (value) => this.loadStraten(value) };
     this.suggest.huisnummers = { suggest: (value) => this.loadHuisnrs(value) };
+    this.suggest.busnummers = { suggest: (value) => this.loadBusnrs(value) };
   }
 
   public bind() {
@@ -109,15 +110,11 @@ export class AdresCrab {
     }
   }
 
-  // public huisnummerParser(value) {
-  //   // if (value) {
-  //   //   return new Huisnummer(null, value);
-  //   // } else {
-  //   //   return undefined;
-  //   // }
-
-  //   return value;
-  // }
+  public huisnummerChanged() {
+    if (!this.data.adres.huisnummer) {
+      this.data.adres.huisnummer = undefined;
+    }
+  }
 
   public copyAdres(): void {
     this.copiedAdres = this.data;
@@ -199,6 +196,18 @@ export class AdresCrab {
     });
   }
 
+  private loadBusnrs(value: string) {
+    const straat = this.data.straat ? this.data.straat.id : undefined;
+    const huisnummer = this.data.adres ? this.data.adres.huisnummer : undefined;
+    return new Promise((resolve) => {
+      if (straat && huisnummer) {
+        this.adresregisterService.getAdressen(straat, huisnummer).then(huisnrs => {
+          resolve(this.filterBusnummers(huisnrs, value));
+        });
+      }
+    });
+  }
+
   private suggestFilter(data: any, value: string) {
     return data.filter((obj) => {
       return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1;
@@ -211,5 +220,9 @@ export class AdresCrab {
 
   private filterHuisnummers(adressen: IAdresregisterAdres[], searchHuisnummer: string): IAdresregisterAdres[] | [] {
     return adressen.filter((adres: IAdresregisterAdres) => adres.huisnummer.includes(searchHuisnummer));
+  }
+
+  private filterBusnummers(adressen: IAdresregisterAdres[], searchBusnummer: string): IAdresregisterAdres[] | [] {
+    return adressen.filter((adres: IAdresregisterAdres) => adres.busnummer.includes(searchBusnummer));
   }
 }

@@ -64,7 +64,7 @@
             <label>Huisnummer</label>
             <autocomplete service.bind="suggest.huisnummers" label="huisnummer"
               placeholder="huisnummer" minlength="1" disabled.bind="!data.straat || disabled"
-              value.bind="data.huisnummer & validate" type.bind="config.huisnummer.autocompleteType">
+              value.bind="data.huisnummer & validate" type.bind="config.huisnummer.autocompleteType" change.delegate="huisnummerChanged()">
               <template replace-part="suggestion">
                 ${suggestion.huisnummer}
               </template>
@@ -97,14 +97,32 @@
       </div>
     </div>
     
+    <div class="placeholder-container ${ !data.straat || disabled ? 'placeholder-disabled' : '' }">
+      <label>Huisnummer</label>
+      <autocomplete service.bind="suggest.huisnummers" label="huisnummer"
+        placeholder="huisnummer" minlength="1" disabled.bind="!data.straat || disabled"
+        value.bind="data.huisnummer & validate" type.bind="config.huisnummer.autocompleteType" change.delegate="huisnummerChanged()">
+        <template replace-part="suggestion">
+          ${suggestion.huisnummer}
+        </template>
+      </autocomplete>
+    </div>
+
     <div class="row">
       <div class="small-push-2 small-10 columns">
         <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
           <label>Busnr.</label>
-          <input type="text" value.bind="data.subadres" placeholder="postbus" disabled.bind="disabled">
+          <autocomplete service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
+            disabled.bind="!data.adres.huisnummer || disabled" value.bind="data.busnummer & validate"
+            type.bind="config.busnummer.autocompleteType">
+            <template replace-part="suggestion">
+              ${suggestion.busnummer}
+            </template>
+          </autocomplete>
         </div>
       </div>
     </div>
+    <!-- <input type="text" value.bind="data.subadres" placeholder="postbus" disabled.bind="disabled"> -->
     
   </div>
 </template>

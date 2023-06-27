@@ -25,6 +25,7 @@ export declare class AdresCrab {
     landChanged(nv: ILand, ov: ILand): void;
     gemeenteChanged(): void;
     straatChanged(): void;
+    huisnummerChanged(): void;
     copyAdres(): void;
     pasteAdres(): void;
     private loadLanden;
@@ -32,7 +33,9 @@ export declare class AdresCrab {
     private loadPostcodes;
     private loadStraten;
     private loadHuisnrs;
+    private loadBusnrs;
     private suggestFilter;
     private filterPostcodes;
     private filterHuisnummers;
+    private filterBusnummers;
 }

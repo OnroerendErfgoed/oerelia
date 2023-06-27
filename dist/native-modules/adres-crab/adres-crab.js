@@ -32,6 +32,7 @@ var AdresCrab = (function () {
         this.suggest.postcodes = { suggest: function (value) { return _this.loadPostcodes(value); } };
         this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
         this.suggest.huisnummers = { suggest: function (value) { return _this.loadHuisnrs(value); } };
+        this.suggest.busnummers = { suggest: function (value) { return _this.loadBusnrs(value); } };
     }
     AdresCrab.prototype.bind = function () {
         var _this = this;
@@ -93,6 +94,11 @@ var AdresCrab = (function () {
     AdresCrab.prototype.straatChanged = function () {
         if (!this.data.straat) {
             this.data.adres = undefined;
+        }
+    };
+    AdresCrab.prototype.huisnummerChanged = function () {
+        if (!this.data.adres.huisnummer) {
+            this.data.adres.huisnummer = undefined;
         }
     };
     AdresCrab.prototype.copyAdres = function () {
@@ -174,6 +180,18 @@ var AdresCrab = (function () {
             }
         });
     };
+    AdresCrab.prototype.loadBusnrs = function (value) {
+        var _this = this;
+        var straat = this.data.straat ? this.data.straat.id : undefined;
+        var huisnummer = this.data.adres ? this.data.adres.huisnummer : undefined;
+        return new Promise(function (resolve) {
+            if (straat && huisnummer) {
+                _this.adresregisterService.getAdressen(straat, huisnummer).then(function (huisnrs) {
+                    resolve(_this.filterBusnummers(huisnrs, value));
+                });
+            }
+        });
+    };
     AdresCrab.prototype.suggestFilter = function (data, value) {
         return data.filter(function (obj) {
             return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1;
@@ -184,6 +202,9 @@ var AdresCrab = (function () {
     };
     AdresCrab.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
         return adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); });
+    };
+    AdresCrab.prototype.filterBusnummers = function (adressen, searchBusnummer) {
+        return adressen.filter(function (adres) { return adres.busnummer.includes(searchBusnummer); });
     };
     __decorate([
         bindable,
