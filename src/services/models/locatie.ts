@@ -29,10 +29,10 @@ export interface IStraat {
 }
 
 export interface IAdresregisterAdres {
-  id: string;
-  huisnummer: string;
-  busnummer: string;
-  uri: string;
+  id?: string;
+  huisnummer?: string;
+  busnummer?: string;
+  uri?: string;
 }
 
 export interface IProvincie {

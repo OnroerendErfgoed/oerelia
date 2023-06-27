@@ -69,6 +69,7 @@ export class AdresCrab {
       });
   
     this.data.land = this.data.land || { code: 'BE', naam: 'België' };
+    this.data.adres = { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
     if (this.data.land.code !== 'BE') {
       this.gemeente = this.data.gemeente ? { naam: this.data.gemeente.naam, niscode: this.data.gemeente.niscode } : undefined
       this.postcode = this.data.postcode ? { nummer: this.data.postcode.nummer, uri: this.data.postcode.uri } : undefined;
