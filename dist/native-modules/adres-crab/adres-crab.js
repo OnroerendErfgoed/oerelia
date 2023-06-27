@@ -156,10 +156,10 @@ var AdresCrab = (function () {
     };
     AdresCrab.prototype.loadStraten = function (value) {
         var _this = this;
-        var gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;
+        var niscode = this.data.gemeente ? this.data.gemeente.niscode : undefined;
         return new Promise(function (resolve) {
-            if (gemeente) {
-                _this.adresregisterService.getStraten(gemeente).then(function (straten) {
+            if (niscode) {
+                _this.adresregisterService.getStraten(niscode).then(function (straten) {
                     resolve(_this.suggestFilter(straten, value));
                 });
             }

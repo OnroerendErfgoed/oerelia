@@ -178,10 +178,10 @@ export class AdresCrab {
   }
 
   private loadStraten(value: string) {
-    const gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;
+    const niscode = this.data.gemeente ? this.data.gemeente.niscode : undefined;
     return new Promise((resolve) => {
-      if (gemeente) {
-        this.adresregisterService.getStraten(gemeente).then(straten => {
+      if (niscode) {
+        this.adresregisterService.getStraten(niscode).then(straten => {
           resolve(this.suggestFilter(straten, value));
         });
       }
