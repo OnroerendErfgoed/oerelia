@@ -31,6 +31,7 @@ var AdresCrab = (function () {
         this.controller.addRenderer(new foundation_validation_renderer_1.FoundationValidationRenderer());
         this.loadLanden();
         this.suggest.gemeenten = { suggest: function (value) { return _this.loadGemeenten(value); } };
+        this.suggest.postcodes = { suggest: function (value) { return _this.loadPostcodes(value); } };
     }
     AdresCrab.prototype.bind = function () {
         var _this = this;
@@ -138,6 +139,20 @@ var AdresCrab = (function () {
             _this.adresregisterService.getGemeenten().then(function (gemeenten) {
                 resolve(_this.suggestFilter(gemeenten, value));
             });
+        });
+    };
+    AdresCrab.prototype.loadPostcodes = function (value) {
+        var _this = this;
+        var gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;
+        return new Promise(function (resolve) {
+            if (gemeente) {
+                _this.adresregisterService.getPostinfo(gemeente).then(function (postcodes) {
+                    resolve(_this.suggestFilter(postcodes, value));
+                });
+            }
+            else {
+                _this.data.postcode = undefined;
+            }
         });
     };
     AdresCrab.prototype.suggestFilter = function (data, value) {

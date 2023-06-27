@@ -30,5 +30,6 @@ export declare class AdresCrab {
     pasteAdres(): void;
     private loadLanden;
     private loadGemeenten;
+    private loadPostcodes;
     private suggestFilter;
 }

@@ -34,7 +34,7 @@ export class AdresCrab {
 
     this.loadLanden();
     this.suggest.gemeenten = { suggest: (value: string) => this.loadGemeenten(value) };
-    // this.suggest.postcodes = { suggest: (value) => this.loadPostcodes(value) };
+    this.suggest.postcodes = { suggest: (value) => this.loadPostcodes(value) };
     // this.suggest.straten = { suggest: (value) => this.loadStraten(value) };
     // this.suggest.huisnummers = { suggest: (value) => this.loadHuisnrs(value) };
   }
@@ -164,19 +164,18 @@ export class AdresCrab {
     });
   }
 
-  // private loadPostcodes(value: string) {
-  //   const gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;
-  //   return new Promise((resolve) => {
-  //     if (gemeente) {
-  //       this.crabService.getPostinfo(gemeente).then((postcodes) => {
-  //         postcodes.forEach(postcode => { postcode.naam = String(postcode.id); });
-  //         resolve(this.suggestFilter(postcodes, value));
-  //       });
-  //     } else {
-  //       this.data.postcode = {nummer: value,}
-  //     }
-  //   });
-  // }
+  private loadPostcodes(value: string) {
+    const gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;
+    return new Promise((resolve) => {
+      if (gemeente) {
+        this.adresregisterService.getPostinfo(gemeente).then((postcodes) => {
+          resolve(this.suggestFilter(postcodes, value));
+        });
+      } else {
+        this.data.postcode = undefined;
+      }
+    });
+  }
 
   // private loadStraten(value: string) {
   //   const gemeente = this.data.gemeente ? this.data.gemeente.id : undefined;
