@@ -44,10 +44,10 @@
           </div>
           <div class="placeholder-container ${ !data.gemeente || disabled ? 'placeholder-disabled' : '' }">
             <label>Postcode</label>
-            <autocomplete service.bind="suggest.postcodes" value.bind="data.postcode & validate" label="naam"
+            <autocomplete service.bind="suggest.postcodes" value.bind="data.postcode & validate" label="postcode"
               placeholder="postcode" disabled.bind="!data.gemeente || disabled">
               <template replace-part="suggestion">
-                ${suggestion.naam}
+                ${suggestion.postcode}
               </template>
             </autocomplete>
           </div>

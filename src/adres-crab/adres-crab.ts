@@ -205,7 +205,7 @@ export class AdresCrab {
     });
   }
 
-  private filterPostcodes(postcodes: IPostinfo[], searchPostcode: string): IPostinfo[] {
+  private filterPostcodes(postcodes: IPostinfo[], searchPostcode: string): IPostinfo[] | [] {
     return postcodes.filter((postcode: IPostinfo) => postcode.postcode.includes(searchPostcode));
   }
 }
