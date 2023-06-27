@@ -22,7 +22,6 @@ export class AdresCrab {
   public postcode: IPostcode;
   public straat: IStraat;
   public adres: IAdresregisterAdres;
-  private oldHuisnummerAdres: IAdresregisterAdres;
   private suggest: any = {};
 
   constructor(

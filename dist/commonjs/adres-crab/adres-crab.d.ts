@@ -18,7 +18,6 @@ export declare class AdresCrab {
     postcode: IPostcode;
     straat: IStraat;
     adres: IAdresregisterAdres;
-    private oldHuisnummerAdres;
     private suggest;
     constructor(controller: ValidationController, controllerFactory: ValidationControllerFactory, adresregisterService: AdresregisterService, bindingEngine: BindingEngine);
     bind(): void;
