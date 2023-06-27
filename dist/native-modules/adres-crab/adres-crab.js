@@ -42,17 +42,15 @@ var AdresCrab = (function () {
             .ensure('gemeente').required()
             .ensure('postcode').required()
             .ensure('straat').required()
-            .ensure('huisnummer')
-            .required()
-            .when(function () { return _this.config.huisnummer.required; })
             .on(this.data);
+        ValidationRules
+            .ensure('huisnummer').required()
+            .when(function () { return _this.config.huisnummer.required; })
+            .on(this.data.adres);
         ValidationRules
             .ensure('gemeente').required()
             .ensure('postcode').required()
             .ensure('straat').required()
-            .ensure('huisnummer')
-            .required()
-            .when(function () { return _this.config.huisnummer.required; })
             .on(this);
         this.bindingEngine
             .propertyObserver(this.data, 'land')
@@ -60,7 +58,6 @@ var AdresCrab = (function () {
             _this.landChanged(nv, ov);
         });
         this.data.land = this.data.land || { code: 'BE', naam: 'België' };
-        this.data.adres = { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
         if (this.data.land.code !== 'BE') {
             this.gemeente = this.data.gemeente ? { naam: this.data.gemeente.naam, niscode: this.data.gemeente.niscode } : undefined;
             this.postcode = this.data.postcode ? { nummer: this.data.postcode.nummer, uri: this.data.postcode.uri } : undefined;
@@ -96,15 +93,6 @@ var AdresCrab = (function () {
     AdresCrab.prototype.straatChanged = function () {
         if (!this.data.straat) {
             this.data.adres = undefined;
-        }
-    };
-    AdresCrab.prototype.huisnummerChanged = function () {
-        this.oldHuisnummerAdres = this.adres;
-    };
-    AdresCrab.prototype.busnummerChanged = function () {
-        if (this.oldHuisnummerAdres && !this.adres) {
-            this.adres = this.oldHuisnummerAdres;
-            this.oldHuisnummerAdres = undefined;
         }
     };
     AdresCrab.prototype.copyAdres = function () {

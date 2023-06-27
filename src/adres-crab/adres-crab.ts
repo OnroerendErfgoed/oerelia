@@ -48,18 +48,17 @@ export class AdresCrab {
       .ensure('gemeente').required()
       .ensure('postcode').required()
       .ensure('straat').required()
-      .ensure('huisnummer')
-        .required()
-          .when(() => this.config.huisnummer.required)
       .on(this.data);
+
+    ValidationRules
+      .ensure('huisnummer').required()
+        .when(() => this.config.huisnummer.required)
+      .on(this.data.adres)
 
     ValidationRules
       .ensure('gemeente').required()
       .ensure('postcode').required()
       .ensure('straat').required()
-      .ensure('huisnummer')
-        .required()
-          .when(() => this.config.huisnummer.required)
       .on(this);
 
     this.bindingEngine
@@ -69,7 +68,6 @@ export class AdresCrab {
       });
   
     this.data.land = this.data.land || { code: 'BE', naam: 'België' };
-    this.data.adres = { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
     if (this.data.land.code !== 'BE') {
       this.gemeente = this.data.gemeente ? { naam: this.data.gemeente.naam, niscode: this.data.gemeente.niscode } : undefined
       this.postcode = this.data.postcode ? { nummer: this.data.postcode.nummer, uri: this.data.postcode.uri } : undefined;
@@ -110,17 +108,6 @@ export class AdresCrab {
   public straatChanged() {
     if (!this.data.straat) {
       this.data.adres = undefined;
-    }
-  }
-
-  public huisnummerChanged() {
-    this.oldHuisnummerAdres = this.adres;
-  }
-
-  public busnummerChanged() {
-    if (this.oldHuisnummerAdres && !this.adres) {
-      this.adres = this.oldHuisnummerAdres;
-      this.oldHuisnummerAdres = undefined;
     }
   }
 
