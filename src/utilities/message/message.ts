@@ -39,7 +39,7 @@ export class Message {
       ...config,
       emitterOptions: {
         ...this.defaults.emitterOptions,
-        ...config.emitterOptions || {}
+        ...(config.emitterOptions || {})
       }
     };
     const messageElement = this.show(type, config);
