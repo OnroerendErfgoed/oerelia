@@ -112,6 +112,10 @@ export class AdresCrab {
     }
   }
 
+  public postcodeChanged(newPostcode: IPostinfo) {
+    this.data.postcode = { nummer: newPostcode.postcode, uri: newPostcode.uri };
+  }
+
   public copyAdres(): void {
     this.copiedAdres = this.data;
   }

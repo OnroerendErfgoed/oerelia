@@ -2,7 +2,7 @@ import { BindingEngine } from 'aurelia-framework';
 import { ValidationController, ValidationControllerFactory } from 'aurelia-validation';
 import { AdresregisterService } from '../services/adresregister.api-service';
 import { IAdresCrabConfig } from './types/adres-crab-config';
-import { IAdresregisterAdres, ICrabAdres, IGemeente, ILand, IPostcode, IStraat } from 'services/models/locatie';
+import { IAdresregisterAdres, ICrabAdres, IGemeente, ILand, IPostcode, IPostinfo, IStraat } from 'services/models/locatie';
 export declare class AdresCrab {
     controller: ValidationController;
     private controllerFactory;
@@ -25,6 +25,7 @@ export declare class AdresCrab {
     landChanged(nv: ILand, ov: ILand): void;
     gemeenteChanged(): void;
     straatChanged(): void;
+    postcodeChanged(newPostcode: IPostinfo): void;
     copyAdres(): void;
     pasteAdres(): void;
     private loadLanden;

@@ -98,6 +98,9 @@ var AdresCrab = (function () {
             this.data.adres = undefined;
         }
     };
+    AdresCrab.prototype.postcodeChanged = function (newPostcode) {
+        this.data.postcode = { nummer: newPostcode.postcode, uri: newPostcode.uri };
+    };
     AdresCrab.prototype.copyAdres = function () {
         this.copiedAdres = this.data;
     };
