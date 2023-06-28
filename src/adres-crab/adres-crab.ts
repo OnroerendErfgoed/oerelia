@@ -112,10 +112,6 @@ export class AdresCrab {
     }
   }
 
-  public postcodeChanged(newPostcode: IPostinfo) {
-    this.data.postcode = { nummer: newPostcode.postcode, uri: newPostcode.uri };
-  }
-
   public copyAdres(): void {
     this.copiedAdres = this.data;
   }
@@ -166,7 +162,8 @@ export class AdresCrab {
     return new Promise((resolve) => {
       if (gemeente) {
         this.adresregisterService.getPostinfo(gemeente).then((postcodes) => {
-          resolve(this.filterPostcodes(postcodes, value));
+          const mappedPostcodes = postcodes.map((postcode) => ({ nummer: postcode.postcode, uri: postcode.uri } as IPostcode))
+          resolve(this.filterPostcodes(mappedPostcodes, value));
         });
       } else {
         this.data.postcode = undefined;
@@ -214,8 +211,8 @@ export class AdresCrab {
     });
   }
 
-  private filterPostcodes(postcodes: IPostinfo[], searchPostcode: string): IPostinfo[] | [] {
-    return postcodes.filter((postcode: IPostinfo) => postcode.postcode.includes(searchPostcode));
+  private filterPostcodes(postcodes: IPostcode[], searchPostcode: string): IPostcode[] | [] {
+    return postcodes.filter((postcode: IPostcode) => postcode.nummer.includes(searchPostcode));
   }
 
   private filterHuisnummers(adressen: IAdresregisterAdres[], searchHuisnummer: string): IAdresregisterAdres[] | [] {

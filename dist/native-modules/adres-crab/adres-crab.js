@@ -96,9 +96,6 @@ var AdresCrab = (function () {
             this.data.adres = undefined;
         }
     };
-    AdresCrab.prototype.postcodeChanged = function (newPostcode) {
-        this.data.postcode = { nummer: newPostcode.postcode, uri: newPostcode.uri };
-    };
     AdresCrab.prototype.copyAdres = function () {
         this.copiedAdres = this.data;
     };
@@ -148,7 +145,8 @@ var AdresCrab = (function () {
         return new Promise(function (resolve) {
             if (gemeente) {
                 _this.adresregisterService.getPostinfo(gemeente).then(function (postcodes) {
-                    resolve(_this.filterPostcodes(postcodes, value));
+                    var mappedPostcodes = postcodes.map(function (postcode) { return ({ nummer: postcode.postcode, uri: postcode.uri }); });
+                    resolve(_this.filterPostcodes(mappedPostcodes, value));
                 });
             }
             else {
@@ -196,7 +194,7 @@ var AdresCrab = (function () {
         });
     };
     AdresCrab.prototype.filterPostcodes = function (postcodes, searchPostcode) {
-        return postcodes.filter(function (postcode) { return postcode.postcode.includes(searchPostcode); });
+        return postcodes.filter(function (postcode) { return postcode.nummer.includes(searchPostcode); });
     };
     AdresCrab.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
         return uniqBy(sortBy(adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); })), 'huisnummer');
