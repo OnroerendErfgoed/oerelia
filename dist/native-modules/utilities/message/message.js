@@ -13,6 +13,7 @@ import * as toastr from 'toastr';
 import { messageType } from './enums/messageTypes';
 var Message = (function () {
     function Message(type, config) {
+        if (config === void 0) { config = { message: null, title: null }; }
         this.defaults = {
             emitterOptions: {
                 timeOut: 10000,
