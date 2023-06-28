@@ -34,13 +34,12 @@ export class Message {
   private emitter: any = toastr;
 
   private constructor(type: messageType, config: IMessage) {
-    config = config || { message: null, title: null };
     config = {
       ...this.defaults,
       ...config,
       emitterOptions: {
         ...this.defaults.emitterOptions,
-        ...(config.emitterOptions || {})
+        ...config.emitterOptions || {}
       }
     };
     const messageElement = this.show(type, config);

@@ -22,8 +22,7 @@ var Message = (function () {
             preventOpenDuplicates: true
         };
         this.emitter = toastr;
-        config = config || { message: null, title: null };
-        config = __assign(__assign(__assign({}, this.defaults), config), { emitterOptions: __assign(__assign({}, this.defaults.emitterOptions), (config.emitterOptions || {})) });
+        config = __assign(__assign(__assign({}, this.defaults), config), { emitterOptions: __assign(__assign({}, this.defaults.emitterOptions), config.emitterOptions || {}) });
         var messageElement = this.show(type, config);
         this.applyStyle(messageElement, config.style);
     }
