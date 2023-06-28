@@ -18,11 +18,11 @@ var RestMessage = (function () {
                 return;
             }
         }
-        if (this.restSuccess && !this.customErrorFailed) {
-            message_1.Message.success(config.success);
-        }
-        else {
+        if (!this.restSuccess || this.customErrorFailed) {
             this.error(config.result);
+        }
+        else if (config.success) {
+            message_1.Message.success(config.success);
         }
     }
     RestMessage.display = function (config) {
