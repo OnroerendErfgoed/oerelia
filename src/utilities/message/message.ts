@@ -33,7 +33,8 @@ export class Message {
 
   private emitter: any = toastr;
 
-  private constructor(type: messageType, config: IMessage = { message: null, title: null }) {
+  private constructor(type: messageType, config: IMessage) {
+    config = config || { message: null, title: null };
     config = {
       ...this.defaults,
       ...config,
