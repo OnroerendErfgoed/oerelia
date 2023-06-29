@@ -42,7 +42,7 @@ export class AdresCrab {
   }
 
   public bind() {
-    this.data.adres = { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
+    this.data.adres = this.data.adres || { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
 
     ValidationRules
       .ensure('land').required()
