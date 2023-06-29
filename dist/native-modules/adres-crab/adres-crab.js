@@ -72,7 +72,7 @@ var AdresCrab = (function () {
         this.data[property] = { naam: value };
     };
     AdresCrab.prototype.landChanged = function (nv, ov) {
-        if (nv.code === 'BE' || ov.code === 'BE') {
+        if (nv.code !== 'BE') {
             this.gemeente = undefined;
             this.straat = undefined;
             this.postcode = undefined;

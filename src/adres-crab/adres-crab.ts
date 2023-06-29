@@ -84,7 +84,7 @@ export class AdresCrab {
   }
 
   public landChanged(nv: ILand, ov: ILand) {
-    if (nv.code === 'BE' || ov.code === 'BE') {
+    if (nv.code !== 'BE') {
       this.gemeente = undefined;
       this.straat = undefined;
       this.postcode = undefined;
