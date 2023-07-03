@@ -68,7 +68,7 @@ var AdresCrab = (function () {
                 : undefined;
         }
     };
-    AdresCrab.prototype.showFreeText = function (label) {
+    AdresCrab.prototype.freeTextParser = function (label) {
         return label;
     };
     AdresCrab.prototype.parseField = function (value, property) {

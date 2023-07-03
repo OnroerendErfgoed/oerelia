@@ -79,7 +79,7 @@ export class AdresCrab {
     }
   }
 
-  public showFreeText(label: string) {
+  public freeTextParser(label: string) {
     return label;
   }
 
