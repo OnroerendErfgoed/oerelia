@@ -12,6 +12,7 @@ export declare class Autocomplete {
     minlength: number;
     type: autocompleteType;
     parser: any;
+    freeSearchAllowed: boolean;
     id: number;
     expanded: boolean;
     updatingInput: boolean;
