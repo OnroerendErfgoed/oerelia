@@ -22,6 +22,8 @@ export class Autocomplete {
   @bindable public minlength: number = 2;
   @bindable public type: autocompleteType = autocompleteType.Auto;
   @bindable public parser;
+  @bindable public ownInputAllowed = false;
+
   public id: number;
   public expanded: boolean = false;
   public updatingInput: boolean = false;
@@ -54,12 +56,12 @@ export class Autocomplete {
 
   public getName(suggestion) {
     if (suggestion == null) {
-      return '';
+      return this.ownInputAllowed ? this.userInput : '';
     } else if (this.labelParser) {
       return this.labelParser(suggestion);
-    } else {
-      return suggestion[this.label];
     }
+
+    return suggestion[this.label];
   }
 
   public collapse() {
@@ -175,9 +177,14 @@ export class Autocomplete {
   }
 
   public blur() {
-    if ((this.getName(this.value) === this.inputValue) || (this.type !== autocompleteType.Suggest)) {
+    let shouldBlur = false;
+    if (!this.ownInputAllowed) {
+      shouldBlur = (this.getName(this.value) === this.inputValue) || (this.type !== autocompleteType.Suggest);
+    }
+
+    if (shouldBlur) {
       this.select(this.value);
-      let event = new CustomEvent('blur');
+      const event = new CustomEvent('blur');
       this.element.dispatchEvent(event);
     } else {
       const customValue = this.parser ? this.parser(this.inputValue) : this.defaultParser(this.inputValue);

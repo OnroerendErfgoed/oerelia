@@ -29,6 +29,7 @@ var Autocomplete = (function () {
         this.label = 'name';
         this.minlength = 2;
         this.type = autocomplete_type_1.autocompleteType.Auto;
+        this.ownInputAllowed = false;
         this.expanded = false;
         this.updatingInput = false;
         this.suggestions = [];
@@ -53,14 +54,12 @@ var Autocomplete = (function () {
     };
     Autocomplete.prototype.getName = function (suggestion) {
         if (suggestion == null) {
-            return '';
+            return this.ownInputAllowed ? this.userInput : '';
         }
         else if (this.labelParser) {
             return this.labelParser(suggestion);
         }
-        else {
-            return suggestion[this.label];
-        }
+        return suggestion[this.label];
     };
     Autocomplete.prototype.collapse = function () {
         this.expanded = false;
@@ -167,7 +166,11 @@ var Autocomplete = (function () {
         return true;
     };
     Autocomplete.prototype.blur = function () {
-        if ((this.getName(this.value) === this.inputValue) || (this.type !== autocomplete_type_1.autocompleteType.Suggest)) {
+        var shouldBlur = false;
+        if (!this.ownInputAllowed) {
+            shouldBlur = (this.getName(this.value) === this.inputValue) || (this.type !== autocomplete_type_1.autocompleteType.Suggest);
+        }
+        if (shouldBlur) {
             this.select(this.value);
             var event_1 = new CustomEvent('blur');
             this.element.dispatchEvent(event_1);
@@ -237,6 +240,10 @@ var Autocomplete = (function () {
         aurelia_templating_1.bindable,
         __metadata("design:type", Object)
     ], Autocomplete.prototype, "parser", void 0);
+    __decorate([
+        aurelia_templating_1.bindable,
+        __metadata("design:type", Object)
+    ], Autocomplete.prototype, "ownInputAllowed", void 0);
     Autocomplete = __decorate([
         aurelia_dependency_injection_1.inject(Element),
         __metadata("design:paramtypes", [Element])
