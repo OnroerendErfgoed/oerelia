@@ -79,6 +79,10 @@ export class AdresCrab {
     }
   }
 
+  public showFreeText(label: string) {
+    return label;
+  }
+
   public parseField(value, property) {
     this.data[property] = { naam: value };
   }

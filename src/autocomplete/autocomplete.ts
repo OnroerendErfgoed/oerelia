@@ -22,7 +22,6 @@ export class Autocomplete {
   @bindable public minlength: number = 2;
   @bindable public type: autocompleteType = autocompleteType.Auto;
   @bindable public parser;
-  @bindable public freeSearchAllowed = false;
   public id: number;
   public expanded: boolean = false;
   public updatingInput: boolean = false;
@@ -177,10 +176,6 @@ export class Autocomplete {
 
   public blur() {
     if ((this.getName(this.value) === this.inputValue) || (this.type !== autocompleteType.Suggest)) {
-      if (this.freeSearchAllowed && this.inputValue && !this.value) {
-        this.value === this.inputValue;
-      }
-
       this.select(this.value);
       let event = new CustomEvent('blur');
       this.element.dispatchEvent(event);

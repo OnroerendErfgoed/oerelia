@@ -70,6 +70,9 @@ var AdresCrab = (function () {
                 : undefined;
         }
     };
+    AdresCrab.prototype.showFreeText = function (label) {
+        return label;
+    };
     AdresCrab.prototype.parseField = function (value, property) {
         this.data[property] = { naam: value };
     };
