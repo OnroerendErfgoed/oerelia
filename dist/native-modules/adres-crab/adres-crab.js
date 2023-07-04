@@ -68,8 +68,8 @@ var AdresCrab = (function () {
                 : undefined;
         }
     };
-    AdresCrab.prototype.freeTextParser = function (label) {
-        return label;
+    AdresCrab.prototype.huisnummerParser = function (value) {
+        return value ? { id: null, huisnummer: value } : undefined;
     };
     AdresCrab.prototype.parseField = function (value, property) {
         this.data[property] = { naam: value };

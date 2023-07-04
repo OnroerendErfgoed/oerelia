@@ -79,8 +79,8 @@ export class AdresCrab {
     }
   }
 
-  public freeTextParser(label: string) {
-    return label;
+  public huisnummerParser(value) {
+    return value ? { id: null, huisnummer: value } as IAdresregisterAdres : undefined;
   }
 
   public parseField(value, property) {
