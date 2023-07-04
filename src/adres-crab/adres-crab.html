@@ -104,19 +104,18 @@
       <div class="small-push-2 small-10 columns">
         <div class="placeholder-container ${ !data.adres.huisnummer || disabled ? 'placeholder-disabled' : '' }">
           <label>Busnr.</label>
-          <autocomplete service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
+          <autocomplete show.bind="!freeBusnummerSearch" service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
             disabled.bind="!data.adres || disabled" value.bind="data.adres & validate"
             type.bind="config.busnummer.autocompleteType">
             <template replace-part="suggestion">
               ${suggestion.busnummer}
             </template>
           </autocomplete>
-          <input show.bind="freeBusnummerSearch" type="text" value.bind="data.adres.busnummer" placeholder="busnummer" disabled.bind="disabled">
+          <input show.bind="freeBusnummerSearch" type="text" value.bind="data.adres.busnummer" placeholder="busnummer">
           <template if.bind="showBusnummerLinks">
             <button if.bind="!freeBusnummerSearch" click.delegate="onBusnummerNietGevondenClicked()">Busnummer niet gevonden?</button>
             <button if.bind="freeBusnummerSearch" click.delegate="onBusnummerSuggestiesClicked()">Suggesties</button>
           </template>
-          
         </div>
       </div>
     </div>
