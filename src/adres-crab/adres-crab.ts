@@ -79,8 +79,12 @@ export class AdresCrab {
     }
   }
 
-  public huisnummerParser(value) {
+  public huisnummerParser(value: string) {
     return value ? { id: null, huisnummer: value } as IAdresregisterAdres : undefined;
+  }
+
+  public busnummerParser(value: string) {
+    return value ? { id: null, busnummer: value } as IAdresregisterAdres : undefined;
   }
 
   public parseField(value, property) {

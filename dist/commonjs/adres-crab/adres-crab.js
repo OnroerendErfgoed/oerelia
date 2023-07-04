@@ -73,6 +73,9 @@ var AdresCrab = (function () {
     AdresCrab.prototype.huisnummerParser = function (value) {
         return value ? { id: null, huisnummer: value } : undefined;
     };
+    AdresCrab.prototype.busnummerParser = function (value) {
+        return value ? { id: null, busnummer: value } : undefined;
+    };
     AdresCrab.prototype.parseField = function (value, property) {
         this.data[property] = { naam: value };
     };

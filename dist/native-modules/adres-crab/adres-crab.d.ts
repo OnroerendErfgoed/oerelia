@@ -21,7 +21,8 @@ export declare class AdresCrab {
     private suggest;
     constructor(controller: ValidationController, controllerFactory: ValidationControllerFactory, adresregisterService: AdresregisterService, bindingEngine: BindingEngine);
     bind(): void;
-    huisnummerParser(value: any): IAdresregisterAdres;
+    huisnummerParser(value: string): IAdresregisterAdres;
+    busnummerParser(value: string): IAdresregisterAdres;
     parseField(value: any, property: any): void;
     landChanged(nv: ILand, ov: ILand): void;
     gemeenteChanged(): void;
