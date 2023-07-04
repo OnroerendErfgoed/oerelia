@@ -20,6 +20,7 @@ export declare class AdresCrab {
     adres: IAdresregisterAdres;
     freeHuisnummerSearch: boolean;
     freeBusnummersearch: boolean;
+    showBusnummerLinks: boolean;
     private suggest;
     constructor(controller: ValidationController, controllerFactory: ValidationControllerFactory, adresregisterService: AdresregisterService, bindingEngine: BindingEngine);
     bind(): void;
@@ -33,6 +34,8 @@ export declare class AdresCrab {
     pasteAdres(): void;
     onHuisnummerNietGevondenClicked(): void;
     onHuisnummerSuggestiesClicked(): void;
+    onBusnummerNietGevondenClicked(): void;
+    onBusnummerSuggestiesClicked(): void;
     private loadLanden;
     private loadGemeenten;
     private loadPostcodes;

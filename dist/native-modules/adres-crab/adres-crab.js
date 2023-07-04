@@ -28,6 +28,7 @@ var AdresCrab = (function () {
         this.landen = [];
         this.freeHuisnummerSearch = false;
         this.freeBusnummersearch = false;
+        this.showBusnummerLinks = true;
         this.suggest = {};
         this.controller = this.controllerFactory.createForCurrentScope();
         this.controller.addRenderer(new FoundationValidationRenderer());
@@ -117,9 +118,17 @@ var AdresCrab = (function () {
     };
     AdresCrab.prototype.onHuisnummerNietGevondenClicked = function () {
         this.freeHuisnummerSearch = true;
+        this.showBusnummerLinks = false;
     };
     AdresCrab.prototype.onHuisnummerSuggestiesClicked = function () {
         this.freeHuisnummerSearch = false;
+        this.showBusnummerLinks = true;
+    };
+    AdresCrab.prototype.onBusnummerNietGevondenClicked = function () {
+        this.freeBusnummersearch = true;
+    };
+    AdresCrab.prototype.onBusnummerSuggestiesClicked = function () {
+        this.freeBusnummersearch = false;
     };
     AdresCrab.prototype.loadLanden = function () {
         var _this = this;

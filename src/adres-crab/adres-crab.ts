@@ -26,6 +26,7 @@ export class AdresCrab {
 
   public freeHuisnummerSearch = false;
   public freeBusnummersearch = false;
+  public showBusnummerLinks = true;
 
   private suggest: any = {};
 
@@ -139,10 +140,20 @@ export class AdresCrab {
 
   public onHuisnummerNietGevondenClicked(): void {
     this.freeHuisnummerSearch = true;
+    this.showBusnummerLinks = false;
   }
 
   public onHuisnummerSuggestiesClicked(): void {
     this.freeHuisnummerSearch = false;
+    this.showBusnummerLinks = true;
+  }
+
+  public onBusnummerNietGevondenClicked(): void {
+    this.freeBusnummersearch = true;
+  }
+
+  public onBusnummerSuggestiesClicked(): void {
+    this.freeBusnummersearch = false;
   }
 
   private loadLanden() {

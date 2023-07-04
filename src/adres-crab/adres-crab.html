@@ -111,6 +111,12 @@
               ${suggestion.busnummer}
             </template>
           </autocomplete>
+          <input show.bind="freeBusnummerSearch" type="text" value.bind="data.adres.busnummer" placeholder="busnummer" disabled.bind="disabled">
+          <template if.bind="showBusnummerLinks">
+            <button if.bind="!freeBusnummerSearch" click.delegate="onBusnummerNietGevondenClicked()">Busnummer niet gevonden?</button>
+            <button if.bind="freeBusnummerSearch" click.delegate="onBusnummerSuggestiesClicked()">Suggesties</button>
+          </template>
+          
         </div>
       </div>
     </div>
