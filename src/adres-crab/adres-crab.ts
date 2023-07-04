@@ -48,6 +48,9 @@ export class AdresCrab {
   }
 
   public bind() {
+    if (this.data.adres && !this.data.adres.id) {
+      this.onHuisnummerNietGevondenClicked();
+    }
     this.data.adres = this.data.adres || { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
 
     ValidationRules

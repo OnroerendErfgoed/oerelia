@@ -43,6 +43,9 @@ var AdresCrab = (function () {
     }
     AdresCrab.prototype.bind = function () {
         var _this = this;
+        if (this.data.adres && !this.data.adres.id) {
+            this.onHuisnummerNietGevondenClicked();
+        }
         this.data.adres = this.data.adres || { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
         aurelia_validation_1.ValidationRules
             .ensure('land').required()
