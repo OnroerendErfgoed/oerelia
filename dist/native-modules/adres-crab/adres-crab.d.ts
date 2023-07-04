@@ -13,6 +13,7 @@ export declare class AdresCrab {
     config: IAdresCrabConfig;
     copiedAdres: ICrabAdres;
     copyAvailable: boolean;
+    freeSearchAllowed: boolean;
     landen: ILand[];
     gemeente: IGemeente;
     postcode: IPostcode;

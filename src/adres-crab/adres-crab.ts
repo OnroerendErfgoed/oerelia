@@ -17,7 +17,8 @@ export class AdresCrab {
   };
   @bindable copiedAdres: ICrabAdres;
   @bindable copyAvailable = false;
-
+  @bindable freeSearchAllowed = true;
+  
   public landen: ILand[] = [];
   public gemeente: IGemeente;
   public postcode: IPostcode;

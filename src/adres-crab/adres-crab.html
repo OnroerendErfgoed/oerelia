@@ -69,9 +69,11 @@
                 ${suggestion.huisnummer}
               </template>
             </autocomplete>
-            <input show.bind="freeHuisnummerSearch" type="text" value.bind="data.adres.huisnummer" placeholder="huisnummer" disabled.bind="disabled">
-            <a href="#" class="free-search-link" if.bind="!freeHuisnummerSearch" click.delegate="onHuisnummerNietGevondenClicked()">Huisnummer niet gevonden?</a>
-            <a href="#" class="free-search-link" if.bind="freeHuisnummerSearch" click.delegate="onHuisnummerSuggestiesClicked()">Suggesties</a>
+            <template if.bind="freeSearchAllowed">
+              <input show.bind="freeHuisnummerSearch" type="text" value.bind="data.adres.huisnummer" placeholder="huisnummer" disabled.bind="disabled">
+              <a href="#" class="free-search-link" if.bind="!freeHuisnummerSearch" click.delegate="onHuisnummerNietGevondenClicked()">Huisnummer niet gevonden?</a>
+              <a href="#" class="free-search-link" if.bind="freeHuisnummerSearch" click.delegate="onHuisnummerSuggestiesClicked()">Suggesties</a>
+            </template>
           </div>
         </div>
         <div if.bind="data.land.code !== 'BE'">
@@ -111,10 +113,12 @@
               ${suggestion.busnummer}
             </template>
           </autocomplete>
-          <input show.bind="freeBusnummerSearch" type="text" value.bind="data.adres.busnummer" placeholder="busnummer">
-          <template if.bind="showBusnummerLinks">
-            <a href="#" class="free-search-link" if.bind="!freeBusnummerSearch" click.delegate="onBusnummerNietGevondenClicked()">Busnummer niet gevonden?</a>
-            <a href="#" class="free-search-link" if.bind="freeBusnummerSearch" click.delegate="onBusnummerSuggestiesClicked()">Suggesties</a>
+          <template if.bind="freeSearchAllowed">
+            <input show.bind="freeBusnummerSearch" type="text" value.bind="data.adres.busnummer" placeholder="busnummer" disabled.bind="disabled">
+            <template if.bind="showBusnummerLinks">
+              <a href="#" class="free-search-link" if.bind="!freeBusnummerSearch" click.delegate="onBusnummerNietGevondenClicked()">Busnummer niet gevonden?</a>
+              <a href="#" class="free-search-link" if.bind="freeBusnummerSearch" click.delegate="onBusnummerSuggestiesClicked()">Suggesties</a>
+            </template>
           </template>
         </div>
       </div>

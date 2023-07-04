@@ -25,6 +25,7 @@ var AdresCrab = (function () {
             busnummer: { required: false, autocompleteType: autocompleteType.Auto }
         };
         this.copyAvailable = false;
+        this.freeSearchAllowed = true;
         this.landen = [];
         this.freeHuisnummerSearch = false;
         this.freeBusnummerSearch = false;
@@ -251,6 +252,10 @@ var AdresCrab = (function () {
         bindable,
         __metadata("design:type", Object)
     ], AdresCrab.prototype, "copyAvailable", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], AdresCrab.prototype, "freeSearchAllowed", void 0);
     AdresCrab = __decorate([
         inject(ValidationController, ValidationControllerFactory, AdresregisterService, BindingEngine),
         __metadata("design:paramtypes", [ValidationController,
