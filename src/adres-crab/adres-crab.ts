@@ -85,7 +85,7 @@ export class AdresCrab {
   }
 
   public busnummerParser(value: string) {
-    return value ? { id: null, busnummer: value } as IAdresregisterAdres : undefined;
+    return value ? { id: null, busnummer: value, huisnummer: this.data.adres.huisnummer } as IAdresregisterAdres : undefined;
   }
 
   public parseField(value, property) {
