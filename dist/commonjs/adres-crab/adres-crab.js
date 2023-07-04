@@ -120,10 +120,12 @@ var AdresCrab = (function () {
     };
     AdresCrab.prototype.onHuisnummerNietGevondenClicked = function () {
         this.freeHuisnummerSearch = true;
+        this.freeBusnummerSearch = true;
         this.showBusnummerLinks = false;
     };
     AdresCrab.prototype.onHuisnummerSuggestiesClicked = function () {
         this.freeHuisnummerSearch = false;
+        this.freeBusnummerSearch = false;
         this.showBusnummerLinks = true;
     };
     AdresCrab.prototype.onBusnummerNietGevondenClicked = function () {

@@ -140,11 +140,13 @@ export class AdresCrab {
 
   public onHuisnummerNietGevondenClicked(): void {
     this.freeHuisnummerSearch = true;
+    this.freeBusnummerSearch = true;
     this.showBusnummerLinks = false;
   }
 
   public onHuisnummerSuggestiesClicked(): void {
     this.freeHuisnummerSearch = false;
+    this.freeBusnummerSearch = false;
     this.showBusnummerLinks = true;
   }
 
