@@ -22,6 +22,7 @@ export class Autocomplete {
   @bindable public minlength: number = 2;
   @bindable public type: autocompleteType = autocompleteType.Auto;
   @bindable public parser;
+  @bindable public freeTextAllowed = false;
   public id: number;
   public expanded: boolean = false;
   public updatingInput: boolean = false;
@@ -175,14 +176,21 @@ export class Autocomplete {
   }
 
   public blur() {
+    if (this.freeTextAllowed) {
+      this.display(this.inputValue);
+      this.collapse();
+      return;
+    }
+
     if ((this.getName(this.value) === this.inputValue) || (this.type !== autocompleteType.Suggest)) {
       this.select(this.value);
       let event = new CustomEvent('blur');
       this.element.dispatchEvent(event);
-    } else {
-      const customValue = this.parser ? this.parser(this.inputValue) : this.defaultParser(this.inputValue);
-      this.select(customValue);
+      return;
     }
+
+    const customValue = this.parser ? this.parser(this.inputValue) : this.defaultParser(this.inputValue);
+    this.select(customValue);
   }
 
   public suggestionClicked(suggestion) {
