@@ -11,4 +11,17 @@
   .copy-button {
     margin-left: 5px;
   }
+
+  .free-search-link {
+    margin-left: 8px;
+    width: fit-content;
+    color: #0075db;
+    &:hover {
+      text-decoration: none;
+      color: #0075db;
+    }
+    &:focus {
+      color: #0075db;
+    }
+  }
 }
