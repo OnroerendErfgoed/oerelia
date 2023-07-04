@@ -23,7 +23,8 @@ var AdresCrab = (function () {
         this.adresregisterService = adresregisterService;
         this.bindingEngine = bindingEngine;
         this.config = {
-            huisnummer: { required: true, autocompleteType: autocomplete_type_1.autocompleteType.Auto }
+            huisnummer: { required: true, autocompleteType: autocomplete_type_1.autocompleteType.Auto },
+            busnummer: { required: false, autocompleteType: autocomplete_type_1.autocompleteType.Auto }
         };
         this.copyAvailable = false;
         this.landen = [];

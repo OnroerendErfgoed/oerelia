@@ -12,7 +12,8 @@ export class AdresCrab {
   @bindable public disabled: boolean;
   @bindable public data: ICrabAdres;
   @bindable public config: IAdresCrabConfig = {
-    huisnummer: { required: true, autocompleteType: autocompleteType.Auto }
+    huisnummer: { required: true, autocompleteType: autocompleteType.Auto },
+    busnummer: { required: false, autocompleteType: autocompleteType.Auto }
   };
   @bindable copiedAdres: ICrabAdres;
   @bindable copyAvailable = false;
