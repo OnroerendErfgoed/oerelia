@@ -19,7 +19,7 @@ export declare class AdresCrab {
     straat: IStraat;
     adres: IAdresregisterAdres;
     freeHuisnummerSearch: boolean;
-    freeBusnummersearch: boolean;
+    freeBusnummerSearch: boolean;
     showBusnummerLinks: boolean;
     private suggest;
     constructor(controller: ValidationController, controllerFactory: ValidationControllerFactory, adresregisterService: AdresregisterService, bindingEngine: BindingEngine);

@@ -25,7 +25,7 @@ export class AdresCrab {
   public adres: IAdresregisterAdres;
 
   public freeHuisnummerSearch = false;
-  public freeBusnummersearch = false;
+  public freeBusnummerSearch = false;
   public showBusnummerLinks = true;
 
   private suggest: any = {};
@@ -149,11 +149,11 @@ export class AdresCrab {
   }
 
   public onBusnummerNietGevondenClicked(): void {
-    this.freeBusnummersearch = true;
+    this.freeBusnummerSearch = true;
   }
 
   public onBusnummerSuggestiesClicked(): void {
-    this.freeBusnummersearch = false;
+    this.freeBusnummerSearch = false;
   }
 
   private loadLanden() {

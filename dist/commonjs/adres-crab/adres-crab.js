@@ -29,7 +29,7 @@ var AdresCrab = (function () {
         this.copyAvailable = false;
         this.landen = [];
         this.freeHuisnummerSearch = false;
-        this.freeBusnummersearch = false;
+        this.freeBusnummerSearch = false;
         this.showBusnummerLinks = true;
         this.suggest = {};
         this.controller = this.controllerFactory.createForCurrentScope();
@@ -127,10 +127,10 @@ var AdresCrab = (function () {
         this.showBusnummerLinks = true;
     };
     AdresCrab.prototype.onBusnummerNietGevondenClicked = function () {
-        this.freeBusnummersearch = true;
+        this.freeBusnummerSearch = true;
     };
     AdresCrab.prototype.onBusnummerSuggestiesClicked = function () {
-        this.freeBusnummersearch = false;
+        this.freeBusnummerSearch = false;
     };
     AdresCrab.prototype.loadLanden = function () {
         var _this = this;
