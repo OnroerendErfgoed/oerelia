@@ -27,7 +27,6 @@ var Autocomplete = (function () {
         this.label = 'name';
         this.minlength = 2;
         this.type = autocompleteType.Auto;
-        this.freeTextAllowed = false;
         this.expanded = false;
         this.updatingInput = false;
         this.suggestions = [];
@@ -166,11 +165,6 @@ var Autocomplete = (function () {
         return true;
     };
     Autocomplete.prototype.blur = function () {
-        if (this.freeTextAllowed) {
-            this.display(this.inputValue);
-            this.collapse();
-            return;
-        }
         if ((this.getName(this.value) === this.inputValue) || (this.type !== autocompleteType.Suggest)) {
             this.select(this.value);
             var event_1 = new CustomEvent('blur');
@@ -240,10 +234,6 @@ var Autocomplete = (function () {
         bindable,
         __metadata("design:type", Object)
     ], Autocomplete.prototype, "parser", void 0);
-    __decorate([
-        bindable,
-        __metadata("design:type", Object)
-    ], Autocomplete.prototype, "freeTextAllowed", void 0);
     Autocomplete = __decorate([
         inject(Element),
         __metadata("design:paramtypes", [Element])

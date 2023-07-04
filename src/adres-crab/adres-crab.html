@@ -62,13 +62,16 @@
           </div>
           <div class="placeholder-container ${ !data.straat || disabled ? 'placeholder-disabled' : '' }">
             <label>Huisnummer</label>
-            <autocomplete service.bind="suggest.huisnummers" label="huisnummer"
+            <autocomplete show.bind="!freeHuisnummerSearch" service.bind="suggest.huisnummers" label="huisnummer"
               placeholder="huisnummer" minlength="1" disabled.bind="!data.straat || disabled"
-              value.bind="data.adres & validate" type.bind="config.huisnummer.autocompleteType" free-text-allowed.bind="true">
+              value.bind="data.adres & validate" type.bind="config.huisnummer.autocompleteType">
               <template replace-part="suggestion">
                 ${suggestion.huisnummer}
               </template>
             </autocomplete>
+            <input show.bind="freeHuisnummerSearch" type="text" value.bind="data.adres.huisnummer" placeholder="huisnummer" disabled.bind="disabled">
+            <a href="#" if.bind="!freeHuisnummerSearch" click.delegate="onHuisnummerNietGevondenClicked">Huisnummer niet gevonden?</a>
+            <a href="#" if.bind="freeHuisnummerSearch" click.delegate="onHuisnummerNietGevondenclicked">Suggesties</a>
           </div>
         </div>
         <div if.bind="data.land.code !== 'BE'">
@@ -103,7 +106,7 @@
           <label>Busnr.</label>
           <autocomplete service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
             disabled.bind="!data.adres || disabled" value.bind="data.adres & validate"
-            type.bind="config.busnummer.autocompleteType" free-text-allowed.bind="true">
+            type.bind="config.busnummer.autocompleteType">
             <template replace-part="suggestion">
               ${suggestion.busnummer}
             </template>

@@ -23,6 +23,10 @@ export class AdresCrab {
   public postcode: IPostcode;
   public straat: IStraat;
   public adres: IAdresregisterAdres;
+
+  public freeHuisnummerSearch = false;
+  public freeBusnummersearch = false;
+
   private suggest: any = {};
 
   constructor(
@@ -131,6 +135,14 @@ export class AdresCrab {
     this.data.postcode = this.copiedAdres.postcode;
     this.data.straat = this.copiedAdres.straat;
     this.data.adres = this.copiedAdres.adres;
+  }
+
+  public onHuisnummerNietGevondenClicked(): void {
+    this.freeHuisnummerSearch = true;
+  }
+
+  public onHuisnummerSuggestiesClicked(): void {
+    this.freeHuisnummerSearch = false;
   }
 
   private loadLanden() {

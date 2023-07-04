@@ -26,6 +26,8 @@ var AdresCrab = (function () {
         };
         this.copyAvailable = false;
         this.landen = [];
+        this.freeHuisnummerSearch = false;
+        this.freeBusnummersearch = false;
         this.suggest = {};
         this.controller = this.controllerFactory.createForCurrentScope();
         this.controller.addRenderer(new FoundationValidationRenderer());
@@ -112,6 +114,12 @@ var AdresCrab = (function () {
         this.data.postcode = this.copiedAdres.postcode;
         this.data.straat = this.copiedAdres.straat;
         this.data.adres = this.copiedAdres.adres;
+    };
+    AdresCrab.prototype.onHuisnummerNietGevondenClicked = function () {
+        this.freeHuisnummerSearch = true;
+    };
+    AdresCrab.prototype.onHuisnummerSuggestiesClicked = function () {
+        this.freeHuisnummerSearch = false;
     };
     AdresCrab.prototype.loadLanden = function () {
         var _this = this;
