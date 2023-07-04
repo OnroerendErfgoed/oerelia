@@ -4,7 +4,7 @@ import { FoundationValidationRenderer } from '../foundation-validation-renderer/
 import { AdresregisterService } from '../services/adresregister.api-service';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 import { IAdresCrabConfig } from './types/adres-crab-config';
-import { IAdresregisterAdres, ICrabAdres, IGemeente, ILand, IPostcode, IPostinfo, IStraat } from 'services/models/locatie';
+import { IAdresregisterAdres, ICrabAdres, IGemeente, ILand, IPostcode, IStraat } from 'services/models/locatie';
 import { sortBy, uniqBy } from 'lodash';
 
 @inject(ValidationController, ValidationControllerFactory, AdresregisterService, BindingEngine)
@@ -12,13 +12,12 @@ export class AdresCrab {
   @bindable public disabled: boolean;
   @bindable public data: ICrabAdres;
   @bindable public config: IAdresCrabConfig = {
-    huisnummer: { required: true, autocompleteType: autocompleteType.Auto },
-    busnummer: { required: false, autocompleteType: autocompleteType.Auto }
+    huisnummer: { required: true, autocompleteType: autocompleteType.Auto }
   };
   @bindable copiedAdres: ICrabAdres;
   @bindable copyAvailable = false;
   @bindable freeSearchAllowed = true;
-  
+
   public landen: ILand[] = [];
   public gemeente: IGemeente;
   public postcode: IPostcode;
@@ -87,14 +86,6 @@ export class AdresCrab {
       this.adres = this.data.adres ? { id: this.data.adres.id, uri: this.data.adres.uri, busnummer: this.data.adres.busnummer, huisnummer: this.data.adres.huisnummer }
                                    : undefined;
     }
-  }
-
-  public huisnummerParser(value: string) {
-    return value ? { id: null, huisnummer: value } as IAdresregisterAdres : undefined;
-  }
-
-  public busnummerParser(value: string) {
-    return value ? { id: null, busnummer: value, huisnummer: this.data.adres.huisnummer } as IAdresregisterAdres : undefined;
   }
 
   public parseField(value, property) {

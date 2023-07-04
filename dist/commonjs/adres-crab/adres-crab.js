@@ -23,8 +23,7 @@ var AdresCrab = (function () {
         this.adresregisterService = adresregisterService;
         this.bindingEngine = bindingEngine;
         this.config = {
-            huisnummer: { required: true, autocompleteType: autocomplete_type_1.autocompleteType.Auto },
-            busnummer: { required: false, autocompleteType: autocomplete_type_1.autocompleteType.Auto }
+            huisnummer: { required: true, autocompleteType: autocomplete_type_1.autocompleteType.Auto }
         };
         this.copyAvailable = false;
         this.freeSearchAllowed = true;
@@ -77,12 +76,6 @@ var AdresCrab = (function () {
             this.adres = this.data.adres ? { id: this.data.adres.id, uri: this.data.adres.uri, busnummer: this.data.adres.busnummer, huisnummer: this.data.adres.huisnummer }
                 : undefined;
         }
-    };
-    AdresCrab.prototype.huisnummerParser = function (value) {
-        return value ? { id: null, huisnummer: value } : undefined;
-    };
-    AdresCrab.prototype.busnummerParser = function (value) {
-        return value ? { id: null, busnummer: value, huisnummer: this.data.adres.huisnummer } : undefined;
     };
     AdresCrab.prototype.parseField = function (value, property) {
         this.data[property] = { naam: value };
