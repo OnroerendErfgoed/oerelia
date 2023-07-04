@@ -70,8 +70,8 @@
               </template>
             </autocomplete>
             <input show.bind="freeHuisnummerSearch" type="text" value.bind="data.adres.huisnummer" placeholder="huisnummer" disabled.bind="disabled">
-            <button if.bind="!freeHuisnummerSearch" click.delegate="onHuisnummerNietGevondenClicked()">Huisnummer niet gevonden?</button>
-            <button if.bind="freeHuisnummerSearch" click.delegate="onHuisnummerSuggestiesClicked()">Suggesties</button>
+            <a href="#" if.bind="!freeHuisnummerSearch" click.delegate="onHuisnummerNietGevondenClicked()">Huisnummer niet gevonden?</a>
+            <a href="#" if.bind="freeHuisnummerSearch" click.delegate="onHuisnummerSuggestiesClicked()">Suggesties</a>
           </div>
         </div>
         <div if.bind="data.land.code !== 'BE'">
@@ -113,8 +113,8 @@
           </autocomplete>
           <input show.bind="freeBusnummerSearch" type="text" value.bind="data.adres.busnummer" placeholder="busnummer">
           <template if.bind="showBusnummerLinks">
-            <button if.bind="!freeBusnummerSearch" click.delegate="onBusnummerNietGevondenClicked()">Busnummer niet gevonden?</button>
-            <button if.bind="freeBusnummerSearch" click.delegate="onBusnummerSuggestiesClicked()">Suggesties</button>
+            <a href="#" if.bind="!freeBusnummerSearch" click.delegate="onBusnummerNietGevondenClicked()">Busnummer niet gevonden?</a>
+            <a href="#" if.bind="freeBusnummerSearch" click.delegate="onBusnummerSuggestiesClicked()">Suggesties</a>
           </template>
         </div>
       </div>
