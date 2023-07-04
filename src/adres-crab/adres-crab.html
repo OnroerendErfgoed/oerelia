@@ -70,8 +70,8 @@
               </template>
             </autocomplete>
             <input show.bind="freeHuisnummerSearch" type="text" value.bind="data.adres.huisnummer" placeholder="huisnummer" disabled.bind="disabled">
-            <button if.bind="!freeHuisnummerSearch" click.delegate="onHuisnummerNietGevondenClicked">Huisnummer niet gevonden?</button>
-            <button if.bind="freeHuisnummerSearch" click.delegate="onHuisnummerSuggestiesClicked">Suggesties</button>
+            <button if.bind="!freeHuisnummerSearch" click.delegate="onHuisnummerNietGevondenClicked()">Huisnummer niet gevonden?</button>
+            <button if.bind="freeHuisnummerSearch" click.delegate="onHuisnummerSuggestiesClicked()">Suggesties</button>
           </div>
         </div>
         <div if.bind="data.land.code !== 'BE'">
