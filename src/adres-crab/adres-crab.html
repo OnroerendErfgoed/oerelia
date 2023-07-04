@@ -21,7 +21,7 @@
         <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
           <label>Land</label>
           <select value.bind="data.land" disabled.bind="disabled">
-            <option repeat.for="land of landen" value.bind="land.id">
+            <option repeat.for="land of landen" model.bind="land">
               ${land.naam}
             </option>
           </select>
@@ -31,7 +31,7 @@
     
     <div class="row">
       <div class="small-push-2 small-10 columns">
-        <div if.bind="data.land === 'BE'">
+        <div if.bind="data.land.code === 'BE'">
           <div class="placeholder-container ${ !data.land || disabled ? 'placeholder-disabled' : '' }">
             <label>Gemeente <span
                 title="Opgelet, enkel de hoofdgemeenten (en niet de deelgemeenten) kunnen ingevuld worden.">(?)</span></label>
@@ -42,19 +42,19 @@
               </template>
             </autocomplete>
           </div>
-          <div class="placeholder-container ${ !data.gemeente.id || disabled ? 'placeholder-disabled' : '' }">
+          <div class="placeholder-container ${ !data.gemeente || disabled ? 'placeholder-disabled' : '' }">
             <label>Postcode</label>
-            <autocomplete service.bind="suggest.postcodes" value.bind="data.postcode & validate" label="naam"
-              placeholder="postcode" disabled.bind="!data.gemeente.id || disabled">
+            <autocomplete service.bind="suggest.postcodes" value.bind="data.postcode & validate" label="nummer"
+              placeholder="postcode" disabled.bind="!data.gemeente || disabled">
               <template replace-part="suggestion">
-                ${suggestion.naam}
+                ${suggestion.nummer}
               </template>
             </autocomplete>
           </div>
-          <div class="placeholder-container ${ !data.gemeente.id || disabled ? 'placeholder-disabled' : '' }">
+          <div class="placeholder-container ${ !data.gemeente || disabled ? 'placeholder-disabled' : '' }">
             <label>Straat</label>
             <autocomplete service.bind="suggest.straten" value.bind="data.straat & validate" label="naam"
-              placeholder="straat" disabled.bind="!data.gemeente.id || disabled" change.delegate="straatChanged()">
+              placeholder="straat" disabled.bind="!data.gemeente || disabled" change.delegate="straatChanged()">
               <template replace-part="suggestion">
                 ${suggestion.naam}
               </template>
@@ -62,16 +62,21 @@
           </div>
           <div class="placeholder-container ${ !data.straat || disabled ? 'placeholder-disabled' : '' }">
             <label>Huisnummer</label>
-            <autocomplete service.bind="suggest.huisnummers" parser.bind="huisnummerParser" label="naam"
+            <autocomplete show.bind="!freeHuisnummerSearch" service.bind="suggest.huisnummers" label="huisnummer"
               placeholder="huisnummer" minlength="1" disabled.bind="!data.straat || disabled"
-              value.bind="data.huisnummer & validate" type.bind="config.huisnummer.autocompleteType">
+              value.bind="data.adres & validate" type.bind="config.huisnummer.autocompleteType">
               <template replace-part="suggestion">
-                ${suggestion.naam}
+                ${suggestion.huisnummer}
               </template>
             </autocomplete>
+            <template if.bind="freeSearchAllowed">
+              <input show.bind="freeHuisnummerSearch" type="text" value.bind="data.adres.huisnummer" placeholder="huisnummer" disabled.bind="disabled">
+              <a href="#" class="free-search-link" if.bind="!freeHuisnummerSearch" click.delegate="onHuisnummerNietGevondenClicked()">Huisnummer niet gevonden?</a>
+              <a href="#" class="free-search-link" if.bind="freeHuisnummerSearch" click.delegate="onHuisnummerSuggestiesClicked()">Suggesties</a>
+            </template>
           </div>
         </div>
-        <div if.bind="data.land !== 'BE'">
+        <div if.bind="data.land.code !== 'BE'">
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Gemeente <span
                 title="Opgelet, enkel de hoofdgemeenten (en niet de deelgemeenten) kunnen ingevuld worden.">(?)</span></label>
@@ -96,15 +101,27 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row">
       <div class="small-push-2 small-10 columns">
-        <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
+        <div class="placeholder-container ${(!freeBusnummerSearch && !data.adres.huisnummer) || disabled ? 'placeholder-disabled' : '' }">
           <label>Busnr.</label>
-          <input type="text" value.bind="data.subadres" placeholder="postbus" disabled.bind="disabled">
+          <autocomplete show.bind="!freeBusnummerSearch" service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
+            disabled.bind="!data.adres || disabled" value.bind="data.adres & validate"
+            type.bind="config.busnummer.autocompleteType">
+            <template replace-part="suggestion">
+              ${suggestion.busnummer}
+            </template>
+          </autocomplete>
+          <template if.bind="freeSearchAllowed">
+            <input show.bind="freeBusnummerSearch" type="text" value.bind="data.adres.busnummer" placeholder="busnummer" disabled.bind="disabled">
+            <template if.bind="showBusnummerLinks">
+              <a href="#" class="free-search-link" if.bind="!freeBusnummerSearch" click.delegate="onBusnummerNietGevondenClicked()">Busnummer niet gevonden?</a>
+              <a href="#" class="free-search-link" if.bind="freeBusnummerSearch" click.delegate="onBusnummerSuggestiesClicked()">Suggesties</a>
+            </template>
+          </template>
         </div>
       </div>
     </div>
-    
   </div>
 </template>

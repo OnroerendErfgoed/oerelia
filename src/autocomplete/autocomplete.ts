@@ -179,10 +179,11 @@ export class Autocomplete {
       this.select(this.value);
       let event = new CustomEvent('blur');
       this.element.dispatchEvent(event);
-    } else {
-      const customValue = this.parser ? this.parser(this.inputValue) : this.defaultParser(this.inputValue);
-      this.select(customValue);
+      return;
     }
+
+    const customValue = this.parser ? this.parser(this.inputValue) : this.defaultParser(this.inputValue);
+    this.select(customValue);
   }
 
   public suggestionClicked(suggestion) {
