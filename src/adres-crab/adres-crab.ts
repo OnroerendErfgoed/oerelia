@@ -181,7 +181,10 @@ export class AdresCrab {
   private loadGemeenten(value: string) {
     return new Promise(resolve => {
       this.adresregisterService.getGemeenten().then(gemeenten => {
-        resolve(this.suggestFilter(gemeenten, value));
+        const adresGemeenten = gemeenten.map((gemeente: IGemeente) => {
+          return { naam: gemeente.naam, niscode: gemeente.niscode } as IGemeente;
+        });
+        resolve(this.suggestFilter(adresGemeenten, value));
       });
     });
   }

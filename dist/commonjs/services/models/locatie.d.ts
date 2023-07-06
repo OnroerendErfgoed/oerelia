@@ -12,6 +12,7 @@ export interface ILand {
 export interface IGemeente {
     naam: string;
     niscode: string;
+    provincie?: IProvincie;
 }
 export interface IPostcode {
     nummer: string;

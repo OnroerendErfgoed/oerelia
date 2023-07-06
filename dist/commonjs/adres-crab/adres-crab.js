@@ -160,7 +160,10 @@ var AdresCrab = (function () {
         var _this = this;
         return new Promise(function (resolve) {
             _this.adresregisterService.getGemeenten().then(function (gemeenten) {
-                resolve(_this.suggestFilter(gemeenten, value));
+                var adresGemeenten = gemeenten.map(function (gemeente) {
+                    return { naam: gemeente.naam, niscode: gemeente.niscode };
+                });
+                resolve(_this.suggestFilter(adresGemeenten, value));
             });
         });
     };
