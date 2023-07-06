@@ -6,7 +6,7 @@ import { IMessageStyle } from './interfaces/IMessageStyle';
 export class Message {
   readonly defaults = {
     emitterOptions: {
-      timeOut: 10000, // toast disappears after 10 seconds without user interaction
+      timeOut: 1000, // toast disappears after 10 seconds without user interaction
       extendedTimeOut: 0, // toast will not disappear while hovering over it
     },
     preventDuplicates: true,
@@ -48,7 +48,7 @@ export class Message {
 
   private show(type: messageType, config: IMessage): HTMLElement {
     try {
-      const element = this.emitter[type](config.message, config.title);
+      const element = this.emitter[type](config.message, config.title, config.emitterOptions);
       return element ? element[0] : undefined;
     } catch (e) {
       console.debug('[MESSAGE]: Failed to show message' + e);
