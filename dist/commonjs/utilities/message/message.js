@@ -24,7 +24,6 @@ var Message = (function () {
             preventOpenDuplicates: true
         };
         this.emitter = toastr;
-        config = config || {};
         config = __assign(__assign(__assign({}, this.defaults), config), { emitterOptions: __assign(__assign({}, this.defaults.emitterOptions), (config.emitterOptions || {})) });
         var messageElement = this.show(type, config);
         this.applyStyle(messageElement, config.style);
@@ -45,7 +44,7 @@ var Message = (function () {
     };
     Message.prototype.show = function (type, config) {
         try {
-            var element = this.emitter[type](config.message, config.title);
+            var element = this.emitter[type](config.message, config.title, config.emitterOptions);
             return element ? element[0] : undefined;
         }
         catch (e) {
