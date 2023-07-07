@@ -15,7 +15,7 @@ var Message = (function () {
     function Message(type, config) {
         this.defaults = {
             emitterOptions: {
-                timeOut: 1000,
+                timeOut: 10000,
                 extendedTimeOut: 0,
             },
             preventDuplicates: true,

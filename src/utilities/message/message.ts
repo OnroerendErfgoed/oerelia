@@ -6,7 +6,7 @@ import { IMessageStyle } from './interfaces/IMessageStyle';
 export class Message {
   readonly defaults = {
     emitterOptions: {
-      timeOut: 1000, // toast disappears after 10 seconds without user interaction
+      timeOut: 10000, // toast disappears after 10 seconds without user interaction
       extendedTimeOut: 0, // toast will not disappear while hovering over it
     },
     preventDuplicates: true,
