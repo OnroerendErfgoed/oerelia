@@ -30,10 +30,10 @@ export class RestMessage {
       }
     }
 
-    if (this.restSuccess && !this.customErrorFailed) {
+    if (!this.restSuccess || this.customErrorFailed) {
+      this.error(config.result)
+    } else if (config.success) {
       Message.success(config.success);
-    } else {
-      this.error(config.result);
     }
   }
 

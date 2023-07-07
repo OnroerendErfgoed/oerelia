@@ -42,7 +42,7 @@ var Message = (function () {
     };
     Message.prototype.show = function (type, config) {
         try {
-            var element = this.emitter[type](config.message, config.title);
+            var element = this.emitter[type](config.message, config.title, config.emitterOptions);
             return element ? element[0] : undefined;
         }
         catch (e) {
