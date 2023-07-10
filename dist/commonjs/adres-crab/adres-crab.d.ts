@@ -2,7 +2,7 @@ import { BindingEngine } from 'aurelia-framework';
 import { ValidationController, ValidationControllerFactory } from 'aurelia-validation';
 import { AdresregisterService } from '../services/adresregister.api-service';
 import { IAdresCrabConfig } from './types/adres-crab-config';
-import { IAdresregisterAdres, ICrabAdres, IGemeente, ILand, IPostcode, IStraat } from 'services/models/locatie';
+import { IAdresregisterAdres, ICrabAdres, IGemeente, ILand, IPostcode, IStraat } from '../models/public-models';
 export declare class AdresCrab {
     controller: ValidationController;
     private controllerFactory;
