@@ -67,25 +67,26 @@ var AdresregisterService = (function () {
             x.withInterceptor({
                 responseError: function (res) {
                     restMessage_1.RestMessage.display({ result: messageParser_1.MessageParser.parseHttpResponseMessage(res) });
-                    return res;
+                    throw res;
                 }
             });
         });
     }
     AdresregisterService.prototype.getLanden = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
+            var landen;
             return __generator(this, function (_a) {
-                if (this.landen && this.landen.length) {
-                    return [2, Promise.resolve(this.landen)];
+                switch (_a.label) {
+                    case 0:
+                        if (this.landen && this.landen.length) {
+                            return [2, this.landen];
+                        }
+                        return [4, this.crabGet('adressenregister/landen')];
+                    case 1:
+                        landen = _a.sent();
+                        this.landen = lodash_1.sortBy(landen, 'naam');
+                        return [2, this.landen];
                 }
-                else {
-                    return [2, this.crabGet('adressenregister/landen').then(function (landen) {
-                            _this.landen = lodash_1.sortBy(landen, 'naam');
-                            return _this.landen;
-                        })];
-                }
-                return [2];
             });
         });
     };
@@ -95,13 +96,14 @@ var AdresregisterService = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!(this.provincies && this.provincies.length > 0)) return [3, 1];
-                        return [2, Promise.resolve(this.provincies)];
-                    case 1: return [4, this.getProvinciesPerGewest(niscode_enum_1.Niscode.VlaamsGewest)];
-                    case 2:
+                        if (this.provincies && this.provincies.length > 0) {
+                            return [2, this.provincies];
+                        }
+                        return [4, this.getProvinciesPerGewest(niscode_enum_1.Niscode.VlaamsGewest)];
+                    case 1:
                         provinciesVlaamsGewest = _a.sent();
                         return [4, this.getProvinciesPerGewest(niscode_enum_1.Niscode.WaalsGewest)];
-                    case 3:
+                    case 2:
                         provinciesWaalsGewest = _a.sent();
                         this.provincies = this.provincies.concat(provinciesVlaamsGewest, provinciesWaalsGewest);
                         return [2, lodash_1.sortBy(this.provincies, 'naam')];
@@ -134,38 +136,32 @@ var AdresregisterService = (function () {
         configurable: true
     });
     AdresregisterService.prototype.getGemeenten = function () {
-        var _this = this;
-        if (this.gemeenten && this.gemeenten.length) {
-            return Promise.resolve(this.gemeenten);
-        }
-        else {
-            return this.crabGet('adressenregister/gewesten').then(function (gewesten) {
-                var gemeentenVlaamsGewestGet;
-                var gemeentenWaalsGewestGet;
-                var gemeentenBHGewestGet;
-                gewesten.forEach(function (gewest) {
-                    if (gewest.niscode === niscode_enum_1.Niscode.VlaamsGewest) {
-                        gemeentenVlaamsGewestGet = _this.getGemeentenPerGewest(niscode_enum_1.Niscode.VlaamsGewest);
-                    }
-                    if (gewest.niscode === niscode_enum_1.Niscode.WaalsGewest) {
-                        gemeentenWaalsGewestGet = _this.getGemeentenPerGewest(niscode_enum_1.Niscode.WaalsGewest);
-                    }
-                    if (gewest.niscode === niscode_enum_1.Niscode.BrusselsHoofdstedelijkGewest) {
-                        gemeentenBHGewestGet = _this.getGemeentenPerGewest(niscode_enum_1.Niscode.BrusselsHoofdstedelijkGewest);
-                    }
-                });
-                return Promise.all([gemeentenVlaamsGewestGet, gemeentenWaalsGewestGet, gemeentenBHGewestGet]).then(function (gemeenten) {
-                    if (gemeenten[0] && gemeenten[1] && gemeenten[2]) {
-                        _this.gemeentenVlaamsGewest = gemeenten[0];
-                        _this.gemeentenWaalsGewest = gemeenten[1];
-                        _this.gemeentenBHGewest = gemeenten[2];
-                        _this.gemeenten = _this.gemeenten.concat(_this.gemeentenVlaamsGewest, _this.gemeentenWaalsGewest, _this.gemeentenBHGewest);
-                        return lodash_1.sortBy(_this.gemeenten, 'naam');
-                    }
-                    return [];
-                });
+        return __awaiter(this, void 0, void 0, function () {
+            var gewesten, gemeentenPromises, gemeenten;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.gemeenten && this.gemeenten.length) {
+                            return [2, this.gemeenten];
+                        }
+                        return [4, this.crabGet('adressenregister/gewesten')];
+                    case 1:
+                        gewesten = _a.sent();
+                        gemeentenPromises = [];
+                        gewesten.forEach(function (gewest) { return gemeentenPromises.push(_this.getGemeentenPerGewest(gewest.niscode)); });
+                        gemeenten = Promise.all(gemeentenPromises);
+                        if (gemeenten[0] && gemeenten[1] && gemeenten[2]) {
+                            this.gemeentenVlaamsGewest = gemeenten[0];
+                            this.gemeentenWaalsGewest = gemeenten[1];
+                            this.gemeentenBHGewest = gemeenten[2];
+                            this.gemeenten = this.gemeenten.concat(this.gemeentenVlaamsGewest, this.gemeentenWaalsGewest, this.gemeentenBHGewest);
+                            return [2, lodash_1.sortBy(this.gemeenten, 'naam')];
+                        }
+                        return [2, []];
+                }
             });
-        }
+        });
     };
     AdresregisterService.prototype.getGemeentenPerGewest = function (niscode) {
         return this.crabGet("adressenregister/gewesten/" + niscode + "/gemeenten");
@@ -183,10 +179,14 @@ var AdresregisterService = (function () {
         return this.crabGet("adressenregister/straten/" + straat + "/adressen");
     };
     AdresregisterService.prototype.suggestLocatie = function (value) {
-        if (value === '') {
-            return Promise.resolve([]);
-        }
-        return this.crabGet('geolocation/?locatie=' + value.toLowerCase() + '*');
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                if (value === '') {
+                    return [2, []];
+                }
+                return [2, this.crabGet('geolocation/?locatie=' + value.toLowerCase() + '*')];
+            });
+        });
     };
     AdresregisterService.prototype.geolocate = function (value) {
         return this.crabGet('geolocation/' + value);
