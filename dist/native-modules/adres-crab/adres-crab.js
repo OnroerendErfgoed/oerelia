@@ -49,7 +49,7 @@ import { FoundationValidationRenderer } from '../foundation-validation-renderer/
 import { AdresregisterService } from '../services/adresregister.api-service';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 import { sortBy, uniqBy } from 'lodash';
-import { Message } from 'utilities/message/message';
+import { Message } from '../utilities/message/message';
 var AdresCrab = (function () {
     function AdresCrab(controller, controllerFactory, adresregisterService, bindingEngine) {
         var _this = this;

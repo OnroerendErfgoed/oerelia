@@ -51,7 +51,7 @@ var foundation_validation_renderer_1 = require("../foundation-validation-rendere
 var adresregister_api_service_1 = require("../services/adresregister.api-service");
 var autocomplete_type_1 = require("../autocomplete/models/autocomplete-type");
 var lodash_1 = require("lodash");
-var message_1 = require("utilities/message/message");
+var message_1 = require("../utilities/message/message");
 var AdresCrab = (function () {
     function AdresCrab(controller, controllerFactory, adresregisterService, bindingEngine) {
         var _this = this;
