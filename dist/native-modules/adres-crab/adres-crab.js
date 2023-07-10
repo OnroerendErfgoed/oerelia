@@ -236,52 +236,123 @@ var AdresCrab = (function () {
         });
     };
     AdresCrab.prototype.loadPostcodes = function (value) {
-        var _this = this;
-        var gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;
-        return new Promise(function (resolve) {
-            if (gemeente) {
-                _this.adresregisterService.getPostinfo(gemeente).then(function (postcodes) {
-                    var mappedPostcodes = postcodes.map(function (postcode) { return ({ nummer: postcode.postcode, uri: postcode.uri }); });
-                    resolve(_this.filterPostcodes(mappedPostcodes, value));
-                });
-            }
-            else {
-                _this.data.postcode = undefined;
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            var gemeente, postcodes, mappedPostcodes, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;
+                        if (!gemeente) {
+                            this.data.postcode = undefined;
+                            return [2];
+                        }
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4, this.adresregisterService.getPostinfo(gemeente)];
+                    case 2:
+                        postcodes = _a.sent();
+                        mappedPostcodes = postcodes.map(function (postcode) { return ({ nummer: postcode.postcode, uri: postcode.uri }); });
+                        return [2, this.filterPostcodes(mappedPostcodes, value)];
+                    case 3:
+                        error_3 = _a.sent();
+                        this.data.postcode = undefined;
+                        Message.error({
+                            title: 'Er liep iets mis bij het ophalen van postcodes',
+                            message: error_3.message,
+                        });
+                        throw error_3;
+                    case 4: return [2];
+                }
+            });
         });
     };
     AdresCrab.prototype.loadStraten = function (value) {
-        var _this = this;
-        var niscode = this.data.gemeente ? this.data.gemeente.niscode : undefined;
-        return new Promise(function (resolve) {
-            if (niscode) {
-                _this.adresregisterService.getStraten(niscode).then(function (straten) {
-                    resolve(_this.suggestFilter(straten, value));
-                });
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            var niscode, straten, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        niscode = this.data.gemeente ? this.data.gemeente.niscode : undefined;
+                        if (!niscode) {
+                            return [2];
+                        }
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4, this.adresregisterService.getStraten(niscode)];
+                    case 2:
+                        straten = _a.sent();
+                        return [2, this.suggestFilter(straten, value)];
+                    case 3:
+                        error_4 = _a.sent();
+                        Message.error({
+                            title: 'Er liep iets mis bij het ophalen van straten',
+                            message: error_4.message,
+                        });
+                        throw error_4;
+                    case 4: return [2];
+                }
+            });
         });
     };
     AdresCrab.prototype.loadHuisnrs = function (value) {
-        var _this = this;
-        var straat = this.data.straat ? this.data.straat.id : undefined;
-        return new Promise(function (resolve) {
-            if (straat) {
-                _this.adresregisterService.getAdressen(straat).then(function (huisnrs) {
-                    resolve(_this.filterHuisnummers(huisnrs, value));
-                });
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            var straat, huisnrs, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        straat = this.data.straat ? this.data.straat.id : undefined;
+                        if (!straat) {
+                            return [2];
+                        }
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4, this.adresregisterService.getAdressen(straat)];
+                    case 2:
+                        huisnrs = _a.sent();
+                        return [2, this.filterHuisnummers(huisnrs, value)];
+                    case 3:
+                        error_5 = _a.sent();
+                        Message.error({
+                            title: 'Er liep iets mis bij het ophalen van huisnummers',
+                            message: error_5.message,
+                        });
+                        throw error_5;
+                    case 4: return [2];
+                }
+            });
         });
     };
     AdresCrab.prototype.loadBusnrs = function (value) {
-        var _this = this;
-        var straat = this.data.straat ? this.data.straat.id : undefined;
-        var huisnummer = this.data.adres ? this.data.adres.huisnummer : undefined;
-        return new Promise(function (resolve) {
-            if (straat && huisnummer) {
-                _this.adresregisterService.getAdressen(straat, huisnummer).then(function (huisnrs) {
-                    resolve(_this.filterBusnummers(huisnrs, value));
-                });
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            var straat, huisnummer, huisnrs, error_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        straat = this.data.straat ? this.data.straat.id : undefined;
+                        huisnummer = this.data.adres ? this.data.adres.huisnummer : undefined;
+                        if (!straat || !huisnummer) {
+                            return [2];
+                        }
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4, this.adresregisterService.getAdressen(straat, huisnummer)];
+                    case 2:
+                        huisnrs = _a.sent();
+                        return [2, this.filterBusnummers(huisnrs, value)];
+                    case 3:
+                        error_6 = _a.sent();
+                        Message.error({
+                            title: 'Er liep iets mis bij het ophalen van busnummers',
+                            message: error_6.message,
+                        });
+                        throw error_6;
+                    case 4: return [2];
+                }
+            });
         });
     };
     AdresCrab.prototype.suggestFilter = function (data, value) {

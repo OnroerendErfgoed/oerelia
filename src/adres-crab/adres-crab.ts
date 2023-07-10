@@ -202,52 +202,74 @@ export class AdresCrab {
     }
   }
 
-  private loadPostcodes(value: string) {
+  private async loadPostcodes(value: string) {
     const gemeente = this.data.gemeente ? this.data.gemeente.naam : undefined;
-    return new Promise((resolve) => {
-      if (gemeente) {
-        this.adresregisterService.getPostinfo(gemeente).then((postcodes) => {
-          const mappedPostcodes = postcodes.map((postcode) => ({ nummer: postcode.postcode, uri: postcode.uri } as IPostcode))
-          resolve(this.filterPostcodes(mappedPostcodes, value));
-        });
-      } else {
-        this.data.postcode = undefined;
-      }
-    });
+    if (!gemeente) {
+      this.data.postcode = undefined;
+      return;
+    }
+
+    try {
+      const postcodes = await this.adresregisterService.getPostinfo(gemeente);
+      const mappedPostcodes = postcodes.map((postcode) => ({ nummer: postcode.postcode, uri: postcode.uri } as IPostcode));
+      return this.filterPostcodes(mappedPostcodes, value)
+    } catch (error) {
+      this.data.postcode = undefined;
+      Message.error({
+        title: 'Er liep iets mis bij het ophalen van postcodes',
+        message: error.message,
+      });
+      throw error;
+    }
   }
 
-  private loadStraten(value: string) {
+  private async loadStraten(value: string) {
     const niscode = this.data.gemeente ? this.data.gemeente.niscode : undefined;
-    return new Promise((resolve) => {
-      if (niscode) {
-        this.adresregisterService.getStraten(niscode).then(straten => {
-          resolve(this.suggestFilter(straten, value));
-        });
-      }
-    });
+    if (!niscode) { return; }
+    try {
+      const straten = await this.adresregisterService.getStraten(niscode);
+      return this.suggestFilter(straten, value);
+    } catch (error) {
+      Message.error({
+        title: 'Er liep iets mis bij het ophalen van straten',
+        message: error.message,
+      });
+      throw error;
+    }
   }
 
-  private loadHuisnrs(value: string) {
+  private async loadHuisnrs(value: string) {
     const straat = this.data.straat ? this.data.straat.id : undefined;
-    return new Promise((resolve) => {
-      if (straat) {
-        this.adresregisterService.getAdressen(straat).then(huisnrs => {
-          resolve(this.filterHuisnummers(huisnrs, value));
-        });
-      }
-    });
+    if (!straat) { return; }
+
+    try {
+      const huisnrs = await this.adresregisterService.getAdressen(straat);
+      return this.filterHuisnummers(huisnrs, value);
+    } catch (error) {
+      Message.error({
+        title: 'Er liep iets mis bij het ophalen van huisnummers',
+        message: error.message,
+      });
+      throw error;
+    }
   }
 
-  private loadBusnrs(value: string) {
+  private async loadBusnrs(value: string) {
     const straat = this.data.straat ? this.data.straat.id : undefined;
     const huisnummer = this.data.adres ? this.data.adres.huisnummer : undefined;
-    return new Promise((resolve) => {
-      if (straat && huisnummer) {
-        this.adresregisterService.getAdressen(straat, huisnummer).then(huisnrs => {
-          resolve(this.filterBusnummers(huisnrs, value));
-        });
-      }
-    });
+
+    if (!straat || !huisnummer) { return; }
+
+    try {
+      const huisnrs = await this.adresregisterService.getAdressen(straat, huisnummer);
+      return this.filterBusnummers(huisnrs, value);
+    } catch (error) {
+      Message.error({
+        title: 'Er liep iets mis bij het ophalen van busnummers',
+        message: error.message,
+      });
+      throw error;
+    }
   }
 
   private suggestFilter(data: any, value: string) {
