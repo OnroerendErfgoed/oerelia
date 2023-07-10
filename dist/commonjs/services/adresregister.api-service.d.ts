@@ -1,6 +1,6 @@
 import { HttpClient } from 'aurelia-http-client';
-import { IAdresregisterAdres, IGemeente, ILand, IPostinfo, IProvincie, IStraat } from './models/locatie';
 import { Niscode } from './models/niscode.enum';
+import { IAdresregisterAdres, IGemeente, ILand, IPostinfo, IProvincie, IStraat } from '../models/public-models';
 export declare class AdresregisterService {
     private http;
     private landen;

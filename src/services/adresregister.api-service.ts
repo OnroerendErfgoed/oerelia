@@ -3,8 +3,9 @@ import { HttpClient } from 'aurelia-http-client';
 import { RestMessage } from '../utilities/message/restMessage';
 import { MessageParser } from '../utilities/message/messageParser';
 import { sortBy } from 'lodash';
-import { IAdresregisterAdres, IGemeente, IGewest, ILand, IPostinfo, IProvincie, IStraat } from './models/locatie';
 import { Niscode } from './models/niscode.enum';
+import { IAdresregisterAdres, IGemeente, IGewest, 
+  ILand, IPostinfo, IProvincie, IStraat } from '../models/public-models';
 
 declare const oeAppConfig: any;
 
