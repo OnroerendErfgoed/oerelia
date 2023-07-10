@@ -1,7 +1,7 @@
 {
   "name": "oerelia",
   "description": "Onroerend Erfgoed Aurelia component library",
-  "version": "0.26.1",
+  "version": "0.27.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/OnroerendErfgoed/oerelia.git"
