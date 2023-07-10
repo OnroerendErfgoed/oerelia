@@ -180,7 +180,6 @@ export class AdresCrab {
         title: 'Er liep iets mis bij het ophalen van laden',
         message: error.message
       });
-      throw error;
     }
   }
 
@@ -198,7 +197,6 @@ export class AdresCrab {
         title: 'Er liep iets mis bij het ophalen van gemeenten',
         message: error.message,
       });
-      throw error;
     }
   }
 
@@ -219,7 +217,6 @@ export class AdresCrab {
         title: 'Er liep iets mis bij het ophalen van postcodes',
         message: error.message,
       });
-      throw error;
     }
   }
 
@@ -234,7 +231,6 @@ export class AdresCrab {
         title: 'Er liep iets mis bij het ophalen van straten',
         message: error.message,
       });
-      throw error;
     }
   }
 
@@ -250,7 +246,6 @@ export class AdresCrab {
         title: 'Er liep iets mis bij het ophalen van huisnummers',
         message: error.message,
       });
-      throw error;
     }
   }
 
@@ -268,7 +263,6 @@ export class AdresCrab {
         title: 'Er liep iets mis bij het ophalen van busnummers',
         message: error.message,
       });
-      throw error;
     }
   }
 

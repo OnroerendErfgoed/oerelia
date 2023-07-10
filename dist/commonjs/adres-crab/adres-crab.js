@@ -204,7 +204,7 @@ var AdresCrab = (function () {
                             title: 'Er liep iets mis bij het ophalen van laden',
                             message: error_1.message
                         });
-                        throw error_1;
+                        return [3, 3];
                     case 3: return [2];
                 }
             });
@@ -231,7 +231,7 @@ var AdresCrab = (function () {
                             title: 'Er liep iets mis bij het ophalen van gemeenten',
                             message: error_2.message,
                         });
-                        throw error_2;
+                        return [3, 3];
                     case 3: return [2];
                 }
             });
@@ -263,7 +263,7 @@ var AdresCrab = (function () {
                             title: 'Er liep iets mis bij het ophalen van postcodes',
                             message: error_3.message,
                         });
-                        throw error_3;
+                        return [3, 4];
                     case 4: return [2];
                 }
             });
@@ -292,7 +292,7 @@ var AdresCrab = (function () {
                             title: 'Er liep iets mis bij het ophalen van straten',
                             message: error_4.message,
                         });
-                        throw error_4;
+                        return [3, 4];
                     case 4: return [2];
                 }
             });
@@ -321,7 +321,7 @@ var AdresCrab = (function () {
                             title: 'Er liep iets mis bij het ophalen van huisnummers',
                             message: error_5.message,
                         });
-                        throw error_5;
+                        return [3, 4];
                     case 4: return [2];
                 }
             });
@@ -351,7 +351,7 @@ var AdresCrab = (function () {
                             title: 'Er liep iets mis bij het ophalen van busnummers',
                             message: error_6.message,
                         });
-                        throw error_6;
+                        return [3, 4];
                     case 4: return [2];
                 }
             });
