@@ -48,7 +48,7 @@ export class Message {
 
   private show(type: messageType, config: IMessage): HTMLElement {
     try {
-      const element = this.emitter[type](config.message, config.title);
+      const element = this.emitter[type](config.message, config.title, config.emitterOptions);
       return element ? element[0] : undefined;
     } catch (e) {
       console.debug('[MESSAGE]: Failed to show message' + e);
