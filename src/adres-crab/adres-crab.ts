@@ -6,6 +6,7 @@ import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 import { IAdresCrabConfig } from './types/adres-crab-config';
 import { IAdresregisterAdres, ICrabAdres, IGemeente, ILand, IPostcode, IStraat } from 'services/models/locatie';
 import { sortBy, uniqBy } from 'lodash';
+import { Message } from 'utilities/message/message';
 
 @inject(ValidationController, ValidationControllerFactory, AdresregisterService, BindingEngine)
 export class AdresCrab {
@@ -153,8 +154,9 @@ export class AdresCrab {
     this.freeBusnummerSearch = false;
   }
 
-  private loadLanden() {
-    this.adresregisterService.getLanden().then(landen => {
+  private async loadLanden() {
+    try {
+      const landen = await this.adresregisterService.getLanden();
       if (landen) {
         const staticLanden: ILand[] = [
           { code: 'BE', naam: 'België' },
@@ -173,20 +175,31 @@ export class AdresCrab {
           }
         });
       }
-    }).catch(error => {
-      console.debug(error);
-    });
+    } catch (error) {
+      Message.error({
+        title: 'Er liep iets mis bij het ophalen van laden',
+        message: error.message
+      });
+      throw error;
+    }
   }
 
-  private loadGemeenten(value: string) {
-    return new Promise(resolve => {
-      this.adresregisterService.getGemeenten().then(gemeenten => {
-        const adresGemeenten = gemeenten.map((gemeente: IGemeente) => {
-          return { naam: gemeente.naam, niscode: gemeente.niscode } as IGemeente;
-        });
-        resolve(this.suggestFilter(adresGemeenten, value));
+  private async loadGemeenten(value: string) {
+    try {
+      const gemeenten = await this.adresregisterService.getGemeenten();
+      const adresGemeenten = gemeenten.map((gemeente: IGemeente) => ({
+        naam: gemeente.naam,
+        niscode: gemeente.niscode,
+      }));
+  
+      return this.suggestFilter(adresGemeenten, value);
+    } catch (error) {
+      Message.error({
+        title: 'Er liep iets mis bij het ophalen van gemeenten',
+        message: error.message,
       });
-    });
+      throw error;
+    }
   }
 
   private loadPostcodes(value: string) {
