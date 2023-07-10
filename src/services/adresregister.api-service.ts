@@ -81,7 +81,7 @@ export class AdresregisterService {
     const gemeentenPromises = [];
     gewesten.forEach((gewest) => gemeentenPromises.push(this.getGemeentenPerGewest(gewest.niscode as Niscode)));
 
-    const gemeenten = Promise.all(gemeentenPromises);
+    const gemeenten = await Promise.all(gemeentenPromises);
     if (gemeenten[0] && gemeenten[1] && gemeenten[2]) {
       this.gemeentenVlaamsGewest = gemeenten[0];
       this.gemeentenWaalsGewest = gemeenten[1];

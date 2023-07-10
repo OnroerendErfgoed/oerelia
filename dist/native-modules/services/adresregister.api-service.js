@@ -148,7 +148,9 @@ var AdresregisterService = (function () {
                         gewesten = _a.sent();
                         gemeentenPromises = [];
                         gewesten.forEach(function (gewest) { return gemeentenPromises.push(_this.getGemeentenPerGewest(gewest.niscode)); });
-                        gemeenten = Promise.all(gemeentenPromises);
+                        return [4, Promise.all(gemeentenPromises)];
+                    case 2:
+                        gemeenten = _a.sent();
                         if (gemeenten[0] && gemeenten[1] && gemeenten[2]) {
                             this.gemeentenVlaamsGewest = gemeenten[0];
                             this.gemeentenWaalsGewest = gemeenten[1];
