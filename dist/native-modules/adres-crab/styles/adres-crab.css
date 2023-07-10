@@ -8,3 +8,15 @@
 .adres-crab .copy-button {
   margin-left: 5px;
 }
+.adres-crab .free-search-link {
+  margin-left: 8px;
+  width: fit-content;
+  color: #0075db;
+}
+.adres-crab .free-search-link:hover {
+  text-decoration: none;
+  color: #0075db;
+}
+.adres-crab .free-search-link:focus {
+  color: #0075db;
+}
