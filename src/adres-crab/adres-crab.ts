@@ -4,9 +4,10 @@ import { FoundationValidationRenderer } from '../foundation-validation-renderer/
 import { AdresregisterService } from '../services/adresregister.api-service';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 import { IAdresCrabConfig } from './types/adres-crab-config';
-import { IAdresregisterAdres, ICrabAdres, IGemeente, ILand, IPostcode, IStraat } from 'services/models/locatie';
 import { sortBy, uniqBy } from 'lodash';
 import { Message } from '../utilities/message/message';
+import { IAdresregisterAdres, ICrabAdres, IGemeente, 
+  ILand, IPostcode, IStraat } from '../models/public-models';
 
 @inject(ValidationController, ValidationControllerFactory, AdresregisterService, BindingEngine)
 export class AdresCrab {
