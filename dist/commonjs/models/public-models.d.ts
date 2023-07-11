@@ -24,8 +24,8 @@ export interface ITelefoon {
     volledig_nummer: string;
 }
 export interface IActor {
-    adres: IAdres;
-    adressen: IAdres[];
+    adres: IActorAdres;
+    adressen: IActorAdres[];
     afkorting: string;
     emails: IEmail[];
     erkenningen: IErkenning[];
@@ -266,4 +266,24 @@ export interface IActorAdres {
     postcode: IPostcode;
     straat: IStraat;
     adres: IAdresregisterAdres;
+}
+export interface ILocatieSuggest {
+    id: string;
+    locatie: string;
+}
+export interface IGeolocationResponse {
+    id: string;
+    locatie: string;
+    type: string;
+    boundingbox: IBoundingbox;
+}
+export interface IBoundingbox {
+    lowerleft: {
+        lat: number;
+        lon: number;
+    };
+    upperright: {
+        lat: number;
+        lon: number;
+    };
 }

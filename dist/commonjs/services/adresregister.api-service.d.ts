@@ -1,6 +1,6 @@
 import { HttpClient } from 'aurelia-http-client';
 import { Niscode } from './models/niscode.enum';
-import { IAdresregisterAdres, IGemeente, ILand, IPostinfo, IProvincie, IStraat } from '../models/public-models';
+import { IAdresregisterAdres, IGemeente, IGeolocationResponse, ILand, ILocatieSuggest, IPostinfo, IProvincie, IStraat } from '../models/public-models';
 export declare class AdresregisterService {
     private http;
     private landen;
@@ -21,7 +21,7 @@ export declare class AdresregisterService {
     getPostinfo(gemeente: string): Promise<IPostinfo[]>;
     getStraten(gemeente: string): Promise<IStraat[]>;
     getAdressen(straat: string, huisnummer?: string): Promise<IAdresregisterAdres[]>;
-    suggestLocatie(value: string): Promise<unknown>;
-    geolocate(value: number): Promise<unknown>;
+    suggestLocatie(value: string): Promise<ILocatieSuggest | []>;
+    geolocate(value: number): Promise<IGeolocationResponse>;
     private crabGet;
 }

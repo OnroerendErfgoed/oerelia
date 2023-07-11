@@ -1,8 +1,8 @@
 import * as ol from 'openlayers';
-import { Boundingbox } from './models/boundingbox';
 import { Geolocate } from './components/ol-geolocate';
 import { Layerswitcher, LayerswitcherPanel } from './components/ol-layerswitcher';
 import * as jsts from 'jsts';
+import { IBoundingbox } from '../models/public-models';
 
 export class MapConfig {
   constructor(
@@ -20,7 +20,7 @@ export class MapConfig {
 
 export class MapUtil {
 
-  public static transformBoundingboxToMapExtent(boundingbox: Boundingbox) {
+  public static transformBoundingboxToMapExtent(boundingbox: IBoundingbox) {
     const lowerleft = this.transformLatLonToPoint(boundingbox.lowerleft.lat, boundingbox.lowerleft.lon);
     const upperright = this.transformLatLonToPoint(boundingbox.upperright.lat, boundingbox.upperright.lon);
     return ([lowerleft.getCoordinates()[0], lowerleft.getCoordinates()[1],
