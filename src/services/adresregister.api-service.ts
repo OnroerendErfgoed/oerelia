@@ -4,8 +4,8 @@ import { RestMessage } from '../utilities/message/restMessage';
 import { MessageParser } from '../utilities/message/messageParser';
 import { sortBy } from 'lodash';
 import { Niscode } from './models/niscode.enum';
-import { IAdresregisterAdres, IGemeente, IGewest, 
-  ILand, IPostinfo, IProvincie, IStraat } from '../models/public-models';
+import { IAdresregisterAdres, IGemeente, IGeolocationResponse, IGewest, 
+  ILand, ILocatieSuggest, IPostinfo, IProvincie, IStraat } from '../models/public-models';
 
 declare const oeAppConfig: any;
 
@@ -116,14 +116,14 @@ export class AdresregisterService {
     return this.crabGet<IAdresregisterAdres[]>(`adressenregister/straten/${straat}/adressen`);
   }
 
-  async suggestLocatie(value: string): Promise<unknown> {
+  async suggestLocatie(value: string): Promise<ILocatieSuggest | []> {
     if (value === '') {
       return [];
     }
     return this.crabGet('geolocation/?locatie=' + value.toLowerCase() + '*')
   }
 
-  public geolocate(value: number): Promise<unknown> {
+  public geolocate(value: number): Promise<IGeolocationResponse> {
     return this.crabGet('geolocation/' + value);
   }
 
