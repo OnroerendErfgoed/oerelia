@@ -116,7 +116,7 @@ export class AdresregisterService {
     return this.crabGet<IAdresregisterAdres[]>(`adressenregister/straten/${straat}/adressen`);
   }
 
-  async suggestLocatie(value: string): Promise<ILocatieSuggest | []> {
+  async suggestLocatie(value: string): Promise<ILocatieSuggest[]> {
     if (value === '') {
       return [];
     }
