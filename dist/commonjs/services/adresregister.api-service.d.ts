@@ -21,7 +21,7 @@ export declare class AdresregisterService {
     getPostinfo(gemeente: string): Promise<IPostinfo[]>;
     getStraten(gemeente: string): Promise<IStraat[]>;
     getAdressen(straat: string, huisnummer?: string): Promise<IAdresregisterAdres[]>;
-    suggestLocatie(value: string): Promise<ILocatieSuggest | []>;
+    suggestLocatie(value: string): Promise<ILocatieSuggest[]>;
     geolocate(value: number): Promise<IGeolocationResponse>;
     private crabGet;
 }
