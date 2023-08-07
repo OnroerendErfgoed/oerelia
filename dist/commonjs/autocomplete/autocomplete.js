@@ -29,6 +29,8 @@ var Autocomplete = (function () {
         this.label = 'name';
         this.minlength = 2;
         this.type = autocomplete_type_1.autocompleteType.Auto;
+        this.huisnummer = '';
+        this.field = '';
         this.expanded = false;
         this.updatingInput = false;
         this.suggestions = [];
@@ -67,9 +69,29 @@ var Autocomplete = (function () {
         this.index = -1;
     };
     Autocomplete.prototype.select = function (suggestion) {
-        this.value = suggestion;
-        var name = this.getName(this.value);
-        this.display(name);
+        var displayName = '';
+        if (typeof suggestion === 'string') {
+            switch (this.field) {
+                case 'postcode':
+                    this.value = { nummer: suggestion };
+                    break;
+                case 'straat':
+                    this.value = { naam: suggestion };
+                    break;
+                case 'huisnummer':
+                    this.value = { huisnummer: suggestion };
+                    break;
+                case 'busnummer':
+                    this.value = { huisnummer: this.huisnummer, busnummer: suggestion };
+                    break;
+            }
+            displayName = suggestion;
+        }
+        else {
+            this.value = suggestion;
+            displayName = this.getName(this.value);
+        }
+        this.display(displayName);
         this.collapse();
     };
     Autocomplete.prototype.valueChanged = function () {
@@ -198,7 +220,7 @@ var Autocomplete = (function () {
     ], Autocomplete.prototype, "service", void 0);
     __decorate([
         aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
-        __metadata("design:type", String)
+        __metadata("design:type", Object)
     ], Autocomplete.prototype, "value", void 0);
     __decorate([
         aurelia_templating_1.bindable,
@@ -236,6 +258,14 @@ var Autocomplete = (function () {
         aurelia_templating_1.bindable,
         __metadata("design:type", Object)
     ], Autocomplete.prototype, "parser", void 0);
+    __decorate([
+        aurelia_templating_1.bindable,
+        __metadata("design:type", String)
+    ], Autocomplete.prototype, "huisnummer", void 0);
+    __decorate([
+        aurelia_templating_1.bindable,
+        __metadata("design:type", String)
+    ], Autocomplete.prototype, "field", void 0);
     Autocomplete = __decorate([
         aurelia_dependency_injection_1.inject(Element),
         __metadata("design:paramtypes", [Element])
