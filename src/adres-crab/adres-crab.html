@@ -46,7 +46,7 @@
             <label>Postcode</label>
             <autocomplete service.bind="suggest.postcodes" value.bind="data.postcode & validate" label="nummer"
               placeholder="postcode" disabled.bind="!data.gemeente || disabled"
-              field.bind="postcode"
+              field="postcode"
               type.bind="config.postcode.autocompleteType">
               <template replace-part="suggestion">
                 ${suggestion.nummer}
@@ -57,7 +57,7 @@
             <label>Straat</label>
             <autocomplete service.bind="suggest.straten" value.bind="data.straat & validate" label="naam"
               placeholder="straat" disabled.bind="!data.gemeente || disabled"
-              field.bind="straat"
+              field="straat"
               type.bind="config.straat.autocompleteType"
               change.delegate="straatChanged()">
               <template replace-part="suggestion">
@@ -69,7 +69,7 @@
             <label>Huisnummer</label>
             <autocomplete service.bind="suggest.huisnummers" label="huisnummer"
               placeholder="huisnummer" minlength="1" disabled.bind="!data.straat || disabled"
-              value.bind="data.adres & validate" type.bind="config.huisnummer.autocompleteType" field.bind="huisnummer">
+              value.bind="data.adres & validate" type.bind="config.huisnummer.autocompleteType" field="huisnummer">
               <template replace-part="suggestion">
                 ${suggestion.huisnummer}
               </template>
@@ -110,7 +110,7 @@
             disabled.bind="!data.adres || disabled" value.bind="data.adres & validate"
             type.bind="config.busnummer.autocompleteType"
             huisnummer.bind="data.adres.huisnummer"
-            field.bind="busnummer">
+            field="busnummer">
             <template replace-part="suggestion">
               ${suggestion.busnummer}
             </template>
