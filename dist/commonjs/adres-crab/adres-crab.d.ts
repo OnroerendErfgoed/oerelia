@@ -19,9 +19,7 @@ export declare class AdresCrab {
     postcode: IPostcode;
     straat: IStraat;
     adres: IAdresregisterAdres;
-    freeHuisnummerSearch: boolean;
-    freeBusnummerSearch: boolean;
-    showBusnummerLinks: boolean;
+    private vlaamseProvinciesNiscodes;
     private suggest;
     constructor(controller: ValidationController, controllerFactory: ValidationControllerFactory, adresregisterService: AdresregisterService, bindingEngine: BindingEngine);
     bind(): void;
@@ -31,10 +29,6 @@ export declare class AdresCrab {
     straatChanged(): void;
     copyAdres(): void;
     pasteAdres(): void;
-    onHuisnummerNietGevondenClicked(): void;
-    onHuisnummerSuggestiesClicked(): void;
-    onBusnummerNietGevondenClicked(): void;
-    onBusnummerSuggestiesClicked(): void;
     private loadLanden;
     private loadGemeenten;
     private loadPostcodes;

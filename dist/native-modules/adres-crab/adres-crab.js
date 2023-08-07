@@ -58,14 +58,15 @@ var AdresCrab = (function () {
         this.adresregisterService = adresregisterService;
         this.bindingEngine = bindingEngine;
         this.config = {
-            huisnummer: { required: true, autocompleteType: autocompleteType.Auto }
+            postcode: { required: true, autocompleteType: autocompleteType.Auto },
+            straat: { required: true, autocompleteType: autocompleteType.Auto },
+            huisnummer: { required: true, autocompleteType: autocompleteType.Auto },
+            busnummer: { required: false, autocompleteType: autocompleteType.Suggest }
         };
         this.copyAvailable = false;
         this.freeSearchAllowed = true;
         this.landen = [];
-        this.freeHuisnummerSearch = false;
-        this.freeBusnummerSearch = false;
-        this.showBusnummerLinks = true;
+        this.vlaamseProvinciesNiscodes = ['10000', '70000', '40000', '20001', '30000'];
         this.suggest = {};
         this.controller = this.controllerFactory.createForCurrentScope();
         this.controller.addRenderer(new FoundationValidationRenderer());
@@ -78,9 +79,6 @@ var AdresCrab = (function () {
     }
     AdresCrab.prototype.bind = function () {
         var _this = this;
-        if (this.data.adres && !this.data.adres.id) {
-            this.onHuisnummerNietGevondenClicked();
-        }
         this.data.adres = this.data.adres || { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
         ValidationRules
             .ensure('land').required()
@@ -102,6 +100,10 @@ var AdresCrab = (function () {
             .subscribe(function (nv, ov) {
             _this.landChanged(nv, ov);
         });
+        if (this.data.provincie && !this.vlaamseProvinciesNiscodes.includes(this.data.provincie.niscode)) {
+            this.config.postcode.autocompleteType = autocompleteType.Suggest;
+            this.config.straat.autocompleteType = autocompleteType.Suggest;
+        }
         this.data.land = this.data.land || { code: 'BE', naam: 'België' };
         if (this.data.land.code !== 'BE') {
             this.gemeente = this.data.gemeente ? { naam: this.data.gemeente.naam, niscode: this.data.gemeente.niscode } : undefined;
@@ -128,6 +130,10 @@ var AdresCrab = (function () {
         }
     };
     AdresCrab.prototype.gemeenteChanged = function () {
+        if (!this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode)) {
+            this.config.postcode.autocompleteType = autocompleteType.Suggest;
+            this.config.straat.autocompleteType = autocompleteType.Suggest;
+        }
         if (!this.data.gemeente) {
             this.data.straat = undefined;
             this.data.postcode = undefined;
@@ -149,22 +155,6 @@ var AdresCrab = (function () {
         this.data.postcode = this.copiedAdres.postcode;
         this.data.straat = this.copiedAdres.straat;
         this.data.adres = this.copiedAdres.adres;
-    };
-    AdresCrab.prototype.onHuisnummerNietGevondenClicked = function () {
-        this.freeHuisnummerSearch = true;
-        this.freeBusnummerSearch = true;
-        this.showBusnummerLinks = false;
-    };
-    AdresCrab.prototype.onHuisnummerSuggestiesClicked = function () {
-        this.freeHuisnummerSearch = false;
-        this.freeBusnummerSearch = false;
-        this.showBusnummerLinks = true;
-    };
-    AdresCrab.prototype.onBusnummerNietGevondenClicked = function () {
-        this.freeBusnummerSearch = true;
-    };
-    AdresCrab.prototype.onBusnummerSuggestiesClicked = function () {
-        this.freeBusnummerSearch = false;
     };
     AdresCrab.prototype.loadLanden = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -221,6 +211,7 @@ var AdresCrab = (function () {
                         adresGemeenten = gemeenten.map(function (gemeente) { return ({
                             naam: gemeente.naam,
                             niscode: gemeente.niscode,
+                            provincie: gemeente.provincie
                         }); });
                         return [2, this.suggestFilter(adresGemeenten, value)];
                     case 2:
