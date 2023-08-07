@@ -66,7 +66,6 @@ var AdresCrab = (function () {
             busnummer: { required: false, autocompleteType: autocomplete_type_1.autocompleteType.Suggest }
         };
         this.copyAvailable = false;
-        this.freeSearchAllowed = true;
         this.landen = [];
         this.vlaamseProvinciesNiscodes = ['10000', '70000', '40000', '20001', '30000'];
         this.suggest = {};
@@ -382,10 +381,6 @@ var AdresCrab = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Object)
     ], AdresCrab.prototype, "copyAvailable", void 0);
-    __decorate([
-        aurelia_framework_1.bindable,
-        __metadata("design:type", Object)
-    ], AdresCrab.prototype, "freeSearchAllowed", void 0);
     AdresCrab = __decorate([
         aurelia_framework_1.inject(aurelia_validation_1.ValidationController, aurelia_validation_1.ValidationControllerFactory, adresregister_api_service_1.AdresregisterService, aurelia_framework_1.BindingEngine),
         __metadata("design:paramtypes", [aurelia_validation_1.ValidationController,

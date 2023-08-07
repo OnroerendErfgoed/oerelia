@@ -64,7 +64,6 @@ var AdresCrab = (function () {
             busnummer: { required: false, autocompleteType: autocompleteType.Suggest }
         };
         this.copyAvailable = false;
-        this.freeSearchAllowed = true;
         this.landen = [];
         this.vlaamseProvinciesNiscodes = ['10000', '70000', '40000', '20001', '30000'];
         this.suggest = {};
@@ -380,10 +379,6 @@ var AdresCrab = (function () {
         bindable,
         __metadata("design:type", Object)
     ], AdresCrab.prototype, "copyAvailable", void 0);
-    __decorate([
-        bindable,
-        __metadata("design:type", Object)
-    ], AdresCrab.prototype, "freeSearchAllowed", void 0);
     AdresCrab = __decorate([
         inject(ValidationController, ValidationControllerFactory, AdresregisterService, BindingEngine),
         __metadata("design:paramtypes", [ValidationController,
