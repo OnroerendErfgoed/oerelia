@@ -14,11 +14,13 @@ export class AdresCrab {
   @bindable public disabled: boolean;
   @bindable public data: ICrabAdres;
   @bindable public config: IAdresCrabConfig = {
-    huisnummer: { required: true, autocompleteType: autocompleteType.Auto }
+    postcode: { required: true, autocompleteType: autocompleteType.Auto },
+    straat: { required: true, autocompleteType: autocompleteType.Auto },
+    huisnummer: { required: true, autocompleteType: autocompleteType.Auto },
+    busnummer: { required: false, autocompleteType: autocompleteType.Suggest }
   };
   @bindable copiedAdres: ICrabAdres;
   @bindable copyAvailable = false;
-  @bindable freeSearchAllowed = true;
 
   public landen: ILand[] = [];
   public gemeente: IGemeente;
@@ -26,10 +28,7 @@ export class AdresCrab {
   public straat: IStraat;
   public adres: IAdresregisterAdres;
 
-  public freeHuisnummerSearch = false;
-  public freeBusnummerSearch = false;
-  public showBusnummerLinks = true;
-
+  private vlaamseProvinciesNiscodes = ['10000', '70000', '40000', '20001', '30000'];
   private suggest: any = {};
 
   constructor(
@@ -50,9 +49,6 @@ export class AdresCrab {
   }
 
   public bind() {
-    if (this.data.adres && !this.data.adres.id) {
-      this.onHuisnummerNietGevondenClicked();
-    }
     this.data.adres = this.data.adres || { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
 
     ValidationRules
@@ -78,6 +74,11 @@ export class AdresCrab {
       .subscribe((nv, ov) => {
         this.landChanged(nv, ov);
       });
+
+    if (this.data.provincie && !this.vlaamseProvinciesNiscodes.includes(this.data.provincie.niscode)) {
+      this.config.postcode.autocompleteType = autocompleteType.Suggest;
+      this.config.straat.autocompleteType = autocompleteType.Suggest;
+    }
   
     this.data.land = this.data.land || { code: 'BE', naam: 'België' };
     if (this.data.land.code !== 'BE') {
@@ -109,6 +110,10 @@ export class AdresCrab {
   }
 
   public gemeenteChanged() {
+    if (!this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode)) {
+      this.config.postcode.autocompleteType = autocompleteType.Suggest;
+      this.config.straat.autocompleteType = autocompleteType.Suggest;
+    }
     if (!this.data.gemeente) {
       this.data.straat = undefined;
       this.data.postcode = undefined;
@@ -133,26 +138,6 @@ export class AdresCrab {
     this.data.postcode = this.copiedAdres.postcode;
     this.data.straat = this.copiedAdres.straat;
     this.data.adres = this.copiedAdres.adres;
-  }
-
-  public onHuisnummerNietGevondenClicked(): void {
-    this.freeHuisnummerSearch = true;
-    this.freeBusnummerSearch = true;
-    this.showBusnummerLinks = false;
-  }
-
-  public onHuisnummerSuggestiesClicked(): void {
-    this.freeHuisnummerSearch = false;
-    this.freeBusnummerSearch = false;
-    this.showBusnummerLinks = true;
-  }
-
-  public onBusnummerNietGevondenClicked(): void {
-    this.freeBusnummerSearch = true;
-  }
-
-  public onBusnummerSuggestiesClicked(): void {
-    this.freeBusnummerSearch = false;
   }
 
   private async loadLanden() {
@@ -190,6 +175,7 @@ export class AdresCrab {
       const adresGemeenten = gemeenten.map((gemeente: IGemeente) => ({
         naam: gemeente.naam,
         niscode: gemeente.niscode,
+        provincie: gemeente.provincie
       }));
   
       return this.suggestFilter(adresGemeenten, value);

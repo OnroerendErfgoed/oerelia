@@ -12,7 +12,7 @@ let nextID: number = 0;
 export class Autocomplete {
   @observable public inputValue: string  = '';
   @bindable public service: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public value: string;
+  @bindable({ defaultBindingMode: bindingMode.twoWay }) public value: any;
   @bindable public placeholder: string = '';
   @bindable public delay: number = 300;
   @bindable public label: string = 'name';
@@ -22,6 +22,8 @@ export class Autocomplete {
   @bindable public minlength: number = 2;
   @bindable public type: autocompleteType = autocompleteType.Auto;
   @bindable public parser;
+  @bindable public huisnummer: string = '';
+  @bindable public field: string = '';
   public id: number;
   public expanded: boolean = false;
   public updatingInput: boolean = false;
@@ -68,9 +70,29 @@ export class Autocomplete {
   }
 
   public select(suggestion) {
-    this.value = suggestion;
-    const name = this.getName(this.value);
-    this.display(name);
+    let displayName = '';
+    if (typeof suggestion === 'string') {
+      switch (this.field) {
+        case 'postcode':
+          this.value = { nummer: suggestion }
+          break
+        case 'straat':
+          this.value = { naam: suggestion }
+          break
+        case 'huisnummer':
+          this.value = { huisnummer: suggestion};
+          break
+        case 'busnummer':
+          this.value = { huisnummer: this.huisnummer, busnummer: suggestion};
+          break
+      }
+      displayName = suggestion;
+    } else {
+      this.value = suggestion;
+      displayName = this.getName(this.value)
+    }
+
+    this.display(displayName);
     this.collapse();
   }
 

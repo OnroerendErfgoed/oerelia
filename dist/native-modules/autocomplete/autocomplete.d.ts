@@ -2,7 +2,7 @@ import { autocompleteType } from './models/autocomplete-type';
 export declare class Autocomplete {
     inputValue: string;
     service: any;
-    value: string;
+    value: any;
     placeholder: string;
     delay: number;
     label: string;
@@ -12,6 +12,8 @@ export declare class Autocomplete {
     minlength: number;
     type: autocompleteType;
     parser: any;
+    huisnummer: string;
+    field: string;
     id: number;
     expanded: boolean;
     updatingInput: boolean;

@@ -76,7 +76,7 @@ var IdServiceApiService = (function () {
     IdServiceApiService.prototype.getReferencesByUri = function (uri) {
         return this.http.createRequest(oeAppConfig.idServiceUrl + "/registry/references?uri=" + uri)
             .asGet()
-            .withHeader('OpenAmSSOID', this.ssoToken)
+            .withHeader('Authorization', 'Bearer ' + this.ssoToken)
             .send()
             .then(function (response) {
             RestMessage.display({ result: MessageParser.parseHttpResponseMessage(response) });

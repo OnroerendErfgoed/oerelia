@@ -30,7 +30,7 @@ export class IdServiceApiService {
   public getReferencesByUri(uri: string): Promise<any> {
     return this.http.createRequest(`${oeAppConfig.idServiceUrl}/registry/references?uri=${uri}`)
       .asGet()
-      .withHeader('OpenAmSSOID', this.ssoToken)
+      .withHeader('Authorization', 'Bearer ' + this.ssoToken)
       .send()
       .then(response => {
         RestMessage.display({result: MessageParser.parseHttpResponseMessage(response)});

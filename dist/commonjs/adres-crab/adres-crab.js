@@ -60,14 +60,14 @@ var AdresCrab = (function () {
         this.adresregisterService = adresregisterService;
         this.bindingEngine = bindingEngine;
         this.config = {
-            huisnummer: { required: true, autocompleteType: autocomplete_type_1.autocompleteType.Auto }
+            postcode: { required: true, autocompleteType: autocomplete_type_1.autocompleteType.Auto },
+            straat: { required: true, autocompleteType: autocomplete_type_1.autocompleteType.Auto },
+            huisnummer: { required: true, autocompleteType: autocomplete_type_1.autocompleteType.Auto },
+            busnummer: { required: false, autocompleteType: autocomplete_type_1.autocompleteType.Suggest }
         };
         this.copyAvailable = false;
-        this.freeSearchAllowed = true;
         this.landen = [];
-        this.freeHuisnummerSearch = false;
-        this.freeBusnummerSearch = false;
-        this.showBusnummerLinks = true;
+        this.vlaamseProvinciesNiscodes = ['10000', '70000', '40000', '20001', '30000'];
         this.suggest = {};
         this.controller = this.controllerFactory.createForCurrentScope();
         this.controller.addRenderer(new foundation_validation_renderer_1.FoundationValidationRenderer());
@@ -80,9 +80,6 @@ var AdresCrab = (function () {
     }
     AdresCrab.prototype.bind = function () {
         var _this = this;
-        if (this.data.adres && !this.data.adres.id) {
-            this.onHuisnummerNietGevondenClicked();
-        }
         this.data.adres = this.data.adres || { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
         aurelia_validation_1.ValidationRules
             .ensure('land').required()
@@ -104,6 +101,10 @@ var AdresCrab = (function () {
             .subscribe(function (nv, ov) {
             _this.landChanged(nv, ov);
         });
+        if (this.data.provincie && !this.vlaamseProvinciesNiscodes.includes(this.data.provincie.niscode)) {
+            this.config.postcode.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
+            this.config.straat.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
+        }
         this.data.land = this.data.land || { code: 'BE', naam: 'België' };
         if (this.data.land.code !== 'BE') {
             this.gemeente = this.data.gemeente ? { naam: this.data.gemeente.naam, niscode: this.data.gemeente.niscode } : undefined;
@@ -130,6 +131,10 @@ var AdresCrab = (function () {
         }
     };
     AdresCrab.prototype.gemeenteChanged = function () {
+        if (!this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode)) {
+            this.config.postcode.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
+            this.config.straat.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
+        }
         if (!this.data.gemeente) {
             this.data.straat = undefined;
             this.data.postcode = undefined;
@@ -151,22 +156,6 @@ var AdresCrab = (function () {
         this.data.postcode = this.copiedAdres.postcode;
         this.data.straat = this.copiedAdres.straat;
         this.data.adres = this.copiedAdres.adres;
-    };
-    AdresCrab.prototype.onHuisnummerNietGevondenClicked = function () {
-        this.freeHuisnummerSearch = true;
-        this.freeBusnummerSearch = true;
-        this.showBusnummerLinks = false;
-    };
-    AdresCrab.prototype.onHuisnummerSuggestiesClicked = function () {
-        this.freeHuisnummerSearch = false;
-        this.freeBusnummerSearch = false;
-        this.showBusnummerLinks = true;
-    };
-    AdresCrab.prototype.onBusnummerNietGevondenClicked = function () {
-        this.freeBusnummerSearch = true;
-    };
-    AdresCrab.prototype.onBusnummerSuggestiesClicked = function () {
-        this.freeBusnummerSearch = false;
     };
     AdresCrab.prototype.loadLanden = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -223,6 +212,7 @@ var AdresCrab = (function () {
                         adresGemeenten = gemeenten.map(function (gemeente) { return ({
                             naam: gemeente.naam,
                             niscode: gemeente.niscode,
+                            provincie: gemeente.provincie
                         }); });
                         return [2, this.suggestFilter(adresGemeenten, value)];
                     case 2:
@@ -391,10 +381,6 @@ var AdresCrab = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Object)
     ], AdresCrab.prototype, "copyAvailable", void 0);
-    __decorate([
-        aurelia_framework_1.bindable,
-        __metadata("design:type", Object)
-    ], AdresCrab.prototype, "freeSearchAllowed", void 0);
     AdresCrab = __decorate([
         aurelia_framework_1.inject(aurelia_validation_1.ValidationController, aurelia_validation_1.ValidationControllerFactory, adresregister_api_service_1.AdresregisterService, aurelia_framework_1.BindingEngine),
         __metadata("design:paramtypes", [aurelia_validation_1.ValidationController,

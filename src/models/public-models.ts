@@ -249,6 +249,7 @@ export interface IZoneerderServiceConfig {
 export interface ICrabAdres {
   gemeente: IGemeente;
   land: ILand;
+  provincie?: IProvincie;
   postcode: IPostcode;
   straat: IStraat;
   adres: IAdresregisterAdres;
@@ -306,6 +307,7 @@ export interface IPostinfo {
 export interface IActorAdres {
   gemeente: IGemeente;
   land: ILand;
+  provincie?: IProvincie;
   postcode: IPostcode;
   straat: IStraat;
   adres: IAdresregisterAdres;
