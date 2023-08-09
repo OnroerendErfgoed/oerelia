@@ -323,7 +323,7 @@ var AdresCrab = (function () {
                     case 0:
                         straat = this.data.straat ? this.data.straat.id : undefined;
                         huisnummer = this.data.adres ? this.data.adres.huisnummer : undefined;
-                        if (!straat || !huisnummer) {
+                        if (!this.data.adres.id || !straat || !huisnummer) {
                             return [2];
                         }
                         _a.label = 1;

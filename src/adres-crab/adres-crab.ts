@@ -240,7 +240,7 @@ export class AdresCrab {
     const straat = this.data.straat ? this.data.straat.id : undefined;
     const huisnummer = this.data.adres ? this.data.adres.huisnummer : undefined;
 
-    if (!straat || !huisnummer) { return; }
+    if (!this.data.adres.id || !straat || !huisnummer) { return; }
 
     try {
       const huisnrs = await this.adresregisterService.getAdressen(straat, huisnummer);
