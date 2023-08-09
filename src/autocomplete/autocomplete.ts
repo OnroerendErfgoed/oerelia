@@ -74,17 +74,17 @@ export class Autocomplete {
     if (typeof suggestion === 'string') {
       switch (this.field) {
         case 'postcode':
-          this.value = { nummer: suggestion }
-          break
+          this.value = { nummer: suggestion };
+          break;
         case 'straat':
-          this.value = { naam: suggestion }
-          break
+          this.value = { naam: suggestion };
+          break;
         case 'huisnummer':
           this.value = { huisnummer: suggestion};
-          break
+          break;
         case 'busnummer':
           this.value = { huisnummer: this.huisnummer, busnummer: suggestion};
-          break
+          break;
       }
       displayName = suggestion;
     } else {
