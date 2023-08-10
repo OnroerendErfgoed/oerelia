@@ -20,6 +20,7 @@ export declare class AdresCrab {
     adres: IAdresregisterAdres;
     private vlaamseProvinciesNiscodes;
     private suggest;
+    private vrijAdres;
     constructor(controller: ValidationController, controllerFactory: ValidationControllerFactory, adresregisterService: AdresregisterService, bindingEngine: BindingEngine);
     bind(): void;
     parseField(value: any, property: any): void;

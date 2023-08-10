@@ -30,6 +30,7 @@ export class AdresCrab {
 
   private vlaamseProvinciesNiscodes = ['10000', '70000', '40000', '20001', '30000'];
   private suggest: any = {};
+  private vrijAdres: boolean = false;
 
   constructor(
     public controller: ValidationController,
@@ -61,7 +62,7 @@ export class AdresCrab {
     ValidationRules
       .ensure('huisnummer').required()
         .when(() => this.config.huisnummer.required)
-      .on(this.data.adres)
+      .on(this.data.adres);
 
     ValidationRules
       .ensure('gemeente').required()
@@ -82,7 +83,7 @@ export class AdresCrab {
   
     this.data.land = this.data.land || { code: 'BE', naam: 'België' };
     if (this.data.land.code !== 'BE') {
-      this.gemeente = this.data.gemeente ? { naam: this.data.gemeente.naam, niscode: this.data.gemeente.niscode } : undefined
+      this.gemeente = this.data.gemeente ? { naam: this.data.gemeente.naam, niscode: this.data.gemeente.niscode } : undefined;
       this.postcode = this.data.postcode ? { nummer: this.data.postcode.nummer, uri: this.data.postcode.uri } : undefined;
       this.straat = this.data.straat ? { id: this.data.straat.id, naam: this.data.straat.naam, omschrijving: this.data.straat.omschrijving, uri: this.data.straat.uri } 
                                      : undefined;
@@ -113,19 +114,18 @@ export class AdresCrab {
     if (!this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode)) {
       this.config.postcode.autocompleteType = autocompleteType.Suggest;
       this.config.straat.autocompleteType = autocompleteType.Suggest;
+    } else {
+      this.config.postcode.autocompleteType = autocompleteType.Auto;
+      this.config.straat.autocompleteType = autocompleteType.Auto;
     }
-    if (!this.data.gemeente) {
-      this.data.straat = undefined;
-      this.data.postcode = undefined;
-      this.data.adres = undefined;
-      this.straatChanged();
-    }
+    this.data.straat = undefined;
+    this.data.postcode = undefined;
+    this.data.adres = undefined;
+    this.straatChanged();
   }
 
   public straatChanged() {
-    if (!this.data.straat) {
-      this.data.adres = undefined;
-    }
+    this.data.adres = undefined;
   }
 
   public copyAdres(): void {
@@ -151,7 +151,7 @@ export class AdresCrab {
           { code: 'GB', naam: 'Groot-Brittanië' },
           { code: 'NL', naam: 'Nederland' },
           { code: 'LU', naam: 'Luxemburg' },
-          { code: 'divider', naam: '─────────────────────────' },
+          { code: 'divider', naam: '─────────────────────────' }
         ];
         this.landen = staticLanden;
         landen.forEach(land => {
@@ -182,7 +182,7 @@ export class AdresCrab {
     } catch (error) {
       Message.error({
         title: 'Er liep iets mis bij het ophalen van gemeenten',
-        message: error.message,
+        message: error.message
       });
     }
   }
@@ -197,58 +197,70 @@ export class AdresCrab {
     try {
       const postcodes = await this.adresregisterService.getPostinfo(gemeente);
       const mappedPostcodes = postcodes.map((postcode) => ({ nummer: postcode.postcode, uri: postcode.uri } as IPostcode));
-      return this.filterPostcodes(mappedPostcodes, value)
+      return this.filterPostcodes(mappedPostcodes, value);
     } catch (error) {
       this.data.postcode = undefined;
       Message.error({
         title: 'Er liep iets mis bij het ophalen van postcodes',
-        message: error.message,
+        message: error.message
       });
     }
   }
 
   private async loadStraten(value: string) {
-    const niscode = this.data.gemeente ? this.data.gemeente.niscode : undefined;
-    if (!niscode) { return; }
+    const gemeenteNiscode = this.data.gemeente ? this.data.gemeente.niscode : undefined;
+    const postcodeUri = this.data.postcode ? this.data.postcode.uri : undefined;
+    if (!gemeenteNiscode || !postcodeUri) {
+      this.vrijAdres = true;
+      return;
+    }
+    if (postcodeUri) {
+      this.vrijAdres = false;
+    }
     try {
-      const straten = await this.adresregisterService.getStraten(niscode);
+      const straten = await this.adresregisterService.getStraten(gemeenteNiscode);
       return this.suggestFilter(straten, value);
     } catch (error) {
       Message.error({
         title: 'Er liep iets mis bij het ophalen van straten',
-        message: error.message,
+        message: error.message
       });
     }
   }
 
   private async loadHuisnrs(value: string) {
-    const straat = this.data.straat ? this.data.straat.id : undefined;
-    if (!straat) { return; }
-
+    const straatId = this.data.straat ? this.data.straat.id : undefined;
+    if (this.vrijAdres || !this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode)) { return; }
+    if (!straatId) {
+      this.vrijAdres = true
+      return;
+    } else {
+      this.vrijAdres = false;
+    }
     try {
-      const huisnrs = await this.adresregisterService.getAdressen(straat);
+      const huisnrs = await this.adresregisterService.getAdressen(straatId);
       return this.filterHuisnummers(huisnrs, value);
     } catch (error) {
       Message.error({
         title: 'Er liep iets mis bij het ophalen van huisnummers',
-        message: error.message,
+        message: error.message
       });
     }
   }
 
   private async loadBusnrs(value: string) {
-    const straat = this.data.straat ? this.data.straat.id : undefined;
+    const straatId = this.data.straat ? this.data.straat.id : undefined;
     const huisnummer = this.data.adres ? this.data.adres.huisnummer : undefined;
 
-    if (!this.data.adres.id || !straat || !huisnummer) { return; }
+    if (!this.data.adres.id || !huisnummer || this.vrijAdres) { return; }
 
     try {
-      const huisnrs = await this.adresregisterService.getAdressen(straat, huisnummer);
+      const huisnrs = await this.adresregisterService.getAdressen(straatId, huisnummer);
       return this.filterBusnummers(huisnrs, value);
     } catch (error) {
       Message.error({
         title: 'Er liep iets mis bij het ophalen van busnummers',
-        message: error.message,
+        message: error.message
       });
     }
   }

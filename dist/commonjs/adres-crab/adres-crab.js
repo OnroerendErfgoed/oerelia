@@ -69,6 +69,7 @@ var AdresCrab = (function () {
         this.landen = [];
         this.vlaamseProvinciesNiscodes = ['10000', '70000', '40000', '20001', '30000'];
         this.suggest = {};
+        this.vrijAdres = false;
         this.controller = this.controllerFactory.createForCurrentScope();
         this.controller.addRenderer(new foundation_validation_renderer_1.FoundationValidationRenderer());
         this.loadLanden();
@@ -135,17 +136,17 @@ var AdresCrab = (function () {
             this.config.postcode.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
             this.config.straat.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
         }
-        if (!this.data.gemeente) {
-            this.data.straat = undefined;
-            this.data.postcode = undefined;
-            this.data.adres = undefined;
-            this.straatChanged();
+        else {
+            this.config.postcode.autocompleteType = autocomplete_type_1.autocompleteType.Auto;
+            this.config.straat.autocompleteType = autocomplete_type_1.autocompleteType.Auto;
         }
+        this.data.straat = undefined;
+        this.data.postcode = undefined;
+        this.data.adres = undefined;
+        this.straatChanged();
     };
     AdresCrab.prototype.straatChanged = function () {
-        if (!this.data.straat) {
-            this.data.adres = undefined;
-        }
+        this.data.adres = undefined;
     };
     AdresCrab.prototype.copyAdres = function () {
         this.copiedAdres = this.data;
@@ -176,7 +177,7 @@ var AdresCrab = (function () {
                                 { code: 'GB', naam: 'Groot-Brittanië' },
                                 { code: 'NL', naam: 'Nederland' },
                                 { code: 'LU', naam: 'Luxemburg' },
-                                { code: 'divider', naam: '─────────────────────────' },
+                                { code: 'divider', naam: '─────────────────────────' }
                             ];
                             this.landen = staticLanden;
                             landen.forEach(function (land) {
@@ -219,7 +220,7 @@ var AdresCrab = (function () {
                         error_2 = _a.sent();
                         message_1.Message.error({
                             title: 'Er liep iets mis bij het ophalen van gemeenten',
-                            message: error_2.message,
+                            message: error_2.message
                         });
                         return [3, 3];
                     case 3: return [2];
@@ -251,7 +252,7 @@ var AdresCrab = (function () {
                         this.data.postcode = undefined;
                         message_1.Message.error({
                             title: 'Er liep iets mis bij het ophalen van postcodes',
-                            message: error_3.message,
+                            message: error_3.message
                         });
                         return [3, 4];
                     case 4: return [2];
@@ -261,18 +262,23 @@ var AdresCrab = (function () {
     };
     AdresCrab.prototype.loadStraten = function (value) {
         return __awaiter(this, void 0, void 0, function () {
-            var niscode, straten, error_4;
+            var gemeenteNiscode, postcodeUri, straten, error_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        niscode = this.data.gemeente ? this.data.gemeente.niscode : undefined;
-                        if (!niscode) {
+                        gemeenteNiscode = this.data.gemeente ? this.data.gemeente.niscode : undefined;
+                        postcodeUri = this.data.postcode ? this.data.postcode.uri : undefined;
+                        if (!gemeenteNiscode || !postcodeUri) {
+                            this.vrijAdres = true;
                             return [2];
+                        }
+                        if (postcodeUri) {
+                            this.vrijAdres = false;
                         }
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
-                        return [4, this.adresregisterService.getStraten(niscode)];
+                        return [4, this.adresregisterService.getStraten(gemeenteNiscode)];
                     case 2:
                         straten = _a.sent();
                         return [2, this.suggestFilter(straten, value)];
@@ -280,7 +286,7 @@ var AdresCrab = (function () {
                         error_4 = _a.sent();
                         message_1.Message.error({
                             title: 'Er liep iets mis bij het ophalen van straten',
-                            message: error_4.message,
+                            message: error_4.message
                         });
                         return [3, 4];
                     case 4: return [2];
@@ -290,18 +296,25 @@ var AdresCrab = (function () {
     };
     AdresCrab.prototype.loadHuisnrs = function (value) {
         return __awaiter(this, void 0, void 0, function () {
-            var straat, huisnrs, error_5;
+            var straatId, huisnrs, error_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        straat = this.data.straat ? this.data.straat.id : undefined;
-                        if (!straat) {
+                        straatId = this.data.straat ? this.data.straat.id : undefined;
+                        if (this.vrijAdres || !this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode)) {
                             return [2];
+                        }
+                        if (!straatId) {
+                            this.vrijAdres = true;
+                            return [2];
+                        }
+                        else {
+                            this.vrijAdres = false;
                         }
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
-                        return [4, this.adresregisterService.getAdressen(straat)];
+                        return [4, this.adresregisterService.getAdressen(straatId)];
                     case 2:
                         huisnrs = _a.sent();
                         return [2, this.filterHuisnummers(huisnrs, value)];
@@ -309,7 +322,7 @@ var AdresCrab = (function () {
                         error_5 = _a.sent();
                         message_1.Message.error({
                             title: 'Er liep iets mis bij het ophalen van huisnummers',
-                            message: error_5.message,
+                            message: error_5.message
                         });
                         return [3, 4];
                     case 4: return [2];
@@ -319,19 +332,19 @@ var AdresCrab = (function () {
     };
     AdresCrab.prototype.loadBusnrs = function (value) {
         return __awaiter(this, void 0, void 0, function () {
-            var straat, huisnummer, huisnrs, error_6;
+            var straatId, huisnummer, huisnrs, error_6;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        straat = this.data.straat ? this.data.straat.id : undefined;
+                        straatId = this.data.straat ? this.data.straat.id : undefined;
                         huisnummer = this.data.adres ? this.data.adres.huisnummer : undefined;
-                        if (!this.data.adres.id || !straat || !huisnummer) {
+                        if (!this.data.adres.id || !huisnummer || this.vrijAdres) {
                             return [2];
                         }
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
-                        return [4, this.adresregisterService.getAdressen(straat, huisnummer)];
+                        return [4, this.adresregisterService.getAdressen(straatId, huisnummer)];
                     case 2:
                         huisnrs = _a.sent();
                         return [2, this.filterBusnummers(huisnrs, value)];
@@ -339,7 +352,7 @@ var AdresCrab = (function () {
                         error_6 = _a.sent();
                         message_1.Message.error({
                             title: 'Er liep iets mis bij het ophalen van busnummers',
-                            message: error_6.message,
+                            message: error_6.message
                         });
                         return [3, 4];
                     case 4: return [2];
