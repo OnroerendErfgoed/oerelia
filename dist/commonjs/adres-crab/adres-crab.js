@@ -369,10 +369,15 @@ var AdresCrab = (function () {
         return postcodes.filter(function (postcode) { return postcode.nummer.includes(searchPostcode); });
     };
     AdresCrab.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
-        return lodash_1.uniqBy(lodash_1.sortBy(adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); })), 'huisnummer');
+        var adresList = lodash_1.uniqBy(adressen
+            .filter(function (adres) { return adres.huisnummer
+            .includes(searchHuisnummer); }), 'huisnummer');
+        return adresList.sort(function (a, b) { return a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }); });
     };
     AdresCrab.prototype.filterBusnummers = function (adressen, searchBusnummer) {
-        return adressen.filter(function (adres) { return adres.busnummer.includes(searchBusnummer); });
+        return adressen.filter(function (adres) { return adres.busnummer
+            .includes(searchBusnummer); })
+            .sort(function (a, b) { return a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }); });
     };
     __decorate([
         aurelia_framework_1.bindable,

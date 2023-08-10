@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row">
       <div class="small-push-2 small-10 columns">
         <div if.bind="data.land.code === 'BE'">
@@ -105,7 +105,7 @@
     <div class="row">
       <div class="small-push-2 small-10 columns">
         <div class="placeholder-container ${(!freeBusnummerSearch && !data.adres.huisnummer) || disabled ? 'placeholder-disabled' : '' }">
-          <label>Busnr.</label>
+          <label>Busnummer</label>
           <autocomplete service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
             disabled.bind="!data.adres || disabled" value.bind="data.adres & validate"
             type.bind="config.busnummer.autocompleteType"

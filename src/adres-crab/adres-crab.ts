@@ -275,11 +275,18 @@ export class AdresCrab {
     return postcodes.filter((postcode: IPostcode) => postcode.nummer.includes(searchPostcode));
   }
 
-  private filterHuisnummers(adressen: IAdresregisterAdres[], searchHuisnummer: string): IAdresregisterAdres[] | [] {
-    return uniqBy(sortBy(adressen.filter((adres: IAdresregisterAdres) => adres.huisnummer.includes(searchHuisnummer))), 'huisnummer') as IAdresregisterAdres[];
+  private filterHuisnummers(adressen: IAdresregisterAdres[], searchHuisnummer: string):
+    IAdresregisterAdres[] | [] {
+    const adresList = uniqBy(adressen
+      .filter((adres: IAdresregisterAdres) => adres.huisnummer
+        .includes(searchHuisnummer)),'huisnummer') as IAdresregisterAdres[];
+    return adresList.sort((a, b) => a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }));
   }
 
-  private filterBusnummers(adressen: IAdresregisterAdres[], searchBusnummer: string): IAdresregisterAdres[] | [] {
-    return adressen.filter((adres: IAdresregisterAdres) => adres.busnummer.includes(searchBusnummer));
+  private filterBusnummers(adressen: IAdresregisterAdres[], searchBusnummer: string):
+    IAdresregisterAdres[] | [] {
+    return adressen.filter((adres: IAdresregisterAdres) => adres.busnummer
+      .includes(searchBusnummer))
+      .sort((a, b) => a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }));
   }
 }

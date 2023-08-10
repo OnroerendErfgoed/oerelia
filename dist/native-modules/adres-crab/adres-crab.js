@@ -48,7 +48,7 @@ import { ValidationController, ValidationControllerFactory, ValidationRules } fr
 import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
 import { AdresregisterService } from '../services/adresregister.api-service';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
-import { sortBy, uniqBy } from 'lodash';
+import { uniqBy } from 'lodash';
 import { Message } from '../utilities/message/message';
 var AdresCrab = (function () {
     function AdresCrab(controller, controllerFactory, adresregisterService, bindingEngine) {
@@ -367,10 +367,15 @@ var AdresCrab = (function () {
         return postcodes.filter(function (postcode) { return postcode.nummer.includes(searchPostcode); });
     };
     AdresCrab.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
-        return uniqBy(sortBy(adressen.filter(function (adres) { return adres.huisnummer.includes(searchHuisnummer); })), 'huisnummer');
+        var adresList = uniqBy(adressen
+            .filter(function (adres) { return adres.huisnummer
+            .includes(searchHuisnummer); }), 'huisnummer');
+        return adresList.sort(function (a, b) { return a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }); });
     };
     AdresCrab.prototype.filterBusnummers = function (adressen, searchBusnummer) {
-        return adressen.filter(function (adres) { return adres.busnummer.includes(searchBusnummer); });
+        return adressen.filter(function (adres) { return adres.busnummer
+            .includes(searchBusnummer); })
+            .sort(function (a, b) { return a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }); });
     };
     __decorate([
         bindable,
