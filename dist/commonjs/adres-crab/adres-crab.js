@@ -301,16 +301,15 @@ var AdresCrab = (function () {
                 switch (_a.label) {
                     case 0:
                         straatId = this.data.straat ? this.data.straat.id : undefined;
-                        if (this.vrijAdres || !this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode)) {
+                        if (this.vrijAdres ||
+                            (this.data.gemeente.provincie && !this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode))) {
                             return [2];
                         }
                         if (!straatId) {
                             this.vrijAdres = true;
                             return [2];
                         }
-                        else {
-                            this.vrijAdres = false;
-                        }
+                        this.vrijAdres = false;
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);

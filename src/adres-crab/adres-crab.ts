@@ -230,13 +230,17 @@ export class AdresCrab {
 
   private async loadHuisnrs(value: string) {
     const straatId = this.data.straat ? this.data.straat.id : undefined;
-    if (this.vrijAdres || !this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode)) { return; }
-    if (!straatId) {
-      this.vrijAdres = true
+    if (
+      this.vrijAdres ||
+      (this.data.gemeente.provincie && !this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode))) {
       return;
-    } else {
-      this.vrijAdres = false;
     }
+    if (!straatId) {
+      this.vrijAdres = true;
+      return;
+    }
+    this.vrijAdres = false;
+
     try {
       const huisnrs = await this.adresregisterService.getAdressen(straatId);
       return this.filterHuisnummers(huisnrs, value);
