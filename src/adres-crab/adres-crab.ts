@@ -93,7 +93,11 @@ export class AdresCrab {
   }
 
   public parseField(value, property) {
-    this.data[property] = { naam: value };
+   if (property === 'huisnummer' || property === 'busnummer') {
+     this.data.adres[property] = value;
+   } else {
+     this.data[property] = { naam: value };
+   }
   }
 
   public landChanged(nv: ILand, ov: ILand) {
@@ -106,7 +110,7 @@ export class AdresCrab {
       this.data.gemeente = undefined;
       this.data.straat = undefined;
       this.data.postcode = undefined;
-      this.data.adres = undefined;
+      this.resetAdres();
     }
   }
 
@@ -120,12 +124,11 @@ export class AdresCrab {
     }
     this.data.straat = undefined;
     this.data.postcode = undefined;
-    this.data.adres = undefined;
     this.straatChanged();
   }
 
   public straatChanged() {
-    this.data.adres = undefined;
+    this.resetAdres();
   }
 
   public copyAdres(): void {
@@ -292,5 +295,9 @@ export class AdresCrab {
     return adressen.filter((adres: IAdresregisterAdres) => adres.busnummer
       .includes(searchBusnummer))
       .sort((a, b) => a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }));
+  }
+
+  private resetAdres() {
+    this.data.adres = { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
   }
 }

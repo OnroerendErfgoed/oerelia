@@ -120,9 +120,9 @@ export class Autocomplete {
             this.collapse();
           } else {
             this.suggestions.splice(0, this.suggestions.length, ...suggestions);
-            if (suggestions && suggestions.length === 1 && this.type !== autocompleteType.Suggest) {
+            if (suggestions.length === 1 && this.type !== autocompleteType.Suggest) {
               this.select(suggestions[0]);
-            } else if (suggestions && suggestions.length === 0) {
+            } else if (suggestions.length === 0) {
               this.collapse();
             } else {
               this.expanded = true;

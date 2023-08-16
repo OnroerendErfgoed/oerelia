@@ -1,5 +1,4 @@
 <template>
-  <require from="./styles/adres-crab.css"></require>
   <div class="adres-crab">
     <div class="row" if.bind="copyAvailable">
       <div class="small-2 columns">
@@ -75,6 +74,18 @@
               </template>
             </autocomplete>
           </div>
+          <div class="placeholder-container ${!data.adres.huisnummer || disabled ? 'placeholder-disabled' : '' }">
+            <label>Busnummer</label>
+            <autocomplete service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
+              disabled.bind="!data.adres || disabled" value.bind="data.adres & validate"
+              type.bind="config.busnummer.autocompleteType"
+              huisnummer.bind="data.adres.huisnummer"
+              field="busnummer">
+              <template replace-part="suggestion">
+                ${suggestion.busnummer}
+              </template>
+            </autocomplete>
+          </div>
         </div>
         <div if.bind="data.land.code !== 'BE'">
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
@@ -98,23 +109,11 @@
             <input type="text" value.bind="huisnummer & validate" placeholder="huisnummer"
               change.delegate="parseField(huisnummer, 'huisnummer')" disabled.bind="disabled">
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="small-push-2 small-10 columns">
-        <div class="placeholder-container ${(!freeBusnummerSearch && !data.adres.huisnummer) || disabled ? 'placeholder-disabled' : '' }">
-          <label>Busnummer</label>
-          <autocomplete service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
-            disabled.bind="!data.adres || disabled" value.bind="data.adres & validate"
-            type.bind="config.busnummer.autocompleteType"
-            huisnummer.bind="data.adres.huisnummer"
-            field="busnummer">
-            <template replace-part="suggestion">
-              ${suggestion.busnummer}
-            </template>
-          </autocomplete>
+          <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
+            <label>Busnummer</label>
+            <input type="text" value.bind="busnummer & validate" placeholder="busnummer"
+              change.delegate="parseField(busnummer, 'busnummer')" disabled.bind="disabled">
+          </div>
         </div>
       </div>
     </div>

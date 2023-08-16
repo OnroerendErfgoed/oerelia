@@ -117,7 +117,12 @@ var AdresCrab = (function () {
         }
     };
     AdresCrab.prototype.parseField = function (value, property) {
-        this.data[property] = { naam: value };
+        if (property === 'huisnummer' || property === 'busnummer') {
+            this.data.adres[property] = value;
+        }
+        else {
+            this.data[property] = { naam: value };
+        }
     };
     AdresCrab.prototype.landChanged = function (nv, ov) {
         if (nv.code !== 'BE') {
@@ -128,7 +133,7 @@ var AdresCrab = (function () {
             this.data.gemeente = undefined;
             this.data.straat = undefined;
             this.data.postcode = undefined;
-            this.data.adres = undefined;
+            this.resetAdres();
         }
     };
     AdresCrab.prototype.gemeenteChanged = function () {
@@ -142,11 +147,10 @@ var AdresCrab = (function () {
         }
         this.data.straat = undefined;
         this.data.postcode = undefined;
-        this.data.adres = undefined;
         this.straatChanged();
     };
     AdresCrab.prototype.straatChanged = function () {
-        this.data.adres = undefined;
+        this.resetAdres();
     };
     AdresCrab.prototype.copyAdres = function () {
         this.copiedAdres = this.data;
@@ -377,6 +381,9 @@ var AdresCrab = (function () {
         return adressen.filter(function (adres) { return adres.busnummer
             .includes(searchBusnummer); })
             .sort(function (a, b) { return a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }); });
+    };
+    AdresCrab.prototype.resetAdres = function () {
+        this.data.adres = { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
     };
     __decorate([
         aurelia_framework_1.bindable,

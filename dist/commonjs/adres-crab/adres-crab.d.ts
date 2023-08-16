@@ -39,4 +39,5 @@ export declare class AdresCrab {
     private filterPostcodes;
     private filterHuisnummers;
     private filterBusnummers;
+    private resetAdres;
 }

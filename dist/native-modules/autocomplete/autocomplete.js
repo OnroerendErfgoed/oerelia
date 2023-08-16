@@ -116,10 +116,10 @@ var Autocomplete = (function () {
                 }
                 else {
                     (_a = _this.suggestions).splice.apply(_a, __spreadArrays([0, _this.suggestions.length], suggestions));
-                    if (suggestions && suggestions.length === 1 && _this.type !== autocompleteType.Suggest) {
+                    if (suggestions.length === 1 && _this.type !== autocompleteType.Suggest) {
                         _this.select(suggestions[0]);
                     }
-                    else if (suggestions && suggestions.length === 0) {
+                    else if (suggestions.length === 0) {
                         _this.collapse();
                     }
                     else {
