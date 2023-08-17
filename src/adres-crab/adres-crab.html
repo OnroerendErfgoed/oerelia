@@ -77,7 +77,7 @@
           <div class="placeholder-container ${!data.adres.huisnummer || disabled ? 'placeholder-disabled' : '' }">
             <label>Busnummer</label>
             <autocomplete service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
-              disabled.bind="!data.adres || disabled" value.bind="data.adres & validate"
+              disabled.bind="!data.adres.huisnummer || disabled" value.bind="data.adres & validate"
               type.bind="config.busnummer.autocompleteType"
               huisnummer.bind="data.adres.huisnummer"
               field="busnummer">
