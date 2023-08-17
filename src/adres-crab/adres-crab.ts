@@ -4,12 +4,12 @@ import { FoundationValidationRenderer } from '../foundation-validation-renderer/
 import { AdresregisterService } from '../services/adresregister.api-service';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 import { IAdresCrabConfig } from './types/adres-crab-config';
-import { sortBy, uniqBy } from 'lodash';
+import { uniqBy } from 'lodash';
 import { Message } from '../utilities/message/message';
 import { IAdresregisterAdres, ICrabAdres, IGemeente, 
-  ILand, IPostcode, IStraat } from '../models/public-models';
+  ILand, IPostcode } from '../models/public-models';
 
-@inject(ValidationController, ValidationControllerFactory, AdresregisterService, BindingEngine)
+@inject(ValidationController, ValidationControllerFactory, AdresregisterService)
 export class AdresCrab {
   @bindable public disabled: boolean;
   @bindable public data: ICrabAdres;
@@ -23,10 +23,6 @@ export class AdresCrab {
   @bindable copyAvailable = false;
 
   public landen: ILand[] = [];
-  public gemeente: IGemeente;
-  public postcode: IPostcode;
-  public straat: IStraat;
-  public adres: IAdresregisterAdres;
 
   private vlaamseProvinciesNiscodes = ['10000', '70000', '40000', '20001', '30000'];
   private suggest: any = {};
@@ -35,8 +31,7 @@ export class AdresCrab {
   constructor(
     public controller: ValidationController,
     private controllerFactory: ValidationControllerFactory,
-    private adresregisterService: AdresregisterService,
-    private bindingEngine: BindingEngine
+    private adresregisterService: AdresregisterService
   ) {
     this.controller = this.controllerFactory.createForCurrentScope();
     this.controller.addRenderer(new FoundationValidationRenderer());
@@ -70,48 +65,19 @@ export class AdresCrab {
       .ensure('straat').required()
       .on(this);
 
-    this.bindingEngine
-      .propertyObserver(this.data, 'land')
-      .subscribe((nv, ov) => {
-        this.landChanged(nv, ov);
-      });
-
     if (this.data.provincie && !this.vlaamseProvinciesNiscodes.includes(this.data.provincie.niscode)) {
       this.config.postcode.autocompleteType = autocompleteType.Suggest;
       this.config.straat.autocompleteType = autocompleteType.Suggest;
     }
   
     this.data.land = this.data.land || { code: 'BE', naam: 'België' };
-    if (this.data.land.code !== 'BE') {
-      this.gemeente = this.data.gemeente ? { naam: this.data.gemeente.naam, niscode: this.data.gemeente.niscode } : undefined;
-      this.postcode = this.data.postcode ? { nummer: this.data.postcode.nummer, uri: this.data.postcode.uri } : undefined;
-      this.straat = this.data.straat ? { id: this.data.straat.id, naam: this.data.straat.naam, omschrijving: this.data.straat.omschrijving, uri: this.data.straat.uri } 
-                                     : undefined;
-      this.adres = this.data.adres ? { id: this.data.adres.id, uri: this.data.adres.uri, busnummer: this.data.adres.busnummer, huisnummer: this.data.adres.huisnummer }
-                                   : undefined;
-    }
   }
 
-  public parseField(value, property) {
-   if (property === 'huisnummer' || property === 'busnummer') {
-     this.data.adres[property] = value;
-   } else {
-     this.data[property] = { naam: value };
-   }
-  }
-
-  public landChanged(nv: ILand, ov: ILand) {
-    if (nv.code !== 'BE') {
-      this.gemeente = undefined;
-      this.straat = undefined;
-      this.postcode = undefined;
-      this.adres = undefined;
-
-      this.data.gemeente = undefined;
-      this.data.straat = undefined;
-      this.data.postcode = undefined;
-      this.resetAdres();
-    }
+  public landChanged() {
+    this.data.gemeente = undefined;
+    this.data.straat = undefined;
+    this.data.postcode = undefined;
+    this.resetAdres();
   }
 
   public gemeenteChanged() {
@@ -299,5 +265,9 @@ export class AdresCrab {
 
   private resetAdres() {
     this.data.adres = { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
+  }
+
+  private landCodeMatcher(a: { code: number }, b: { code: number }): boolean {
+    return (!!a && !!b) && (a.code === b.code);
   }
 }

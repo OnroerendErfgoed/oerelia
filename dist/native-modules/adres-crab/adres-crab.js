@@ -43,7 +43,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { inject, bindable, BindingEngine } from 'aurelia-framework';
+import { inject, bindable } from 'aurelia-framework';
 import { ValidationController, ValidationControllerFactory, ValidationRules } from 'aurelia-validation';
 import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
 import { AdresregisterService } from '../services/adresregister.api-service';
@@ -51,12 +51,11 @@ import { autocompleteType } from '../autocomplete/models/autocomplete-type';
 import { uniqBy } from 'lodash';
 import { Message } from '../utilities/message/message';
 var AdresCrab = (function () {
-    function AdresCrab(controller, controllerFactory, adresregisterService, bindingEngine) {
+    function AdresCrab(controller, controllerFactory, adresregisterService) {
         var _this = this;
         this.controller = controller;
         this.controllerFactory = controllerFactory;
         this.adresregisterService = adresregisterService;
-        this.bindingEngine = bindingEngine;
         this.config = {
             postcode: { required: true, autocompleteType: autocompleteType.Auto },
             straat: { required: true, autocompleteType: autocompleteType.Auto },
@@ -95,44 +94,17 @@ var AdresCrab = (function () {
             .ensure('postcode').required()
             .ensure('straat').required()
             .on(this);
-        this.bindingEngine
-            .propertyObserver(this.data, 'land')
-            .subscribe(function (nv, ov) {
-            _this.landChanged(nv, ov);
-        });
         if (this.data.provincie && !this.vlaamseProvinciesNiscodes.includes(this.data.provincie.niscode)) {
             this.config.postcode.autocompleteType = autocompleteType.Suggest;
             this.config.straat.autocompleteType = autocompleteType.Suggest;
         }
         this.data.land = this.data.land || { code: 'BE', naam: 'België' };
-        if (this.data.land.code !== 'BE') {
-            this.gemeente = this.data.gemeente ? { naam: this.data.gemeente.naam, niscode: this.data.gemeente.niscode } : undefined;
-            this.postcode = this.data.postcode ? { nummer: this.data.postcode.nummer, uri: this.data.postcode.uri } : undefined;
-            this.straat = this.data.straat ? { id: this.data.straat.id, naam: this.data.straat.naam, omschrijving: this.data.straat.omschrijving, uri: this.data.straat.uri }
-                : undefined;
-            this.adres = this.data.adres ? { id: this.data.adres.id, uri: this.data.adres.uri, busnummer: this.data.adres.busnummer, huisnummer: this.data.adres.huisnummer }
-                : undefined;
-        }
     };
-    AdresCrab.prototype.parseField = function (value, property) {
-        if (property === 'huisnummer' || property === 'busnummer') {
-            this.data.adres[property] = value;
-        }
-        else {
-            this.data[property] = { naam: value };
-        }
-    };
-    AdresCrab.prototype.landChanged = function (nv, ov) {
-        if (nv.code !== 'BE') {
-            this.gemeente = undefined;
-            this.straat = undefined;
-            this.postcode = undefined;
-            this.adres = undefined;
-            this.data.gemeente = undefined;
-            this.data.straat = undefined;
-            this.data.postcode = undefined;
-            this.resetAdres();
-        }
+    AdresCrab.prototype.landChanged = function () {
+        this.data.gemeente = undefined;
+        this.data.straat = undefined;
+        this.data.postcode = undefined;
+        this.resetAdres();
     };
     AdresCrab.prototype.gemeenteChanged = function () {
         if (!this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode)) {
@@ -383,6 +355,9 @@ var AdresCrab = (function () {
     AdresCrab.prototype.resetAdres = function () {
         this.data.adres = { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
     };
+    AdresCrab.prototype.landCodeMatcher = function (a, b) {
+        return (!!a && !!b) && (a.code === b.code);
+    };
     __decorate([
         bindable,
         __metadata("design:type", Boolean)
@@ -404,11 +379,10 @@ var AdresCrab = (function () {
         __metadata("design:type", Object)
     ], AdresCrab.prototype, "copyAvailable", void 0);
     AdresCrab = __decorate([
-        inject(ValidationController, ValidationControllerFactory, AdresregisterService, BindingEngine),
+        inject(ValidationController, ValidationControllerFactory, AdresregisterService),
         __metadata("design:paramtypes", [ValidationController,
             ValidationControllerFactory,
-            AdresregisterService,
-            BindingEngine])
+            AdresregisterService])
     ], AdresCrab);
     return AdresCrab;
 }());

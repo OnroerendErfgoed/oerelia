@@ -53,12 +53,11 @@ var autocomplete_type_1 = require("../autocomplete/models/autocomplete-type");
 var lodash_1 = require("lodash");
 var message_1 = require("../utilities/message/message");
 var AdresCrab = (function () {
-    function AdresCrab(controller, controllerFactory, adresregisterService, bindingEngine) {
+    function AdresCrab(controller, controllerFactory, adresregisterService) {
         var _this = this;
         this.controller = controller;
         this.controllerFactory = controllerFactory;
         this.adresregisterService = adresregisterService;
-        this.bindingEngine = bindingEngine;
         this.config = {
             postcode: { required: true, autocompleteType: autocomplete_type_1.autocompleteType.Auto },
             straat: { required: true, autocompleteType: autocomplete_type_1.autocompleteType.Auto },
@@ -97,44 +96,17 @@ var AdresCrab = (function () {
             .ensure('postcode').required()
             .ensure('straat').required()
             .on(this);
-        this.bindingEngine
-            .propertyObserver(this.data, 'land')
-            .subscribe(function (nv, ov) {
-            _this.landChanged(nv, ov);
-        });
         if (this.data.provincie && !this.vlaamseProvinciesNiscodes.includes(this.data.provincie.niscode)) {
             this.config.postcode.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
             this.config.straat.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
         }
         this.data.land = this.data.land || { code: 'BE', naam: 'België' };
-        if (this.data.land.code !== 'BE') {
-            this.gemeente = this.data.gemeente ? { naam: this.data.gemeente.naam, niscode: this.data.gemeente.niscode } : undefined;
-            this.postcode = this.data.postcode ? { nummer: this.data.postcode.nummer, uri: this.data.postcode.uri } : undefined;
-            this.straat = this.data.straat ? { id: this.data.straat.id, naam: this.data.straat.naam, omschrijving: this.data.straat.omschrijving, uri: this.data.straat.uri }
-                : undefined;
-            this.adres = this.data.adres ? { id: this.data.adres.id, uri: this.data.adres.uri, busnummer: this.data.adres.busnummer, huisnummer: this.data.adres.huisnummer }
-                : undefined;
-        }
     };
-    AdresCrab.prototype.parseField = function (value, property) {
-        if (property === 'huisnummer' || property === 'busnummer') {
-            this.data.adres[property] = value;
-        }
-        else {
-            this.data[property] = { naam: value };
-        }
-    };
-    AdresCrab.prototype.landChanged = function (nv, ov) {
-        if (nv.code !== 'BE') {
-            this.gemeente = undefined;
-            this.straat = undefined;
-            this.postcode = undefined;
-            this.adres = undefined;
-            this.data.gemeente = undefined;
-            this.data.straat = undefined;
-            this.data.postcode = undefined;
-            this.resetAdres();
-        }
+    AdresCrab.prototype.landChanged = function () {
+        this.data.gemeente = undefined;
+        this.data.straat = undefined;
+        this.data.postcode = undefined;
+        this.resetAdres();
     };
     AdresCrab.prototype.gemeenteChanged = function () {
         if (!this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode)) {
@@ -385,6 +357,9 @@ var AdresCrab = (function () {
     AdresCrab.prototype.resetAdres = function () {
         this.data.adres = { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
     };
+    AdresCrab.prototype.landCodeMatcher = function (a, b) {
+        return (!!a && !!b) && (a.code === b.code);
+    };
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Boolean)
@@ -406,11 +381,10 @@ var AdresCrab = (function () {
         __metadata("design:type", Object)
     ], AdresCrab.prototype, "copyAvailable", void 0);
     AdresCrab = __decorate([
-        aurelia_framework_1.inject(aurelia_validation_1.ValidationController, aurelia_validation_1.ValidationControllerFactory, adresregister_api_service_1.AdresregisterService, aurelia_framework_1.BindingEngine),
+        aurelia_framework_1.inject(aurelia_validation_1.ValidationController, aurelia_validation_1.ValidationControllerFactory, adresregister_api_service_1.AdresregisterService),
         __metadata("design:paramtypes", [aurelia_validation_1.ValidationController,
             aurelia_validation_1.ValidationControllerFactory,
-            adresregister_api_service_1.AdresregisterService,
-            aurelia_framework_1.BindingEngine])
+            adresregister_api_service_1.AdresregisterService])
     ], AdresCrab);
     return AdresCrab;
 }());
