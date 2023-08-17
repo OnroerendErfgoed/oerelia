@@ -120,7 +120,7 @@ export class AdresregisterService {
     if (value === '') {
       return [];
     }
-    return this.crabGet('geolocation/?locatie=' + value.toLowerCase() + '*')
+    return this.crabGet('geolocation/?locatie=' + value.toLowerCase() + '*');
   }
 
   public geolocate(value: number): Promise<IGeolocationResponse> {

@@ -94,7 +94,7 @@ var AdresCrab = (function () {
             .ensure('postcode').required()
             .ensure('straat').required()
             .on(this);
-        if (this.data.provincie && !this.vlaamseProvinciesNiscodes.includes(this.data.provincie.niscode)) {
+        if (this.data.provincie && !this.isVlaamseProvincie(this.data.provincie)) {
             this.config.postcode.autocompleteType = autocompleteType.Suggest;
             this.config.straat.autocompleteType = autocompleteType.Suggest;
         }
@@ -107,7 +107,7 @@ var AdresCrab = (function () {
         this.resetAdres();
     };
     AdresCrab.prototype.gemeenteChanged = function () {
-        if (!this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode)) {
+        if (!this.isVlaamseProvincie(this.data.gemeente.provincie)) {
             this.config.postcode.autocompleteType = autocompleteType.Suggest;
             this.config.straat.autocompleteType = autocompleteType.Suggest;
         }
@@ -276,7 +276,7 @@ var AdresCrab = (function () {
                     case 0:
                         straatId = this.data.straat ? this.data.straat.id : undefined;
                         if (this.vrijAdres ||
-                            (this.data.gemeente.provincie && !this.vlaamseProvinciesNiscodes.includes(this.data.gemeente.provincie.niscode))) {
+                            (this.data.gemeente.provincie && !this.isVlaamseProvincie(this.data.gemeente.provincie))) {
                             return [2];
                         }
                         if (!straatId) {
@@ -357,6 +357,9 @@ var AdresCrab = (function () {
     };
     AdresCrab.prototype.landCodeMatcher = function (a, b) {
         return (!!a && !!b) && (a.code === b.code);
+    };
+    AdresCrab.prototype.isVlaamseProvincie = function (provincie) {
+        return this.vlaamseProvinciesNiscodes.includes(provincie.niscode);
     };
     __decorate([
         bindable,
