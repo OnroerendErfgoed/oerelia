@@ -165,7 +165,7 @@ var AdresCrab = (function () {
                     case 2:
                         error_1 = _a.sent();
                         Message.error({
-                            title: 'Er liep iets mis bij het ophalen van laden',
+                            title: 'Er liep iets mis bij het ophalen van landen',
                             message: error_1.message
                         });
                         return [3, 3];

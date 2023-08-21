@@ -1,13 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -45,8 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var aurelia_framework_1 = require("aurelia-framework");
-var aurelia_http_client_1 = require("aurelia-http-client");
 var restMessage_1 = require("../utilities/message/restMessage");
 var messageParser_1 = require("../utilities/message/messageParser");
 var lodash_1 = require("lodash");
@@ -65,9 +54,15 @@ var AdresregisterService = (function () {
             x.withHeader('Accept', 'application/json');
             x.withHeader('X-Requested-With', '');
             x.withInterceptor({
+                request: function (res) {
+                    oeAppConfig.ea.publish('requestSuccess');
+                    return res;
+                },
                 responseError: function (res) {
-                    restMessage_1.RestMessage.display({ result: messageParser_1.MessageParser.parseHttpResponseMessage(res) });
-                    throw res;
+                    if (res.statusCode !== 404) {
+                        restMessage_1.RestMessage.display({ result: messageParser_1.MessageParser.parseHttpResponseMessage(res) });
+                    }
+                    return res;
                 }
             });
         });
@@ -195,18 +190,20 @@ var AdresregisterService = (function () {
     };
     AdresregisterService.prototype.crabGet = function (endpoint) {
         return __awaiter(this, void 0, void 0, function () {
+            var response;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, this.http.get(endpoint)];
-                    case 1: return [2, (_a.sent()).content];
+                    case 1:
+                        response = _a.sent();
+                        if (response.isSuccess) {
+                            return [2, response.content];
+                        }
+                        return [2, []];
                 }
             });
         });
     };
-    AdresregisterService = __decorate([
-        aurelia_framework_1.inject(aurelia_http_client_1.HttpClient),
-        __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient])
-    ], AdresregisterService);
     return AdresregisterService;
 }());
 exports.AdresregisterService = AdresregisterService;

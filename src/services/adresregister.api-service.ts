@@ -9,7 +9,6 @@ import { IAdresregisterAdres, IGemeente, IGeolocationResponse, IGewest,
 
 declare const oeAppConfig: any;
 
-@inject(HttpClient)
 export class AdresregisterService {
   private landen: ILand[] = [];
   private provincies: IProvincie[] = [];
@@ -27,9 +26,15 @@ export class AdresregisterService {
       x.withHeader('Accept', 'application/json');
       x.withHeader('X-Requested-With', '');
       x.withInterceptor({
+        request(res) {
+          oeAppConfig.ea.publish('requestSuccess');
+          return res;
+        },
         responseError(res) {
-          RestMessage.display({ result: MessageParser.parseHttpResponseMessage(res) });
-          throw res;
+          if (res.statusCode !== 404) {
+            RestMessage.display({ result: MessageParser.parseHttpResponseMessage(res) });
+          }
+          return res;
         }
       });
     });
@@ -57,7 +62,7 @@ export class AdresregisterService {
 
     return sortBy(this.provincies, 'naam');
   }
-  
+
   getProvinciesPerGewest(niscode: Niscode): Promise<IProvincie[]> {
     return this.crabGet<IProvincie[]>(`adressenregister/gewesten/${niscode}/provincies`);
   }
@@ -128,6 +133,11 @@ export class AdresregisterService {
   }
 
   private async crabGet<T>(endpoint: string): Promise<T> {
-    return (await this.http.get(endpoint)).content;
+    const response = await this.http.get(endpoint);
+
+    if (response.isSuccess) {
+      return response.content;
+    }
+    return <T><unknown>[];
   }
 }

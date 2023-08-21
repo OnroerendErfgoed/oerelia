@@ -132,7 +132,7 @@ export class AdresCrab {
       }
     } catch (error) {
       Message.error({
-        title: 'Er liep iets mis bij het ophalen van laden',
+        title: 'Er liep iets mis bij het ophalen van landen',
         message: error.message
       });
     }
