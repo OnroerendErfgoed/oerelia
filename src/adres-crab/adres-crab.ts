@@ -1,4 +1,4 @@
-import { inject, bindable, BindingEngine } from 'aurelia-framework';
+import { inject, bindable } from 'aurelia-framework';
 import { ValidationController, ValidationControllerFactory, ValidationRules } from 'aurelia-validation';
 import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
 import { AdresregisterService } from '../services/adresregister.api-service';
