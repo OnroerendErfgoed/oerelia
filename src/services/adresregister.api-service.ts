@@ -9,6 +9,7 @@ import { IAdresregisterAdres, IGemeente, IGeolocationResponse, IGewest,
 
 declare const oeAppConfig: any;
 
+@inject(HttpClient)
 export class AdresregisterService {
   private landen: ILand[] = [];
   private provincies: IProvincie[] = [];
