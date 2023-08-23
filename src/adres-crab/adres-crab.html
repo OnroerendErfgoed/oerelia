@@ -20,7 +20,7 @@
       <div class="small-push-2 small-10 columns">
         <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
           <label>Land</label>
-          <select value.bind="data.land" disabled.bind="disabled">
+          <select value.bind="data.land" matcher.bind="landCodeMatcher" disabled.bind="disabled" change.delegate="landChanged()">
             <option repeat.for="land of landen" model.bind="land">
               ${land.naam}
             </option>
@@ -75,46 +75,41 @@
               </template>
             </autocomplete>
           </div>
+          <div class="placeholder-container ${!data.adres.huisnummer || disabled ? 'placeholder-disabled' : '' }">
+            <label>Busnummer</label>
+            <autocomplete service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
+              disabled.bind="!data.adres.huisnummer || disabled" value.bind="data.adres & validate"
+              type.bind="config.busnummer.autocompleteType"
+              huisnummer.bind="data.adres.huisnummer"
+              field="busnummer">
+              <template replace-part="suggestion">
+                ${suggestion.busnummer}
+              </template>
+            </autocomplete>
+          </div>
         </div>
         <div if.bind="data.land.code !== 'BE'">
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Gemeente <span
                 title="Opgelet, enkel de hoofdgemeenten (en niet de deelgemeenten) kunnen ingevuld worden.">(?)</span></label>
-            <input type="text" value.bind="gemeente & validate" placeholder="gemeente"
-              change.delegate="parseField(gemeente, 'gemeente')" disabled.bind="disabled">
+            <input type="text" value.bind="data.gemeente.naam & validate" placeholder="gemeente" disabled.bind="disabled">
           </div>
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Postcode</label>
-            <input type="text" value.bind="postcode & validate" placeholder="postcode"
-              change.delegate="parseField(postcode, 'postcode')" disabled.bind="disabled">
+            <input type="text" value.bind="data.postcode.nummer & validate" placeholder="postcode" disabled.bind="disabled">
           </div>
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Straat</label>
-            <input type="text" value.bind="straat & validate" placeholder="straat"
-              change.delegate="parseField(straat, 'straat')" disabled.bind="disabled">
+            <input type="text" value.bind="data.straat.naam & validate" placeholder="straat" disabled.bind="disabled">
           </div>
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Huisnummer</label>
-            <input type="text" value.bind="huisnummer & validate" placeholder="huisnummer"
-              change.delegate="parseField(huisnummer, 'huisnummer')" disabled.bind="disabled">
+            <input type="text" value.bind="data.adres.huisnummer & validate" placeholder="huisnummer" disabled.bind="disabled">
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="small-push-2 small-10 columns">
-        <div class="placeholder-container ${(!freeBusnummerSearch && !data.adres.huisnummer) || disabled ? 'placeholder-disabled' : '' }">
-          <label>Busnummer</label>
-          <autocomplete service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
-            disabled.bind="!data.adres || disabled" value.bind="data.adres & validate"
-            type.bind="config.busnummer.autocompleteType"
-            huisnummer.bind="data.adres.huisnummer"
-            field="busnummer">
-            <template replace-part="suggestion">
-              ${suggestion.busnummer}
-            </template>
-          </autocomplete>
+          <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
+            <label>Busnummer</label>
+            <input type="text" value.bind="data.adres.busnummer & validate" placeholder="busnummer" disabled.bind="disabled">
+          </div>
         </div>
       </div>
     </div>

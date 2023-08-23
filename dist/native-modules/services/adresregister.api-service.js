@@ -63,9 +63,15 @@ var AdresregisterService = (function () {
             x.withHeader('Accept', 'application/json');
             x.withHeader('X-Requested-With', '');
             x.withInterceptor({
+                request: function (res) {
+                    oeAppConfig.ea.publish('requestSuccess');
+                    return res;
+                },
                 responseError: function (res) {
-                    RestMessage.display({ result: MessageParser.parseHttpResponseMessage(res) });
-                    throw res;
+                    if (res.statusCode !== 404) {
+                        RestMessage.display({ result: MessageParser.parseHttpResponseMessage(res) });
+                    }
+                    return res;
                 }
             });
         });
@@ -193,10 +199,16 @@ var AdresregisterService = (function () {
     };
     AdresregisterService.prototype.crabGet = function (endpoint) {
         return __awaiter(this, void 0, void 0, function () {
+            var response;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, this.http.get(endpoint)];
-                    case 1: return [2, (_a.sent()).content];
+                    case 1:
+                        response = _a.sent();
+                        if (response.isSuccess) {
+                            return [2, response.content];
+                        }
+                        return [2, []];
                 }
             });
         });

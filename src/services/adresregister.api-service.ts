@@ -27,9 +27,15 @@ export class AdresregisterService {
       x.withHeader('Accept', 'application/json');
       x.withHeader('X-Requested-With', '');
       x.withInterceptor({
+        request(res) {
+          oeAppConfig.ea.publish('requestSuccess');
+          return res;
+        },
         responseError(res) {
-          RestMessage.display({ result: MessageParser.parseHttpResponseMessage(res) });
-          throw res;
+          if (res.statusCode !== 404) {
+            RestMessage.display({ result: MessageParser.parseHttpResponseMessage(res) });
+          }
+          return res;
         }
       });
     });
@@ -57,7 +63,7 @@ export class AdresregisterService {
 
     return sortBy(this.provincies, 'naam');
   }
-  
+
   getProvinciesPerGewest(niscode: Niscode): Promise<IProvincie[]> {
     return this.crabGet<IProvincie[]>(`adressenregister/gewesten/${niscode}/provincies`);
   }
@@ -120,7 +126,7 @@ export class AdresregisterService {
     if (value === '') {
       return [];
     }
-    return this.crabGet('geolocation/?locatie=' + value.toLowerCase() + '*')
+    return this.crabGet('geolocation/?locatie=' + value.toLowerCase() + '*');
   }
 
   public geolocate(value: number): Promise<IGeolocationResponse> {
@@ -128,6 +134,11 @@ export class AdresregisterService {
   }
 
   private async crabGet<T>(endpoint: string): Promise<T> {
-    return (await this.http.get(endpoint)).content;
+    const response = await this.http.get(endpoint);
+
+    if (response.isSuccess) {
+      return response.content;
+    }
+    return <T><unknown>[];
   }
 }

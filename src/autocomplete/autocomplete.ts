@@ -57,11 +57,11 @@ export class Autocomplete {
   public getName(suggestion) {
     if (suggestion == null) {
       return '';
-    } else if (this.labelParser) {
-      return this.labelParser(suggestion);
-    } else {
-      return suggestion[this.label];
     }
+    if (this.labelParser) {
+      return this.labelParser(suggestion);
+    }
+    return suggestion[this.label];
   }
 
   public collapse() {
@@ -74,22 +74,22 @@ export class Autocomplete {
     if (typeof suggestion === 'string') {
       switch (this.field) {
         case 'postcode':
-          this.value = { nummer: suggestion }
-          break
+          this.value = { nummer: suggestion };
+          break;
         case 'straat':
-          this.value = { naam: suggestion }
-          break
+          this.value = { naam: suggestion };
+          break;
         case 'huisnummer':
           this.value = { huisnummer: suggestion};
-          break
+          break;
         case 'busnummer':
           this.value = { huisnummer: this.huisnummer, busnummer: suggestion};
-          break
+          break;
       }
       displayName = suggestion;
     } else {
       this.value = suggestion;
-      displayName = this.getName(this.value)
+      displayName = this.getName(this.value);
     }
 
     this.display(displayName);
@@ -116,13 +116,17 @@ export class Autocomplete {
       this.service.suggest(value)
         .then(suggestions => {
           this.index = -1;
-          this.suggestions.splice(0, this.suggestions.length, ...suggestions);
-          if (suggestions.length === 1 && this.type !== autocompleteType.Suggest) {
-            this.select(suggestions[0]);
-          } else if (suggestions.length === 0) {
+          if (!suggestions) {
             this.collapse();
           } else {
-            this.expanded = true;
+            this.suggestions.splice(0, this.suggestions.length, ...suggestions);
+            if (suggestions.length === 1 && this.type !== autocompleteType.Suggest) {
+              this.select(suggestions[0]);
+            } else if (suggestions.length === 0) {
+              this.collapse();
+            } else {
+              this.expanded = true;
+            }
           }
         });
     }
@@ -139,7 +143,7 @@ export class Autocomplete {
   }
 
   public keydown(e) {
-    let key = e.which;
+    const key = e.which;
 
     if (this.value && this.onEnter && key === 13) {
       e.preventDefault();
@@ -151,7 +155,7 @@ export class Autocomplete {
 
     // down
     if (key === 40) {
-      if (this.index < this.suggestions.length - 1) {
+      if (this.suggestions && this.index < this.suggestions.length - 1) {
         this.index++;
         this.display(this.getName(this.suggestions[this.index]));
       } else {
@@ -165,7 +169,7 @@ export class Autocomplete {
     // up
     if (key === 38) {
       if (this.index === -1) {
-        this.index = this.suggestions.length - 1;
+        this.index = this.suggestions && this.suggestions.length - 1;
         this.display(this.getName(this.suggestions[this.index]));
       } else if (this.index > 0) {
         this.index--;
@@ -199,7 +203,7 @@ export class Autocomplete {
   public blur() {
     if ((this.getName(this.value) === this.inputValue) || (this.type !== autocompleteType.Suggest)) {
       this.select(this.value);
-      let event = new CustomEvent('blur');
+      const event = new CustomEvent('blur');
       this.element.dispatchEvent(event);
       return;
     }
