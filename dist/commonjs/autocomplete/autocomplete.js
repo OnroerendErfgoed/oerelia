@@ -57,12 +57,10 @@ var Autocomplete = (function () {
         if (suggestion == null) {
             return '';
         }
-        else if (this.labelParser) {
+        if (this.labelParser) {
             return this.labelParser(suggestion);
         }
-        else {
-            return suggestion[this.label];
-        }
+        return suggestion[this.label];
     };
     Autocomplete.prototype.collapse = function () {
         this.expanded = false;
@@ -115,15 +113,20 @@ var Autocomplete = (function () {
                 .then(function (suggestions) {
                 var _a;
                 _this.index = -1;
-                (_a = _this.suggestions).splice.apply(_a, __spreadArrays([0, _this.suggestions.length], suggestions));
-                if (suggestions.length === 1 && _this.type !== autocomplete_type_1.autocompleteType.Suggest) {
-                    _this.select(suggestions[0]);
-                }
-                else if (suggestions.length === 0) {
+                if (!suggestions) {
                     _this.collapse();
                 }
                 else {
-                    _this.expanded = true;
+                    (_a = _this.suggestions).splice.apply(_a, __spreadArrays([0, _this.suggestions.length], suggestions));
+                    if (suggestions.length === 1 && _this.type !== autocomplete_type_1.autocompleteType.Suggest) {
+                        _this.select(suggestions[0]);
+                    }
+                    else if (suggestions.length === 0) {
+                        _this.collapse();
+                    }
+                    else {
+                        _this.expanded = true;
+                    }
                 }
             });
         }
@@ -148,7 +151,7 @@ var Autocomplete = (function () {
             return true;
         }
         if (key === 40) {
-            if (this.index < this.suggestions.length - 1) {
+            if (this.suggestions && this.index < this.suggestions.length - 1) {
                 this.index++;
                 this.display(this.getName(this.suggestions[this.index]));
             }
@@ -161,7 +164,7 @@ var Autocomplete = (function () {
         }
         if (key === 38) {
             if (this.index === -1) {
-                this.index = this.suggestions.length - 1;
+                this.index = this.suggestions && this.suggestions.length - 1;
                 this.display(this.getName(this.suggestions[this.index]));
             }
             else if (this.index > 0) {
