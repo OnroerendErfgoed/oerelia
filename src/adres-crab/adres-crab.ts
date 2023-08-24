@@ -260,7 +260,7 @@ export class AdresCrab {
     IAdresregisterAdres[] | [] {
     return adressen.filter((adres: IAdresregisterAdres) => adres.busnummer
       .includes(searchBusnummer))
-      .sort((a, b) => a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }));
+      .sort((a, b) => a.busnummer.localeCompare(b.busnummer, 'en', { numeric: true }));
   }
 
   private resetAdres() {
