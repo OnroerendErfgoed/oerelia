@@ -350,7 +350,7 @@ var AdresCrab = (function () {
     AdresCrab.prototype.filterBusnummers = function (adressen, searchBusnummer) {
         return adressen.filter(function (adres) { return adres.busnummer
             .includes(searchBusnummer); })
-            .sort(function (a, b) { return a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }); });
+            .sort(function (a, b) { return a.busnummer.localeCompare(b.busnummer, 'en', { numeric: true }); });
     };
     AdresCrab.prototype.resetAdres = function () {
         this.data.adres = { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
