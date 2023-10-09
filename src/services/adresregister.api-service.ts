@@ -4,8 +4,11 @@ import { RestMessage } from '../utilities/message/restMessage';
 import { MessageParser } from '../utilities/message/messageParser';
 import { sortBy } from 'lodash';
 import { Niscode } from './models/niscode.enum';
-import { IAdresregisterAdres, IGemeente, IGeolocationResponse, IGewest, 
-  ILand, ILocatieSuggest, IPostinfo, IProvincie, IStraat } from '../models/public-models';
+import {
+  IAdresregisterAdres, IDeelgemeente, IGemeente, IGeolocationResponse, IGewest,
+  ILand, ILocatieSuggest, IPostinfo, IProvincie, IStraat
+} from '../models/public-models';
+import {Gemeente} from "./models/locatie";
 
 declare const oeAppConfig: any;
 
@@ -105,6 +108,14 @@ export class AdresregisterService {
 
   getGemeentenPerGewest(niscode: Niscode): Promise<IGemeente[]> {
     return this.crabGet<IGemeente[]>(`adressenregister/gewesten/${niscode}/gemeenten`);
+  }
+
+  public getGemeentenByProvincie(provincie: string): Promise<IGemeente[]> {
+    return this.crabGet<IGemeente[]>(`adressenregister/provincies/${provincie}/gemeenten`);
+  }
+
+  getDeelgemeenten(gemeente: string): Promise<IDeelgemeente[]> {
+    return this.crabGet<IDeelgemeente[]>(`adressenregister/gemeenten/${gemeente}/deelgemeenten`);
   }
 
   getPostinfo(gemeente: string): Promise<IPostinfo[]> {
