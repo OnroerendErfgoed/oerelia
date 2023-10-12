@@ -42,6 +42,13 @@ export class AdresCrab {
     this.suggest.straten = { suggest: (value) => this.loadStraten(value) };
     this.suggest.huisnummers = { suggest: (value) => this.loadHuisnrs(value) };
     this.suggest.busnummers = { suggest: (value) => this.loadBusnrs(value) };
+
+    ValidationRules.customRule(
+      'requiredHuisnummer',
+      (value) => {
+        return value && value.huisnummer;
+      }, ''
+    );
   }
 
   public bind() {
@@ -52,24 +59,14 @@ export class AdresCrab {
       .ensure('gemeente').required()
       .ensure('postcode').required()
       .ensure('straat').required()
+      .ensure('adres').satisfiesRule('requiredHuisnummer')
       .on(this.data);
-
-    ValidationRules
-      .ensure('huisnummer').required()
-        .when(() => this.config.huisnummer.required)
-      .on(this.data.adres);
-
-    ValidationRules
-      .ensure('gemeente').required()
-      .ensure('postcode').required()
-      .ensure('straat').required()
-      .on(this);
 
     if (this.data.provincie && !this.isVlaamseProvincie(this.data.provincie)) {
       this.config.postcode.autocompleteType = autocompleteType.Suggest;
       this.config.straat.autocompleteType = autocompleteType.Suggest;
     }
-  
+
     this.data.land = this.data.land || { code: 'BE', naam: 'België' };
   }
 
@@ -81,7 +78,7 @@ export class AdresCrab {
   }
 
   public gemeenteChanged() {
-    if (!this.isVlaamseProvincie(this.data.gemeente.provincie)) {
+    if (this.data.gemeente && this.data.gemeente.provincie && !this.isVlaamseProvincie(this.data.gemeente.provincie)) {
       this.config.postcode.autocompleteType = autocompleteType.Suggest;
       this.config.straat.autocompleteType = autocompleteType.Suggest;
     } else {

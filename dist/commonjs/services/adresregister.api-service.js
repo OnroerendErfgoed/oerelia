@@ -174,6 +174,12 @@ var AdresregisterService = (function () {
     AdresregisterService.prototype.getGemeentenPerGewest = function (niscode) {
         return this.crabGet("adressenregister/gewesten/" + niscode + "/gemeenten");
     };
+    AdresregisterService.prototype.getGemeentenByProvincie = function (provincie) {
+        return this.crabGet("adressenregister/provincies/" + provincie + "/gemeenten");
+    };
+    AdresregisterService.prototype.getDeelgemeenten = function (gemeente) {
+        return this.crabGet("adressenregister/gemeenten/" + gemeente + "/deelgemeenten");
+    };
     AdresregisterService.prototype.getPostinfo = function (gemeente) {
         return this.crabGet("adressenregister/gemeenten/" + gemeente + "/postinfo");
     };

@@ -75,25 +75,19 @@ var AdresCrab = (function () {
         this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
         this.suggest.huisnummers = { suggest: function (value) { return _this.loadHuisnrs(value); } };
         this.suggest.busnummers = { suggest: function (value) { return _this.loadBusnrs(value); } };
+        ValidationRules.customRule('requiredHuisnummer', function (value) {
+            return value && value.huisnummer;
+        }, '');
     }
     AdresCrab.prototype.bind = function () {
-        var _this = this;
         this.data.adres = this.data.adres || { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
         ValidationRules
             .ensure('land').required()
             .ensure('gemeente').required()
             .ensure('postcode').required()
             .ensure('straat').required()
+            .ensure('adres').satisfiesRule('requiredHuisnummer')
             .on(this.data);
-        ValidationRules
-            .ensure('huisnummer').required()
-            .when(function () { return _this.config.huisnummer.required; })
-            .on(this.data.adres);
-        ValidationRules
-            .ensure('gemeente').required()
-            .ensure('postcode').required()
-            .ensure('straat').required()
-            .on(this);
         if (this.data.provincie && !this.isVlaamseProvincie(this.data.provincie)) {
             this.config.postcode.autocompleteType = autocompleteType.Suggest;
             this.config.straat.autocompleteType = autocompleteType.Suggest;
@@ -107,7 +101,7 @@ var AdresCrab = (function () {
         this.resetAdres();
     };
     AdresCrab.prototype.gemeenteChanged = function () {
-        if (!this.isVlaamseProvincie(this.data.gemeente.provincie)) {
+        if (this.data.gemeente && this.data.gemeente.provincie && !this.isVlaamseProvincie(this.data.gemeente.provincie)) {
             this.config.postcode.autocompleteType = autocompleteType.Suggest;
             this.config.straat.autocompleteType = autocompleteType.Suggest;
         }
