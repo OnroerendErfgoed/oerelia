@@ -77,25 +77,19 @@ var AdresCrab = (function () {
         this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
         this.suggest.huisnummers = { suggest: function (value) { return _this.loadHuisnrs(value); } };
         this.suggest.busnummers = { suggest: function (value) { return _this.loadBusnrs(value); } };
+        aurelia_validation_1.ValidationRules.customRule('requiredHuisnummer', function (value) {
+            return value && value.huisnummer;
+        }, '');
     }
     AdresCrab.prototype.bind = function () {
-        var _this = this;
         this.data.adres = this.data.adres || { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
         aurelia_validation_1.ValidationRules
             .ensure('land').required()
             .ensure('gemeente').required()
             .ensure('postcode').required()
             .ensure('straat').required()
+            .ensure('adres').satisfiesRule('requiredHuisnummer')
             .on(this.data);
-        aurelia_validation_1.ValidationRules
-            .ensure('huisnummer').required()
-            .when(function () { return _this.config.huisnummer.required; })
-            .on(this.data.adres);
-        aurelia_validation_1.ValidationRules
-            .ensure('gemeente').required()
-            .ensure('postcode').required()
-            .ensure('straat').required()
-            .on(this);
         if (this.data.provincie && !this.isVlaamseProvincie(this.data.provincie)) {
             this.config.postcode.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
             this.config.straat.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
@@ -109,7 +103,7 @@ var AdresCrab = (function () {
         this.resetAdres();
     };
     AdresCrab.prototype.gemeenteChanged = function () {
-        if (!this.isVlaamseProvincie(this.data.gemeente.provincie)) {
+        if (this.data.gemeente && this.data.gemeente.provincie && !this.isVlaamseProvincie(this.data.gemeente.provincie)) {
             this.config.postcode.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
             this.config.straat.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
         }

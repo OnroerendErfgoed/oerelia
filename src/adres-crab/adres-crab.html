@@ -69,16 +69,17 @@
             <label>Huisnummer</label>
             <autocomplete service.bind="suggest.huisnummers" label="huisnummer"
               placeholder="huisnummer" minlength="1" disabled.bind="!data.straat || disabled"
-              value.bind="data.adres & validate" type.bind="config.huisnummer.autocompleteType" field="huisnummer">
+              value.bind="data.adres" type.bind="config.huisnummer.autocompleteType" field="huisnummer">
               <template replace-part="suggestion">
                 ${suggestion.huisnummer}
               </template>
             </autocomplete>
+            <input type="hidden" model.bind="data.adres & validate">
           </div>
           <div class="placeholder-container ${!data.adres.huisnummer || disabled ? 'placeholder-disabled' : '' }">
             <label>Busnummer</label>
             <autocomplete service.bind="suggest.busnummers" label="busnummer" placeholder="busnummer" minlength="1"
-              disabled.bind="!data.adres.huisnummer || disabled" value.bind="data.adres & validate"
+              disabled.bind="!data.adres.huisnummer || disabled" value.bind="data.adres"
               type.bind="config.busnummer.autocompleteType"
               huisnummer.bind="data.adres.huisnummer"
               field="busnummer">
@@ -92,23 +93,26 @@
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Gemeente <span
                 title="Opgelet, enkel de hoofdgemeenten (en niet de deelgemeenten) kunnen ingevuld worden.">(?)</span></label>
-            <input type="text" value.bind="data.gemeente.naam & validate" placeholder="gemeente" disabled.bind="disabled">
+            <input type="text" value.bind="data.gemeente.naam" placeholder="gemeente" disabled.bind="disabled">
+            <input type="hidden" model.bind="data.gemeente & validate">
           </div>
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Postcode</label>
-            <input type="text" value.bind="data.postcode.nummer & validate" placeholder="postcode" disabled.bind="disabled">
+            <input type="text" value.bind="data.postcode.nummer" placeholder="postcode" disabled.bind="disabled">
+            <input type="hidden" model.bind="data.postcode & validate">
           </div>
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Straat</label>
-            <input type="text" value.bind="data.straat.naam & validate" placeholder="straat" disabled.bind="disabled">
+            <input type="text" value.bind="data.straat.naam" placeholder="straat" disabled.bind="disabled">
+            <input type="hidden" model.bind="data.straat & validate">
           </div>
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Huisnummer</label>
-            <input type="text" value.bind="data.adres.huisnummer & validate" placeholder="huisnummer" disabled.bind="disabled">
+            <input type="text" value.bind="data.adres.huisnummer" placeholder="huisnummer" disabled.bind="disabled">
           </div>
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Busnummer</label>
-            <input type="text" value.bind="data.adres.busnummer & validate" placeholder="busnummer" disabled.bind="disabled">
+            <input type="text" value.bind="data.adres.busnummer" placeholder="busnummer" disabled.bind="disabled">
           </div>
         </div>
       </div>
