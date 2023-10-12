@@ -267,6 +267,11 @@ export interface IGemeente {
   provincie?: IProvincie;
 }
 
+export interface IDeelgemeente {
+  niscode: string;
+  naam: string;
+}
+
 export interface IPostcode {
   nummer: string;
   uri: string;
