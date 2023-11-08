@@ -48,7 +48,7 @@ import { bindable } from 'aurelia-templating';
 import { DialogController } from 'aurelia-dialog';
 import { uniqBy } from 'lodash';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
-import { AdresregisterService } from "../services/adresregister.api-service";
+import { AdresregisterService } from '../services/adresregister.api-service';
 import { Message } from '../utilities/message/message';
 var ActorWidget = (function () {
     function ActorWidget(adresregisterService) {

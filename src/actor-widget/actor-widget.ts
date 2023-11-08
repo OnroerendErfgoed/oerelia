@@ -6,7 +6,7 @@ import { uniqBy } from 'lodash';
 import { IAdresregisterAdres, IGemeente, ILand, IPostcode, IStraat } from '../models/public-models';
 import { IAdresCrabConfig } from '../adres-crab/types/adres-crab-config';
 import { autocompleteType } from '../autocomplete/models/autocomplete-type';
-import { AdresregisterService } from "../services/adresregister.api-service";
+import { AdresregisterService } from '../services/adresregister.api-service';
 import { Message } from '../utilities/message/message';
 
 @autoinject
