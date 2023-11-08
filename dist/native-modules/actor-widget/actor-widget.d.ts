@@ -2,7 +2,7 @@ import { GridOptions } from 'ag-grid-community';
 import { DialogController } from 'aurelia-dialog';
 import { IGemeente, ILand, IPostcode, IStraat } from '../models/public-models';
 import { IAdresCrabConfig } from '../adres-crab/types/adres-crab-config';
-import { AdresregisterService } from 'index';
+import { AdresregisterService } from "../services/adresregister.api-service";
 export declare class ActorWidget {
     private adresregisterService;
     scope: any;

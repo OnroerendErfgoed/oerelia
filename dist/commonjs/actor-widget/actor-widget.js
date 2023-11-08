@@ -50,7 +50,8 @@ var aurelia_templating_1 = require("aurelia-templating");
 var aurelia_dialog_1 = require("aurelia-dialog");
 var lodash_1 = require("lodash");
 var autocomplete_type_1 = require("../autocomplete/models/autocomplete-type");
-var index_1 = require("index");
+var adresregister_api_service_1 = require("../services/adresregister.api-service");
+var message_1 = require("../utilities/message/message");
 var ActorWidget = (function () {
     function ActorWidget(adresregisterService) {
         var _this = this;
@@ -282,7 +283,7 @@ var ActorWidget = (function () {
                         return [3, 3];
                     case 2:
                         error_1 = _a.sent();
-                        index_1.Message.error({
+                        message_1.Message.error({
                             title: 'Er liep iets mis bij het ophalen van landen',
                             message: error_1.message
                         });
@@ -310,7 +311,7 @@ var ActorWidget = (function () {
                         return [2, this.suggestFilter(adresGemeenten, value)];
                     case 2:
                         error_2 = _a.sent();
-                        index_1.Message.error({
+                        message_1.Message.error({
                             title: 'Er liep iets mis bij het ophalen van gemeenten',
                             message: error_2.message
                         });
@@ -341,7 +342,7 @@ var ActorWidget = (function () {
                     case 3:
                         error_3 = _a.sent();
                         this.filters.postcode = undefined;
-                        index_1.Message.error({
+                        message_1.Message.error({
                             title: 'Er liep iets mis bij het ophalen van postcodes',
                             message: error_3.message
                         });
@@ -376,7 +377,7 @@ var ActorWidget = (function () {
                         return [2, this.suggestFilter(straten, value)];
                     case 3:
                         error_4 = _a.sent();
-                        index_1.Message.error({
+                        message_1.Message.error({
                             title: 'Er liep iets mis bij het ophalen van straten',
                             message: error_4.message
                         });
@@ -409,7 +410,7 @@ var ActorWidget = (function () {
                         return [2, this.filterHuisnummers(huisnrs, value)];
                     case 3:
                         error_5 = _a.sent();
-                        index_1.Message.error({
+                        message_1.Message.error({
                             title: 'Er liep iets mis bij het ophalen van huisnummers',
                             message: error_5.message
                         });
@@ -439,7 +440,7 @@ var ActorWidget = (function () {
                         return [2, this.filterBusnummers(huisnrs, value)];
                     case 3:
                         error_6 = _a.sent();
-                        index_1.Message.error({
+                        message_1.Message.error({
                             title: 'Er liep iets mis bij het ophalen van busnummers',
                             message: error_6.message
                         });
@@ -485,7 +486,7 @@ var ActorWidget = (function () {
     ], ActorWidget.prototype, "dialogController", void 0);
     ActorWidget = __decorate([
         aurelia_framework_1.autoinject,
-        __metadata("design:paramtypes", [index_1.AdresregisterService])
+        __metadata("design:paramtypes", [adresregister_api_service_1.AdresregisterService])
     ], ActorWidget);
     return ActorWidget;
 }());
