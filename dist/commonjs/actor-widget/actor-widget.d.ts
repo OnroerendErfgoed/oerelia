@@ -41,6 +41,9 @@ export declare class ActorWidget {
     toevoegen(): void;
     annuleren(): void;
     private actiesCellRenderer;
+    landChanged(): void;
+    gemeenteChanged(): void;
+    straatChanged(): void;
     private loadLanden;
     private loadGemeenten;
     private loadPostcodes;

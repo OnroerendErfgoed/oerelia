@@ -65,8 +65,8 @@ var ActorWidget = (function () {
         this.straten = [];
         this.suggest = {};
         this.adresCrabConfig = {
-            postcode: { required: true, autocompleteType: autocompleteType.Suggest },
-            straat: { required: true, autocompleteType: autocompleteType.Suggest },
+            postcode: { required: true, autocompleteType: autocompleteType.Auto },
+            straat: { required: true, autocompleteType: autocompleteType.Auto },
             huisnummer: { required: true, autocompleteType: autocompleteType.Suggest },
             busnummer: { required: false, autocompleteType: autocompleteType.Suggest }
         };
@@ -125,7 +125,7 @@ var ActorWidget = (function () {
                         land: f.land ? f.land : undefined,
                         gemeente: f.gemeente && f.gemeente !== null ? f.gemeente.naam : undefined,
                         postcode: f.postcode && f.postcode !== null ? f.postcode.nummer : f.post_code || undefined,
-                        straat: f.straat && f.straat != null ? f.straat.id : undefined,
+                        straat: f.straat && f.straat != null ? f.straat.id || f.straat.naam : undefined,
                         huisnummer: f.adres && f.adres.huisnummer ? f.adres.huisnummer : undefined,
                         busnummer: f.adres && f.adres.busnummer ? f.adres.busnummer : undefined,
                         persid: f.persid ? f.persid : undefined,
@@ -248,6 +248,28 @@ var ActorWidget = (function () {
             container.appendChild(edit);
             return container;
         }
+    };
+    ActorWidget.prototype.landChanged = function () {
+        this.filters.gemeente = undefined;
+        this.gemeenteChanged();
+    };
+    ActorWidget.prototype.gemeenteChanged = function () {
+        if (this.filters.gemeente &&
+            this.filters.gemeente.provincie &&
+            !this.isVlaamseProvincie(this.filters.gemeente.provincie)) {
+            this.adresCrabConfig.postcode.autocompleteType = autocompleteType.Suggest;
+            this.adresCrabConfig.straat.autocompleteType = autocompleteType.Suggest;
+        }
+        else {
+            this.adresCrabConfig.postcode.autocompleteType = autocompleteType.Auto;
+            this.adresCrabConfig.straat.autocompleteType = autocompleteType.Auto;
+        }
+        this.filters.straat = undefined;
+        this.filters.postcode = undefined;
+        this.straatChanged();
+    };
+    ActorWidget.prototype.straatChanged = function () {
+        this.filters.adres = undefined;
     };
     ActorWidget.prototype.loadLanden = function () {
         return __awaiter(this, void 0, void 0, function () {

@@ -29,8 +29,8 @@ export class ActorWidget {
   public straten: IStraat[] = [];
   public suggest: any = {};
   public adresCrabConfig: IAdresCrabConfig = {
-    postcode: { required: true, autocompleteType: autocompleteType.Suggest },
-    straat: { required: true, autocompleteType: autocompleteType.Suggest },
+    postcode: { required: true, autocompleteType: autocompleteType.Auto },
+    straat: { required: true, autocompleteType: autocompleteType.Auto },
     huisnummer: { required: true, autocompleteType: autocompleteType.Suggest },
     busnummer: { required: false, autocompleteType: autocompleteType.Suggest }
   };
@@ -95,7 +95,7 @@ export class ActorWidget {
             land: f.land ? f.land : undefined,
             gemeente: f.gemeente && f.gemeente !== null ? f.gemeente.naam : undefined,
             postcode: f.postcode && f.postcode !== null ? f.postcode.nummer : f.post_code || undefined,
-            straat: f.straat && f.straat != null ? f.straat.id : undefined,
+            straat: f.straat && f.straat != null ? f.straat.id || f.straat.naam : undefined,
             huisnummer: f.adres && f.adres.huisnummer ? f.adres.huisnummer : undefined,
             busnummer: f.adres && f.adres.busnummer ? f.adres.busnummer : undefined,
             persid: f.persid ? f.persid : undefined,
@@ -233,6 +233,31 @@ export class ActorWidget {
 
       return container;
     }
+  }
+
+  public landChanged() {
+    this.filters.gemeente = undefined;
+   this.gemeenteChanged();
+  }
+
+  public gemeenteChanged() {
+    if (this.filters.gemeente &&
+      this.filters.gemeente.provincie &&
+      !this.isVlaamseProvincie(this.filters.gemeente.provincie)
+    ) {
+      this.adresCrabConfig.postcode.autocompleteType = autocompleteType.Suggest;
+      this.adresCrabConfig.straat.autocompleteType = autocompleteType.Suggest;
+    } else {
+      this.adresCrabConfig.postcode.autocompleteType = autocompleteType.Auto;
+      this.adresCrabConfig.straat.autocompleteType = autocompleteType.Auto;
+    }
+    this.filters.straat = undefined;
+    this.filters.postcode = undefined;
+    this.straatChanged();
+  }
+
+  public straatChanged() {
+    this.filters.adres = undefined;
   }
 
   private async loadLanden() {
