@@ -7,14 +7,52 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { CrabService } from '../services/crab.api-service';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 import { autoinject } from 'aurelia-framework';
 import { bindable } from 'aurelia-templating';
 import { DialogController } from 'aurelia-dialog';
+import { uniqBy } from 'lodash';
+import { autocompleteType } from '../autocomplete/models/autocomplete-type';
+import { AdresregisterService, Message } from 'index';
 var ActorWidget = (function () {
-    function ActorWidget(crabService) {
+    function ActorWidget(adresregisterService) {
         var _this = this;
-        this.crabService = crabService;
+        this.adresregisterService = adresregisterService;
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
@@ -24,14 +62,22 @@ var ActorWidget = (function () {
         this.gemeenten = [];
         this.postcodes = [];
         this.straten = [];
-        this.huisnrs = [];
         this.suggest = {};
+        this.adresCrabConfig = {
+            postcode: { required: true, autocompleteType: autocompleteType.Suggest },
+            straat: { required: true, autocompleteType: autocompleteType.Suggest },
+            huisnummer: { required: true, autocompleteType: autocompleteType.Suggest },
+            busnummer: { required: false, autocompleteType: autocompleteType.Suggest }
+        };
         this.filters = {};
+        this.vrijAdres = false;
+        this.vlaamseProvinciesNiscodes = ['10000', '70000', '40000', '20001', '30000'];
         this.loadLanden();
         this.suggest.gemeenten = { suggest: function (value) { return _this.loadGemeenten(value); } };
-        this.suggest.postcode = { suggest: function (value) { return _this.loadPostcodes(value); } };
+        this.suggest.postcodes = { suggest: function (value) { return _this.loadPostcodes(value); } };
         this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
-        this.suggest.huisnummer = { suggest: function (value) { return _this.loadHuisnrs(value); } };
+        this.suggest.huisnummers = { suggest: function (value) { return _this.loadHuisnrs(value); } };
+        this.suggest.busnummers = { suggest: function (value) { return _this.loadBusnrs(value); } };
     }
     ActorWidget.prototype.bind = function () {
         this.gridOptions = {};
@@ -76,13 +122,11 @@ var ActorWidget = (function () {
                         telefoon: f.telefoon ? f.telefoon : undefined,
                         type: f.type ? f.type : undefined,
                         land: f.land ? f.land : undefined,
-                        gemeente: f.gemeente && f.gemeente !== null ? f.gemeente.id : undefined,
-                        postcode: f.postcode && f.postcode !== null ? f.postcode.id : f.post_code || undefined,
+                        gemeente: f.gemeente && f.gemeente !== null ? f.gemeente.naam : undefined,
+                        postcode: f.postcode && f.postcode !== null ? f.postcode.nummer : f.post_code || undefined,
                         straat: f.straat && f.straat != null ? f.straat.id : undefined,
-                        straat_naam: f.straat_naam ? f.straat_naam : undefined,
-                        huisnummer: f.huisnummer && f.huisnummer !== null ? f.huisnummer.id : undefined,
-                        huisnummer_label: f.huisnummer_label ? f.huisnummer_label : undefined,
-                        subadres: f.subadres ? f.subadres : undefined,
+                        huisnummer: f.adres && f.adres.huisnummer ? f.adres.huisnummer : undefined,
+                        busnummer: f.adres && f.adres.busnummer ? f.adres.busnummer : undefined,
                         persid: f.persid ? f.persid : undefined,
                         rrn: f.rrn ? f.rrn : undefined,
                         kbo: f.kbo ? f.kbo : undefined
@@ -132,7 +176,6 @@ var ActorWidget = (function () {
         this.setRowData();
     };
     ActorWidget.prototype.onGridSizeChanged = function () {
-        console.debug('actor-widget::onGridSizeChanged');
         if (this.gridOptions.api) {
             this.gridOptions.api.sizeColumnsToFit();
         }
@@ -206,90 +249,225 @@ var ActorWidget = (function () {
         }
     };
     ActorWidget.prototype.loadLanden = function () {
-        var _this = this;
-        this.crabService.getLanden().then(function (landen) {
-            if (landen) {
-                var firstOptions = [
-                    { id: 'BE', naam: 'België' },
-                    { id: 'DE', naam: 'Duitsland' },
-                    { id: 'FR', naam: 'Frankrijk' },
-                    { id: 'GB', naam: 'Groot-Brittanië' },
-                    { id: 'NL', naam: 'Nederland' },
-                    { id: 'LU', naam: 'Luxemburg' },
-                    { naam: '─────────────────────────', disabled: true }
-                ];
-                _this.landen = firstOptions;
-                landen.forEach(function (land) {
-                    var exists = _this.landen.find(function (obj) { return obj.id === land.id; });
-                    if (!exists) {
-                        _this.landen.push(land);
-                    }
-                });
-            }
-        }).catch(function (error) {
-            console.debug(error);
+        return __awaiter(this, void 0, void 0, function () {
+            var landen, firstOptions, error_1;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.adresregisterService.getLanden()];
+                    case 1:
+                        landen = _a.sent();
+                        if (landen) {
+                            firstOptions = [
+                                { code: 'BE', naam: 'België' },
+                                { code: 'DE', naam: 'Duitsland' },
+                                { code: 'FR', naam: 'Frankrijk' },
+                                { code: 'GB', naam: 'Groot-Brittanië' },
+                                { code: 'NL', naam: 'Nederland' },
+                                { code: 'LU', naam: 'Luxemburg' },
+                                { code: 'divider', naam: '─────────────────────────' }
+                            ];
+                            this.landen = firstOptions;
+                            landen.forEach(function (land) {
+                                var exists = _this.landen.find(function (obj) { return obj.code === land.code; });
+                                if (!exists) {
+                                    _this.landen.push(land);
+                                }
+                            });
+                        }
+                        return [3, 3];
+                    case 2:
+                        error_1 = _a.sent();
+                        Message.error({
+                            title: 'Er liep iets mis bij het ophalen van landen',
+                            message: error_1.message
+                        });
+                        return [3, 3];
+                    case 3: return [2];
+                }
+            });
         });
     };
     ActorWidget.prototype.loadGemeenten = function (value) {
-        var _this = this;
-        return new Promise(function (resolve) {
-            _this.crabService.getGemeenten().then(function (gemeenten) {
-                if (gemeenten) {
-                    var result = gemeenten.filter(function (obj) { return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1; });
-                    resolve(result);
+        return __awaiter(this, void 0, void 0, function () {
+            var gemeenten, adresGemeenten, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.adresregisterService.getGemeenten()];
+                    case 1:
+                        gemeenten = _a.sent();
+                        adresGemeenten = gemeenten.map(function (gemeente) { return ({
+                            naam: gemeente.naam,
+                            niscode: gemeente.niscode,
+                            provincie: gemeente.provincie
+                        }); });
+                        return [2, this.suggestFilter(adresGemeenten, value)];
+                    case 2:
+                        error_2 = _a.sent();
+                        Message.error({
+                            title: 'Er liep iets mis bij het ophalen van gemeenten',
+                            message: error_2.message
+                        });
+                        return [3, 3];
+                    case 3: return [2];
                 }
             });
         });
     };
     ActorWidget.prototype.loadPostcodes = function (value) {
-        var _this = this;
-        var gemeente = this.filters.gemeente ? this.filters.gemeente.id : undefined;
-        return new Promise(function (resolve) {
-            if (gemeente) {
-                _this.crabService.getPostcodes(gemeente).then(function (postcodes) {
-                    postcodes.forEach(function (postcode) {
-                        postcode.naam = String(postcode.id);
-                    });
-                    var result = postcodes.filter(function (obj) { return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1; });
-                    resolve(result);
-                });
-            }
-            else {
-                _this.filters.post_code = value;
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            var gemeente, postcodes, mappedPostcodes, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        gemeente = this.filters.gemeente ? this.filters.gemeente.naam : undefined;
+                        if (!gemeente) return [3, 5];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4, this.adresregisterService.getPostinfo(gemeente)];
+                    case 2:
+                        postcodes = _a.sent();
+                        mappedPostcodes = postcodes.map(function (postcode) {
+                            return ({ nummer: postcode.postcode, uri: postcode.uri });
+                        });
+                        return [2, this.filterPostcodes(mappedPostcodes, value)];
+                    case 3:
+                        error_3 = _a.sent();
+                        this.filters.postcode = undefined;
+                        Message.error({
+                            title: 'Er liep iets mis bij het ophalen van postcodes',
+                            message: error_3.message
+                        });
+                        return [3, 4];
+                    case 4: return [3, 6];
+                    case 5:
+                        this.filters.post_code = value;
+                        _a.label = 6;
+                    case 6: return [2];
+                }
+            });
         });
     };
     ActorWidget.prototype.loadStraten = function (value) {
-        var _this = this;
-        var gemeente = this.filters.gemeente ? this.filters.gemeente.id : undefined;
-        return new Promise(function (resolve) {
-            if (gemeente) {
-                _this.crabService.getStraten(gemeente).then(function (straten) {
-                    var result = straten.filter(function (obj) { return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1; });
-                    _this.filters.straat_naam = undefined;
-                    resolve(result);
-                });
-            }
-            else {
-                _this.filters.straat_naam = value;
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            var gemeenteNiscode, postcodeUri, straten, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        gemeenteNiscode = this.filters.gemeente ? this.filters.gemeente.niscode : undefined;
+                        postcodeUri = this.filters.postcode ? this.filters.postcode.uri : undefined;
+                        if (!gemeenteNiscode || !postcodeUri) {
+                            this.vrijAdres = true;
+                            return [2];
+                        }
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4, this.adresregisterService.getStraten(gemeenteNiscode)];
+                    case 2:
+                        straten = _a.sent();
+                        return [2, this.suggestFilter(straten, value)];
+                    case 3:
+                        error_4 = _a.sent();
+                        Message.error({
+                            title: 'Er liep iets mis bij het ophalen van straten',
+                            message: error_4.message
+                        });
+                        return [3, 4];
+                    case 4: return [2];
+                }
+            });
         });
     };
     ActorWidget.prototype.loadHuisnrs = function (value) {
-        var _this = this;
-        var straat = this.filters.straat ? this.filters.straat.id : undefined;
-        return new Promise(function (resolve) {
-            if (straat) {
-                _this.crabService.getHuisnrs(straat).then(function (huisnrs) {
-                    var result = huisnrs.filter(function (obj) { return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1; });
-                    _this.filters.huisnummer_label = undefined;
-                    resolve(result);
-                });
-            }
-            else {
-                _this.filters.huisnummer_label = value;
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            var straatId, huisnrs, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        straatId = this.filters.straat ? this.filters.straat.id : undefined;
+                        if (this.vrijAdres ||
+                            (this.filters.gemeente.provincie && !this.isVlaamseProvincie(this.filters.gemeente.provincie)) ||
+                            !straatId) {
+                            this.vrijAdres = true;
+                            return [2];
+                        }
+                        this.vrijAdres = false;
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4, this.adresregisterService.getAdressen(straatId)];
+                    case 2:
+                        huisnrs = _a.sent();
+                        return [2, this.filterHuisnummers(huisnrs, value)];
+                    case 3:
+                        error_5 = _a.sent();
+                        Message.error({
+                            title: 'Er liep iets mis bij het ophalen van huisnummers',
+                            message: error_5.message
+                        });
+                        return [3, 4];
+                    case 4: return [2];
+                }
+            });
         });
+    };
+    ActorWidget.prototype.loadBusnrs = function (value) {
+        return __awaiter(this, void 0, void 0, function () {
+            var straatId, huisnummer, huisnrs, error_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        straatId = this.filters.straat ? this.filters.straat.id : undefined;
+                        huisnummer = this.filters.adres ? this.filters.adres.huisnummer : undefined;
+                        if (!this.filters.adres.id || !huisnummer || this.vrijAdres) {
+                            return [2];
+                        }
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4, this.adresregisterService.getAdressen(straatId, huisnummer)];
+                    case 2:
+                        huisnrs = _a.sent();
+                        return [2, this.filterBusnummers(huisnrs, value)];
+                    case 3:
+                        error_6 = _a.sent();
+                        Message.error({
+                            title: 'Er liep iets mis bij het ophalen van busnummers',
+                            message: error_6.message
+                        });
+                        return [3, 4];
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    ActorWidget.prototype.suggestFilter = function (data, value) {
+        return data.filter(function (obj) {
+            return obj.naam.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+        });
+    };
+    ActorWidget.prototype.filterPostcodes = function (postcodes, searchPostcode) {
+        return postcodes.filter(function (postcode) { return postcode.nummer.includes(searchPostcode); });
+    };
+    ActorWidget.prototype.isVlaamseProvincie = function (provincie) {
+        return this.vlaamseProvinciesNiscodes.includes(provincie.niscode);
+    };
+    ActorWidget.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
+        var adresList = uniqBy(adressen
+            .filter(function (adres) { return adres.huisnummer
+            .includes(searchHuisnummer); }), 'huisnummer');
+        return adresList.sort(function (a, b) { return a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }); });
+    };
+    ActorWidget.prototype.filterBusnummers = function (adressen, searchBusnummer) {
+        return adressen.filter(function (adres) { return adres.busnummer
+            .includes(searchBusnummer); })
+            .sort(function (a, b) { return a.busnummer.localeCompare(b.busnummer, 'en', { numeric: true }); });
     };
     __decorate([
         bindable,
@@ -305,7 +483,7 @@ var ActorWidget = (function () {
     ], ActorWidget.prototype, "dialogController", void 0);
     ActorWidget = __decorate([
         autoinject,
-        __metadata("design:paramtypes", [CrabService])
+        __metadata("design:paramtypes", [AdresregisterService])
     ], ActorWidget);
     return ActorWidget;
 }());
