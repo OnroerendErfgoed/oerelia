@@ -1,4 +1,5 @@
 <template>
+  <require from="./value-converters/string"></require>
   <require from="./styles/adres-crab.css"></require>
   <div class="adres-crab">
     <div class="row" if.bind="copyAvailable">
@@ -108,11 +109,11 @@
           </div>
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Huisnummer</label>
-            <input type="text" value.bind="data.adres.huisnummer" placeholder="huisnummer" disabled.bind="disabled">
+            <input type="text" value.bind="data.adres.huisnummer | string" placeholder="huisnummer" disabled.bind="disabled">
           </div>
           <div class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }">
             <label>Busnummer</label>
-            <input type="text" value.bind="data.adres.busnummer" placeholder="busnummer" disabled.bind="disabled">
+            <input type="text" value.bind="data.adres.busnummer | string" placeholder="busnummer" disabled.bind="disabled">
           </div>
         </div>
       </div>
