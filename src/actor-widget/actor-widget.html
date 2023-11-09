@@ -12,9 +12,9 @@
       <div class="row search-buttons">
         <div class="large-6 small-12 large-centered column">
           <a class="button tiny large-offset-1 large-5 small-5 column ${showTable ? 'active' : ''}"
-            click.delegate="toggleFilters(false)">Overzicht</a>
+             click.delegate="toggleFilters(false)">Overzicht</a>
           <a class="button tiny large-offset-1 large-5 small-offset-1 small-5 large-end column ${showFilters? 'active' : ''}"
-            click.delegate="toggleFilters(true)">Uitgebreid Zoeken</a>
+             click.delegate="toggleFilters(true)">Uitgebreid Zoeken</a>
         </div>
       </div>
       <actor-detail if.bind="showActor" actor.bind="selectedActor"></actor-detail>
@@ -88,68 +88,137 @@
           <!-- Country -->
           <div class="placeholder-container">
             <label for="actor-widget-land">Land</label>
-            <select name="actor-widget-land" value.bind="filters.land" id="actor-widget-land">
+            <select name="actor-widget-land" value.bind="filters.land" id="actor-widget-land" change.delegate="landChanged()">
               <option selected style="display:none"></option>
-              <option repeat.for="land of landen" value.bind="land.id" disabled.bind="land.disabled">
+              <option repeat.for="land of landen" value.bind="land.code" disabled.bind="land.disabled">
                 ${land.naam}
               </option>
             </select>
           </div>
         </div>
 
-        <div class="large-4 small-9 column">
-          <!-- Gemeente -->
-          <div class="placeholder-container placeholder">
-            <label for="actor-widget-gemeente">Gemeente</label>
-            <autocomplete service.bind="suggest.gemeenten" value.bind="filters.gemeente" label="naam">
-              <template replace-part="suggestion">
-                ${suggestion.naam}
-              </template>
-            </autocomplete>
+        <div if.bind="filters.land && filters.land !== 'BE'">
+          <div class="large-4 small-9 column">
+            <!-- Gemeente -->
+            <div class="placeholder-container placeholder">
+              <label>Gemeente</label>
+              <input type="text" value.bind="filters.gemeente.naam">
+            </div>
+          </div>
+          <div class="large-2 small-3 column">
+            <!-- Postalcode -->
+            <div class="placeholder-container placeholder">
+              <label>Postcode</label>
+              <input type="text" value.bind="filters.postcode.nummer">
+            </div>
+          </div>
+          <div class="large-6 small-12 column">
+            <!-- Street -->
+            <div class="placeholder-container placeholder">
+              <label>Straat</label>
+              <input type="text" value.bind="filters.straat.naam">
+            </div>
+          </div>
+          <div class="large-4 small-9 column">
+            <!-- Huisenumber -->
+            <div class="placeholder-container placeholder">
+              <label>Huisnummer</label>
+              <input type="text" value.bind="filters.adres.huisnummer">
+            </div>
+          </div>
+          <div class="large-2 small-3 column">
+            <!-- Subadres -->
+            <div class="placeholder-container placeholder">
+              <label>Postbus</label>
+              <input type="text" value.bind="filters.adres.busnummer">
+            </div>
           </div>
         </div>
-
-        <div class="large-2 small-3 column">
-          <!-- Postalcode -->
-          <div class="placeholder-container placeholder">
-            <label for="actor-widget-postcode">Postcode</label>
-            <autocomplete service.bind="suggest.postcode" value.bind="filters.postcode" label="naam">
-              <template replace-part="suggestion">
-                ${suggestion.naam}
-              </template>
-            </autocomplete>
+        <div else>
+          <div class="large-4 small-9 column">
+            <!-- Gemeente -->
+            <div class="placeholder-container placeholder">
+              <label>Gemeente</label>
+              <autocomplete
+                service.bind="suggest.gemeenten"
+                value.bind="filters.gemeente"
+                label="naam"
+                change.delegate="gemeenteChanged()">
+                <template replace-part="suggestion">
+                  ${suggestion.naam}
+                </template>
+              </autocomplete>
+            </div>
           </div>
-        </div>
 
-        <div class="large-6 small-12 column">
-          <!-- Street -->
-          <div class="placeholder-container placeholder">
-            <label for="actor-widget-straat">Straat</label>
-            <autocomplete service.bind="suggest.straten" value.bind="filters.straat" label="naam">
-              <template replace-part="suggestion">
-                ${suggestion.naam}
-              </template>
-            </autocomplete>
+          <div class="large-2 small-3 column">
+            <!-- Postalcode -->
+            <div class="placeholder-container placeholder">
+              <label>Postcode</label>
+              <autocomplete
+                service.bind="suggest.postcodes"
+                type.bind="adresCrabConfig.postcode.autocompleteType"
+                value.bind="filters.postcode"
+                label="nummer"
+                field="postcode">
+                <template replace-part="suggestion">
+                  ${suggestion.nummer}
+                </template>
+              </autocomplete>
+            </div>
           </div>
-        </div>
 
-        <div class="large-4 small-9 column">
-          <!-- Huisenumber -->
-          <div class="placeholder-container placeholder">
-            <label for="actor-widget-huisnummer">Huisnummer</label>
-            <autocomplete service.bind="suggest.huisnummer" value.bind="filters.huisnummer" label="naam">
-              <template replace-part="suggestion">
-                ${suggestion.naam}
-              </template>
-            </autocomplete>
+          <div class="large-6 small-12 column">
+            <!-- Street -->
+            <div class="placeholder-container placeholder">
+              <label>Straat</label>
+              <autocomplete
+                service.bind="suggest.straten"
+                value.bind="filters.straat"
+                label="naam"
+                field="straat"
+                type.bind="adresCrabConfig.straat.autocompleteType"
+                change.delegate="straatChanged()">
+                <template replace-part="suggestion">
+                  ${suggestion.naam}
+                </template>
+              </autocomplete>
+            </div>
           </div>
-        </div>
 
-        <div class="large-2 small-3 column">
-          <!-- Subadres -->
-          <div class="placeholder-container placeholder">
-            <label for="actor-widget-subadres">Postbus</label>
-            <input type="text" name="actor-widget-subadres" value.bind="filters.subadres" id="actor-widget-subadres">
+          <div class="large-4 small-9 column">
+            <!-- Huisenumber -->
+            <div class="placeholder-container placeholder">
+              <label>Huisnummer</label>
+              <autocomplete
+                service.bind="suggest.huisnummers"
+                label="huisnummer"
+                value.bind="filters.adres"
+                type.bind="adresCrabConfig.huisnummer.autocompleteType"
+                field="huisnummer">
+                <template replace-part="suggestion">
+                  ${suggestion.huisnummer}
+                </template>
+              </autocomplete>
+            </div>
+          </div>
+
+          <div class="large-2 small-3 column">
+            <!-- Subadres -->
+            <div class="placeholder-container placeholder">
+              <label>Postbus</label>
+              <autocomplete
+                service.bind="suggest.busnummers"
+                label="busnummer"
+                value.bind="filters.adres"
+                type.bind="adresCrabConfig.busnummer.autocompleteType"
+                huisnummer.bind="filters.adres.huisnummer"
+                field="busnummer">
+                <template replace-part="suggestion">
+                  ${suggestion.busnummer}
+                </template>
+              </autocomplete>
+            </div>
           </div>
         </div>
 
@@ -181,15 +250,15 @@
 
       <!-- RESULT TABLE -->
       <div class="row">
-        <ag-grid-aurelia 
+        <ag-grid-aurelia
           if.bind="showTable"
-          class="large-12 column ag-theme-balham" 
+          class="large-12 column ag-theme-balham"
           grid-size-changed.call="onGridSizeChanged()"
-          column-resized.call="gridOptions.api.resetRowHeights()" 
+          column-resized.call="gridOptions.api.resetRowHeights()"
           grid-options.bind="gridOptions"
           grid-ready.call="onGridReady()"
           row-clicked.call="selectActor($event)">
-      </ag-grid-aurelia>
+        </ag-grid-aurelia>
       </div>
       <!-- TABLE ACTIONS -->
       <div class="row" if.bind="showTable">
@@ -198,7 +267,7 @@
             <!-- Create actor -->
             <div class="actor-action">
               <a class="actor-toevoegen" target="_blank"
-                href="${scope.actorenApiService.config.actorenUrl}/beheer#/actoren/aanmaken">
+                 href="${scope.actorenApiService.config.actorenUrl}/beheer#/actoren/aanmaken">
                 Actor aanmaken
                 <i class="fa fa-plus-circle"></i>
               </a>
@@ -231,12 +300,12 @@
       <div class="row search-buttons">
         <div class="large-6 small-12 large-centered column">
           <button class="button tiny large-offset-1 large-5 small-5 column" if.bind="showFilters"
-            click.delegate="advancedSearch()">Zoeken</button>
+                  click.delegate="advancedSearch()">Zoeken</button>
           <button class="button tiny large-5 small-5 column" if.bind="showTable || showActor"
-            disabled.bind="!selectedActor"
-            click.delegate="toevoegen()">Toevoegen</button>
+                  disabled.bind="!selectedActor"
+                  click.delegate="toevoegen()">Toevoegen</button>
           <button class="button tiny large-5 small-5 large-end column"
-            click.delegate="annuleren()">Annuleren</button>
+                  click.delegate="annuleren()">Annuleren</button>
         </div>
       </div>
     </ux-dialog-footer>

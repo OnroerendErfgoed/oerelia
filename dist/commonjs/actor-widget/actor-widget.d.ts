@@ -1,8 +1,10 @@
 import { GridOptions } from 'ag-grid-community';
-import { CrabService } from '../services/crab.api-service';
 import { DialogController } from 'aurelia-dialog';
+import { IGemeente, ILand, IPostcode, IStraat } from '../models/public-models';
+import { IAdresCrabConfig } from '../adres-crab/types/adres-crab-config';
+import { AdresregisterService } from '../services/adresregister.api-service';
 export declare class ActorWidget {
-    private crabService;
+    private adresregisterService;
     scope: any;
     actorenApiService: any;
     dialogController: DialogController;
@@ -14,14 +16,16 @@ export declare class ActorWidget {
     showActor: boolean;
     showFilters: boolean;
     isAdvancedSearch: boolean;
-    landen: any[];
-    gemeenten: any[];
-    postcodes: any[];
-    straten: any[];
-    huisnrs: any[];
+    landen: ILand[];
+    gemeenten: IGemeente[];
+    postcodes: IPostcode[];
+    straten: IStraat[];
     suggest: any;
+    adresCrabConfig: IAdresCrabConfig;
     private filters;
-    constructor(crabService: CrabService);
+    private vrijAdres;
+    private vlaamseProvinciesNiscodes;
+    constructor(adresregisterService: AdresregisterService);
     bind(): void;
     setRowData(): void;
     keydown(e: any): boolean;
@@ -37,9 +41,18 @@ export declare class ActorWidget {
     toevoegen(): void;
     annuleren(): void;
     private actiesCellRenderer;
+    landChanged(): void;
+    gemeenteChanged(): void;
+    straatChanged(): void;
     private loadLanden;
     private loadGemeenten;
     private loadPostcodes;
     private loadStraten;
     private loadHuisnrs;
+    private loadBusnrs;
+    private suggestFilter;
+    private filterPostcodes;
+    private isVlaamseProvincie;
+    private filterHuisnummers;
+    private filterBusnummers;
 }

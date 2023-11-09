@@ -52,7 +52,7 @@
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-land">Land</label>
         <select name="actor-widget-detail-land" id="actor-widget-detail-land" disabled>
-          <option selected>${actor.adressen[0].land_omschrijving}</option>
+          <option selected>${actor.adressen[0].land.naam}</option>
         </select>
       </div>
     </div>
@@ -61,7 +61,7 @@
       <!-- Gemeente -->
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-gemeente">Gemeente</label>
-        <input type="text" name="actor-widget-detail-gemeente" value.bind="actor.adressen[0].gemeente" id="actor-widget-detail-gemeente"
+        <input type="text" name="actor-widget-detail-gemeente" value.bind="actor.adressen[0].gemeente.naam" id="actor-widget-detail-gemeente"
           disabled>
 
       </div>
@@ -71,7 +71,7 @@
       <!-- Postalcode -->
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-postcode">Postcode</label>
-        <input type="text" name="actor-widget-detail-postcode" value.bind="actor.adressen[0].postcode" id="actor-widget-detail-postcode"
+        <input type="text" name="actor-widget-detail-postcode" value.bind="actor.adressen[0].postcode.nummer" id="actor-widget-detail-postcode"
           disabled>
       </div>
     </div>
@@ -80,7 +80,7 @@
       <!-- Street -->
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-straat">Straat</label>
-        <input type="text" name="actor-widget-detail-straat" value.bind="actor.adressen[0].straat" id="actor-widget-detail-straat"
+        <input type="text" name="actor-widget-detail-straat" value.bind="actor.adressen[0].straat.naam" id="actor-widget-detail-straat"
           disabled>
       </div>
     </div>
@@ -89,7 +89,7 @@
       <!-- Huisenumber -->
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-huisnummer">Huisnummer</label>
-        <input type="text" name="actor-widget-detail-huisnummer" value.bind="actor.adressen[0].huisnummer" id="actor-widget-detail-huisnummer"
+        <input type="text" name="actor-widget-detail-huisnummer" value.bind="actor.adressen[0].adres.huisnummer" id="actor-widget-detail-huisnummer"
           disabled>
       </div>
     </div>
@@ -98,14 +98,14 @@
       <!-- Subadres -->
       <div class="placeholder-container placeholder-disabled">
         <label for="actor-widget-detail-subadres">Postbus</label>
-        <input type="text" name="actor-widget-detail-subadres" value.bind="actor.adressen[0].subadres" id="actor-widget-detail-subadres"
+        <input type="text" name="actor-widget-detail-subadres" value.bind="actor.adressen[0].adres.busnummer" id="actor-widget-detail-subadres"
           disabled>
       </div>
     </div>
     <div class="large-6 small-6 column">
       <ul if.bind="actor.adressen.length > 0" class="nodisk list-selected-items" repeat.for="adres of actor.adressen">
         <li>
-          <small>${adres.straat} ${adres.huisnummer}, ${adres.postcode} ${adres.gemeente}, ${adres.land} (${adres.adrestype.naam})</small>
+          <small>${adres.straat.naam} ${adres.adres.huisnummer}, ${adres.postcode.nummer} ${adres.gemeente.naam}, ${adres.land.naam} (${adres.adrestype.naam})</small>
         </li>
       </ul>
     </div>
