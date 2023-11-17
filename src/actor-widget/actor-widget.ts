@@ -221,7 +221,7 @@ export class ActorWidget {
 
   public toevoegen() {
     this.dialogController.ok({ 'scope': this.scope, 'actor': this.selectedActor,
-      ...(this.getActorOnRowClick ? { 'adresId': this.adresId} : {})});
+      ...(this.getActorOnRowClick ? { 'adresId': this.adresId } : {})});
   }
 
   public annuleren() {
