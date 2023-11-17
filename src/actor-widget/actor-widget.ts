@@ -14,7 +14,9 @@ export class ActorWidget {
   @bindable public scope: any;
   @bindable public actorenApiService: any;
   @bindable public dialogController: DialogController;
+  @bindable public getActorOnRowClick: boolean = false;
 
+  public adresId: number;
   public showSpinner: boolean = true;
   public gridOptions: GridOptions;
   public zoekterm: string;
@@ -183,8 +185,20 @@ export class ActorWidget {
     this.showFilters = activate;
   }
 
-  public selectActor(params) {
+  public async selectActor(params) {
     this.selectedActor = params.data;
+    if (this.getActorOnRowClick) {
+      this.showSpinner = true;
+      const data = await this.actorenApiService.getActorById(params.data.id);
+      this.showSpinner = false;
+      if (data) {
+        this.selectedActor = data;
+        const primairAdres = data.adressen.filter(obj => {
+          return obj.adrestype.id === 1;
+        })[0];
+        this.adresId = primairAdres ? primairAdres.id : null;
+      }
+    }
   }
 
   public toggleActorDetail(activate: boolean, params) {
@@ -206,7 +220,8 @@ export class ActorWidget {
   }
 
   public toevoegen() {
-    this.dialogController.ok({ 'scope': this.scope, 'actor': this.selectedActor });
+    this.dialogController.ok({ 'scope': this.scope, 'actor': this.selectedActor,
+      ...(this.getActorOnRowClick ? { 'adresId': this.adresId } : {})});
   }
 
   public annuleren() {
@@ -237,7 +252,7 @@ export class ActorWidget {
 
   public landChanged() {
     this.filters.gemeente = undefined;
-   this.gemeenteChanged();
+    this.gemeenteChanged();
   }
 
   public gemeenteChanged() {
@@ -404,7 +419,7 @@ export class ActorWidget {
     IAdresregisterAdres[] | [] {
     const adresList = uniqBy(adressen
       .filter((adres: IAdresregisterAdres) => adres.huisnummer
-        .includes(searchHuisnummer)),'huisnummer') as IAdresregisterAdres[];
+        .includes(searchHuisnummer)), 'huisnummer') as IAdresregisterAdres[];
     return adresList.sort((a, b) => a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }));
   }
 

@@ -1,3 +1,14 @@
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -54,6 +65,7 @@ var ActorWidget = (function () {
     function ActorWidget(adresregisterService) {
         var _this = this;
         this.adresregisterService = adresregisterService;
+        this.getActorOnRowClick = false;
         this.showSpinner = true;
         this.showTable = true;
         this.showActor = false;
@@ -205,7 +217,30 @@ var ActorWidget = (function () {
         this.showFilters = activate;
     };
     ActorWidget.prototype.selectActor = function (params) {
-        this.selectedActor = params.data;
+        return __awaiter(this, void 0, void 0, function () {
+            var data, primairAdres;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.selectedActor = params.data;
+                        if (!this.getActorOnRowClick) return [3, 2];
+                        this.showSpinner = true;
+                        return [4, this.actorenApiService.getActorById(params.data.id)];
+                    case 1:
+                        data = _a.sent();
+                        this.showSpinner = false;
+                        if (data) {
+                            this.selectedActor = data;
+                            primairAdres = data.adressen.filter(function (obj) {
+                                return obj.adrestype.id === 1;
+                            })[0];
+                            this.adresId = primairAdres ? primairAdres.id : null;
+                        }
+                        _a.label = 2;
+                    case 2: return [2];
+                }
+            });
+        });
     };
     ActorWidget.prototype.toggleActorDetail = function (activate, params) {
         var _this = this;
@@ -227,7 +262,7 @@ var ActorWidget = (function () {
         }
     };
     ActorWidget.prototype.toevoegen = function () {
-        this.dialogController.ok({ 'scope': this.scope, 'actor': this.selectedActor });
+        this.dialogController.ok(__assign({ 'scope': this.scope, 'actor': this.selectedActor }, (this.getActorOnRowClick ? { 'adresId': this.adresId } : {})));
     };
     ActorWidget.prototype.annuleren = function () {
         this.dialogController.cancel();
@@ -504,6 +539,10 @@ var ActorWidget = (function () {
         bindable,
         __metadata("design:type", DialogController)
     ], ActorWidget.prototype, "dialogController", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Boolean)
+    ], ActorWidget.prototype, "getActorOnRowClick", void 0);
     ActorWidget = __decorate([
         autoinject,
         __metadata("design:paramtypes", [AdresregisterService])

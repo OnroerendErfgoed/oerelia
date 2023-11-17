@@ -8,6 +8,8 @@ export declare class ActorWidget {
     scope: any;
     actorenApiService: any;
     dialogController: DialogController;
+    getActorOnRowClick: boolean;
+    adresId: number;
     showSpinner: boolean;
     gridOptions: GridOptions;
     zoekterm: string;
@@ -36,7 +38,7 @@ export declare class ActorWidget {
     advancedSearch(): void;
     clearFilters(): void;
     toggleFilters(activate: boolean): void;
-    selectActor(params: any): void;
+    selectActor(params: any): Promise<void>;
     toggleActorDetail(activate: boolean, params: any): void;
     toevoegen(): void;
     annuleren(): void;
