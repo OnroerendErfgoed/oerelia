@@ -37,6 +37,7 @@ export * from './services/crab.api-service';
 export * from './services/adresregister.api-service';
 export * from './services/geozoekdienst.api-service';
 export * from './services/id-service.api-service';
+export * from './services/models/niscode.enum';
 
 export * from './value-converters';
 

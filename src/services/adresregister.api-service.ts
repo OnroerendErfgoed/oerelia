@@ -8,7 +8,6 @@ import {
   IAdresregisterAdres, IDeelgemeente, IGemeente, IGeolocationResponse, IGewest,
   ILand, ILocatieSuggest, IPostinfo, IProvincie, IStraat
 } from '../models/public-models';
-import {Gemeente} from "./models/locatie";
 
 declare const oeAppConfig: any;
 
