@@ -70,6 +70,10 @@ export class AdresregisterService {
     return this.crabGet<IProvincie[]>(`adressenregister/gewesten/${niscode}/provincies`);
   }
 
+  public async getProvincieByNiscode(niscode: string): Promise<IProvincie> {
+    return this.crabGet<IProvincie>(`adressenregister/provincies/${niscode}`);
+  }
+
   get vlaamseGemeenten(): IGemeente[] {
     return this.gemeentenVlaamsGewest;
   }
@@ -111,6 +115,10 @@ export class AdresregisterService {
 
   public getGemeentenByProvincie(provincie: string): Promise<IGemeente[]> {
     return this.crabGet<IGemeente[]>(`adressenregister/provincies/${provincie}/gemeenten`);
+  }
+
+  public async getGemeenteByNiscode(niscode: string): Promise<IGemeente> {
+    return this.crabGet<IGemeente>(`adressenregister/gemeenten/${niscode}`);
   }
 
   getDeelgemeenten(gemeente: string): Promise<IDeelgemeente[]> {
