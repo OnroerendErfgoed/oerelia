@@ -13,12 +13,14 @@ export declare class AdresregisterService {
     getLanden(): Promise<ILand[]>;
     getProvincies(): Promise<IProvincie[]>;
     getProvinciesPerGewest(niscode: Niscode): Promise<IProvincie[]>;
+    getProvincieByNiscode(niscode: string): Promise<IProvincie>;
     readonly vlaamseGemeenten: IGemeente[];
     readonly waalseGemeenten: IGemeente[];
     readonly brusselseGemeenten: IGemeente[];
     getGemeenten(): Promise<IGemeente[]>;
     getGemeentenPerGewest(niscode: Niscode): Promise<IGemeente[]>;
     getGemeentenByProvincie(provincie: string): Promise<IGemeente[]>;
+    getGemeenteByNiscode(niscode: string): Promise<IGemeente>;
     getDeelgemeenten(gemeente: string): Promise<IDeelgemeente[]>;
     getPostinfo(gemeente: string): Promise<IPostinfo[]>;
     getStraten(gemeente: string): Promise<IStraat[]>;

@@ -153,7 +153,7 @@ var ActorWidget = (function () {
                         sort = ((sortModel.sort === 'asc') ? '' : '-') + sortModel.colId;
                     }
                     paramsObj = {
-                        omschrijving: query ? query + '*' : null,
+                        omschrijving: query || null,
                         sort: sort
                     };
                 }
