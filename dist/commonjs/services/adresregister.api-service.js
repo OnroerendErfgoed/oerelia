@@ -120,6 +120,13 @@ var AdresregisterService = (function () {
     AdresregisterService.prototype.getProvinciesPerGewest = function (niscode) {
         return this.crabGet("adressenregister/gewesten/" + niscode + "/provincies");
     };
+    AdresregisterService.prototype.getProvincieByNiscode = function (niscode) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2, this.crabGet("adressenregister/provincies/" + niscode)];
+            });
+        });
+    };
     Object.defineProperty(AdresregisterService.prototype, "vlaamseGemeenten", {
         get: function () {
             return this.gemeentenVlaamsGewest;
@@ -176,6 +183,13 @@ var AdresregisterService = (function () {
     };
     AdresregisterService.prototype.getGemeentenByProvincie = function (provincie) {
         return this.crabGet("adressenregister/provincies/" + provincie + "/gemeenten");
+    };
+    AdresregisterService.prototype.getGemeenteByNiscode = function (niscode) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2, this.crabGet("adressenregister/gemeenten/" + niscode)];
+            });
+        });
     };
     AdresregisterService.prototype.getDeelgemeenten = function (gemeente) {
         return this.crabGet("adressenregister/gemeenten/" + gemeente + "/deelgemeenten");
