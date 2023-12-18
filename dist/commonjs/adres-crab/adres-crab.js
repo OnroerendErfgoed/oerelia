@@ -82,13 +82,14 @@ var AdresCrab = (function () {
         }, '');
     }
     AdresCrab.prototype.bind = function () {
+        var _this = this;
         this.data.adres = this.data.adres || { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
         aurelia_validation_1.ValidationRules
             .ensure('land').required()
             .ensure('gemeente').required()
             .ensure('postcode').required()
             .ensure('straat').required()
-            .ensure('adres').satisfiesRule('requiredHuisnummer')
+            .ensure('adres').satisfiesRule('requiredHuisnummer').when(function () { return _this.config.huisnummer.required; })
             .on(this.data);
         if (this.data.provincie && !this.isVlaamseProvincie(this.data.provincie)) {
             this.config.postcode.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
