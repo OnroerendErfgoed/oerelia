@@ -28,12 +28,17 @@ var TelefoonSelect = (function () {
             this.telefoon.landcode = '+32';
         }
     };
-    TelefoonSelect.prototype.landcodeChanged = function (e) {
+    TelefoonSelect.prototype.landcodeKeyup = function (e) {
         var _this = this;
-        if (e.which !== 40 && e.which !== 38 && this.telefoon.landcode) {
+        if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && this.telefoon.landcode) {
             this.index = -1;
             this.suggestions = this.countryCodeList.filter(function (c) { return c.value.indexOf(_this.telefoon.landcode) > -1; });
             this.expanded = this.suggestions.length > 0;
+        }
+    };
+    TelefoonSelect.prototype.landcodeChanged = function () {
+        if (this.telefoon.landcode && this.telefoon.landcode.length > 5) {
+            this.telefoon.landcode = this.telefoon.landcode.substring(0, 5);
         }
     };
     TelefoonSelect.prototype.suggestionClicked = function (suggestion) {
@@ -56,11 +61,11 @@ var TelefoonSelect = (function () {
         this.collapse();
     };
     TelefoonSelect.prototype.keydown = function (e) {
-        var key = e.which;
+        var key = e.key;
         if (!this.expanded) {
             return true;
         }
-        if (key === 40) {
+        if (key === 'ArrowDown') {
             if (this.index < this.suggestions.length - 1) {
                 this.index++;
             }
@@ -70,7 +75,7 @@ var TelefoonSelect = (function () {
             this.telefoon.landcode = this.suggestions[this.index].value;
             return;
         }
-        if (key === 38) {
+        if (key === 'ArrowUp') {
             if (this.index === -1) {
                 this.index = this.suggestions.length - 1;
             }
@@ -83,7 +88,7 @@ var TelefoonSelect = (function () {
             this.telefoon.landcode = this.suggestions[this.index].value;
             return;
         }
-        if (key === 27 || key === 13) {
+        if (key === 'Escape' || key === 'Enter') {
             this.collapse();
             return;
         }

@@ -8,7 +8,8 @@ export declare class TelefoonSelect {
     private countryCodeList;
     private suggestions;
     bind(): void;
-    landcodeChanged(e: KeyboardEvent): void;
+    landcodeKeyup(e: KeyboardEvent): void;
+    landcodeChanged(): void;
     suggestionClicked(suggestion: any): void;
     toggleSuggestions(): void;
     collapse(): void;
