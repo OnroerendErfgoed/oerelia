@@ -23,8 +23,8 @@ export class TelefoonSelect {
     }
   }
 
-  public landcodeChanged(e: KeyboardEvent) {
-    if (e.which !== 40 && e.which !== 38 && this.telefoon.landcode) {
+  public landcodeKeyup(e: KeyboardEvent) {
+    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && this.telefoon.landcode) {
       this.index = -1;
       this.suggestions = this.countryCodeList.filter(c => c.value.indexOf(this.telefoon.landcode) > -1);
       this.expanded = this.suggestions.length > 0;
@@ -56,14 +56,14 @@ export class TelefoonSelect {
   }
 
   public keydown(e: KeyboardEvent) {
-    const key = e.which;
+    const key = e.key;
 
     if (!this.expanded) {
       return true;
     }
 
     // down
-    if (key === 40) {
+    if (key === 'ArrowDown') {
       if (this.index < this.suggestions.length - 1) {
         this.index++;
       } else {
@@ -74,7 +74,7 @@ export class TelefoonSelect {
     }
 
     // up
-    if (key === 38) {
+    if (key === 'ArrowUp') {
       if (this.index === -1) {
         this.index = this.suggestions.length - 1;
       } else if (this.index > 0) {
@@ -87,7 +87,7 @@ export class TelefoonSelect {
     }
 
     // escape && enter
-    if (key === 27 || key === 13) {
+    if (key === 'Escape' || key === 'Enter') {
       this.collapse();
       return;
     }
