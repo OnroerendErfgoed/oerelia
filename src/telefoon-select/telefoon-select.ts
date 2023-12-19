@@ -23,11 +23,18 @@ export class TelefoonSelect {
     }
   }
 
-  public landcodeChanged(e: KeyboardEvent) {
+  public landcodeKeyup(e: KeyboardEvent) {
     if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && this.telefoon.landcode) {
       this.index = -1;
       this.suggestions = this.countryCodeList.filter(c => c.value.indexOf(this.telefoon.landcode) > -1);
       this.expanded = this.suggestions.length > 0;
+    }
+  }
+
+  // Limit landcode value to max 5 characters
+  public landcodeChanged() {
+    if (this.telefoon.landcode && this.telefoon.landcode.length > 5) {
+      this.telefoon.landcode = this.telefoon.landcode.substring(0, 5);
     }
   }
 
