@@ -59,7 +59,7 @@ export class AdresCrab {
       .ensure('gemeente').required()
       .ensure('postcode').required()
       .ensure('straat').required()
-      .ensure('adres').satisfiesRule('requiredHuisnummer')
+      .ensure('adres').satisfiesRule('requiredHuisnummer').when(() => this.config.huisnummer.required)
       .on(this.data);
 
     if (this.data.provincie && !this.isVlaamseProvincie(this.data.provincie)) {
