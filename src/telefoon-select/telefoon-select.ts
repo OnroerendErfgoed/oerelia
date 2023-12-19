@@ -31,13 +31,6 @@ export class TelefoonSelect {
     }
   }
 
-  // Limit landcode value to max 5 characters
-  public landcodeChanged() {
-    if (this.telefoon.landcode && this.telefoon.landcode.length > 5) {
-      this.telefoon.landcode = this.telefoon.landcode.substring(0, 5);
-    }
-  }
-
   public suggestionClicked(suggestion: any) {
     this.telefoon.landcode = suggestion.value;
     this.collapse();

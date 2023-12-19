@@ -9,7 +9,6 @@ export declare class TelefoonSelect {
     private suggestions;
     bind(): void;
     landcodeKeyup(e: KeyboardEvent): void;
-    landcodeChanged(): void;
     suggestionClicked(suggestion: any): void;
     toggleSuggestions(): void;
     collapse(): void;

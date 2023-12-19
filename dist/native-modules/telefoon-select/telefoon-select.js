@@ -36,11 +36,6 @@ var TelefoonSelect = (function () {
             this.expanded = this.suggestions.length > 0;
         }
     };
-    TelefoonSelect.prototype.landcodeChanged = function () {
-        if (this.telefoon.landcode && this.telefoon.landcode.length > 5) {
-            this.telefoon.landcode = this.telefoon.landcode.substring(0, 5);
-        }
-    };
     TelefoonSelect.prototype.suggestionClicked = function (suggestion) {
         this.telefoon.landcode = suggestion.value;
         this.collapse();
