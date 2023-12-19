@@ -1,6 +1,6 @@
 <template>
   <require from="./styles/telefoon-select.css"></require>
-  <input type="text" class="landcode" ref="landcodeInput" value.bind="telefoon.landcode"
+  <input type="text" autocomplete="off" class="landcode" ref="landcodeInput" value.bind="telefoon.landcode"
       keyup.delegate="landcodeChanged($event)" keydown.delegate="keydown($event)" blur.trigger="blur()" disabled.bind="disabled">
   <div class="arrow" click.delegate="toggleSuggestions()"></div>
   <input type="text" class="nummer" placeholder="000000000" value.bind="telefoon.nummer" disabled.bind="disabled">
