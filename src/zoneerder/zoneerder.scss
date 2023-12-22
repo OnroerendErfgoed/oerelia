@@ -158,12 +158,15 @@ zoneerder {
     left: 0.5em;
     text-align: left;
     z-index: 999;
-    height: 290px;
-    overflow-y: auto;
 
-    &.shown .panel {
-      display: block;
-      margin: 0;
+    &.shown {
+      height: 290px;
+      overflow-y: auto;
+
+      .panel {
+        display: block;
+        margin: 0;
+      }
     }
   
     .panel {

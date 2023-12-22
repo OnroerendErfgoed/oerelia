@@ -211,6 +211,8 @@ zoneerder {
   left: 0.5em;
   text-align: left;
   z-index: 999;
+}
+.zoneerder-content .layer-switcher.shown {
   height: 290px;
   overflow-y: auto;
 }
