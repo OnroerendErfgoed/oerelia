@@ -1,4 +1,4 @@
-import { HttpResponseMessage } from 'aurelia-http-client';
+import { HttpResponseMessage } from "aurelia-http-client";
 
 export interface IErkenning {
   erkend_als: string;
@@ -39,9 +39,9 @@ export interface IActor {
   naam: string;
   omschrijving: string;
   opmerkingen: string;
-  relaties: IRelatie[]
+  relaties: IRelatie[];
   self: string;
-  status: IActorStatus;  
+  status: IActorStatus;
   systemfields: ISystemFields;
   telefoons: ITelefoon[];
   type: IType;
@@ -66,7 +66,7 @@ export interface IRangeHeader {
 
 export interface IResponse<IType> {
   content: IType[];
-  lastRow: number
+  lastRow: number;
 }
 
 /* User object */
@@ -105,7 +105,7 @@ export interface IHeader {
   value: string;
 }
 
-export type ParamsType = Record<string, unknown>
+export type ParamsType = Record<string, unknown>;
 
 export interface IHttpOptions {
   params?: ParamsType;
@@ -121,27 +121,27 @@ export interface IApiObject {
   etag?: string;
 }
 
-export interface IValidationResult{
+export interface IValidationResult {
   valid: boolean;
   message: string;
 }
 
 export interface TabViewModel {
   currentViewModel: {
-    validate?: () => Promise<IValidationResult>
+    validate?: () => Promise<IValidationResult>;
   };
 }
 
 export interface ITab<T> {
   id: string;
-  label: string,
-  viewModel: string,
-  closable: boolean,
-  active: boolean,
-  model?: T,
-  edit?: boolean,
-  newTab?: boolean,
-  showInput?: boolean
+  label: string;
+  viewModel: string;
+  closable: boolean;
+  active: boolean;
+  model?: T;
+  edit?: boolean;
+  newTab?: boolean;
+  showInput?: boolean;
 }
 
 export class Tab<T> {
@@ -257,7 +257,7 @@ export interface ICrabAdres {
 
 export interface ILand {
   code: string;
-  naam: string;
+  naam?: string;
 }
 
 export interface IGemeente {
@@ -331,7 +331,6 @@ export interface IGeolocationResponse {
 }
 
 export interface IBoundingbox {
-  lowerleft: { lat: number, lon: number };
-  upperright: { lat: number, lon: number };
+  lowerleft: { lat: number; lon: number };
+  upperright: { lat: number; lon: number };
 }
-

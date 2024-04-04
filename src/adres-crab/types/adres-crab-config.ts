@@ -1,6 +1,7 @@
-import { autocompleteType } from './../../autocomplete/models/autocomplete-type';
+import { autocompleteType } from "./../../autocomplete/models/autocomplete-type";
 
 export interface IAdresCrabConfig {
+  countryId?: string;
   postcode?: IConfigOption;
   straat?: IConfigOption;
   huisnummer?: IConfigOption;
