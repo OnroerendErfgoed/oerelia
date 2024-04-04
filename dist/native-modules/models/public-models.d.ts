@@ -1,4 +1,4 @@
-import { HttpResponseMessage } from 'aurelia-http-client';
+import { HttpResponseMessage } from "aurelia-http-client";
 export interface IErkenning {
     erkend_als: string;
     erkend_voor: string;
@@ -222,7 +222,7 @@ export interface ICrabAdres {
 }
 export interface ILand {
     code: string;
-    naam: string;
+    naam?: string;
 }
 export interface IGemeente {
     id?: number;

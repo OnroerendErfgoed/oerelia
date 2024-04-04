@@ -93,6 +93,10 @@ var AdresCrab = (function () {
             this.config.postcode.autocompleteType = autocompleteType.Suggest;
             this.config.straat.autocompleteType = autocompleteType.Suggest;
         }
+        if (this.config.countryId) {
+            this.data.land = { code: this.config.countryId };
+            return;
+        }
         this.data.land = this.data.land || { code: 'BE', naam: 'België' };
     };
     AdresCrab.prototype.landChanged = function () {
