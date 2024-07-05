@@ -25,6 +25,7 @@ var OlMap = (function () {
     function OlMap(element, crabService) {
         this.element = element;
         this.crabService = crabService;
+        this.showGrbTool = false;
         this.geometryObjectList = [];
         this.isDrawing = false;
         this.isDrawingCircle = false;
@@ -33,6 +34,8 @@ var OlMap = (function () {
         this.initialized = false;
         this.polygonIndex = 1;
         this.circleIndex = 1;
+        this.newGeometryDrawn = false;
+        this.totalArea = 0;
         log.debug('olMap::constructor', this.zone);
         this._defineProjections();
     }
@@ -53,6 +56,7 @@ var OlMap = (function () {
         });
     };
     OlMap.prototype.addZoneToDrawLayer = function () {
+        var _this = this;
         if (!this.drawLayer) {
             return;
         }
@@ -65,11 +69,13 @@ var OlMap = (function () {
             return;
         }
         this.zone.coordinates.forEach(function (coords) {
+            var polygon = new openlayers_1.default.geom.Polygon(coords);
             var feature = new openlayers_1.default.Feature({
                 name: 'Zone',
-                geometry: new openlayers_1.default.geom.Polygon(coords)
+                geometry: polygon
             });
             drawSource.addFeature(feature);
+            _this.totalArea += polygon.getArea();
         });
         if (this.geometryObjectList.indexOf('Zone') === -1) {
             this.geometryObjectList.push('Zone');
@@ -139,6 +145,7 @@ var OlMap = (function () {
         }
         else if (type === 'Circle') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
+                var circle = evt.feature.getGeometry();
                 evt.feature.setProperties({ name: "Cirkel " + _this.circleIndex++ });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });
@@ -242,20 +249,26 @@ var OlMap = (function () {
         window.open((this.serviceConfig.crabpyUrl) + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
     };
     OlMap.prototype.drawLayerToZone = function () {
+        var _this = this;
+        this.totalArea = 0;
         var multiPolygon = new openlayers_1.default.geom.MultiPolygon([], 'XY');
         var features = this.drawLayer.getSource().getFeatures();
+        this.newGeometryDrawn = features.length > 0;
         features.forEach(function (feature) {
             var geom = feature.getGeometry();
             if (geom instanceof openlayers_1.default.geom.Polygon) {
                 multiPolygon.appendPolygon(geom);
+                _this.totalArea += geom.getArea();
             }
             else if (geom instanceof openlayers_1.default.geom.MultiPolygon) {
                 geom.getPolygons().forEach(function (polygon) {
                     multiPolygon.appendPolygon(polygon);
+                    _this.totalArea += polygon.getArea();
                 });
             }
             else if (geom instanceof openlayers_1.default.geom.Circle) {
                 multiPolygon.appendPolygon(openlayers_1.default.geom.Polygon.fromCircle(geom));
+                _this.totalArea += Math.PI * Math.pow(geom.getRadius(), 2);
             }
         });
         var contour = this.formatGeoJson(multiPolygon);
@@ -611,6 +624,10 @@ var OlMap = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Object)
     ], OlMap.prototype, "serviceConfig", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], OlMap.prototype, "showGrbTool", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", geozoekdienst_api_service_1.GeozoekdienstApiService)

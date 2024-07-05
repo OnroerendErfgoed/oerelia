@@ -21,6 +21,7 @@ var Zoneerder = (function () {
         this.geozoekdienstApiService = geozoekdienstApiService;
         this.disabled = false;
         this.isCollapsed = true;
+        this.showGrbTool = false;
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     }
     Zoneerder.prototype.onMapLoaded = function ($event) {
@@ -76,6 +77,10 @@ var Zoneerder = (function () {
         bindable,
         __metadata("design:type", Boolean)
     ], Zoneerder.prototype, "isCollapsed", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Boolean)
+    ], Zoneerder.prototype, "showGrbTool", void 0);
     Zoneerder = __decorate([
         inject(HttpClient, CrabService, GeozoekdienstApiService),
         __metadata("design:paramtypes", [HttpClient,

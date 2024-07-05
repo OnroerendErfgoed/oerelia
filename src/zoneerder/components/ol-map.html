@@ -55,6 +55,15 @@
             </li>
           </ul>
         </div>
+        <a>
+          <span if.bind="newGeometryDrawn"><i class="fa fa-pencil"></i> Vergelijk zone met referentielaag</span>
+        </a>
+        <div class="alert-box alert" if.bind="totalArea > 100000">
+          <p style="font-size: 14px;">Oppervlakte: ${totalArea}m²</p>
+          <p style="font-size: 14px;">
+            De oppervlakte van het object is te groot (>100 000 m²) om de autocorrectie uit te voeren via de webbrowser. Contacteer je GIS beheerder om deze zone aan te passen.
+          </p>
+        </div>
       </div>
     </div>
   </div>

@@ -17,6 +17,7 @@ export declare class Zoneerder {
     layerConfig: LayerConfig;
     serviceConfig: IZoneerderServiceConfig;
     isCollapsed?: boolean;
+    showGrbTool?: boolean;
     protected suggest: {
         suggest: Function;
     };

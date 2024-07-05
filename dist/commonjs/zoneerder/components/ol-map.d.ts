@@ -11,6 +11,7 @@ export declare class OlMap {
     adrespunten?: Contour[];
     isCollapsed: boolean;
     serviceConfig: IZoneerderServiceConfig;
+    showGrbTool: boolean;
     geometryObjectList: string[];
     WKTstring: string;
     protected isDrawing: boolean;
@@ -30,6 +31,8 @@ export declare class OlMap {
     private mapnode;
     private polygonIndex;
     private circleIndex;
+    private newGeometryDrawn;
+    private totalArea;
     constructor(element: Element, crabService: CrabService);
     attached(): void;
     private addZoneToDrawLayer;

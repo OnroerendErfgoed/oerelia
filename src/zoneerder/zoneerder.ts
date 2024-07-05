@@ -20,6 +20,7 @@ export class Zoneerder {
   @bindable public layerConfig: LayerConfig;
   @bindable public serviceConfig: IZoneerderServiceConfig;
   @bindable public isCollapsed?: boolean = true;
+  @bindable public showGrbTool?: boolean = false;
 
   protected suggest: { suggest: Function };
   private map: OlMap;

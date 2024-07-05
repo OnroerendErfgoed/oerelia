@@ -23,6 +23,7 @@ export class OlMap {
   @bindable public adrespunten?: Contour[];
   @bindable public isCollapsed: boolean;
   @bindable public serviceConfig: IZoneerderServiceConfig;
+  @bindable public showGrbTool = false;
 
   public geometryObjectList: string[] = [];
   public WKTstring!: string;
@@ -45,6 +46,10 @@ export class OlMap {
   private mapnode: any;
   private polygonIndex: number = 1;
   private circleIndex: number = 1;
+
+  private newGeometryDrawn = false;
+
+  private totalArea = 0;
 
   constructor(
     private element: Element,
@@ -84,11 +89,13 @@ export class OlMap {
       return;
     }
     this.zone.coordinates.forEach((coords: any) => {
+      const polygon = new ol.geom.Polygon(coords);
       const feature = new ol.Feature({
         name: 'Zone',
-        geometry: new ol.geom.Polygon(coords)
+        geometry: polygon
       });
       drawSource.addFeature(feature);
+      this.totalArea += polygon.getArea();
     });
     if (this.geometryObjectList.indexOf('Zone') === -1) {
         this.geometryObjectList.push('Zone');
@@ -161,7 +168,6 @@ export class OlMap {
   public startDrawZone(type: ol.geom.GeometryType) {
     this.resetSelect();
     this.toggleDrawZone(true, type);
-
     if (type === 'Polygon') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
         evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
@@ -169,6 +175,7 @@ export class OlMap {
       });
     } else if (type === 'Circle') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
+        let circle = evt.feature.getGeometry();
         evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
         this.geometryObjectList.push(evt.feature.getProperties().name);
       });
@@ -279,18 +286,24 @@ export class OlMap {
   }
 
   private drawLayerToZone() {
+    this.totalArea = 0;
     const multiPolygon = new ol.geom.MultiPolygon([], 'XY');
     const features: ol.Feature[] = (this.drawLayer.getSource() as ol.source.Vector).getFeatures();
+
+    this.newGeometryDrawn = features.length > 0;
     features.forEach((feature: ol.Feature) => {
       const geom = feature.getGeometry();
       if (geom instanceof ol.geom.Polygon) {
         multiPolygon.appendPolygon(geom as ol.geom.Polygon);
+        this.totalArea += geom.getArea();
       } else if (geom instanceof ol.geom.MultiPolygon) {
         geom.getPolygons().forEach((polygon: ol.geom.Polygon) => {
           multiPolygon.appendPolygon(polygon);
+          this.totalArea += polygon.getArea();
         });
       } else if (geom instanceof ol.geom.Circle) {
         multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
+        this.totalArea += Math.PI * Math.pow(geom.getRadius(), 2);
       }
     });
 
