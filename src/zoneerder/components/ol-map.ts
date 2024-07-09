@@ -46,9 +46,7 @@ export class OlMap {
   private mapnode: any;
   private polygonIndex: number = 1;
   private circleIndex: number = 1;
-
   private newGeometryDrawn = false;
-
   private totalArea = 0;
 
   constructor(
