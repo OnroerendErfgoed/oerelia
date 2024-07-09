@@ -145,7 +145,6 @@ var OlMap = (function () {
         }
         else if (type === 'Circle') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
-                var circle = evt.feature.getGeometry();
                 evt.feature.setProperties({ name: "Cirkel " + _this.circleIndex++ });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });

@@ -175,7 +175,6 @@ export class OlMap {
       });
     } else if (type === 'Circle') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-        let circle = evt.feature.getGeometry();
         evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
         this.geometryObjectList.push(evt.feature.getProperties().name);
       });
