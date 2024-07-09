@@ -180,6 +180,15 @@ export class Layerswitcher extends ol.control.Control {
     const lyrId = lyr.get('title').replace(' ', '-') + '_' + idx;
     const label = document.createElement('label');
 
+    const row = document.createElement('div')
+    row.className = 'row';
+
+    const div1 = document.createElement('div');
+    div1.className = 'large-10 column';
+
+    const div2 = document.createElement('div');
+    div2.className = 'large-2 column';
+    
     if (lyr.getLayers) {
       li.className = 'group';
       label.innerHTML = lyrTitle;
@@ -201,10 +210,26 @@ export class Layerswitcher extends ol.control.Control {
         const check: string = 'checked';
         self.setVisible_(lyr, (e as any).target[check]);
       };
-      li.appendChild(input);
+      div1.appendChild(input);
+
+      // li.appendChild(input);
       label.htmlFor = lyrId;
       label.innerHTML = lyrTitle;
-      li.appendChild(label);
+      div1.appendChild(label);
+      // li.appendChild(label);
+
+      row.appendChild(div1);
+
+      const className = lyr.get('className');
+
+      if (className) {
+        const legendDiv = document.createElement('div');
+        legendDiv.className = className;
+        div2.append(legendDiv);
+        row.appendChild(div2);
+      }
+
+      li.appendChild(row);
     }
     return li;
   }

@@ -3,9 +3,11 @@ import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
 import { CrabService } from '../../services/crab.api-service';
 import { IZoneerderServiceConfig } from 'exports';
+import { DialogService } from 'aurelia-dialog';
 export declare class OlMap {
     private element;
     private crabService;
+    private dialogService;
     disabled: boolean;
     zone: Contour;
     adrespunten?: Contour[];
@@ -33,7 +35,7 @@ export declare class OlMap {
     private circleIndex;
     private newGeometryDrawn;
     private totalArea;
-    constructor(element: Element, crabService: CrabService);
+    constructor(element: Element, crabService: CrabService, dialogService: DialogService);
     attached(): void;
     private addZoneToDrawLayer;
     zoneChanged(zone: any): void;
@@ -75,4 +77,5 @@ export declare class OlMap {
     private getButtonStyle;
     private setStyleToButton;
     private transformLambert72ToWebMercator;
+    private showZoneVergelijkingDialog;
 }
