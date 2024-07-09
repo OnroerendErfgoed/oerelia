@@ -1,5 +1,5 @@
 import { bindingMode } from 'aurelia-binding';
-import { bindable, inject, LogManager } from 'aurelia-framework';
+import { bindable, inject, LogManager, PLATFORM } from 'aurelia-framework';
 import ol from 'openlayers';
 import proj4 from 'proj4';
 import { Boundingbox } from '../models/boundingbox';
@@ -13,10 +13,11 @@ import { LayerType } from '../models/layerConfig.enums';
 import { defaultButtonConfig } from '../models/buttonConfig.defaults';
 import { defaultLayerConfig } from '../models/layerConfig.defaults';
 import { IZoneerderServiceConfig } from 'exports';
+import { DialogService } from 'aurelia-dialog';
 
 const log = LogManager.getLogger('ol-map');
 
-@inject(Element, CrabService)
+@inject(Element, CrabService, DialogService)
 export class OlMap {
   @bindable public disabled: boolean;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
@@ -51,7 +52,8 @@ export class OlMap {
 
   constructor(
     private element: Element,
-    private crabService: CrabService
+    private crabService: CrabService,
+    private dialogService: DialogService
   ) {
     log.debug('olMap::constructor', this.zone);
     this._defineProjections();
@@ -682,5 +684,17 @@ export class OlMap {
     const transFormedPoint = (point.transform('EPSG:31370', 'EPSG:3857') as ol.geom.Point);
 
     return transFormedPoint.getCoordinates();
+  }
+
+  private showZoneVergelijkingDialog() {
+    this.dialogService.open({
+      viewModel: PLATFORM.moduleName(
+        'oerelia/zoneerder/components/zone-vergelijking-dialog'),
+      model: {zone: this.zone}
+    }).whenClosed((response) => {
+      if (!response.wasCancelled) {
+        const data = response.output.data;
+      }
+    });
   }
 }

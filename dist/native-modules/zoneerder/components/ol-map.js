@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { bindingMode } from 'aurelia-binding';
-import { bindable, inject, LogManager } from 'aurelia-framework';
+import { bindable, inject, LogManager, PLATFORM } from 'aurelia-framework';
 import ol from 'openlayers';
 import proj4 from 'proj4';
 import { Contour } from '../models/contour';
@@ -18,11 +18,13 @@ import { CrabService } from '../../services/crab.api-service';
 import { LayerType } from '../models/layerConfig.enums';
 import { defaultButtonConfig } from '../models/buttonConfig.defaults';
 import { defaultLayerConfig } from '../models/layerConfig.defaults';
+import { DialogService } from 'aurelia-dialog';
 var log = LogManager.getLogger('ol-map');
 var OlMap = (function () {
-    function OlMap(element, crabService) {
+    function OlMap(element, crabService, dialogService) {
         this.element = element;
         this.crabService = crabService;
+        this.dialogService = dialogService;
         this.showGrbTool = false;
         this.geometryObjectList = [];
         this.isDrawing = false;
@@ -601,6 +603,16 @@ var OlMap = (function () {
         var transFormedPoint = point.transform('EPSG:31370', 'EPSG:3857');
         return transFormedPoint.getCoordinates();
     };
+    OlMap.prototype.showZoneVergelijkingDialog = function () {
+        this.dialogService.open({
+            viewModel: PLATFORM.moduleName('oerelia/zoneerder/components/zone-vergelijking-dialog'),
+            model: { zone: this.zone }
+        }).whenClosed(function (response) {
+            if (!response.wasCancelled) {
+                var data = response.output.data;
+            }
+        });
+    };
     __decorate([
         bindable,
         __metadata("design:type", Boolean)
@@ -638,9 +650,10 @@ var OlMap = (function () {
         __metadata("design:type", Object)
     ], OlMap.prototype, "layerConfig", void 0);
     OlMap = __decorate([
-        inject(Element, CrabService),
+        inject(Element, CrabService, DialogService),
         __metadata("design:paramtypes", [Element,
-            CrabService])
+            CrabService,
+            DialogService])
     ], OlMap);
     return OlMap;
 }());

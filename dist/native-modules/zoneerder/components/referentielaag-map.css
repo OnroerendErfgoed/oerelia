@@ -1,0 +1,16 @@
+.referentielaag-node {
+  background-color: aliceblue;
+  height: 55vh;
+}
+.referentielaag-node .ol-control button {
+  background-color: rgba(45, 163, 206, 0.7);
+  z-index: 2;
+}
+.referentielaag-node .full-screen button.full-screen-false {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gsYCDM03VFZowAAAGBJREFUSMdjYBgFJABGGOP/////MSQZGRmJNYgo/dgUUQKQzWOiR3DRxRIWUsKYYASTEIdkWYJP/fCJk1FLRi2hQ47/////f/QcS0mhiWweC9WKiJEVJ9jigNKacRSQBQBFRTAWNwv8hwAAAABJRU5ErkJggg==");
+  background-size: contain;
+}
+.referentielaag-node .full-screen button.full-screen-true {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gsYCQwybS68nQAAAIFJREFUSMftlTESwCAIBCWTZ2lF46Py90uTschAREJs4rWKCzcCKS15BADMfES8xcwVACRIvkA1AgAga9U0kJhJ34lnwB3kgWgAki63QyIagWhxNBKsaSQZF8SSxDajPRbkp5A94ht3+2hGx0t2lZfuFNNw/GwKT9knEYDuZlyy6ARZ651uL4qVxwAAAABJRU5ErkJggg==");
+  background-size: contain;
+}

@@ -3,6 +3,7 @@ interface BaseLayerOptions {
     type: LayerType;
     title: string;
     visible?: boolean;
+    className?: string;
 }
 interface GrbOrNgiLayerOptions extends BaseLayerOptions {
     type: LayerType.Ngi | LayerType.GRB;

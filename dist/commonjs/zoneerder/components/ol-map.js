@@ -20,11 +20,13 @@ var crab_api_service_1 = require("../../services/crab.api-service");
 var layerConfig_enums_1 = require("../models/layerConfig.enums");
 var buttonConfig_defaults_1 = require("../models/buttonConfig.defaults");
 var layerConfig_defaults_1 = require("../models/layerConfig.defaults");
+var aurelia_dialog_1 = require("aurelia-dialog");
 var log = aurelia_framework_1.LogManager.getLogger('ol-map');
 var OlMap = (function () {
-    function OlMap(element, crabService) {
+    function OlMap(element, crabService, dialogService) {
         this.element = element;
         this.crabService = crabService;
+        this.dialogService = dialogService;
         this.showGrbTool = false;
         this.geometryObjectList = [];
         this.isDrawing = false;
@@ -603,6 +605,16 @@ var OlMap = (function () {
         var transFormedPoint = point.transform('EPSG:31370', 'EPSG:3857');
         return transFormedPoint.getCoordinates();
     };
+    OlMap.prototype.showZoneVergelijkingDialog = function () {
+        this.dialogService.open({
+            viewModel: aurelia_framework_1.PLATFORM.moduleName('oerelia/zoneerder/components/zone-vergelijking-dialog'),
+            model: { zone: this.zone }
+        }).whenClosed(function (response) {
+            if (!response.wasCancelled) {
+                var data = response.output.data;
+            }
+        });
+    };
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Boolean)
@@ -640,9 +652,10 @@ var OlMap = (function () {
         __metadata("design:type", Object)
     ], OlMap.prototype, "layerConfig", void 0);
     OlMap = __decorate([
-        aurelia_framework_1.inject(Element, crab_api_service_1.CrabService),
+        aurelia_framework_1.inject(Element, crab_api_service_1.CrabService, aurelia_dialog_1.DialogService),
         __metadata("design:paramtypes", [Element,
-            crab_api_service_1.CrabService])
+            crab_api_service_1.CrabService,
+            aurelia_dialog_1.DialogService])
     ], OlMap);
     return OlMap;
 }());

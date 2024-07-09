@@ -128,6 +128,12 @@ var Layerswitcher = (function (_super) {
         var lyrTitle = lyr.get('title');
         var lyrId = lyr.get('title').replace(' ', '-') + '_' + idx;
         var label = document.createElement('label');
+        var row = document.createElement('div');
+        row.className = 'row';
+        var div1 = document.createElement('div');
+        div1.className = 'large-10 column';
+        var div2 = document.createElement('div');
+        div2.className = 'large-2 column';
         if (lyr.getLayers) {
             li.className = 'group';
             label.innerHTML = lyrTitle;
@@ -151,10 +157,19 @@ var Layerswitcher = (function (_super) {
                 var check = 'checked';
                 self.setVisible_(lyr, e.target[check]);
             };
-            li.appendChild(input);
+            div1.appendChild(input);
             label.htmlFor = lyrId;
             label.innerHTML = lyrTitle;
-            li.appendChild(label);
+            div1.appendChild(label);
+            row.appendChild(div1);
+            var className = lyr.get('className');
+            if (className) {
+                var legendDiv = document.createElement('div');
+                legendDiv.className = className;
+                div2.append(legendDiv);
+                row.appendChild(div2);
+            }
+            li.appendChild(row);
         }
         return li;
     };
