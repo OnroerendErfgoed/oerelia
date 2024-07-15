@@ -1,4 +1,5 @@
 import * as ol from 'openlayers';
+import { LayerType } from '../models/layerConfig.enums';
 
 /**
  * VERY EXPERIMENTAL!
@@ -104,6 +105,7 @@ export class Layerswitcher extends ol.control.Control {
       this.panel.removeChild(this.panel.firstChild);
     }
 
+
     const p = document.createElement('p');
     p.innerHTML = this.panelTitle;
     this.panel.appendChild(p);
@@ -173,22 +175,13 @@ export class Layerswitcher extends ol.control.Control {
    * @param {ol.layer.Base} lyr Layer to be rendered (should have a title property).
    * @param {Number} idx Position in parent group list.
    */
-  public renderLayer_(lyr: any, idx: any) {
+  public renderLayer_(lyr: any, idx:any) {
     const self = this;
     const li = document.createElement('li');
     const lyrTitle = lyr.get('title');
     const lyrId = lyr.get('title').replace(' ', '-') + '_' + idx;
     const label = document.createElement('label');
 
-    const row = document.createElement('div')
-    row.className = 'row';
-
-    const div1 = document.createElement('div');
-    div1.className = 'large-10 column';
-
-    const div2 = document.createElement('div');
-    div2.className = 'large-2 column';
-    
     if (lyr.getLayers) {
       li.className = 'group';
       label.innerHTML = lyrTitle;
@@ -197,6 +190,12 @@ export class Layerswitcher extends ol.control.Control {
       li.appendChild(ul);
       this.renderLayers_(lyr, ul);
     } else {
+      
+      const row = document.createElement('div')
+      row.className = 'row';
+      const div1 = document.createElement('div');
+      div1.className = 'large-10 column';
+      
       const input = document.createElement('input');
       if (lyr.get('type') === 'base') {
         input.type = 'radio';
@@ -210,28 +209,44 @@ export class Layerswitcher extends ol.control.Control {
         const check: string = 'checked';
         self.setVisible_(lyr, (e as any).target[check]);
       };
-      div1.appendChild(input);
 
-      // li.appendChild(input);
       label.htmlFor = lyrId;
       label.innerHTML = lyrTitle;
+      div1.appendChild(input);
       div1.appendChild(label);
-      // li.appendChild(label);
-
       row.appendChild(div1);
-
-      const className = lyr.get('className');
-
-      if (className) {
-        const legendDiv = document.createElement('div');
-        legendDiv.className = className;
-        div2.append(legendDiv);
-        row.appendChild(div2);
+      
+      if (lyr.get('showLegend')) {
+        row.appendChild(this.createLegend(lyr));
       }
-
+      
       li.appendChild(row);
     }
     return li;
+  }
+  
+  private createLegend(lyr: ol.layer.Base) {
+    const legendDiv = document.createElement('div');
+    legendDiv.className = 'large-2 column';
+    
+    if (lyr.get('layerType') === LayerType.Vector) {
+      const style = lyr.get('style');
+      const fill = style.fill;
+      const stroke = style.stroke;
+      legendDiv.style.width = '20px';
+      legendDiv.style.height = '20px';
+      legendDiv.style.backgroundColor = fill;
+      legendDiv.style.border = '1px solid ' + stroke;
+    } else if (lyr.get('legendItems')) {
+      legendDiv.className = 'large-12 column';
+      for (const legendUrl of lyr.get('legendItems')) {
+        const legendImage = document.createElement('img');
+        legendImage.src = legendUrl;
+        legendImage.style.cssFloat = 'right';
+        legendDiv.appendChild(legendImage);
+      }
+    }
+    return legendDiv;
   }
 
   /**

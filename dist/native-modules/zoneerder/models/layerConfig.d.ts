@@ -1,14 +1,24 @@
 import { LayerType } from './layerConfig.enums';
+import { Contour } from './contour';
 interface BaseLayerOptions {
     type: LayerType;
     title: string;
     visible?: boolean;
     className?: string;
+    showLegend?: boolean;
+}
+export interface VectorLayerOptions extends BaseLayerOptions {
+    type: LayerType.Vector;
+    style: {
+        stroke: string;
+        fill: string;
+    };
+    geometries?: Contour[];
 }
 interface GrbOrNgiLayerOptions extends BaseLayerOptions {
     type: LayerType.Ngi | LayerType.GRB;
 }
-interface WmsLayerOptions extends BaseLayerOptions {
+export interface WmsLayerOptions extends BaseLayerOptions {
     wmsLayers: string;
 }
 export interface GrbWmsLayerOptions extends WmsLayerOptions {
@@ -25,7 +35,7 @@ export interface OMWRGBMRVLOptions extends BaseLayerOptions {
 }
 export declare type GrbLayerOptions = GrbOrNgiLayerOptions;
 export declare type NgiLayerOptions = GrbOrNgiLayerOptions;
-export declare type LayerOptions = GrbLayerOptions | NgiLayerOptions | GrbWmsLayerOptions | ErfgoedWmsLayerOptions | DHMVLayerOptions | OMWRGBMRVLOptions;
+export declare type LayerOptions = VectorLayerOptions | GrbLayerOptions | NgiLayerOptions | GrbWmsLayerOptions | ErfgoedWmsLayerOptions | DHMVLayerOptions | OMWRGBMRVLOptions;
 export interface LayerConfig {
     baseLayers: {
         [layerId: string]: LayerOptions;

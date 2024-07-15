@@ -1,10 +1,10 @@
 import ol from 'openlayers';
-import { Boundingbox } from '../models/boundingbox';
 import { Contour } from '../models/contour';
 import { CrabService } from '../../services/crab.api-service';
 import { IZoneerderServiceConfig } from 'exports';
 import { DialogService } from 'aurelia-dialog';
-export declare class OlMap {
+import { BaseMap } from './base-map';
+export declare class OlMap extends BaseMap {
     private element;
     private crabService;
     private dialogService;
@@ -20,17 +20,8 @@ export declare class OlMap {
     protected isDrawingCircle: boolean;
     protected selectPerceel: boolean;
     private apiService;
-    private buttonConfig;
-    private layerConfig;
-    private map;
-    private mapProjection;
-    private extentVlaanderen;
     private drawLayer;
-    private baseLayers;
     private mapInteractions;
-    private initialized;
-    private geoJsonFormatter;
-    private mapnode;
     private polygonIndex;
     private circleIndex;
     private newGeometryDrawn;
@@ -38,16 +29,9 @@ export declare class OlMap {
     constructor(element: Element, crabService: CrabService, dialogService: DialogService);
     attached(): void;
     private addZoneToDrawLayer;
-    zoneChanged(zone: any): void;
-    bind(): void;
-    updateMapSize(): void;
+    zoneChanged(): void;
     disabledChanged(newValue: boolean, oldValue: boolean): void;
-    zoomToExtent(extent: ol.Extent): void;
     zoomToFeatures(): void;
-    getMapInfo(): number;
-    formatGeoJson(feature: ol.geom.Geometry): Contour;
-    transformBoundingboxToMapExtent(boundingbox: Boundingbox): [number, number, number, number];
-    transformLatLonToPoint(lat: number, lon: number): ol.geom.Point;
     startDrawZone(type: ol.geom.GeometryType): void;
     importAdrespunten(): void;
     startPerceelSelect(): void;
@@ -59,23 +43,7 @@ export declare class OlMap {
     private drawLayerToZone;
     private resetSelect;
     private toggleDrawZone;
-    private _createMap;
     private _createInteractions;
-    private _defineProjections;
-    private _createLayers;
-    private _createLayer;
-    private _createGrbLayer;
-    private _createNgiLayer;
-    private _createGrbWMSLayer;
-    private _createErfgoedWMSLayer;
-    private _createVectorLayer;
-    private _createMapButtons;
-    private addFullscreenButton;
-    private addZoomButton;
-    private addZoomToExtentButton;
-    private addRotateButton;
-    private getButtonStyle;
-    private setStyleToButton;
-    private transformLambert72ToWebMercator;
-    private showZoneVergelijkingDialog;
+    private _createDrawLayer;
+    showZoneVergelijkingDialog(): void;
 }

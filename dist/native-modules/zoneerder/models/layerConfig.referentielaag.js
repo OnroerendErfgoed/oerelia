@@ -9,9 +9,8 @@ export var refentielaagLayerConfig = {
         DHMV_II_SVF_25cm: { type: LayerType.DHMV, title: 'Skyview 25cm', visible: false }
     },
     overlays: {
-        gebouwen: { type: LayerType.GrbWMS, wmsLayers: 'GRB_GBG', title: 'GRB-Gebouwen', className: 'grb-legende-gebouw' },
-        percelen: { type: LayerType.GrbWMS, wmsLayers: 'GRB_ADP_GRENS', title: 'GRB-Percelen', className: 'grb-legende-perceel'
-        }
+        gebouwen: { type: LayerType.GrbWMS, wmsLayers: 'GRB_GBG', title: 'GRB-Gebouwen', showLegend: true },
+        percelen: { type: LayerType.GrbWMS, wmsLayers: 'GRB_ADP_GRENS', title: 'GRB-Percelen', showLegend: true }
     }
 };
 
