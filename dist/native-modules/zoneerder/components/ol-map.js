@@ -139,14 +139,14 @@ var OlMap = (function () {
         this.toggleDrawZone(true, type);
         if (type === 'Polygon') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
-                evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
+                evt.feature.setProperties({ name: "Polygoon ".concat(_this.polygonIndex++) });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });
         }
         else if (type === 'Circle') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
                 var circle = evt.feature.getGeometry();
-                evt.feature.setProperties({ name: "Cirkel " + _this.circleIndex++ });
+                evt.feature.setProperties({ name: "Cirkel ".concat(_this.circleIndex++) });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });
         }
@@ -184,7 +184,7 @@ var OlMap = (function () {
     };
     OlMap.prototype.drawPerceel = function (olFeature) {
         if (olFeature) {
-            var name_1 = "Perceel " + olFeature.get('CAPAKEY');
+            var name_1 = "Perceel ".concat(olFeature.get('CAPAKEY'));
             if (this.geometryObjectList.indexOf(name_1) === -1) {
                 olFeature.set('name', name_1);
                 this.drawLayer.getSource().addFeature(olFeature);
@@ -199,7 +199,7 @@ var OlMap = (function () {
         var wktParser = new ol.format.WKT();
         try {
             var featureFromWKT = wktParser.readFeature(wkt);
-            var name_2 = "Polygoon " + this.polygonIndex++;
+            var name_2 = "Polygoon ".concat(this.polygonIndex++);
             featureFromWKT.setProperties({
                 name: name_2
             });

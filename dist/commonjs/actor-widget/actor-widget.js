@@ -34,7 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -56,6 +56,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ActorWidget = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_templating_1 = require("aurelia-templating");
 var aurelia_dialog_1 = require("aurelia-dialog");
@@ -280,7 +281,7 @@ var ActorWidget = (function () {
             var edit = document.createElement('a');
             edit.className = 'fa fa-pencil';
             edit.setAttribute('title', 'Actor editeren');
-            edit.href = params.context.actorenApiService.config.actorenUrl + "/beheer#/actoren/" + params.data.id;
+            edit.href = "".concat(params.context.actorenApiService.config.actorenUrl, "/beheer#/actoren/").concat(params.data.id);
             edit.target = '_blank';
             container.appendChild(edit);
             return container;
@@ -519,7 +520,7 @@ var ActorWidget = (function () {
         return this.vlaamseProvinciesNiscodes.includes(provincie.niscode);
     };
     ActorWidget.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
-        var adresList = lodash_1.uniqBy(adressen
+        var adresList = (0, lodash_1.uniqBy)(adressen
             .filter(function (adres) { return adres.huisnummer
             .includes(searchHuisnummer); }), 'huisnummer');
         return adresList.sort(function (a, b) { return a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }); });

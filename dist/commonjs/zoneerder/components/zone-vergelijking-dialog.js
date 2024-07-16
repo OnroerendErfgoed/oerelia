@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ZoneVergelijkingDialog = void 0;
 var ZoneVergelijkingDialog = (function () {
     function ZoneVergelijkingDialog() {
     }

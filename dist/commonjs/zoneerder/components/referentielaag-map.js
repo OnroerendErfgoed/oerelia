@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ReferentieLaagMap = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var proj4_1 = require("proj4");
 var openlayers_1 = require("openlayers");

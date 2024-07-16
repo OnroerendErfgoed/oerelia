@@ -46,7 +46,7 @@ export declare class OlMap {
     zoomToFeatures(): void;
     getMapInfo(): number;
     formatGeoJson(feature: ol.geom.Geometry): Contour;
-    transformBoundingboxToMapExtent(boundingbox: Boundingbox): [number, number, number, number];
+    transformBoundingboxToMapExtent(boundingbox: Boundingbox): ol.Extent;
     transformLatLonToPoint(lat: number, lon: number): ol.geom.Point;
     startDrawZone(type: ol.geom.GeometryType): void;
     importAdrespunten(): void;

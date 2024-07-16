@@ -20,7 +20,8 @@ var ActorDetail = (function () {
         __metadata("design:type", Object)
     ], ActorDetail.prototype, "actor", void 0);
     ActorDetail = __decorate([
-        autoinject(), customElement('actor-detail'),
+        autoinject(),
+        customElement('actor-detail'),
         __metadata("design:paramtypes", [Element])
     ], ActorDetail);
     return ActorDetail;

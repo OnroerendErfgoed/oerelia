@@ -14,9 +14,9 @@ export declare class AdresregisterService {
     getProvincies(): Promise<IProvincie[]>;
     getProvinciesPerGewest(niscode: Niscode): Promise<IProvincie[]>;
     getProvincieByNiscode(niscode: string): Promise<IProvincie>;
-    readonly vlaamseGemeenten: IGemeente[];
-    readonly waalseGemeenten: IGemeente[];
-    readonly brusselseGemeenten: IGemeente[];
+    get vlaamseGemeenten(): IGemeente[];
+    get waalseGemeenten(): IGemeente[];
+    get brusselseGemeenten(): IGemeente[];
     getGemeenten(): Promise<IGemeente[]>;
     getGemeentenPerGewest(niscode: Niscode): Promise<IGemeente[]>;
     getGemeentenByProvincie(provincie: string): Promise<IGemeente[]>;

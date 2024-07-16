@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TabsHeader = void 0;
 var aurelia_binding_1 = require("aurelia-binding");
 var aurelia_framework_1 = require("aurelia-framework");
 var TabsHeader = (function () {
@@ -35,7 +36,7 @@ var TabsHeader = (function () {
         });
     };
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
+        (0, aurelia_framework_1.bindable)({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
     ], TabsHeader.prototype, "tabs", void 0);
     return TabsHeader;

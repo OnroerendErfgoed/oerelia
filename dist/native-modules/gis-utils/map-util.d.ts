@@ -13,7 +13,7 @@ export declare class MapConfig {
     constructor(mapProjection: ol.proj.Projection, useGeolocate?: boolean, useLayerswitcher?: boolean, center?: ol.Coordinate, maxZoom?: number, minZoom?: number, zoom?: number, geolocateZoom?: number, geolocateTracking?: boolean);
 }
 export declare class MapUtil {
-    static transformBoundingboxToMapExtent(boundingbox: IBoundingbox): [number, number, number, number];
+    static transformBoundingboxToMapExtent(boundingbox: IBoundingbox): ol.Extent;
     static transformLatLonToPoint(lat: number, lon: number): ol.geom.Point;
     static createGrbLayer(grbLayerId: string, type: string, title: string, isBaseLayer: boolean, visible: boolean, mapProjection: ol.proj.Projection): ol.layer.Layer;
     static createVectorLayer(options: any): ol.layer.Vector;

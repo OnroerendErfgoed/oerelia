@@ -31,7 +31,7 @@ var GeozoekdienstApiService = (function () {
             categorie: 'aanduidingsobjecten',
             geometrie: geometrie
         };
-        return this.http.createRequest(oeAppConfig.crabpyUrl + "/zoekdiensten/afbakeningen")
+        return this.http.createRequest("".concat(oeAppConfig.crabpyUrl, "/zoekdiensten/afbakeningen"))
             .asPost()
             .withContent(content)
             .send()

@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MultiSelectBase = void 0;
 var aurelia_templating_1 = require("aurelia-templating");
 var MultiSelectBase = (function () {
     function MultiSelectBase() {

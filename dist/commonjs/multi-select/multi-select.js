@@ -3,10 +3,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -22,6 +24,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MultiSelect = void 0;
 var aurelia_templating_1 = require("aurelia-templating");
 var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
 var multi_select_base_1 = require("./multi-select-base");
@@ -47,7 +50,7 @@ var MultiSelect = (function (_super) {
         this.expanded = !this.expanded;
         var el = this.element;
         this.value.forEach(function (obj) {
-            el.querySelector("li[data-id=\"" + obj[_this.idProperty] + "\"]").classList.add('selected');
+            el.querySelector("li[data-id=\"".concat(obj[_this.idProperty], "\"]")).classList.add('selected');
         });
     };
     MultiSelect.prototype.optionClicked = function (option, target) {
@@ -84,7 +87,7 @@ var MultiSelect = (function (_super) {
         __metadata("design:type", String)
     ], MultiSelect.prototype, "textValue", void 0);
     MultiSelect = __decorate([
-        aurelia_dependency_injection_1.inject(Element),
+        (0, aurelia_dependency_injection_1.inject)(Element),
         __metadata("design:paramtypes", [Element])
     ], MultiSelect);
     return MultiSelect;

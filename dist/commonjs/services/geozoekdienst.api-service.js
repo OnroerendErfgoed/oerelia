@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GeozoekdienstApiService = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_http_client_1 = require("aurelia-http-client");
 var ol = require("openlayers");
@@ -33,7 +34,7 @@ var GeozoekdienstApiService = (function () {
             categorie: 'aanduidingsobjecten',
             geometrie: geometrie
         };
-        return this.http.createRequest(oeAppConfig.crabpyUrl + "/zoekdiensten/afbakeningen")
+        return this.http.createRequest("".concat(oeAppConfig.crabpyUrl, "/zoekdiensten/afbakeningen"))
             .asPost()
             .withContent(content)
             .send()
@@ -68,7 +69,7 @@ var GeozoekdienstApiService = (function () {
         });
     };
     GeozoekdienstApiService = __decorate([
-        aurelia_framework_1.inject(aurelia_http_client_1.HttpClient),
+        (0, aurelia_framework_1.inject)(aurelia_http_client_1.HttpClient),
         __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient])
     ], GeozoekdienstApiService);
     return GeozoekdienstApiService;

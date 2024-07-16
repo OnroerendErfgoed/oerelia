@@ -1,1 +1,0 @@
-{"version":3,"sources":["zoneerder/models/boundingbox.ts"],"names":[],"mappings":"AAAA,qBAAa,WAAW;IACf,SAAS,EAAE;QAAC,GAAG,EAAE,MAAM,CAAC;QAAC,GAAG,EAAE,MAAM,CAAA;KAAC,CAAC;IACtC,UAAU,EAAE;QAAC,GAAG,EAAE,MAAM,CAAC;QAAC,GAAG,EAAE,MAAM,CAAA;KAAC,CAAC;CAC/C","file":"boundingbox.d.ts","sourceRoot":"../../../../src/"}

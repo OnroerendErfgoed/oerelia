@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.OlMap = void 0;
 var aurelia_binding_1 = require("aurelia-binding");
 var aurelia_framework_1 = require("aurelia-framework");
 var openlayers_1 = require("openlayers");
@@ -141,14 +142,14 @@ var OlMap = (function () {
         this.toggleDrawZone(true, type);
         if (type === 'Polygon') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
-                evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
+                evt.feature.setProperties({ name: "Polygoon ".concat(_this.polygonIndex++) });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });
         }
         else if (type === 'Circle') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
                 var circle = evt.feature.getGeometry();
-                evt.feature.setProperties({ name: "Cirkel " + _this.circleIndex++ });
+                evt.feature.setProperties({ name: "Cirkel ".concat(_this.circleIndex++) });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });
         }
@@ -186,7 +187,7 @@ var OlMap = (function () {
     };
     OlMap.prototype.drawPerceel = function (olFeature) {
         if (olFeature) {
-            var name_1 = "Perceel " + olFeature.get('CAPAKEY');
+            var name_1 = "Perceel ".concat(olFeature.get('CAPAKEY'));
             if (this.geometryObjectList.indexOf(name_1) === -1) {
                 olFeature.set('name', name_1);
                 this.drawLayer.getSource().addFeature(olFeature);
@@ -201,7 +202,7 @@ var OlMap = (function () {
         var wktParser = new openlayers_1.default.format.WKT();
         try {
             var featureFromWKT = wktParser.readFeature(wkt);
-            var name_2 = "Polygoon " + this.polygonIndex++;
+            var name_2 = "Polygoon ".concat(this.polygonIndex++);
             featureFromWKT.setProperties({
                 name: name_2
             });
@@ -621,7 +622,7 @@ var OlMap = (function () {
         __metadata("design:type", Boolean)
     ], OlMap.prototype, "disabled", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
+        (0, aurelia_framework_1.bindable)({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
         __metadata("design:type", contour_1.Contour)
     ], OlMap.prototype, "zone", void 0);
     __decorate([
@@ -653,7 +654,7 @@ var OlMap = (function () {
         __metadata("design:type", Object)
     ], OlMap.prototype, "layerConfig", void 0);
     OlMap = __decorate([
-        aurelia_framework_1.inject(Element, crab_api_service_1.CrabService, aurelia_dialog_1.DialogService),
+        (0, aurelia_framework_1.inject)(Element, crab_api_service_1.CrabService, aurelia_dialog_1.DialogService),
         __metadata("design:paramtypes", [Element,
             crab_api_service_1.CrabService,
             aurelia_dialog_1.DialogService])
