@@ -5,7 +5,7 @@
     <div class="geolocation ol-unselectable ol-control" if.bind="buttonConfig.zoomGeoLocation">
       <button title="Zoom naar je geolocatie" click.delegate="geoLocationClick()"></button>
     </div>
-      <div class="zoom-switcher ol-unselectable ol-control" if.bind="buttonConfig.zoomSwitcher">
+    <div class="zoom-switcher ol-unselectable ol-control" if.bind="buttonConfig.zoomSwitcher">
       <button class="zoomButton" title="Ga naar het Geoportaal" click.delegate="zoomButtonClick()">
         <i class="fa fa-globe"></i>
       </button>
@@ -55,15 +55,18 @@
             </li>
           </ul>
         </div>
-        <a click.delegate="showZoneVergelijkingDialog()" if.bind="newGeometryDrawn">
-          <span><i class="fa fa-pencil"></i> Vergelijk zone met referentielaag</span>
-        </a>
-        <div class="alert-box alert" if.bind="totalArea > 100000">
-          <p style="font-size: 14px;">Oppervlakte: ${totalArea}m²</p>
-          <p style="font-size: 14px;">
-            De oppervlakte van het object is te groot (>100 000 m²) om de autocorrectie uit te voeren via de webbrowser. Contacteer je GIS beheerder om deze zone aan te passen.
-          </p>
-        </div>
+        <template if.bind="showGrbTool">
+          <a click.delegate="showZoneVergelijkingDialog()" if.bind="newGeometryDrawn">
+            <span><i class="fa fa-pencil"></i> Vergelijk zone met referentielaag</span>
+          </a>
+          <div class="alert-box alert" if.bind="totalArea > 100000">
+            <p style="font-size: 14px;">Oppervlakte: ${totalArea}m²</p>
+            <p style="font-size: 14px;">
+              De oppervlakte van het object is te groot (>100 000 m²) om de autocorrectie uit te voeren via de
+              webbrowser. Contacteer je GIS beheerder om deze zone aan te passen.
+            </p>
+          </div>
+        </template>
       </div>
     </div>
   </div>
