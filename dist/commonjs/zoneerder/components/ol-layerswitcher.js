@@ -174,13 +174,21 @@ var Layerswitcher = (function (_super) {
         var legendDiv = document.createElement('div');
         legendDiv.className = 'large-2 column';
         if (lyr.get('layerType') === layerConfig_enums_1.LayerType.Vector) {
+            var legendItem = document.createElement('div');
+            legendItem.style.backgroundColor = 'white';
+            legendItem.style.width = '20px';
+            legendItem.style.height = '20px';
+            legendItem.style.border = '3px solid white';
+            legendItem.style.cssFloat = 'right';
+            var legendGraphic = document.createElement('div');
             var style = lyr.get('style');
             var fill = style.fill;
             var stroke = style.stroke;
-            legendDiv.style.width = '20px';
-            legendDiv.style.height = '20px';
-            legendDiv.style.backgroundColor = fill;
-            legendDiv.style.border = '1px solid ' + stroke;
+            legendGraphic.style.backgroundColor = fill;
+            legendGraphic.style.border = '1px solid ' + stroke;
+            legendItem.style.height = '100%';
+            legendItem.appendChild(legendGraphic);
+            legendDiv.appendChild(legendItem);
         }
         else if (lyr.get('legendItems')) {
             legendDiv.className = 'large-12 column';
