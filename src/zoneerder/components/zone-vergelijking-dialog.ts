@@ -15,7 +15,7 @@ export class ZoneVergelijkingDialog {
       zoomGeoLocation: false,
       rotate: false,
       zoomSwitcher: false,
-      zoomInOut: false
+      zoomInOut: true,
     };
   }
 }

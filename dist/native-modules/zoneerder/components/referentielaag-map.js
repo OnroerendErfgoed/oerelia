@@ -39,8 +39,8 @@ var ReferentieLaagMap = (function (_super) {
             type: LayerType.Vector,
             title: 'Input',
             style: {
-                stroke: '#ff0000',
-                fill: 'rgba(255, 0, 0, 0.1)'
+                stroke: 'rgb(39, 146, 195)',
+                fill: 'rgba(39, 146, 195, 0.3)'
             },
             geometries: [this.zone],
             showLegend: true,

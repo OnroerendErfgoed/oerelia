@@ -13,7 +13,7 @@ var ZoneVergelijkingDialog = (function () {
             zoomGeoLocation: false,
             rotate: false,
             zoomSwitcher: false,
-            zoomInOut: false
+            zoomInOut: true,
         };
     };
     return ZoneVergelijkingDialog;
