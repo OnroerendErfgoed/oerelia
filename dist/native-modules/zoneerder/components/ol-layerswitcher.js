@@ -174,9 +174,8 @@ var Layerswitcher = (function (_super) {
         if (lyr.get('layerType') === LayerType.Vector) {
             var legendItem = document.createElement('div');
             legendItem.style.backgroundColor = 'white';
-            legendItem.style.width = '20px';
-            legendItem.style.height = '20px';
-            legendItem.style.border = '3px solid white';
+            legendItem.style.width = '14px';
+            legendItem.style.height = '14px';
             legendItem.style.cssFloat = 'right';
             var legendGraphic = document.createElement('div');
             var style = lyr.get('style');
@@ -184,7 +183,7 @@ var Layerswitcher = (function (_super) {
             var stroke = style.stroke;
             legendGraphic.style.backgroundColor = fill;
             legendGraphic.style.border = '1px solid ' + stroke;
-            legendItem.style.height = '100%';
+            legendGraphic.style.height = '100%';
             legendItem.appendChild(legendGraphic);
             legendDiv.appendChild(legendItem);
         }
@@ -194,7 +193,7 @@ var Layerswitcher = (function (_super) {
                 var legendUrl = _a[_i];
                 var legendImage = document.createElement('img');
                 legendImage.src = legendUrl;
-                legendImage.style.cssFloat = 'right';
+                legendImage.style.marginLeft = '25px';
                 legendDiv.appendChild(legendImage);
             }
         }

@@ -336,7 +336,14 @@ export abstract class BaseMap {
   private _createWmsLegend(baseUrl: string, layer: ol.layer.Tile, layerOptions: WmsLayerOptions) {
     if (layerOptions.showLegend) {
       const layers = layerOptions.wmsLayers.split(' ');
-      const legendItems = layers.map((layer) => baseUrl + '?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LEGEND_OPTIONS=forceLabels:on&LAYER=' + layer);
+      const legendItems = layers.map((layer) =>
+        baseUrl +
+        '?REQUEST=GetLegendGraphic' +
+        '&VERSION=1.0.0&FORMAT=image/png' +
+        '&WIDTH=20&HEIGHT=20' +
+        '&LEGEND_OPTIONS=forceLabels:on;fontAntiAliasing:true;fontSize:11;fontColor:ffffff' +
+        '&TRANSPARENT=true' +
+        '&LAYER=' + layer);
       layer.set('legendItems', legendItems);
     }
   }

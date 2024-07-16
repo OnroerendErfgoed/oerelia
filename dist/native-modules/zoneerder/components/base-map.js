@@ -287,7 +287,15 @@ var BaseMap = (function () {
     BaseMap.prototype._createWmsLegend = function (baseUrl, layer, layerOptions) {
         if (layerOptions.showLegend) {
             var layers = layerOptions.wmsLayers.split(' ');
-            var legendItems = layers.map(function (layer) { return baseUrl + '?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LEGEND_OPTIONS=forceLabels:on&LAYER=' + layer; });
+            var legendItems = layers.map(function (layer) {
+                return baseUrl +
+                    '?REQUEST=GetLegendGraphic' +
+                    '&VERSION=1.0.0&FORMAT=image/png' +
+                    '&WIDTH=20&HEIGHT=20' +
+                    '&LEGEND_OPTIONS=forceLabels:on;fontAntiAliasing:true;fontSize:11;fontColor:ffffff' +
+                    '&TRANSPARENT=true' +
+                    '&LAYER=' + layer;
+            });
             layer.set('legendItems', legendItems);
         }
     };

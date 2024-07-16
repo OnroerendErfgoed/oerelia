@@ -232,9 +232,8 @@ export class Layerswitcher extends ol.control.Control {
     if (lyr.get('layerType') === LayerType.Vector) {
       const legendItem = document.createElement('div');
       legendItem.style.backgroundColor = 'white';
-      legendItem.style.width = '20px';
-      legendItem.style.height = '20px';
-      legendItem.style.border= '3px solid white';
+      legendItem.style.width = '14px';
+      legendItem.style.height = '14px';
       legendItem.style.cssFloat = 'right';
       const legendGraphic = document.createElement('div');
       const style = lyr.get('style');
@@ -242,7 +241,7 @@ export class Layerswitcher extends ol.control.Control {
       const stroke = style.stroke;
       legendGraphic.style.backgroundColor = fill;
       legendGraphic.style.border = '1px solid ' + stroke;
-      legendItem.style.height = '100%';
+      legendGraphic.style.height = '100%';
       legendItem.appendChild(legendGraphic);
       legendDiv.appendChild(legendItem);
     } else if (lyr.get('legendItems')) {
@@ -250,7 +249,7 @@ export class Layerswitcher extends ol.control.Control {
       for (const legendUrl of lyr.get('legendItems')) {
         const legendImage = document.createElement('img');
         legendImage.src = legendUrl;
-        legendImage.style.cssFloat = 'right';
+        legendImage.style.marginLeft = '25px';
         legendDiv.appendChild(legendImage);
       }
     }
