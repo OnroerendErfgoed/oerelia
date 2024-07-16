@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as ol from 'openlayers';
+import { LayerType } from '../models/layerConfig.enums';
 var Layerswitcher = (function (_super) {
     __extends(Layerswitcher, _super);
     function Layerswitcher(optOptions) {
@@ -145,6 +146,10 @@ var Layerswitcher = (function (_super) {
             this.renderLayers_(lyr, ul);
         }
         else {
+            var row_1 = document.createElement('div');
+            row_1.className = 'row';
+            var div1_1 = document.createElement('div');
+            div1_1.className = 'large-10 column';
             var input = document.createElement('input');
             if (lyr.get('type') === 'base') {
                 input.type = 'radio';
@@ -159,21 +164,48 @@ var Layerswitcher = (function (_super) {
                 var check = 'checked';
                 self.setVisible_(lyr, e.target[check]);
             };
-            div1.appendChild(input);
             label.htmlFor = lyrId;
             label.innerHTML = lyrTitle;
-            div1.appendChild(label);
-            row.appendChild(div1);
-            var className = lyr.get('className');
-            if (className) {
-                var legendDiv = document.createElement('div');
-                legendDiv.className = className;
-                div2.append(legendDiv);
-                row.appendChild(div2);
+            div1_1.appendChild(input);
+            div1_1.appendChild(label);
+            row_1.appendChild(div1_1);
+            if (lyr.get('showLegend')) {
+                row_1.appendChild(this.createLegend(lyr));
             }
-            li.appendChild(row);
+            li.appendChild(row_1);
         }
         return li;
+    };
+    Layerswitcher.prototype.createLegend = function (lyr) {
+        var legendDiv = document.createElement('div');
+        legendDiv.className = 'large-2 column';
+        if (lyr.get('layerType') === LayerType.Vector) {
+            var legendItem = document.createElement('div');
+            legendItem.style.backgroundColor = 'white';
+            legendItem.style.width = '14px';
+            legendItem.style.height = '14px';
+            legendItem.style.cssFloat = 'right';
+            var legendGraphic = document.createElement('div');
+            var style = lyr.get('style');
+            var fill = style.fill;
+            var stroke = style.stroke;
+            legendGraphic.style.backgroundColor = fill;
+            legendGraphic.style.border = '1px solid ' + stroke;
+            legendGraphic.style.height = '100%';
+            legendItem.appendChild(legendGraphic);
+            legendDiv.appendChild(legendItem);
+        }
+        else if (lyr.get('legendItems')) {
+            legendDiv.className = 'large-12 column';
+            for (var _i = 0, _a = lyr.get('legendItems'); _i < _a.length; _i++) {
+                var legendUrl = _a[_i];
+                var legendImage = document.createElement('img');
+                legendImage.src = legendUrl;
+                legendImage.style.marginLeft = '25px';
+                legendDiv.appendChild(legendImage);
+            }
+        }
+        return legendDiv;
     };
     Layerswitcher.prototype.renderLayers_ = function (lyr, elm) {
         var lyrs = lyr.getLayers().getArray().slice().reverse();

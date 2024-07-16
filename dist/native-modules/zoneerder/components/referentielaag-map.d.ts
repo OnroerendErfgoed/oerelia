@@ -1,37 +1,7 @@
-import ol from 'openlayers';
-import { IZoneerderServiceConfig } from 'exports';
 import { Contour } from '../models/contour';
-export declare class ReferentieLaagMap {
-    serviceConfig: IZoneerderServiceConfig;
+import { BaseMap } from './base-map';
+export declare class ReferentieLaagMap extends BaseMap {
     zone: Contour;
-    private layerConfig;
-    private mapProjection;
-    private extentVlaanderen;
-    private geoJsonFormatter;
-    private map;
-    private referentielaagNode;
-    private initialized;
-    private drawLayer;
     constructor();
     attached(): void;
-    bind(): void;
-    private _defineProjections;
-    private _createMap;
-    private updateMapSize;
-    private _createLayers;
-    private _createLayer;
-    private _createVectorLayer;
-    private _createGrbLayer;
-    private _createNgiLayer;
-    private _createGrbWMSLayer;
-    private _createErfgoedWMSLayer;
-    private addZoneToDrawLayer;
-    private drawLayerToZone;
-    private _createMapButtons;
-    private getButtonStyle;
-    private addFullscreenButton;
-    private setStyleToButton;
-    private addZoomButton;
-    formatGeoJson(feature: ol.geom.Geometry): Contour;
-    zoomToExtent(extent: ol.Extent): void;
 }

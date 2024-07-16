@@ -1,4 +1,5 @@
 import * as ol from 'openlayers';
+import { LayerType } from '../models/layerConfig.enums';
 
 /**
  * VERY EXPERIMENTAL!
@@ -104,6 +105,7 @@ export class Layerswitcher extends ol.control.Control {
       this.panel.removeChild(this.panel.firstChild);
     }
 
+
     const p = document.createElement('p');
     p.innerHTML = this.panelTitle;
     this.panel.appendChild(p);
@@ -173,7 +175,7 @@ export class Layerswitcher extends ol.control.Control {
    * @param {ol.layer.Base} lyr Layer to be rendered (should have a title property).
    * @param {Number} idx Position in parent group list.
    */
-  public renderLayer_(lyr: any, idx: any) {
+  public renderLayer_(lyr: any, idx:any) {
     const self = this;
     const li = document.createElement('li');
     const lyrTitle = lyr.get('title');
@@ -197,6 +199,12 @@ export class Layerswitcher extends ol.control.Control {
       li.appendChild(ul);
       this.renderLayers_(lyr, ul);
     } else {
+      
+      const row = document.createElement('div')
+      row.className = 'row';
+      const div1 = document.createElement('div');
+      div1.className = 'large-10 column';
+      
       const input = document.createElement('input');
       if (lyr.get('type') === 'base') {
         input.type = 'radio';
@@ -210,28 +218,51 @@ export class Layerswitcher extends ol.control.Control {
         const check: string = 'checked';
         self.setVisible_(lyr, (e as any).target[check]);
       };
-      div1.appendChild(input);
 
-      // li.appendChild(input);
       label.htmlFor = lyrId;
       label.innerHTML = lyrTitle;
+      div1.appendChild(input);
       div1.appendChild(label);
-      // li.appendChild(label);
-
       row.appendChild(div1);
-
-      const className = lyr.get('className');
-
-      if (className) {
-        const legendDiv = document.createElement('div');
-        legendDiv.className = className;
-        div2.append(legendDiv);
-        row.appendChild(div2);
+      
+      if (lyr.get('showLegend')) {
+        row.appendChild(this.createLegend(lyr));
       }
-
+      
       li.appendChild(row);
     }
     return li;
+  }
+  
+  private createLegend(lyr: ol.layer.Base) {
+    const legendDiv = document.createElement('div');
+    legendDiv.className = 'large-2 column';
+    
+    if (lyr.get('layerType') === LayerType.Vector) {
+      const legendItem = document.createElement('div');
+      legendItem.style.backgroundColor = 'white';
+      legendItem.style.width = '14px';
+      legendItem.style.height = '14px';
+      legendItem.style.cssFloat = 'right';
+      const legendGraphic = document.createElement('div');
+      const style = lyr.get('style');
+      const fill = style.fill;
+      const stroke = style.stroke;
+      legendGraphic.style.backgroundColor = fill;
+      legendGraphic.style.border = '1px solid ' + stroke;
+      legendGraphic.style.height = '100%';
+      legendItem.appendChild(legendGraphic);
+      legendDiv.appendChild(legendItem);
+    } else if (lyr.get('legendItems')) {
+      legendDiv.className = 'large-12 column';
+      for (const legendUrl of lyr.get('legendItems')) {
+        const legendImage = document.createElement('img');
+        legendImage.src = legendUrl;
+        legendImage.style.marginLeft = '25px';
+        legendDiv.appendChild(legendImage);
+      }
+    }
+    return legendDiv;
   }
 
   /**
