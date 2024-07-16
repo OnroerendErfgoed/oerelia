@@ -6,6 +6,7 @@
   top: 9em;
   left: 0.5em;
   text-align: left;
+  z-index: 999;
 }
 .layer-switcher button.open-button.selected, .layer-switcher button.open-button:hover, .layer-switcher button.open-button:focus {
   background-color: rgba(0, 60, 136, 0.65);
