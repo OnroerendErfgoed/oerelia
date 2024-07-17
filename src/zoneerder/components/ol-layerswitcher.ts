@@ -190,12 +190,6 @@ export class Layerswitcher extends ol.control.Control {
       li.appendChild(ul);
       this.renderLayers_(lyr, ul);
     } else {
-      
-      const row = document.createElement('div')
-      row.className = 'row';
-      const div1 = document.createElement('div');
-      div1.className = 'large-10 column';
-      
       const input = document.createElement('input');
       if (lyr.get('type') === 'base') {
         input.type = 'radio';
@@ -212,29 +206,27 @@ export class Layerswitcher extends ol.control.Control {
 
       label.htmlFor = lyrId;
       label.innerHTML = lyrTitle;
-      div1.appendChild(input);
-      div1.appendChild(label);
-      row.appendChild(div1);
+      li.appendChild(input);
+      li.appendChild(label);
       
       if (lyr.get('showLegend')) {
-        row.appendChild(this.createLegend(lyr));
+        li.style.display = 'flex';
+        label.style.flex = "1"
+        const legend = this.createLegend(lyr);
+        li.appendChild(legend);
       }
       
-      li.appendChild(row);
     }
     return li;
   }
   
   private createLegend(lyr: ol.layer.Base) {
     const legendDiv = document.createElement('div');
-    legendDiv.className = 'large-2 column';
     
     if (lyr.get('layerType') === LayerType.Vector) {
-      const legendItem = document.createElement('div');
-      legendItem.style.backgroundColor = 'white';
-      legendItem.style.width = '14px';
-      legendItem.style.height = '14px';
-      legendItem.style.cssFloat = 'right';
+      legendDiv.style.backgroundColor = 'white';
+      legendDiv.style.height = '14px';
+      legendDiv.style.marginRight = '4px';
       const legendGraphic = document.createElement('div');
       const style = lyr.get('style');
       const fill = style.fill;
@@ -242,14 +234,12 @@ export class Layerswitcher extends ol.control.Control {
       legendGraphic.style.backgroundColor = fill;
       legendGraphic.style.border = '1px solid ' + stroke;
       legendGraphic.style.height = '100%';
-      legendItem.appendChild(legendGraphic);
-      legendDiv.appendChild(legendItem);
+      legendGraphic.style.width = '14px';
+      legendDiv.appendChild(legendGraphic);
     } else if (lyr.get('legendItems')) {
-      legendDiv.className = 'large-12 column';
       for (const legendUrl of lyr.get('legendItems')) {
         const legendImage = document.createElement('img');
         legendImage.src = legendUrl;
-        legendImage.style.marginLeft = '25px';
         legendDiv.appendChild(legendImage);
       }
     }
