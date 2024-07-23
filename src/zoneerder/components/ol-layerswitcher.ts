@@ -190,12 +190,6 @@ export class Layerswitcher extends ol.control.Control {
       li.appendChild(ul);
       this.renderLayers_(lyr, ul);
     } else {
-      
-      const row = document.createElement('div')
-      row.className = 'row';
-      const div1 = document.createElement('div');
-      div1.className = 'large-10 column';
-      
       const input = document.createElement('input');
       if (lyr.get('type') === 'base') {
         input.type = 'radio';
@@ -211,24 +205,23 @@ export class Layerswitcher extends ol.control.Control {
       };
 
       label.htmlFor = lyrId;
-      label.innerHTML = lyrTitle;
-      div1.appendChild(input);
-      div1.appendChild(label);
-      row.appendChild(div1);
-      
+      const title  = document.createElement('span');
+      title.innerHTML = lyrTitle;
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.appendChild(input);
+      row.appendChild(label);
       if (lyr.get('showLegend')) {
-        row.appendChild(this.createLegend(lyr));
+        this.addLegend(lyr, li, label);
       }
-      
+      label.appendChild(title);
       li.appendChild(row);
     }
     return li;
   }
   
-  private createLegend(lyr: ol.layer.Base) {
+  private addLegend(lyr: ol.layer.Base, li: Element, label: Element) {
     const legendDiv = document.createElement('div');
-    legendDiv.className = 'large-2 column';
-    
     if (lyr.get('layerType') === LayerType.Vector) {
       const legendItem = document.createElement('div');
       legendItem.style.backgroundColor = 'white';
@@ -243,8 +236,11 @@ export class Layerswitcher extends ol.control.Control {
       legendGraphic.style.border = '1px solid ' + stroke;
       legendGraphic.style.height = '100%';
       legendItem.appendChild(legendGraphic);
-      legendDiv.appendChild(legendItem);
+      legendDiv.appendChild(legendItem)
+      label.appendChild(legendDiv);
     } else if (lyr.get('legendItems')) {
+      const labelRow = document.createElement('div');
+      labelRow.className = 'row';
       legendDiv.className = 'large-12 column';
       for (const legendUrl of lyr.get('legendItems')) {
         const legendImage = document.createElement('img');
@@ -252,8 +248,9 @@ export class Layerswitcher extends ol.control.Control {
         legendImage.style.marginLeft = '25px';
         legendDiv.appendChild(legendImage);
       }
+      labelRow.appendChild(legendDiv);
+      li.appendChild(labelRow);
     }
-    return legendDiv;
   }
 
   /**
