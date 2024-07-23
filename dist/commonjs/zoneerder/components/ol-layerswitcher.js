@@ -177,7 +177,7 @@ var Layerswitcher = (function (_super) {
             legendDiv.style.height = '14px';
             legendDiv.style.display = 'inline-block';
             legendDiv.style.verticalAlign = 'sub';
-            legendDiv.style.marginRight = '3px';
+            legendDiv.style.marginRight = '4px';
             var legendGraphic = document.createElement('div');
             var style = lyr.get('style');
             var fill = style.fill;
@@ -189,18 +189,21 @@ var Layerswitcher = (function (_super) {
             label.appendChild(legendDiv);
         }
         else if (lyr.get('legendItems')) {
-            var labelRow = document.createElement('div');
-            labelRow.className = 'row';
+            var legendRow = document.createElement('div');
+            legendRow.className = 'row';
             legendDiv.className = 'large-12 column';
             for (var _i = 0, _a = lyr.get('legendItems'); _i < _a.length; _i++) {
                 var legendUrl = _a[_i];
                 var legendImage = document.createElement('img');
                 legendImage.src = legendUrl;
                 legendImage.style.marginLeft = '9px';
+                legendDiv.style.width = '50%';
                 legendDiv.appendChild(legendImage);
             }
-            labelRow.appendChild(legendDiv);
-            li.appendChild(labelRow);
+            var legendSpan = document.createElement('span');
+            legendSpan.appendChild(legendDiv);
+            legendRow.appendChild(legendSpan);
+            li.appendChild(legendRow);
         }
     };
     Layerswitcher.prototype.renderLayers_ = function (lyr, elm) {

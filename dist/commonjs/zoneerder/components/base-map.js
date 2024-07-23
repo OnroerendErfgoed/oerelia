@@ -294,7 +294,7 @@ var BaseMap = (function () {
                     '?REQUEST=GetLegendGraphic' +
                     '&VERSION=1.0.0&FORMAT=image/png' +
                     '&WIDTH=20&HEIGHT=20' +
-                    '&LEGEND_OPTIONS=forceLabels:on;fontAntiAliasing:true;fontSize:11;fontColor:ffffff' +
+                    '&LEGEND_OPTIONS=forceLabels:on;fontAntiAliasing:true;fontSize:10;fontColor:ffffff;dpi:182;' +
                     '&TRANSPARENT=true' +
                     '&LAYER=' + layer;
             });
