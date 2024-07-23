@@ -31,9 +31,15 @@ var ReferentielaagAutocorrectie = (function () {
         ];
         this.referentielaag = null;
         this.domeinstrategie = null;
+        this.relevanteAfstand = "3.0";
+        this.max = "6";
+        this.min = "0";
+        this.floatMin = "0.0";
+        this.floatMax = "6.0";
+        this.increment = 0.1;
     }
     ReferentielaagAutocorrectie.prototype.bind = function () {
-        (0, d3_1.setupD3)(this.histogram);
+        (0, d3_1.setupD3)(this.histogram, Number(this.relevanteAfstand));
     };
     ReferentielaagAutocorrectie.prototype.openOpenbaarDomeinLegende = function () {
         this.dialogService.open({
@@ -44,6 +50,16 @@ var ReferentielaagAutocorrectie = (function () {
             }
         });
     };
+    ReferentielaagAutocorrectie.prototype.relevanteAfstandChanged = function (nv, ov) {
+        if (ov === nv) {
+            return;
+        }
+        (0, d3_1.setupD3)(this.histogram, Number(nv));
+    };
+    __decorate([
+        aurelia_framework_1.observable,
+        __metadata("design:type", String)
+    ], ReferentielaagAutocorrectie.prototype, "relevanteAfstand", void 0);
     ReferentielaagAutocorrectie = __decorate([
         aurelia_framework_1.autoinject,
         __metadata("design:paramtypes", [aurelia_dialog_1.DialogService])

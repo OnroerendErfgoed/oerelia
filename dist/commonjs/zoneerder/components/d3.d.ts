@@ -1,1 +1,1 @@
-export declare function setupD3(container: HTMLElement): void;
+export declare function setupD3(container: HTMLElement, targetX: number): void;

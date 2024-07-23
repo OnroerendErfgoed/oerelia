@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { autoinject } from 'aurelia-framework';
+import { autoinject, observable } from 'aurelia-framework';
 import { setupD3 } from './d3';
 import { DialogService } from 'aurelia-dialog';
 import { PLATFORM } from 'aurelia-framework';
@@ -28,9 +28,15 @@ var ReferentielaagAutocorrectie = (function () {
         ];
         this.referentielaag = null;
         this.domeinstrategie = null;
+        this.relevanteAfstand = "3.0";
+        this.max = "6";
+        this.min = "0";
+        this.floatMin = "0.0";
+        this.floatMax = "6.0";
+        this.increment = 0.1;
     }
     ReferentielaagAutocorrectie.prototype.bind = function () {
-        setupD3(this.histogram);
+        setupD3(this.histogram, Number(this.relevanteAfstand));
     };
     ReferentielaagAutocorrectie.prototype.openOpenbaarDomeinLegende = function () {
         this.dialogService.open({
@@ -41,6 +47,16 @@ var ReferentielaagAutocorrectie = (function () {
             }
         });
     };
+    ReferentielaagAutocorrectie.prototype.relevanteAfstandChanged = function (nv, ov) {
+        if (ov === nv) {
+            return;
+        }
+        setupD3(this.histogram, Number(nv));
+    };
+    __decorate([
+        observable,
+        __metadata("design:type", String)
+    ], ReferentielaagAutocorrectie.prototype, "relevanteAfstand", void 0);
     ReferentielaagAutocorrectie = __decorate([
         autoinject,
         __metadata("design:paramtypes", [DialogService])

@@ -23,12 +23,14 @@ referentielaag-autocorrectie h3 i.fa-magic {
 }
 referentielaag-autocorrectie input[type=range] {
   accent-color: #944EA1;
+  border-radius: 10%;
 }
 referentielaag-autocorrectie input[type=range]::-moz-range-track {
   background-color: #944EA1;
 }
 referentielaag-autocorrectie input[type=range]::-moz-range-thumb {
   background: #944EA1;
+  border-radius: 10%;
 }
 referentielaag-autocorrectie .slider {
   margin-bottom: 2rem;
@@ -48,11 +50,6 @@ referentielaag-autocorrectie .slider .value-max {
 referentielaag-autocorrectie .openbare-domein-strategie-title {
   display: inline-block;
   padding-right: 5px;
-}
-referentielaag-autocorrectie .histogram-value {
-  position: absolute;
-  top: 40%;
-  left: 45%;
 }
 referentielaag-autocorrectie .histogram-container {
   position: relative;
