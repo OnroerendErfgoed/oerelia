@@ -1,0 +1,67 @@
+.tabs-content {
+  background: rgb(237, 237, 237);
+  padding: 5px 10px;
+  margin-top: 1px;
+}
+
+.tabs dd {
+  margin-right: 1px !important;
+}
+
+.layer-switcher {
+  position: absolute;
+  top: 6.225em;
+  left: 0.5em;
+  text-align: left;
+  z-index: 3;
+}
+.layer-switcher.shown {
+  height: 290px;
+  overflow-y: auto;
+}
+.layer-switcher.shown .panel {
+  display: block !important;
+  margin: 0;
+}
+.layer-switcher .panel {
+  padding: 0 !important;
+  border: 1px solid #cccccc;
+  background-color: rgba(45, 163, 206, 0.7);
+  display: none !important;
+}
+.layer-switcher .panel p {
+  margin-left: 1em;
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  margin: 0;
+  margin-left: 10px;
+}
+.layer-switcher .panel ul {
+  margin-top: 8px;
+  padding-left: 1em;
+  list-style: none;
+}
+.layer-switcher .panel ul li input {
+  display: inline;
+  margin: 0;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.layer-switcher .panel ul li label {
+  font-size: 12px;
+  display: inline;
+  color: rgb(255, 255, 255);
+  margin-right: 10px;
+}
+.layer-switcher button {
+  float: right;
+  background-color: rgba(45, 163, 206, 0.5);
+  border: none;
+  padding-top: 2px;
+}
+.layer-switcher button:hover {
+  background-color: rgba(45, 163, 206, 0.5);
+}
+.layer-switcher.ol-control, .layer-switcher .ol-control:hover {
+  background-color: inherit !important;
+}

@@ -1,5 +1,6 @@
 <template>
   <require from="openlayers/dist/ol.css"></require>
+  <require from="./layerswitcher.css"></require>
 
   <div ref="mapnode" class="map">
     <div class="geolocation ol-unselectable ol-control" if.bind="buttonConfig.zoomGeoLocation">
@@ -56,13 +57,14 @@
           </ul>
         </div>
         <template if.bind="showGrbTool">
-          <a show.bind="totalArea <= 100000 && newGeometryDrawn">
+          <a click.delegate="showZoneVergelijkingDialog()" if.bind="newGeometryDrawn">
             <span><i class="fa fa-pencil"></i> Vergelijk zone met referentielaag</span>
           </a>
-          <div class="alert-box alert" show.bind="totalArea > 100000">
+          <div class="alert-box alert" if.bind="totalArea > 100000">
             <p style="font-size: 14px;">Oppervlakte: ${totalArea}m²</p>
             <p style="font-size: 14px;">
-              De oppervlakte van het object is te groot (>100 000 m²) om de autocorrectie uit te voeren via de webbrowser. Contacteer je GIS beheerder om deze zone aan te passen.
+              De oppervlakte van het object is te groot (>100 000 m²) om de autocorrectie uit te voeren via de
+              webbrowser. Contacteer je GIS beheerder om deze zone aan te passen.
             </p>
           </div>
         </template>

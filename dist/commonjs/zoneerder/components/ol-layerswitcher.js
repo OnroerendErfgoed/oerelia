@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var ol = require("openlayers");
+var layerConfig_enums_1 = require("../models/layerConfig.enums");
 var Layerswitcher = (function (_super) {
     __extends(Layerswitcher, _super);
     function Layerswitcher(optOptions) {
@@ -153,12 +154,57 @@ var Layerswitcher = (function (_super) {
                 var check = 'checked';
                 self.setVisible_(lyr, e.target[check]);
             };
-            li.appendChild(input);
             label.htmlFor = lyrId;
-            label.innerHTML = lyrTitle;
-            li.appendChild(label);
+            var title = document.createElement('span');
+            title.innerHTML = lyrTitle;
+            var row = document.createElement('div');
+            row.className = 'row';
+            row.appendChild(input);
+            row.appendChild(label);
+            li.appendChild(row);
+            if (lyr.get('showLegend')) {
+                this.addLegend(lyr, li, label);
+            }
+            label.appendChild(title);
         }
         return li;
+    };
+    Layerswitcher.prototype.addLegend = function (lyr, li, label) {
+        var legendDiv = document.createElement('div');
+        if (lyr.get('layerType') === layerConfig_enums_1.LayerType.Vector) {
+            legendDiv.style.backgroundColor = 'white';
+            legendDiv.style.width = '14px';
+            legendDiv.style.height = '14px';
+            legendDiv.style.display = 'inline-block';
+            legendDiv.style.verticalAlign = 'sub';
+            legendDiv.style.marginRight = '4px';
+            var legendGraphic = document.createElement('div');
+            var style = lyr.get('style');
+            var fill = style.fill;
+            var stroke = style.stroke;
+            legendGraphic.style.backgroundColor = fill;
+            legendGraphic.style.border = '1px solid ' + stroke;
+            legendGraphic.style.height = '100%';
+            legendDiv.appendChild(legendGraphic);
+            label.appendChild(legendDiv);
+        }
+        else if (lyr.get('legendItems')) {
+            var legendRow = document.createElement('div');
+            legendRow.className = 'row';
+            legendDiv.className = 'large-12 column';
+            for (var _i = 0, _a = lyr.get('legendItems'); _i < _a.length; _i++) {
+                var legendUrl = _a[_i];
+                var legendImage = document.createElement('img');
+                legendImage.src = legendUrl;
+                legendImage.style.marginLeft = '9px';
+                legendDiv.style.width = '50%';
+                legendDiv.appendChild(legendImage);
+            }
+            var legendSpan = document.createElement('span');
+            legendSpan.appendChild(legendDiv);
+            legendRow.appendChild(legendSpan);
+            li.appendChild(legendRow);
+        }
     };
     Layerswitcher.prototype.renderLayers_ = function (lyr, elm) {
         var lyrs = lyr.getLayers().getArray().slice().reverse();

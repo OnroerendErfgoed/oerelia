@@ -1,5 +1,5 @@
 export class Contour {
-  public coordinates: number[];
+  public coordinates: [number, number][][][] ;
   public crs: object;
   public type: string;
 
