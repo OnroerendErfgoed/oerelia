@@ -211,11 +211,11 @@ export class Layerswitcher extends ol.control.Control {
       row.className = 'row';
       row.appendChild(input);
       row.appendChild(label);
+      li.appendChild(row);
       if (lyr.get('showLegend')) {
         this.addLegend(lyr, li, label);
       }
       label.appendChild(title);
-      li.appendChild(row);
     }
     return li;
   }
@@ -223,11 +223,12 @@ export class Layerswitcher extends ol.control.Control {
   private addLegend(lyr: ol.layer.Base, li: Element, label: Element) {
     const legendDiv = document.createElement('div');
     if (lyr.get('layerType') === LayerType.Vector) {
-      const legendItem = document.createElement('div');
-      legendItem.style.backgroundColor = 'white';
-      legendItem.style.width = '14px';
-      legendItem.style.height = '14px';
-      legendItem.style.cssFloat = 'right';
+      legendDiv.style.backgroundColor = 'white';
+      legendDiv.style.width = '14px';
+      legendDiv.style.height = '14px';
+      legendDiv.style.display = 'inline-block';
+      legendDiv.style.verticalAlign = 'sub';
+      legendDiv.style.marginRight = '3px';
       const legendGraphic = document.createElement('div');
       const style = lyr.get('style');
       const fill = style.fill;
@@ -235,8 +236,7 @@ export class Layerswitcher extends ol.control.Control {
       legendGraphic.style.backgroundColor = fill;
       legendGraphic.style.border = '1px solid ' + stroke;
       legendGraphic.style.height = '100%';
-      legendItem.appendChild(legendGraphic);
-      legendDiv.appendChild(legendItem)
+      legendDiv.appendChild(legendGraphic);
       label.appendChild(legendDiv);
     } else if (lyr.get('legendItems')) {
       const labelRow = document.createElement('div');
@@ -245,7 +245,7 @@ export class Layerswitcher extends ol.control.Control {
       for (const legendUrl of lyr.get('legendItems')) {
         const legendImage = document.createElement('img');
         legendImage.src = legendUrl;
-        legendImage.style.marginLeft = '25px';
+        legendImage.style.marginLeft = '9px';
         legendDiv.appendChild(legendImage);
       }
       labelRow.appendChild(legendDiv);
