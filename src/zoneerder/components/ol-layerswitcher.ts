@@ -228,7 +228,7 @@ export class Layerswitcher extends ol.control.Control {
       legendDiv.style.height = '14px';
       legendDiv.style.display = 'inline-block';
       legendDiv.style.verticalAlign = 'sub';
-      legendDiv.style.marginRight = '3px';
+      legendDiv.style.marginRight = '4px';
       const legendGraphic = document.createElement('div');
       const style = lyr.get('style');
       const fill = style.fill;
@@ -239,17 +239,20 @@ export class Layerswitcher extends ol.control.Control {
       legendDiv.appendChild(legendGraphic);
       label.appendChild(legendDiv);
     } else if (lyr.get('legendItems')) {
-      const labelRow = document.createElement('div');
-      labelRow.className = 'row';
+      const legendRow = document.createElement('div');
+      legendRow.className = 'row';
       legendDiv.className = 'large-12 column';
       for (const legendUrl of lyr.get('legendItems')) {
         const legendImage = document.createElement('img');
         legendImage.src = legendUrl;
         legendImage.style.marginLeft = '9px';
+        legendDiv.style.width = '50%';
         legendDiv.appendChild(legendImage);
       }
-      labelRow.appendChild(legendDiv);
-      li.appendChild(labelRow);
+      const legendSpan = document.createElement('span');
+      legendSpan.appendChild(legendDiv);
+      legendRow.appendChild(legendSpan);
+      li.appendChild(legendRow);
     }
   }
 
