@@ -30,6 +30,10 @@ referentie-laag-map {
 
   .layer-switcher {
     z-index: 3;
+
+    &.shown {
+      height: 40vh !important;
+    }
   }
 }
 

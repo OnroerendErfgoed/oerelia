@@ -341,7 +341,7 @@ export abstract class BaseMap {
         '?REQUEST=GetLegendGraphic' +
         '&VERSION=1.0.0&FORMAT=image/png' +
         '&WIDTH=20&HEIGHT=20' +
-        '&LEGEND_OPTIONS=forceLabels:off;layout:horizontal;fontColor:ffffff' +
+        '&LEGEND_OPTIONS=forceLabels:on;fontAntiAliasing:true;fontSize:10;fontColor:ffffff;dpi:182;' +
         '&TRANSPARENT=true' +
         '&LAYER=' + layer);
       layer.set('legendItems', legendItems);
