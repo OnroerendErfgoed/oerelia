@@ -2,18 +2,9 @@
   background-color: rgb(89, 89, 89);
   color: white;
 
-  .row {
-
-    &-eenzijdig-snappen,
-    &-tweezijdig-snappen,
-    &-exacte-overnemen,
-    &-uitsluiten {
-      padding-bottom: 1rem;
-    }
-  }
-
   img {
     width: 10vw;
     float: right;
+    padding-bottom: 1rem;
   }
 }

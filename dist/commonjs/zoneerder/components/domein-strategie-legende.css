@@ -2,10 +2,8 @@
   background-color: rgb(89, 89, 89);
   color: white;
 }
-.domein-strategie-legende-dialog .row-eenzijdig-snappen, .domein-strategie-legende-dialog .row-tweezijdig-snappen, .domein-strategie-legende-dialog .row-exacte-overnemen, .domein-strategie-legende-dialog .row-uitsluiten {
-  padding-bottom: 1rem;
-}
 .domein-strategie-legende-dialog img {
   width: 10vw;
   float: right;
+  padding-bottom: 1rem;
 }
