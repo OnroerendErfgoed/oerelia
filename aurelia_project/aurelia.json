@@ -62,7 +62,7 @@
   },
   "build": {
     "copyFiles": {
-      "src/assets/**": "dist/assets/"
+      "src/assets/*": "dist/assets"
     },
     "targets": [
       {
