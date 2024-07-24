@@ -83,11 +83,3 @@ export function setupD3(container: HTMLElement) {
     container.append(svg.node()!);
   }
 }
-
-// export function setupD3Slider(container: HTMLElement) {
-//   // Listen to the slider?
-//   d3.select("#mySlider").on("change", function(d){
-//     selectedValue = this.value
-//     updateChart(selectedValue)
-//   })
-// }

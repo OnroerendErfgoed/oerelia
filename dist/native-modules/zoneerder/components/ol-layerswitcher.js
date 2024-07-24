@@ -131,12 +131,6 @@ var Layerswitcher = (function (_super) {
         var lyrTitle = lyr.get('title');
         var lyrId = lyr.get('title').replace(' ', '-') + '_' + idx;
         var label = document.createElement('label');
-        var row = document.createElement('div');
-        row.className = 'row';
-        var div1 = document.createElement('div');
-        div1.className = 'large-10 column';
-        var div2 = document.createElement('div');
-        div2.className = 'large-2 column';
         if (lyr.getLayers) {
             li.className = 'group';
             label.innerHTML = lyrTitle;
@@ -163,11 +157,11 @@ var Layerswitcher = (function (_super) {
             label.htmlFor = lyrId;
             var title = document.createElement('span');
             title.innerHTML = lyrTitle;
-            var row_1 = document.createElement('div');
-            row_1.className = 'row';
-            row_1.appendChild(input);
-            row_1.appendChild(label);
-            li.appendChild(row_1);
+            var row = document.createElement('div');
+            row.className = 'row';
+            row.appendChild(input);
+            row.appendChild(label);
+            li.appendChild(row);
             if (lyr.get('showLegend')) {
                 this.addLegend(lyr, li, label);
             }

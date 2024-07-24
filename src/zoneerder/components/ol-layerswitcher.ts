@@ -181,15 +181,6 @@ export class Layerswitcher extends ol.control.Control {
     const lyrTitle = lyr.get('title');
     const lyrId = lyr.get('title').replace(' ', '-') + '_' + idx;
     const label = document.createElement('label');
-
-    const row = document.createElement('div')
-    row.className = 'row';
-
-    const div1 = document.createElement('div');
-    div1.className = 'large-10 column';
-
-    const div2 = document.createElement('div');
-    div2.className = 'large-2 column';
     
     if (lyr.getLayers) {
       li.className = 'group';
