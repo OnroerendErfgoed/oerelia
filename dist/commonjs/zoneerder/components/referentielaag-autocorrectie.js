@@ -51,10 +51,11 @@ var ReferentielaagAutocorrectie = (function () {
         });
     };
     ReferentielaagAutocorrectie.prototype.relevanteAfstandChanged = function (nv, ov) {
-        if (ov === nv) {
+        if (!ov || ov === nv) {
             return;
         }
-        (0, d3_1.setupD3)(this.histogram, Number(nv));
+        (0, d3_1.removePoint)();
+        (0, d3_1.drawNewCircle)(Number(nv));
     };
     __decorate([
         aurelia_framework_1.observable,

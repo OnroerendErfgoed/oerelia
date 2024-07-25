@@ -1,5 +1,5 @@
 import { autoinject, observable } from 'aurelia-framework';
-import { setupD3 } from './d3';
+import { setupD3, removePoint, drawNewCircle } from './d3';
 import { DialogService } from 'aurelia-dialog';
 import { PLATFORM } from 'aurelia-framework';
 
@@ -48,7 +48,8 @@ export class ReferentielaagAutocorrectie {
   }
 
   relevanteAfstandChanged(nv: string, ov: string) {
-    if (ov === nv) { return; }
-    setupD3(this.histogram, Number(nv));
+    if (!ov || ov === nv) { return; }
+    removePoint();
+    drawNewCircle(Number(nv));
   }
 }

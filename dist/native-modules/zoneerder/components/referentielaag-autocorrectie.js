@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { autoinject, observable } from 'aurelia-framework';
-import { setupD3 } from './d3';
+import { setupD3, removePoint, drawNewCircle } from './d3';
 import { DialogService } from 'aurelia-dialog';
 import { PLATFORM } from 'aurelia-framework';
 var ReferentielaagAutocorrectie = (function () {
@@ -48,10 +48,11 @@ var ReferentielaagAutocorrectie = (function () {
         });
     };
     ReferentielaagAutocorrectie.prototype.relevanteAfstandChanged = function (nv, ov) {
-        if (ov === nv) {
+        if (!ov || ov === nv) {
             return;
         }
-        setupD3(this.histogram, Number(nv));
+        removePoint();
+        drawNewCircle(Number(nv));
     };
     __decorate([
         observable,

@@ -37,7 +37,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setupD3 = setupD3;
+exports.removePoint = removePoint;
+exports.drawNewCircle = drawNewCircle;
 var d3 = require("d3");
+var x, y, chartData = undefined;
 function setupD3(container, targetX) {
     if (!container) {
         return;
@@ -67,10 +70,11 @@ function setupD3(container, targetX) {
     }
     render_area_chart();
     function render_data(data) {
-        var x = d3.scaleLinear()
+        chartData = data;
+        x = d3.scaleLinear()
             .domain(d3.extent(data, function (d) { return d.x; }))
             .range([marginLeft, width - marginRight - marginLeft]);
-        var y = d3.scaleLinear()
+        y = d3.scaleLinear()
             .domain([0, d3.max(data, function (d) { return d.y; })])
             .range([height - marginBottom, marginTop]);
         var area = d3.area()
@@ -90,14 +94,15 @@ function setupD3(container, targetX) {
         svg.append("g")
             .attr("transform", "translate(".concat(marginLeft, ",").concat(height - marginBottom, ")"))
             .call(xAxis);
-        var point = data.find(function (d) { return d.x === targetX; });
+        drawNewCircle(targetX);
+        var point = chartData === null || chartData === void 0 ? void 0 : chartData.find(function (d) { return d.x === targetX; });
         if (point) {
             svg.append("circle")
                 .attr("cx", x(point.x))
                 .attr("cy", y(point.y))
                 .attr("r", 5)
                 .attr("fill", '#944EA1');
-            svg.append("text")
+            svg.append("relevanteAfstandText")
                 .attr("x", x(point.x) - 10)
                 .attr("y", y(point.y) + 4)
                 .attr("text-anchor", "end")
@@ -107,6 +112,31 @@ function setupD3(container, targetX) {
         }
         container.append(svg.node());
     }
+}
+function removePoint() {
+    var circle = d3.select('svg').selectAll('circle');
+    circle.remove();
+    var text = d3.select('svg').selectAll('relevanteAfstandText');
+    text.remove();
+}
+function drawNewCircle(targetX) {
+    var point = chartData === null || chartData === void 0 ? void 0 : chartData.find(function (d) { return d.x === targetX; });
+    if (!point) {
+        return;
+    }
+    var map = d3.select('svg');
+    map.append("circle")
+        .attr("cx", x(point.x))
+        .attr("cy", y(point.y))
+        .attr("r", 5)
+        .attr("fill", '#944EA1');
+    map.append("relevanteAfstandText")
+        .attr("x", x(point.x) - 10)
+        .attr("y", y(point.y) + 4)
+        .attr("text-anchor", "end")
+        .attr("font-size", "14px")
+        .attr("fill", '#944EA1')
+        .text(point.y + ' m²');
 }
 
 //# sourceMappingURL=d3.js.map
