@@ -1,1 +1,0 @@
-{"version":3,"sources":["zoneerder/components/referentielaag-map.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,mBAAmB,CAAC;AAC5C,OAAO,EAAE,OAAO,EAAE,MAAM,YAAY,CAAC;AAIrC,qBAAa,iBAAkB,SAAQ,OAAO;IAClC,IAAI,EAAE,OAAO,CAAC;;IAOxB,QAAQ;CAiBT","file":"referentielaag-map.d.ts","sourceRoot":"../../../../src/"}

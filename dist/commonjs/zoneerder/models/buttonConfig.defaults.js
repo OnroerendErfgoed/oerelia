@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.defaultButtonConfig = void 0;
 exports.defaultButtonConfig = {
     fullscreen: true,
     zoomInOut: true,

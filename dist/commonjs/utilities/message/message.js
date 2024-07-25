@@ -11,6 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Message = void 0;
 var toastr = require("toastr");
 var messageTypes_1 = require("./enums/messageTypes");
 var Message = (function () {

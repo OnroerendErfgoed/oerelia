@@ -1,4 +1,4 @@
-import { bindable, inject, LogManager, PLATFORM, autoinject } from 'aurelia-framework';
+import { bindable, LogManager, PLATFORM, autoinject } from 'aurelia-framework';
 import ol from 'openlayers';
 import { Contour } from '../models/contour';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';

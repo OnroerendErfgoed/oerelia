@@ -8,14 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Autocomplete = void 0;
 var aurelia_binding_1 = require("aurelia-binding");
 var aurelia_templating_1 = require("aurelia-templating");
 var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
@@ -117,7 +120,7 @@ var Autocomplete = (function () {
                     _this.collapse();
                 }
                 else {
-                    (_a = _this.suggestions).splice.apply(_a, __spreadArrays([0, _this.suggestions.length], suggestions));
+                    (_a = _this.suggestions).splice.apply(_a, __spreadArray([0, _this.suggestions.length], suggestions, false));
                     if (suggestions.length === 1 && _this.type !== autocomplete_type_1.autocompleteType.Suggest) {
                         _this.select(suggestions[0]);
                     }
@@ -222,7 +225,7 @@ var Autocomplete = (function () {
         __metadata("design:type", Object)
     ], Autocomplete.prototype, "service", void 0);
     __decorate([
-        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
+        (0, aurelia_templating_1.bindable)({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
     ], Autocomplete.prototype, "value", void 0);
     __decorate([
@@ -270,7 +273,7 @@ var Autocomplete = (function () {
         __metadata("design:type", String)
     ], Autocomplete.prototype, "field", void 0);
     Autocomplete = __decorate([
-        aurelia_dependency_injection_1.inject(Element),
+        (0, aurelia_dependency_injection_1.inject)(Element),
         __metadata("design:paramtypes", [Element])
     ], Autocomplete);
     return Autocomplete;

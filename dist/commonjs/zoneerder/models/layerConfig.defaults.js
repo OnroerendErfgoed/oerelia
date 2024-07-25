@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.defaultLayerConfig = void 0;
 var layerConfig_enums_1 = require("./layerConfig.enums");
 exports.defaultLayerConfig = {
     baseLayers: {

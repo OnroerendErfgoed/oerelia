@@ -33,9 +33,9 @@ export interface DHMVLayerOptions extends BaseLayerOptions {
 export interface OMWRGBMRVLOptions extends BaseLayerOptions {
     type: LayerType.OMWRGBMRVL;
 }
-export declare type GrbLayerOptions = GrbOrNgiLayerOptions;
-export declare type NgiLayerOptions = GrbOrNgiLayerOptions;
-export declare type LayerOptions = VectorLayerOptions | GrbLayerOptions | NgiLayerOptions | GrbWmsLayerOptions | ErfgoedWmsLayerOptions | DHMVLayerOptions | OMWRGBMRVLOptions;
+export type GrbLayerOptions = GrbOrNgiLayerOptions;
+export type NgiLayerOptions = GrbOrNgiLayerOptions;
+export type LayerOptions = VectorLayerOptions | GrbLayerOptions | NgiLayerOptions | GrbWmsLayerOptions | ErfgoedWmsLayerOptions | DHMVLayerOptions | OMWRGBMRVLOptions;
 export interface LayerConfig {
     baseLayers: {
         [layerId: string]: LayerOptions;

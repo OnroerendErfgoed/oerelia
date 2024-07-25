@@ -1,16 +1,27 @@
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.configure = configure;
 var aurelia_framework_1 = require("aurelia-framework");
-__export(require("./telefoon-select"));
-__export(require("./models/telefoon"));
+__exportStar(require("./telefoon-select"), exports);
+__exportStar(require("./models/telefoon"), exports);
 function configure(config) {
     config.globalResources([
         aurelia_framework_1.PLATFORM.moduleName('./telefoon-select')
     ]);
 }
-exports.configure = configure;
 
 //# sourceMappingURL=index.js.map

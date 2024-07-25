@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ZoneVergelijkingDialog = void 0;
 var layerConfig_referentielaag_1 = require("../models/layerConfig.referentielaag");
 var ZoneVergelijkingDialog = (function () {
     function ZoneVergelijkingDialog() {

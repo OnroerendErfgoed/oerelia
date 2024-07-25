@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Zoneerder = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_http_client_1 = require("aurelia-http-client");
 var crab_api_service_1 = require("../services/crab.api-service");
@@ -56,7 +57,7 @@ var Zoneerder = (function () {
         __metadata("design:type", Boolean)
     ], Zoneerder.prototype, "disabled", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        (0, aurelia_framework_1.bindable)({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", contour_1.Contour)
     ], Zoneerder.prototype, "zone", void 0);
     __decorate([
@@ -84,7 +85,7 @@ var Zoneerder = (function () {
         __metadata("design:type", Boolean)
     ], Zoneerder.prototype, "showGrbTool", void 0);
     Zoneerder = __decorate([
-        aurelia_framework_1.inject(aurelia_http_client_1.HttpClient, crab_api_service_1.CrabService, geozoekdienst_api_service_1.GeozoekdienstApiService),
+        (0, aurelia_framework_1.inject)(aurelia_http_client_1.HttpClient, crab_api_service_1.CrabService, geozoekdienst_api_service_1.GeozoekdienstApiService),
         __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient,
             crab_api_service_1.CrabService,
             geozoekdienst_api_service_1.GeozoekdienstApiService])

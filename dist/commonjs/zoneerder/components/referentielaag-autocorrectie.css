@@ -1,0 +1,62 @@
+.tabs-content {
+  background: rgb(237, 237, 237);
+  padding: 5px 10px;
+  margin-top: 1px;
+}
+
+.tabs dd {
+  margin-right: 1px !important;
+}
+
+referentielaag-autocorrectie {
+  background-color: white;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 1rem;
+  padding: 1rem;
+  height: 65vh;
+  overflow-y: auto;
+}
+referentielaag-autocorrectie h3 i.fa-magic {
+  padding-right: 20px;
+}
+referentielaag-autocorrectie input[type=range] {
+  accent-color: #944EA1;
+}
+referentielaag-autocorrectie input[type=range]::-moz-range-track {
+  background-color: #944EA1;
+}
+referentielaag-autocorrectie input[type=range]::-moz-range-thumb {
+  background: #944EA1;
+}
+referentielaag-autocorrectie .slider {
+  margin-bottom: 2rem;
+}
+referentielaag-autocorrectie .slider input {
+  width: 100%;
+}
+referentielaag-autocorrectie .slider .value {
+  display: inline-block;
+}
+referentielaag-autocorrectie .slider .value-min {
+  float: left;
+}
+referentielaag-autocorrectie .slider .value-max {
+  float: right;
+}
+referentielaag-autocorrectie .openbare-domein-strategie-title {
+  display: inline-block;
+  padding-right: 5px;
+}
+referentielaag-autocorrectie .histogram-value {
+  position: absolute;
+  top: 40%;
+  left: 45%;
+}
+referentielaag-autocorrectie .histogram-container {
+  position: relative;
+}
+referentielaag-autocorrectie .histogram-container svg {
+  width: 100%;
+}

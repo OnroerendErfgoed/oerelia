@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FoundationValidationRenderer = void 0;
 var message_1 = require("../utilities/message/message");
 var FoundationValidationRenderer = (function () {
     function FoundationValidationRenderer() {

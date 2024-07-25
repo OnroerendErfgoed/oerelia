@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ReferencesDialog = void 0;
 var aurelia_dialog_1 = require("aurelia-dialog");
 var aurelia_framework_1 = require("aurelia-framework");
 var id_service_api_service_1 = require("../services/id-service.api-service");
@@ -27,7 +28,7 @@ var ReferencesDialog = (function () {
         });
     };
     ReferencesDialog = __decorate([
-        aurelia_framework_1.autoinject(),
+        (0, aurelia_framework_1.autoinject)(),
         __metadata("design:paramtypes", [aurelia_dialog_1.DialogController,
             id_service_api_service_1.IdServiceApiService])
     ], ReferencesDialog);

@@ -3,10 +3,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -22,6 +24,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.OlMap = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var openlayers_1 = require("openlayers");
 var contour_1 = require("../models/contour");
@@ -114,14 +117,14 @@ var OlMap = (function (_super) {
         this.toggleDrawZone(true, type);
         if (type === 'Polygon') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
-                evt.feature.setProperties({ name: "Polygoon " + _this.polygonIndex++ });
+                evt.feature.setProperties({ name: "Polygoon ".concat(_this.polygonIndex++) });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });
         }
         else if (type === 'Circle') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
                 var circle = evt.feature.getGeometry();
-                evt.feature.setProperties({ name: "Cirkel " + _this.circleIndex++ });
+                evt.feature.setProperties({ name: "Cirkel ".concat(_this.circleIndex++) });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });
         }
@@ -161,7 +164,7 @@ var OlMap = (function (_super) {
     };
     OlMap.prototype.drawPerceel = function (olFeature) {
         if (olFeature) {
-            var name_1 = "Perceel " + olFeature.get('CAPAKEY');
+            var name_1 = "Perceel ".concat(olFeature.get('CAPAKEY'));
             if (this.geometryObjectList.indexOf(name_1) === -1) {
                 olFeature.set('name', name_1);
                 this.drawLayer.getSource().addFeature(olFeature);
@@ -176,7 +179,7 @@ var OlMap = (function (_super) {
         var wktParser = new openlayers_1.default.format.WKT();
         try {
             var featureFromWKT = wktParser.readFeature(wkt);
-            var name_2 = "Polygoon " + this.polygonIndex++;
+            var name_2 = "Polygoon ".concat(this.polygonIndex++);
             featureFromWKT.setProperties({
                 name: name_2
             });
@@ -320,7 +323,7 @@ var OlMap = (function (_super) {
         __metadata("design:type", Boolean)
     ], OlMap.prototype, "disabled", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
+        (0, aurelia_framework_1.bindable)({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay }),
         __metadata("design:type", contour_1.Contour)
     ], OlMap.prototype, "zone", void 0);
     __decorate([

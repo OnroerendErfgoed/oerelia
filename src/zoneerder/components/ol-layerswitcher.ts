@@ -181,7 +181,7 @@ export class Layerswitcher extends ol.control.Control {
     const lyrTitle = lyr.get('title');
     const lyrId = lyr.get('title').replace(' ', '-') + '_' + idx;
     const label = document.createElement('label');
-
+    
     if (lyr.getLayers) {
       li.className = 'group';
       label.innerHTML = lyrTitle;

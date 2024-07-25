@@ -23,7 +23,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -45,6 +45,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AdresregisterService = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_http_client_1 = require("aurelia-http-client");
 var restMessage_1 = require("../utilities/message/restMessage");
@@ -90,7 +91,7 @@ var AdresregisterService = (function () {
                         return [4, this.crabGet('adressenregister/landen')];
                     case 1:
                         landen = _a.sent();
-                        this.landen = lodash_1.sortBy(landen, 'naam');
+                        this.landen = (0, lodash_1.sortBy)(landen, 'naam');
                         return [2, this.landen];
                 }
             });
@@ -112,18 +113,18 @@ var AdresregisterService = (function () {
                     case 2:
                         provinciesWaalsGewest = _a.sent();
                         this.provincies = this.provincies.concat(provinciesVlaamsGewest, provinciesWaalsGewest);
-                        return [2, lodash_1.sortBy(this.provincies, 'naam')];
+                        return [2, (0, lodash_1.sortBy)(this.provincies, 'naam')];
                 }
             });
         });
     };
     AdresregisterService.prototype.getProvinciesPerGewest = function (niscode) {
-        return this.crabGet("adressenregister/gewesten/" + niscode + "/provincies");
+        return this.crabGet("adressenregister/gewesten/".concat(niscode, "/provincies"));
     };
     AdresregisterService.prototype.getProvincieByNiscode = function (niscode) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2, this.crabGet("adressenregister/provincies/" + niscode)];
+                return [2, this.crabGet("adressenregister/provincies/".concat(niscode))];
             });
         });
     };
@@ -131,21 +132,21 @@ var AdresregisterService = (function () {
         get: function () {
             return this.gemeentenVlaamsGewest;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AdresregisterService.prototype, "waalseGemeenten", {
         get: function () {
             return this.gemeentenWaalsGewest;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AdresregisterService.prototype, "brusselseGemeenten", {
         get: function () {
             return this.gemeentenBHGewest;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     AdresregisterService.prototype.getGemeenten = function () {
@@ -171,7 +172,7 @@ var AdresregisterService = (function () {
                             this.gemeentenWaalsGewest = gemeenten[1];
                             this.gemeentenBHGewest = gemeenten[2];
                             this.gemeenten = this.gemeenten.concat(this.gemeentenVlaamsGewest, this.gemeentenWaalsGewest, this.gemeentenBHGewest);
-                            return [2, lodash_1.sortBy(this.gemeenten, 'naam')];
+                            return [2, (0, lodash_1.sortBy)(this.gemeenten, 'naam')];
                         }
                         return [2, []];
                 }
@@ -179,32 +180,32 @@ var AdresregisterService = (function () {
         });
     };
     AdresregisterService.prototype.getGemeentenPerGewest = function (niscode) {
-        return this.crabGet("adressenregister/gewesten/" + niscode + "/gemeenten");
+        return this.crabGet("adressenregister/gewesten/".concat(niscode, "/gemeenten"));
     };
     AdresregisterService.prototype.getGemeentenByProvincie = function (provincie) {
-        return this.crabGet("adressenregister/provincies/" + provincie + "/gemeenten");
+        return this.crabGet("adressenregister/provincies/".concat(provincie, "/gemeenten"));
     };
     AdresregisterService.prototype.getGemeenteByNiscode = function (niscode) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2, this.crabGet("adressenregister/gemeenten/" + niscode)];
+                return [2, this.crabGet("adressenregister/gemeenten/".concat(niscode))];
             });
         });
     };
     AdresregisterService.prototype.getDeelgemeenten = function (gemeente) {
-        return this.crabGet("adressenregister/gemeenten/" + gemeente + "/deelgemeenten");
+        return this.crabGet("adressenregister/gemeenten/".concat(gemeente, "/deelgemeenten"));
     };
     AdresregisterService.prototype.getPostinfo = function (gemeente) {
-        return this.crabGet("adressenregister/gemeenten/" + gemeente + "/postinfo");
+        return this.crabGet("adressenregister/gemeenten/".concat(gemeente, "/postinfo"));
     };
     AdresregisterService.prototype.getStraten = function (gemeente) {
-        return this.crabGet("adressenregister/gemeenten/" + gemeente + "/straten");
+        return this.crabGet("adressenregister/gemeenten/".concat(gemeente, "/straten"));
     };
     AdresregisterService.prototype.getAdressen = function (straat, huisnummer) {
         if (huisnummer) {
-            return this.crabGet("adressenregister/straten/" + straat + "/huisnummers/" + huisnummer);
+            return this.crabGet("adressenregister/straten/".concat(straat, "/huisnummers/").concat(huisnummer));
         }
-        return this.crabGet("adressenregister/straten/" + straat + "/adressen");
+        return this.crabGet("adressenregister/straten/".concat(straat, "/adressen"));
     };
     AdresregisterService.prototype.suggestLocatie = function (value) {
         return __awaiter(this, void 0, void 0, function () {
@@ -236,7 +237,7 @@ var AdresregisterService = (function () {
         });
     };
     AdresregisterService = __decorate([
-        aurelia_framework_1.inject(aurelia_http_client_1.HttpClient),
+        (0, aurelia_framework_1.inject)(aurelia_http_client_1.HttpClient),
         __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient])
     ], AdresregisterService);
     return AdresregisterService;

@@ -19,7 +19,7 @@ export declare abstract class BaseMap {
     zoomToExtent(extent: ol.Extent): void;
     formatGeoJson(feature: ol.geom.Geometry): Contour;
     getMapInfo(): number;
-    transformBoundingboxToMapExtent(boundingbox: Boundingbox): [number, number, number, number];
+    transformBoundingboxToMapExtent(boundingbox: Boundingbox): ol.Extent;
     transformLatLonToPoint(lat: number, lon: number): ol.geom.Point;
     transformLambert72ToWebMercator(center: ol.Coordinate): ol.Coordinate;
     protected _createMap(): void;

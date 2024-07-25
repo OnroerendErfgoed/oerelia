@@ -1,1 +1,0 @@
-{"version":3,"sources":["tabs/tabs-pane.ts"],"names":[],"mappings":"AAEA,qBACa,QAAQ;IACF,KAAK,EAAE,GAAG,CAAC;IACX,GAAG,EAAE,GAAG,CAAC;IACT,SAAS,EAAE,GAAG,CAAC;IACf,MAAM,CAAC,EAAE,OAAO,CAAC;IACjB,YAAY,CAAC,EAAE,GAAG,CAAC;CAYrC","file":"tabs-pane.d.ts","sourceRoot":"../../../src/"}

@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AureliaPikadayDatepicker = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var Pikaday = require("pikaday");
 var moment = require("moment");
@@ -101,7 +102,7 @@ var AureliaPikadayDatepicker = (function () {
         };
     };
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        (0, aurelia_framework_1.bindable)({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", String)
     ], AureliaPikadayDatepicker.prototype, "value", void 0);
     __decorate([
@@ -117,7 +118,7 @@ var AureliaPikadayDatepicker = (function () {
         __metadata("design:type", Boolean)
     ], AureliaPikadayDatepicker.prototype, "disabled", void 0);
     AureliaPikadayDatepicker = __decorate([
-        aurelia_framework_1.inject(Element),
+        (0, aurelia_framework_1.inject)(Element),
         __metadata("design:paramtypes", [Element])
     ], AureliaPikadayDatepicker);
     return AureliaPikadayDatepicker;

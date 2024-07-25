@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Boundingbox = exports.GeolocationResponse = void 0;
 var GeolocationResponse = (function () {
     function GeolocationResponse() {
     }
