@@ -27,6 +27,9 @@ referentie-laag-map {
 .referentielaag-node .layer-switcher {
   z-index: 3;
 }
+.referentielaag-node .layer-switcher.shown {
+  height: 40vh !important;
+}
 
 @media (max-width: 1000px) {
   referentielaag-autocorrectie {

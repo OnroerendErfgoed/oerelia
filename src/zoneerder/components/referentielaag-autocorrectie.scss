@@ -17,7 +17,6 @@ referentielaag-autocorrectie {
   // color for slider
   input[type=range] {
     accent-color: $primary-color;
-    border-radius: 10%;
   }
 
   input[type=range]::-moz-range-track {
@@ -26,9 +25,6 @@ referentielaag-autocorrectie {
 
   input[type=range]::-moz-range-thumb {
     background: $primary-color;
-    // height: 10px;
-    // width: 10px;
-    border-radius: 10%;
   }
 
   .slider {

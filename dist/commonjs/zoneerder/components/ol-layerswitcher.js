@@ -134,12 +134,6 @@ var Layerswitcher = (function (_super) {
         var lyrTitle = lyr.get('title');
         var lyrId = lyr.get('title').replace(' ', '-') + '_' + idx;
         var label = document.createElement('label');
-        var row = document.createElement('div');
-        row.className = 'row';
-        var div1 = document.createElement('div');
-        div1.className = 'large-10 column';
-        var div2 = document.createElement('div');
-        div2.className = 'large-2 column';
         if (lyr.getLayers) {
             li.className = 'group';
             label.innerHTML = lyrTitle;
@@ -164,23 +158,28 @@ var Layerswitcher = (function (_super) {
                 self.setVisible_(lyr, e.target[check]);
             };
             label.htmlFor = lyrId;
-            label.innerHTML = lyrTitle;
-            li.appendChild(input);
-            li.appendChild(label);
+            var title = document.createElement('span');
+            title.innerHTML = lyrTitle;
+            var row = document.createElement('div');
+            row.className = 'row';
+            row.appendChild(input);
+            row.appendChild(label);
+            li.appendChild(row);
             if (lyr.get('showLegend')) {
-                li.style.display = 'flex';
-                label.style.flex = "1";
-                var legend = this.createLegend(lyr);
-                li.appendChild(legend);
+                this.addLegend(lyr, li, label);
             }
+            label.appendChild(title);
         }
         return li;
     };
-    Layerswitcher.prototype.createLegend = function (lyr) {
+    Layerswitcher.prototype.addLegend = function (lyr, li, label) {
         var legendDiv = document.createElement('div');
         if (lyr.get('layerType') === layerConfig_enums_1.LayerType.Vector) {
             legendDiv.style.backgroundColor = 'white';
+            legendDiv.style.width = '14px';
             legendDiv.style.height = '14px';
+            legendDiv.style.display = 'inline-block';
+            legendDiv.style.verticalAlign = 'sub';
             legendDiv.style.marginRight = '4px';
             var legendGraphic = document.createElement('div');
             var style = lyr.get('style');
@@ -189,18 +188,26 @@ var Layerswitcher = (function (_super) {
             legendGraphic.style.backgroundColor = fill;
             legendGraphic.style.border = '1px solid ' + stroke;
             legendGraphic.style.height = '100%';
-            legendGraphic.style.width = '14px';
             legendDiv.appendChild(legendGraphic);
+            label.appendChild(legendDiv);
         }
         else if (lyr.get('legendItems')) {
+            var legendRow = document.createElement('div');
+            legendRow.className = 'row';
+            legendDiv.className = 'large-12 column';
             for (var _i = 0, _a = lyr.get('legendItems'); _i < _a.length; _i++) {
                 var legendUrl = _a[_i];
                 var legendImage = document.createElement('img');
                 legendImage.src = legendUrl;
+                legendImage.style.marginLeft = '9px';
+                legendDiv.style.width = '50%';
                 legendDiv.appendChild(legendImage);
             }
+            var legendSpan = document.createElement('span');
+            legendSpan.appendChild(legendDiv);
+            legendRow.appendChild(legendSpan);
+            li.appendChild(legendRow);
         }
-        return legendDiv;
     };
     Layerswitcher.prototype.renderLayers_ = function (lyr, elm) {
         var lyrs = lyr.getLayers().getArray().slice().reverse();

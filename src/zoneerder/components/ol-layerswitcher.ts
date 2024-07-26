@@ -181,15 +181,6 @@ export class Layerswitcher extends ol.control.Control {
     const lyrTitle = lyr.get('title');
     const lyrId = lyr.get('title').replace(' ', '-') + '_' + idx;
     const label = document.createElement('label');
-
-    const row = document.createElement('div')
-    row.className = 'row';
-
-    const div1 = document.createElement('div');
-    div1.className = 'large-10 column';
-
-    const div2 = document.createElement('div');
-    div2.className = 'large-2 column';
     
     if (lyr.getLayers) {
       li.className = 'group';
@@ -214,27 +205,29 @@ export class Layerswitcher extends ol.control.Control {
       };
 
       label.htmlFor = lyrId;
-      label.innerHTML = lyrTitle;
-      li.appendChild(input);
-      li.appendChild(label);
-      
+      const title  = document.createElement('span');
+      title.innerHTML = lyrTitle;
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.appendChild(input);
+      row.appendChild(label);
+      li.appendChild(row);
       if (lyr.get('showLegend')) {
-        li.style.display = 'flex';
-        label.style.flex = "1"
-        const legend = this.createLegend(lyr);
-        li.appendChild(legend);
+        this.addLegend(lyr, li, label);
       }
-      
+      label.appendChild(title);
     }
     return li;
   }
   
-  private createLegend(lyr: ol.layer.Base) {
+  private addLegend(lyr: ol.layer.Base, li: Element, label: Element) {
     const legendDiv = document.createElement('div');
-    
     if (lyr.get('layerType') === LayerType.Vector) {
       legendDiv.style.backgroundColor = 'white';
+      legendDiv.style.width = '14px';
       legendDiv.style.height = '14px';
+      legendDiv.style.display = 'inline-block';
+      legendDiv.style.verticalAlign = 'sub';
       legendDiv.style.marginRight = '4px';
       const legendGraphic = document.createElement('div');
       const style = lyr.get('style');
@@ -243,16 +236,24 @@ export class Layerswitcher extends ol.control.Control {
       legendGraphic.style.backgroundColor = fill;
       legendGraphic.style.border = '1px solid ' + stroke;
       legendGraphic.style.height = '100%';
-      legendGraphic.style.width = '14px';
       legendDiv.appendChild(legendGraphic);
+      label.appendChild(legendDiv);
     } else if (lyr.get('legendItems')) {
+      const legendRow = document.createElement('div');
+      legendRow.className = 'row';
+      legendDiv.className = 'large-12 column';
       for (const legendUrl of lyr.get('legendItems')) {
         const legendImage = document.createElement('img');
         legendImage.src = legendUrl;
+        legendImage.style.marginLeft = '9px';
+        legendDiv.style.width = '50%';
         legendDiv.appendChild(legendImage);
       }
+      const legendSpan = document.createElement('span');
+      legendSpan.appendChild(legendDiv);
+      legendRow.appendChild(legendSpan);
+      li.appendChild(legendRow);
     }
-    return legendDiv;
   }
 
   /**
