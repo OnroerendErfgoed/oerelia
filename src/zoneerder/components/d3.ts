@@ -75,12 +75,13 @@ export function setupD3(container: HTMLElement, targetX: number) {
         .attr("r", 5)
         .attr("fill", '#944EA1');
 
-      svg.append("relevanteAfstandText")
-        .attr("x", x(point.x) - 10) // Adjust this value to position the text
-        .attr("y", y(point.y) + 4) // Adjust this value to center the text vertically
-        .attr("text-anchor", "end") // Right align the text
+      svg.append("text")
+        .attr("x", x(point.x) < 50 ? x(point.x) + 10 : x(point.x) - 10) // Adjust position based on x value
+        .attr("y", y(point.y) - 5) // Adjust this value to center the text vertically
+        .attr("text-anchor", x(point.x) < 50 ? "start" : "end") // Adjust text-anchor based on x value
         .attr("font-size", "14px") // Set the font size
         .attr("fill", '#944EA1') // Set the fill color
+        .attr("class", "circle-label")
         .text(point.y + ' m²');
     }
 
@@ -91,7 +92,7 @@ export function setupD3(container: HTMLElement, targetX: number) {
 export function removePoint() {
   const circle = d3.select('svg').selectAll('circle')
   circle.remove();
-  const text = d3.select('svg').selectAll('relevanteAfstandText')
+  const text = d3.select('svg').selectAll('text.circle-label');
   text.remove();
 }
 
@@ -108,11 +109,12 @@ export function drawNewCircle(targetX: number) {
     .attr("r", 5)
     .attr("fill", '#944EA1');
 
-    map.append("relevanteAfstandText")
-    .attr("x", x(point.x) - 10) // Adjust this value to position the text
-    .attr("y", y(point.y) + 4) // Adjust this value to center the text vertically
-    .attr("text-anchor", "end") // Right align the text
+    map.append("text")
+    .attr("x", x(point.x) < 50 ? x(point.x) + 10 : x(point.x) - 10) // Adjust position based on x value
+    .attr("y", y(point.y) - 5) // Adjust this value to center the text vertically
+    .attr("text-anchor", x(point.x) < 50 ? "start" : "end") // Adjust text-anchor based on x value
     .attr("font-size", "14px") // Set the font size
     .attr("fill", '#944EA1') // Set the fill color
+    .attr("class", "circle-label")
     .text(point.y + ' m²');
 }

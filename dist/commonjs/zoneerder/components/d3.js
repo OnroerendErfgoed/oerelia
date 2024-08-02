@@ -102,12 +102,13 @@ function setupD3(container, targetX) {
                 .attr("cy", y(point.y))
                 .attr("r", 5)
                 .attr("fill", '#944EA1');
-            svg.append("relevanteAfstandText")
-                .attr("x", x(point.x) - 10)
-                .attr("y", y(point.y) + 4)
-                .attr("text-anchor", "end")
+            svg.append("text")
+                .attr("x", x(point.x) < 50 ? x(point.x) + 10 : x(point.x) - 10)
+                .attr("y", y(point.y) - 5)
+                .attr("text-anchor", x(point.x) < 50 ? "start" : "end")
                 .attr("font-size", "14px")
                 .attr("fill", '#944EA1')
+                .attr("class", "circle-label")
                 .text(point.y + ' m²');
         }
         container.append(svg.node());
@@ -116,7 +117,7 @@ function setupD3(container, targetX) {
 function removePoint() {
     var circle = d3.select('svg').selectAll('circle');
     circle.remove();
-    var text = d3.select('svg').selectAll('relevanteAfstandText');
+    var text = d3.select('svg').selectAll('text.circle-label');
     text.remove();
 }
 function drawNewCircle(targetX) {
@@ -130,12 +131,13 @@ function drawNewCircle(targetX) {
         .attr("cy", y(point.y))
         .attr("r", 5)
         .attr("fill", '#944EA1');
-    map.append("relevanteAfstandText")
-        .attr("x", x(point.x) - 10)
-        .attr("y", y(point.y) + 4)
-        .attr("text-anchor", "end")
+    map.append("text")
+        .attr("x", x(point.x) < 50 ? x(point.x) + 10 : x(point.x) - 10)
+        .attr("y", y(point.y) - 5)
+        .attr("text-anchor", x(point.x) < 50 ? "start" : "end")
         .attr("font-size", "14px")
         .attr("fill", '#944EA1')
+        .attr("class", "circle-label")
         .text(point.y + ' m²');
 }
 
