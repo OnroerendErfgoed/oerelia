@@ -28,6 +28,10 @@ referentielaag-autocorrectie {
   }
 
   .slider {
+    width: 370px;
+    padding-left: 2px; // bit of padding because the image has some padding
+    padding-right: 2px;
+
     margin-bottom: 2rem;
 
     input {
@@ -52,17 +56,20 @@ referentielaag-autocorrectie {
     padding-right: 5px;
   }
 
-  .histogram-value {
-    position: absolute;
-    top: 40%;
-    left: 45%;
-  }
-
   .histogram-container {
+    width: 370px;
     position: relative;
 
     svg {
       width: 100%;
     }
+  }
+
+  .graph-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 }

@@ -6,6 +6,11 @@
   justify-content: center;
   align-items: center;
 
+  i.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
   &-container {
     position: relative;
     display: inline-block;

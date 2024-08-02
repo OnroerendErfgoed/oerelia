@@ -35,72 +35,103 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import * as d3 from 'd3';
-export function setupD3(container) {
+var x, y, chartData = undefined;
+export function setupD3(container, targetX) {
+    if (!container) {
+        return;
+    }
+    ;
+    container.innerHTML = '';
     var width = 350;
     var height = 200;
     var marginTop = 20;
-    var marginRight = 30;
+    var marginRight = 0;
     var marginBottom = 30;
-    var marginLeft = 40;
+    var marginLeft = 0;
     function render_area_chart() {
         return __awaiter(this, void 0, void 0, function () {
-            var data, response;
+            var response, data;
             return __generator(this, function (_a) {
-                data = [
-                    {
-                        date: '2007-04-23',
-                        close: 10
-                    },
-                    {
-                        date: '2007-04-24',
-                        close: 25
-                    },
-                    {
-                        date: '2007-04-25',
-                        close: 45
-                    },
-                    {
-                        date: '2007-04-26',
-                        close: 70
-                    },
-                ];
-                response = data.map(function (data) {
-                    var date = d3.timeParse("%Y-%m-%d")(data.date);
-                    if (date === null) {
-                        throw new Error("Invalid date ".concat(data.date));
-                    }
-                    return {
-                        date: date,
-                        close: +data.close
-                    };
+                response = { 0.0: -0.0, 0.1: 0.0, 0.2: 0.0, 0.3: 0.0, 0.4: 0.0, 0.5: 0.0, 0.6: 0.0, 0.7: 0.0, 0.8: 0.0, 0.9: 0.0, 1.0: 1.7, 1.1: -7.2, 1.2: -7.2, 1.3: -7.2, 1.4: -7.2, 1.5: -7.2, 1.6: -7.2, 1.7: -7.2, 1.8: -7.2, 1.9: -7.2, 2.0: -7.2, 2.1: -7.2, 2.2: -7.2, 2.3: -7.2, 2.4: -7.2, 2.5: 8.5, 2.6: 8.5, 2.7: 8.5, 2.8: 8.5, 2.9: 8.5, 3.0: 8.5, 3.1: 8.5, 3.2: 8.5, 3.3: 8.5, 3.4: 8.5, 3.5: 8.5, 3.6: 8.5, 3.7: 8.5, 3.8: 8.5, 3.9: 8.5, 4.0: 8.5, 4.1: 8.5, 4.2: 8.5, 4.3: 8.5, 4.4: 8.5, 4.5: 8.5, 4.6: 8.5, 4.7: 8.5, 4.8: 8.5, 4.9: 8.5, 5.0: 8.5, 5.1: 8.5, 5.2: 8.5, 5.3: 8.5, 5.4: 8.5, 5.5: 8.5, 5.6: 8.5, 5.7: 8.5, 5.8: 8.5, 5.9: 8.5, 6.0: 8.5 };
+                data = Object.entries(response).map(function (_a) {
+                    var x = _a[0], y = _a[1];
+                    return ({ x: parseFloat(x), y: Math.abs(y) });
                 });
-                render_data(response);
+                data = data.sort(function (d1, d2) { return d1.x - d2.x; });
+                render_data(data);
                 return [2];
             });
         });
     }
     render_area_chart();
     function render_data(data) {
-        var x = d3.scaleUtc()
-            .domain((d3.extent(data, function (d) { return d.date; })))
-            .range([marginLeft, width - marginRight]);
-        var y = d3.scaleLinear()
-            .domain([0, d3.max(data, function (d) { return d.close; })])
+        chartData = data;
+        x = d3.scaleLinear()
+            .domain(d3.extent(data, function (d) { return d.x; }))
+            .range([marginLeft, width - marginRight - marginLeft]);
+        y = d3.scaleLinear()
+            .domain([0, d3.max(data, function (d) { return d.y; })])
             .range([height - marginBottom, marginTop]);
         var area = d3.area()
-            .x(function (d) { return x(d.date); })
+            .x(function (d) { return x(d.x); })
             .y0(y(0))
-            .y1(function (d) { return y(d.close); });
+            .y1(function (d) { return y(d.y); })
+            .curve(d3.curveStepAfter);
         var svg = d3.create("svg")
             .attr("width", width)
             .attr("height", height)
             .attr("viewBox", [0, 0, width, height])
-            .attr("style", "max-width: 100%; height: auto;");
+            .attr("style", "max-width: 100%;");
         svg.append("path")
             .attr("fill", "rgb(251,225,198)")
             .attr("d", area(data));
+        var xAxis = d3.axisBottom(x);
+        svg.append("g")
+            .attr("transform", "translate(".concat(marginLeft, ",").concat(height - marginBottom, ")"))
+            .call(xAxis);
+        drawNewCircle(targetX);
+        var point = chartData === null || chartData === void 0 ? void 0 : chartData.find(function (d) { return d.x === targetX; });
+        if (point) {
+            svg.append("circle")
+                .attr("cx", x(point.x))
+                .attr("cy", y(point.y))
+                .attr("r", 5)
+                .attr("fill", '#944EA1');
+            svg.append("relevanteAfstandText")
+                .attr("x", x(point.x) - 10)
+                .attr("y", y(point.y) + 4)
+                .attr("text-anchor", "end")
+                .attr("font-size", "14px")
+                .attr("fill", '#944EA1')
+                .text(point.y + ' m²');
+        }
         container.append(svg.node());
     }
+}
+export function removePoint() {
+    var circle = d3.select('svg').selectAll('circle');
+    circle.remove();
+    var text = d3.select('svg').selectAll('relevanteAfstandText');
+    text.remove();
+}
+export function drawNewCircle(targetX) {
+    var point = chartData === null || chartData === void 0 ? void 0 : chartData.find(function (d) { return d.x === targetX; });
+    if (!point) {
+        return;
+    }
+    var map = d3.select('svg');
+    map.append("circle")
+        .attr("cx", x(point.x))
+        .attr("cy", y(point.y))
+        .attr("r", 5)
+        .attr("fill", '#944EA1');
+    map.append("relevanteAfstandText")
+        .attr("x", x(point.x) - 10)
+        .attr("y", y(point.y) + 4)
+        .attr("text-anchor", "end")
+        .attr("font-size", "14px")
+        .attr("fill", '#944EA1')
+        .text(point.y + ' m²');
 }
 
 //# sourceMappingURL=d3.js.map

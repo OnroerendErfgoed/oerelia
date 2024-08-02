@@ -1,5 +1,5 @@
-import { autoinject } from 'aurelia-framework';
-import { setupD3 } from './d3';
+import { autoinject, observable } from 'aurelia-framework';
+import { setupD3, removePoint, drawNewCircle } from './d3';
 import { DialogService } from 'aurelia-dialog';
 import { PLATFORM } from 'aurelia-framework';
 
@@ -23,14 +23,17 @@ export class ReferentielaagAutocorrectie {
 
   private referentielaag = null;
   private domeinstrategie = null;
+  @observable private relevanteAfstand: string = "3.0";
+  private max = "6";
+  private min = "0";
+  private floatMin = "0.0";
+  private floatMax = "6.0";
+  private increment = 0.1;
 
-  constructor(private dialogService: DialogService) {
-
-  }
+  constructor(private dialogService: DialogService) { }
 
   bind() {
-    setupD3(this.histogram);
-    // setupD3Slider()
+    setupD3(this.histogram, Number(this.relevanteAfstand));
   }
 
   openOpenbaarDomeinLegende() {
@@ -42,5 +45,11 @@ export class ReferentielaagAutocorrectie {
       if (!response.wasCancelled) {
       }
     });
+  }
+
+  relevanteAfstandChanged(nv: string, ov: string) {
+    if (!ov || ov === nv) { return; }
+    removePoint();
+    drawNewCircle(Number(nv));
   }
 }

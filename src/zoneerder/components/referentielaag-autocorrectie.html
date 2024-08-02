@@ -16,13 +16,13 @@
   </select>
 
   <h5>Relevante afstand</h5>
-  <relevante-afstand-input></relevante-afstand-input>
-  <div ref="histogram" class="histogram-container">
-    <span class="histogram-value">10m²O</span>
-  </div>
-  <div class="slider">
-    <input type="range" name="mySlider" id=mySlider min="0" max="6" value="3" step="0.1">
-    <span class="value-min">0</span><span class="value-max">6</span>
+  <relevante-afstand-input relevante-afstand.two-way="relevanteAfstand"></relevante-afstand-input>
+  <div class="graph-container">
+    <div ref="histogram" class="histogram-container"></div>
+    <div class="slider">
+      <input type="range" name="mySlider" id="mySlider" min.bind="min" max.bind="max" value.bind="relevanteAfstand" step.bind="increment">
+      <span class="value-min">${min}</span><span class="value-max">${max}</span>
+    </div>
   </div>
   <h5 class="openbare-domein-strategie-title">Openbare domein strategie</h5><i class="fa fa-info-circle"
     click.delegate="openOpenbaarDomeinLegende()"></i>
