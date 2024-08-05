@@ -1,6 +1,6 @@
 import { bindable, LogManager, PLATFORM, autoinject } from 'aurelia-framework';
 import ol from 'openlayers';
-import { Contour } from '../models/contour';
+import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { CrabService } from '../../services/crab.api-service';
 import { IZoneerderServiceConfig } from 'exports';
@@ -19,7 +19,8 @@ export class OlMap extends BaseMap {
   @bindable public isCollapsed: boolean;
   @bindable public serviceConfig: IZoneerderServiceConfig;
   @bindable public showGrbTool = false;
-  
+  @bindable public alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
+
   public geometryObjectList: string[] = [];
   public WKTstring!: string;
   
@@ -326,7 +327,7 @@ export class OlMap extends BaseMap {
     void this.dialogService.open({
       viewModel: PLATFORM.moduleName(
         'oerelia/zoneerder/components/zone-vergelijking-dialog'),
-      model: { zone: this.zone }
+      model: { zone: this.zone, alignGrb: this.alignGrb }
     }).whenClosed((response) => {
       if (!response.wasCancelled) {
         const data = response.output.data;

@@ -9,16 +9,16 @@
   </h3>
 
   <h5>Referentielaag</h5>
-  <select value.bind="referentielaag">
+  <select value.bind="referentielaag" change.delegate="onHistogramDataChanged()">
     <option model.bind="null" selected>Kies een referentielaag</option>
-    <option repeat.for="referentielaag of referentieLagen" model.bind="referentielaag.value">${referentielaag.label}
+    <option repeat.for="referentielaag of referentieLagen" model.bind="referentielaag">${referentielaag.label}
     </option>
   </select>
 
   <h5>Relevante afstand</h5>
   <relevante-afstand-input relevante-afstand.two-way="relevanteAfstand"></relevante-afstand-input>
   <div class="graph-container">
-    <div ref="histogram" class="histogram-container"></div>
+    <div ref="histogram" class="histogram-container" show.bind="showHistogram"></div>
     <div class="slider">
       <input type="range" name="mySlider" id="mySlider" min.bind="min" max.bind="max" value.bind="relevanteAfstand" step.bind="increment">
       <span class="value-min">${min}</span><span class="value-max">${max}</span>
@@ -26,7 +26,7 @@
   </div>
   <h5 class="openbare-domein-strategie-title">Openbare domein strategie</h5><i class="fa fa-info-circle"
     click.delegate="openOpenbaarDomeinLegende()"></i>
-  <select value.bind="domeinStrategie">
-    <option repeat.for="strategie of strategieen" model.bind="strategie.value">${strategie.label}</option>
+  <select value.bind="domeinStrategie" change.delegate="onHistogramDataChanged()">
+    <option repeat.for="strategie of strategieen" model.bind="strategie">${strategie.label}</option>
   </select>
 </template>

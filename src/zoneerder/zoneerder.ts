@@ -3,7 +3,7 @@ import { HttpClient } from 'aurelia-http-client';
 import { OlMap } from './components/ol-map';
 import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
-import { Contour } from './models/contour';
+import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from './models/contour';
 import { ButtonConfig } from './models/buttonConfig';
 import { LayerConfig } from './models/layerConfig';
 import { IZoneerderServiceConfig } from 'models/public-models';
@@ -21,6 +21,7 @@ export class Zoneerder {
   @bindable public serviceConfig: IZoneerderServiceConfig;
   @bindable public isCollapsed?: boolean = true;
   @bindable public showGrbTool?: boolean = false;
+  @bindable public alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
 
   protected suggest: { suggest: Function };
   private map: OlMap;
@@ -35,6 +36,7 @@ export class Zoneerder {
 
   public onMapLoaded($event) {
     log.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
+    console.log(this.alignGrb);
   }
 
   public resize() {

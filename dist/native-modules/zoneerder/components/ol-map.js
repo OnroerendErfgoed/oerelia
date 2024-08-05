@@ -308,7 +308,7 @@ var OlMap = (function (_super) {
     OlMap.prototype.showZoneVergelijkingDialog = function () {
         void this.dialogService.open({
             viewModel: PLATFORM.moduleName('oerelia/zoneerder/components/zone-vergelijking-dialog'),
-            model: { zone: this.zone }
+            model: { zone: this.zone, alignGrb: this.alignGrb }
         }).whenClosed(function (response) {
             if (!response.wasCancelled) {
                 var data = response.output.data;
@@ -339,6 +339,10 @@ var OlMap = (function (_super) {
         bindable,
         __metadata("design:type", Object)
     ], OlMap.prototype, "showGrbTool", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Function)
+    ], OlMap.prototype, "alignGrb", void 0);
     __decorate([
         bindable,
         __metadata("design:type", GeozoekdienstApiService)

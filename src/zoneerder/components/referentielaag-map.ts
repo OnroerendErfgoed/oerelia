@@ -1,11 +1,12 @@
-import { Contour } from '../models/contour';
+import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 import { BaseMap } from './base-map';
 import { bindable } from 'aurelia-framework';
 import { LayerType } from '../models/layerConfig.enums';
 
 export class ReferentieLaagMap extends BaseMap {
   @bindable zone: Contour;
-  
+  @bindable alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
+
   constructor() {
     super()
     this._defineProjections();

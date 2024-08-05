@@ -58,6 +58,10 @@ var ReferentieLaagMap = (function (_super) {
         aurelia_framework_1.bindable,
         __metadata("design:type", contour_1.Contour)
     ], ReferentieLaagMap.prototype, "zone", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Function)
+    ], ReferentieLaagMap.prototype, "alignGrb", void 0);
     return ReferentieLaagMap;
 }(base_map_1.BaseMap));
 exports.ReferentieLaagMap = ReferentieLaagMap;

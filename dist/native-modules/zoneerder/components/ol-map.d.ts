@@ -1,5 +1,5 @@
 import ol from 'openlayers';
-import { Contour } from '../models/contour';
+import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 import { CrabService } from '../../services/crab.api-service';
 import { IZoneerderServiceConfig } from 'exports';
 import { DialogService } from 'aurelia-dialog';
@@ -14,6 +14,7 @@ export declare class OlMap extends BaseMap {
     isCollapsed: boolean;
     serviceConfig: IZoneerderServiceConfig;
     showGrbTool: boolean;
+    alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
     geometryObjectList: string[];
     WKTstring: string;
     protected isDrawing: boolean;

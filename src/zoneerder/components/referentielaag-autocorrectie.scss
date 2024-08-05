@@ -57,7 +57,7 @@ referentielaag-autocorrectie {
   }
 
   .histogram-container {
-    width: 370px;
+    min-width: 370px;
     position: relative;
 
     svg {

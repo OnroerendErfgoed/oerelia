@@ -1,34 +1,49 @@
-import { autoinject, observable } from 'aurelia-framework';
-import { setupD3, removePoint, drawNewCircle } from './d3';
-import { DialogService } from 'aurelia-dialog';
-import { PLATFORM } from 'aurelia-framework';
-
+import { autoinject, observable, bindable } from "aurelia-framework";
+import { setupD3, removePoint, drawNewCircle } from "./d3";
+import { DialogService } from "aurelia-dialog";
+import { PLATFORM } from "aurelia-framework";
+import { Contour, IAlignerResponse } from '../models/contour';
+import { DomeinStrategie, Referentielaag, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 @autoinject
 export class ReferentielaagAutocorrectie {
-  readonly referentieLagen = [{
-    value: 'percelenlaag', label: 'Actuele GRB percelenlaag'
-  },
-  { value: 'gebouwenlaag', label: 'Actuele GRB gebouwlaag' }
-  ]
+  @bindable zone: Contour;
+  @bindable alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
 
-  readonly strategieen = [{
-    value: 'eenzijdig snappen', label: 'Eénzijdig snappen (1)'
-  },
-  { value: 'tweezijdig snappen', label: 'Tweezijdig snappen (2)' },
-  { value: 'exact overnemen', label: 'Exact overnemen (0)' },
-  { value: 'uitsluiten', label: 'Uitsluiten (-1)' }
-  ]
+  readonly referentieLagen = [
+    {
+      value: ReferentielaagEnum.GRBPercelenlaag,
+      label: "Actuele GRB percelenlaag",
+    },
+    { value: ReferentielaagEnum.GRBGebouwenlaag, 
+      label: "Actuele GRB gebouwlaag" 
+    },
+  ];
+
+  readonly strategieen = [
+    {
+      value: StrategieEnum.EenzijdingSnappen,
+      label: "Eénzijdig snappen (1)",
+    },
+    { value: StrategieEnum.TweezijdigSnappen, label: "Tweezijdig snappen (2)" },
+    { value: StrategieEnum.ExactOvernemen, label: "Exact overnemen (0)" },
+    { value: StrategieEnum.Uitsluiten, label: "Uitsluiten (-1)" },
+  ];
 
   histogram: HTMLElement;
 
-  private referentielaag = null;
-  private domeinstrategie = null;
+  private referentielaag: Referentielaag = null;
+  private domeinstrategie: DomeinStrategie = {
+    value: StrategieEnum.EenzijdingSnappen,
+    label: "Eénzijdig snappen (1)",
+  };
   @observable private relevanteAfstand: string = "3.0";
   private max = "6";
   private min = "0";
   private floatMin = "0.0";
   private floatMax = "6.0";
   private increment = 0.1;
+
+  private showHistogram = false;
 
   constructor(private dialogService: DialogService) { }
 
@@ -37,18 +52,34 @@ export class ReferentielaagAutocorrectie {
   }
 
   openOpenbaarDomeinLegende() {
-    this.dialogService.open({
-      viewModel: PLATFORM.moduleName(
-        'oerelia/zoneerder/components/domein-strategie-legende'),
-      model: { }
-    }).whenClosed((response) => {
-      if (!response.wasCancelled) {
-      }
-    });
+    this.dialogService
+      .open({
+        viewModel: PLATFORM.moduleName(
+          "oerelia/zoneerder/components/domein-strategie-legende"
+        ),
+        model: {},
+      })
+      .whenClosed((response) => {
+        if (!response.wasCancelled) {
+        }
+      });
+  }
+
+  async onHistogramDataChanged() {
+    if (this.referentielaag?.value && this.domeinstrategie?.value) {
+      // API Call en histogram data ophalen.
+      const result = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
+
+      this.showHistogram = true;
+    } else {
+      this.showHistogram = false;
+    }
   }
 
   relevanteAfstandChanged(nv: string, ov: string) {
-    if (!ov || ov === nv) { return; }
+    if (!ov || ov === nv) {
+      return;
+    }
     removePoint();
     drawNewCircle(Number(nv));
   }

@@ -55,6 +55,10 @@ var ReferentieLaagMap = (function (_super) {
         bindable,
         __metadata("design:type", Contour)
     ], ReferentieLaagMap.prototype, "zone", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Function)
+    ], ReferentieLaagMap.prototype, "alignGrb", void 0);
     return ReferentieLaagMap;
 }(BaseMap));
 export { ReferentieLaagMap };

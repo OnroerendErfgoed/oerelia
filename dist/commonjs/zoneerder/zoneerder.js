@@ -29,6 +29,7 @@ var Zoneerder = (function () {
     }
     Zoneerder.prototype.onMapLoaded = function ($event) {
         log.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
+        console.log(this.alignGrb);
     };
     Zoneerder.prototype.resize = function () {
         if (this.map) {
@@ -84,6 +85,10 @@ var Zoneerder = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Boolean)
     ], Zoneerder.prototype, "showGrbTool", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Function)
+    ], Zoneerder.prototype, "alignGrb", void 0);
     Zoneerder = __decorate([
         (0, aurelia_framework_1.inject)(aurelia_http_client_1.HttpClient, crab_api_service_1.CrabService, geozoekdienst_api_service_1.GeozoekdienstApiService),
         __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient,
