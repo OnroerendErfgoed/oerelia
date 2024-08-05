@@ -57,7 +57,7 @@
           </ul>
         </div>
         <template if.bind="showGrbTool">
-          <a click.delegate="showZoneVergelijkingDialog()" if.bind="newGeometryDrawn">
+          <a click.delegate="showZoneVergelijkingDialog()" if.bind="totalArea">
             <span><i class="fa fa-pencil"></i> Vergelijk zone met referentielaag</span>
           </a>
           <div class="alert-box alert" if.bind="totalArea > 100000">

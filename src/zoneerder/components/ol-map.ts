@@ -33,9 +33,7 @@ export class OlMap extends BaseMap {
   private mapInteractions: any;
   private polygonIndex: number = 1;
   private circleIndex: number = 1;
-  
-  private newGeometryDrawn = false;
-  
+    
   private totalArea = 0;
   
   constructor(
@@ -118,7 +116,6 @@ export class OlMap extends BaseMap {
       });
     } else if (type === 'Circle') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-        let circle = evt.feature.getGeometry();
         evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
         this.geometryObjectList.push(evt.feature.getProperties().name);
       });
@@ -235,7 +232,6 @@ export class OlMap extends BaseMap {
     const multiPolygon = new ol.geom.MultiPolygon([], 'XY');
     const features: ol.Feature[] = (this.drawLayer.getSource() as ol.source.Vector).getFeatures();
     
-    this.newGeometryDrawn = features.length > 0;
     features.forEach((feature: ol.Feature) => {
       const geom = feature.getGeometry();
       if (geom instanceof ol.geom.Polygon) {
