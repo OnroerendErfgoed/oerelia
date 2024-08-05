@@ -33,7 +33,6 @@ export class OlMap extends BaseMap {
   private mapInteractions: any;
   private polygonIndex: number = 1;
   private circleIndex: number = 1;
-    
   private totalArea = 0;
   
   constructor(
