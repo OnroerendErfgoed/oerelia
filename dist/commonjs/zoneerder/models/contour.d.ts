@@ -26,10 +26,15 @@ export interface IAlignerResponse {
     diffs: Diffs;
     series: {
         [key: string]: {
-            [key: string]: object;
+            [key: string]: ISeriesValue;
         };
     };
 }
 export type Diffs = {
     [key: string]: number;
 };
+export interface ISeriesValue {
+    result: Contour;
+    result_diff_min: Contour;
+    result_diff_plus: Contour;
+}

@@ -28,8 +28,6 @@ var Layerswitcher = (function (_super) {
         _this.mapListeners = [];
         _this.hiddenClassName = 'ol-unselectable ol-control layer-switcher';
         _this.shownClassName = _this.hiddenClassName + ' shown';
-        _this.hiddenClassName = 'ol-unselectable ol-control layer-switcher';
-        _this.shownClassName = _this.hiddenClassName + ' shown';
         _this.element = document.createElement('div');
         _this.element.className = _this.hiddenClassName;
         _this.button = document.createElement('button');
@@ -180,12 +178,28 @@ var Layerswitcher = (function (_super) {
             legendDiv.style.marginRight = '4px';
             var legendGraphic = document.createElement('div');
             var style = lyr.get('style');
-            var fill = style.fill;
-            var stroke = style.stroke;
-            legendGraphic.style.backgroundColor = fill;
-            legendGraphic.style.border = '1px solid ' + stroke;
+            var fillColor = style.fill;
+            var strokeColor = style.stroke;
+            var strokeStyle = style.lineDash ? 'dashed' : 'solid';
+            legendGraphic.style.border = '1px ' + strokeStyle + ' ' + strokeColor;
             legendGraphic.style.height = '100%';
             legendDiv.appendChild(legendGraphic);
+            if (style.hashed) {
+                var diagonal = document.createElement('div');
+                var lineLength = Math.sqrt(2) * 100;
+                diagonal.style.position = 'absolute';
+                diagonal.style.borderTop = '2px solid ' + fillColor;
+                diagonal.style.width = lineLength + '%';
+                diagonal.style.height = '0';
+                diagonal.style.top = '50%';
+                diagonal.style.left = '50%';
+                diagonal.style.transform = 'translate(-50%, -50%) rotate(-45deg)';
+                legendGraphic.style.position = 'relative';
+                legendGraphic.appendChild(diagonal);
+            }
+            else {
+                legendGraphic.style.backgroundColor = fillColor;
+            }
             label.appendChild(legendDiv);
         }
         else if (lyr.get('legendItems')) {
@@ -197,7 +211,6 @@ var Layerswitcher = (function (_super) {
                 var legendImage = document.createElement('img');
                 legendImage.src = legendUrl;
                 legendImage.style.marginLeft = '9px';
-                legendDiv.style.width = '50%';
                 legendDiv.appendChild(legendImage);
             }
             var legendSpan = document.createElement('span');

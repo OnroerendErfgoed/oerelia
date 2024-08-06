@@ -42,7 +42,7 @@ var ReferentieLaagMap = (function (_super) {
         this._createLayers();
         var inputLayer = this._createLayer('input', {
             type: layerConfig_enums_1.LayerType.Vector,
-            title: 'Input',
+            title: 'Input/Afbakening',
             style: {
                 stroke: 'rgb(39, 146, 195)',
                 fill: 'rgba(39, 146, 195, 0.3)'
@@ -53,6 +53,67 @@ var ReferentieLaagMap = (function (_super) {
         });
         this.map.addLayer(inputLayer);
         this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
+    };
+    ReferentieLaagMap.prototype.createResultLayer = function (geometry) {
+        var resultLayer = this._createLayer('input', {
+            type: layerConfig_enums_1.LayerType.Vector,
+            title: 'Output/Resultaat',
+            style: {
+                stroke: 'rgb(255, 0, 0)',
+                fill: '#ffffff',
+                lineDash: [3, 3],
+            },
+            geometries: [geometry],
+            showLegend: true,
+            visible: true
+        });
+        this.map.addLayer(resultLayer);
+        return resultLayer;
+    };
+    ReferentieLaagMap.prototype.createDiffPlusLayer = function (geometry) {
+        var diffPlusLayer = this._createLayer('diffPlus', {
+            type: layerConfig_enums_1.LayerType.Vector,
+            title: 'Diff+',
+            style: {
+                stroke: 'rgb(255, 0, 0)',
+                fill: 'rgba(0, 255, 0, 0.3)',
+                hashed: true,
+            },
+            geometries: [geometry],
+            showLegend: true,
+            visible: true
+        });
+        this.map.addLayer(diffPlusLayer);
+        return diffPlusLayer;
+    };
+    ReferentieLaagMap.prototype.createDiffMinLayer = function (geometry) {
+        var diffMinLayer = this._createLayer('diffMin', {
+            type: layerConfig_enums_1.LayerType.Vector,
+            title: 'Diff-',
+            style: {
+                stroke: 'rgb(255, 0, 0)',
+                fill: 'rgba(255, 0, 0, 0.3)',
+                hashed: true,
+            },
+            geometries: [geometry],
+            showLegend: true,
+            visible: true
+        });
+        this.map.addLayer(diffMinLayer);
+        return diffMinLayer;
+    };
+    ReferentieLaagMap.prototype.resultsUpdated = function (results) {
+        if (!results) {
+            this.map.removeLayer(this.resultLayer);
+            this.map.removeLayer(this.diffPlusLayer);
+            this.map.removeLayer(this.diffMinLayer);
+            this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
+            return;
+        }
+        this.resultLayer = this.createResultLayer(results['result']);
+        this.diffPlusLayer = this.createDiffPlusLayer(results['result_diff_plus']);
+        this.diffMinLayer = this.createDiffMinLayer(results['result_diff_min']);
+        this.zoomToExtent(this.geoJsonFormatter.readGeometry(results['result']).getExtent());
     };
     __decorate([
         aurelia_framework_1.bindable,

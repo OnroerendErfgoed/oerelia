@@ -36,7 +36,6 @@ export class Zoneerder {
 
   public onMapLoaded($event) {
     log.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
-    console.log(this.alignGrb);
   }
 
   public resize() {

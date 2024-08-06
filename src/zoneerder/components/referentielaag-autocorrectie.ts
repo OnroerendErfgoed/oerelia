@@ -6,9 +6,10 @@ import { Contour, IAlignerResponse } from '../models/contour';
 import { DomeinStrategie, Referentielaag, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 @autoinject
 export class ReferentielaagAutocorrectie {
+  @bindable resultsUpdated = (event) => event;
   @bindable zone: Contour;
   @bindable alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
-
+  
   readonly referentieLagen = [
     {
       value: ReferentielaagEnum.GRBPercelenlaag,
@@ -72,14 +73,14 @@ export class ReferentielaagAutocorrectie {
       this.showHistogram = false;
     }
   }
-
+  
   relevanteAfstandChanged(nv: string, ov: string) {
     if (!ov || ov === nv) {
       return;
     }
-    let seriesValues = Object.entries(this.histogramData.series).map(([x, y]) => ({x: parseFloat(x), y: y}));
-  // (seriesValues.find((value) => value.x === Number(nv)).y).result;
     removePoint();
     drawNewCircle(Number(nv));
+    
+    this.resultsUpdated(this.histogramData.series[nv]);
   }
 }

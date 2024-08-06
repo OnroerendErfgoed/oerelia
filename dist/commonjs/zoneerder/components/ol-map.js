@@ -49,7 +49,6 @@ var OlMap = (function (_super) {
         _this.selectPerceel = false;
         _this.polygonIndex = 1;
         _this.circleIndex = 1;
-        _this.newGeometryDrawn = false;
         _this.totalArea = 0;
         log.debug('olMap::constructor', _this.zone);
         _this._defineProjections();
@@ -123,7 +122,6 @@ var OlMap = (function (_super) {
         }
         else if (type === 'Circle') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
-                var circle = evt.feature.getGeometry();
                 evt.feature.setProperties({ name: "Cirkel ".concat(_this.circleIndex++) });
                 _this.geometryObjectList.push(evt.feature.getProperties().name);
             });
@@ -233,7 +231,6 @@ var OlMap = (function (_super) {
         this.totalArea = 0;
         var multiPolygon = new openlayers_1.default.geom.MultiPolygon([], 'XY');
         var features = this.drawLayer.getSource().getFeatures();
-        this.newGeometryDrawn = features.length > 0;
         features.forEach(function (feature) {
             var geom = feature.getGeometry();
             if (geom instanceof openlayers_1.default.geom.Polygon) {

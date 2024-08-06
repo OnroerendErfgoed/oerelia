@@ -54,6 +54,7 @@ var contour_1 = require("../models/contour");
 var ReferentielaagAutocorrectie = (function () {
     function ReferentielaagAutocorrectie(dialogService) {
         this.dialogService = dialogService;
+        this.resultsUpdated = function (event) { return event; };
         this.referentieLagen = [
             {
                 value: "ADP",
@@ -98,21 +99,22 @@ var ReferentielaagAutocorrectie = (function () {
     };
     ReferentielaagAutocorrectie.prototype.onHistogramDataChanged = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var result;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var _a;
+            var _b, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
-                        if (!(((_a = this.referentielaag) === null || _a === void 0 ? void 0 : _a.value) && ((_b = this.domeinstrategie) === null || _b === void 0 ? void 0 : _b.value))) return [3, 2];
+                        if (!(((_b = this.referentielaag) === null || _b === void 0 ? void 0 : _b.value) && ((_c = this.domeinstrategie) === null || _c === void 0 ? void 0 : _c.value))) return [3, 2];
+                        _a = this;
                         return [4, this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value)];
                     case 1:
-                        result = _c.sent();
-                        (0, d3_1.setupD3)(this.histogram, result.diffs, Number(this.relevanteAfstand));
+                        _a.histogramData = _d.sent();
+                        (0, d3_1.setupD3)(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
                         this.showHistogram = true;
                         return [3, 3];
                     case 2:
                         this.showHistogram = false;
-                        _c.label = 3;
+                        _d.label = 3;
                     case 3: return [2];
                 }
             });
@@ -124,7 +126,12 @@ var ReferentielaagAutocorrectie = (function () {
         }
         (0, d3_1.removePoint)();
         (0, d3_1.drawNewCircle)(Number(nv));
+        this.resultsUpdated(this.histogramData.series[nv]);
     };
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], ReferentielaagAutocorrectie.prototype, "resultsUpdated", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", contour_1.Contour)

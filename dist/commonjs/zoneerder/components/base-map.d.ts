@@ -38,5 +38,6 @@ export declare abstract class BaseMap {
     private _createWmsLegend;
     private _createGrbWMSLayer;
     private _createErfgoedWMSLayer;
+    private _createPattern;
     private _createVectorLayer;
 }

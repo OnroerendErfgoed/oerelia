@@ -3,6 +3,7 @@ import { Contour, IAlignerResponse } from '../models/contour';
 import { ReferentielaagEnum, StrategieEnum } from '../models/contour';
 export declare class ReferentielaagAutocorrectie {
     private dialogService;
+    resultsUpdated: (event: any) => any;
     zone: Contour;
     alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
     readonly referentieLagen: {
@@ -23,6 +24,7 @@ export declare class ReferentielaagAutocorrectie {
     private floatMax;
     private increment;
     private showHistogram;
+    private histogramData;
     constructor(dialogService: DialogService);
     openOpenbaarDomeinLegende(): void;
     onHistogramDataChanged(): Promise<void>;
