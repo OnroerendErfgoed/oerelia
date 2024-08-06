@@ -295,7 +295,7 @@ var BaseMap = (function () {
                     '?REQUEST=GetLegendGraphic' +
                     '&VERSION=1.0.0&FORMAT=image/png' +
                     '&WIDTH=20&HEIGHT=20' +
-                    '&LEGEND_OPTIONS=forceLabels:on;fontAntiAliasing:true;fontSize:10;fontColor:ffffff;dpi:182;' +
+                    '&LEGEND_OPTIONS=forceLabels:on;fontAntiAliasing:true;fontSize:10;fontColor:ffffff;' +
                     '&TRANSPARENT=true' +
                     '&LAYER=' + layer;
             });
@@ -330,7 +330,25 @@ var BaseMap = (function () {
             visible: false
         });
     };
+    BaseMap.prototype._createPattern = function (color) {
+        var spacing = 10;
+        var canvas = document.createElement('canvas');
+        var context = canvas.getContext('2d');
+        canvas.width = canvas.height = spacing;
+        context.strokeStyle = color;
+        context.lineWidth = 1;
+        context.beginPath();
+        context.moveTo(0, 0);
+        context.lineTo(spacing, spacing);
+        context.moveTo(-spacing, 0);
+        context.lineTo(0, spacing);
+        context.moveTo(spacing, 0);
+        context.lineTo(2 * spacing, spacing);
+        context.stroke();
+        return context.createPattern(canvas, 'repeat');
+    };
     BaseMap.prototype._createVectorLayer = function (options) {
+        var _this = this;
         var existingLayer = this.map.getLayers().getArray().find(function (layer) { return layer.get('title') === options.title; });
         if (existingLayer) {
             this.map.removeLayer(existingLayer);
@@ -352,13 +370,18 @@ var BaseMap = (function () {
         };
         var styleFunction = function (feature) {
             var styleText = textStyleFunction(feature);
+            var fillColor = options.style.fill;
+            if (options.style.hashed) {
+                fillColor = _this._createPattern(options.style.fill);
+            }
             var style = new openlayers_1.default.style.Style({
                 stroke: new openlayers_1.default.style.Stroke({
                     color: options.style.stroke,
-                    width: 3
+                    width: 3,
+                    lineDash: options.style.lineDash
                 }),
                 fill: new openlayers_1.default.style.Fill({
-                    color: options.style.fill
+                    color: fillColor
                 }),
                 text: styleText
             });
