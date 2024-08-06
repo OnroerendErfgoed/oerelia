@@ -14,5 +14,4 @@ export declare class ReferentieLaagMap extends BaseMap {
     resultsUpdated(results: {
         [key: string]: Contour;
     }): void;
-    private createPatternBlob;
 }

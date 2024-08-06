@@ -112,23 +112,6 @@ var ReferentieLaagMap = (function (_super) {
         this.diffMinLayer = this.createDiffMinLayer(results['result_diff_min']);
         this.zoomToExtent(this.geoJsonFormatter.readGeometry(results['result']).getExtent());
     };
-    ReferentieLaagMap.prototype.createPatternBlob = function (strokeColor, fillColor) {
-        var canvas = document.createElement('canvas');
-        canvas.width = 16;
-        canvas.height = 16;
-        var context = canvas.getContext('2d');
-        context.fillStyle = fillColor;
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        context.strokeStyle = strokeColor;
-        context.lineWidth = 2;
-        context.beginPath();
-        context.moveTo(0, 0);
-        context.lineTo(canvas.width, canvas.height);
-        context.moveTo(canvas.width, 0);
-        context.lineTo(0, canvas.height);
-        context.stroke();
-        return canvas.toDataURL();
-    };
     __decorate([
         bindable,
         __metadata("design:type", Contour)
