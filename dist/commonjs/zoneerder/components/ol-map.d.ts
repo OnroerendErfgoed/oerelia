@@ -24,7 +24,6 @@ export declare class OlMap extends BaseMap {
     private mapInteractions;
     private polygonIndex;
     private circleIndex;
-    private newGeometryDrawn;
     private totalArea;
     constructor(element: Element, crabService: CrabService, dialogService: DialogService);
     attached(): void;
