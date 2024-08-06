@@ -99,30 +99,4 @@ export class ReferentieLaagMap extends BaseMap {
     this.diffMinLayer = this.createDiffMinLayer(results['result_diff_min']);
     this.zoomToExtent(this.geoJsonFormatter.readGeometry(results['result']).getExtent());
   }
-  
-  private createPatternBlob(strokeColor: string, fillColor: string) {
-    const canvas = document.createElement('canvas');
-    canvas.width = 16;
-    canvas.height = 16;
-    const context = canvas.getContext('2d');
-    
-    // Fill background with white
-    context.fillStyle = fillColor;
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw green crosshatch pattern
-    context.strokeStyle = strokeColor; // Green color
-    context.lineWidth = 2;
-    
-    // Draw diagonal lines
-    context.beginPath();
-    context.moveTo(0, 0);
-    context.lineTo(canvas.width, canvas.height);
-    context.moveTo(canvas.width, 0);
-    context.lineTo(0, canvas.height);
-    context.stroke();
-    
-    return canvas.toDataURL();
-  }
-  
 }
