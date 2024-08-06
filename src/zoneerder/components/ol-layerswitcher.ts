@@ -34,9 +34,6 @@ export class Layerswitcher extends ol.control.Control {
     this.hiddenClassName = 'ol-unselectable ol-control layer-switcher';
     this.shownClassName = this.hiddenClassName + ' shown';
     
-    this.hiddenClassName = 'ol-unselectable ol-control layer-switcher';
-    this.shownClassName = this.hiddenClassName + ' shown';
-    
     this.element = document.createElement('div');
     this.element.className = this.hiddenClassName;
     
