@@ -35,6 +35,14 @@ export const enum StrategieEnum {
 }
 
 export interface IAlignerResponse {
-  diffs: { [key: string]: string};
-  series: { [key: string]: { [key: string]: object } };
+  diffs: Diffs;
+  series: { [key: string]: { [key: string]: ISeriesValue } };
+}
+
+export type Diffs = { [key: string]: number };
+
+export interface ISeriesValue {
+  result: Contour;
+  result_diff_min: Contour;
+  result_diff_plus: Contour;
 }

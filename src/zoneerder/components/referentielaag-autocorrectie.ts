@@ -44,12 +44,9 @@ export class ReferentielaagAutocorrectie {
   private increment = 0.1;
 
   private showHistogram = false;
+  private histogramData: IAlignerResponse;
 
   constructor(private dialogService: DialogService) { }
-
-  bind() {
-    setupD3(this.histogram, Number(this.relevanteAfstand));
-  }
 
   openOpenbaarDomeinLegende() {
     this.dialogService
@@ -68,8 +65,8 @@ export class ReferentielaagAutocorrectie {
   async onHistogramDataChanged() {
     if (this.referentielaag?.value && this.domeinstrategie?.value) {
       // API Call en histogram data ophalen.
-      const result = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
-
+      this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
+      setupD3(this.histogram, this.histogramData.diffs , Number(this.relevanteAfstand));
       this.showHistogram = true;
     } else {
       this.showHistogram = false;
@@ -80,6 +77,8 @@ export class ReferentielaagAutocorrectie {
     if (!ov || ov === nv) {
       return;
     }
+    let seriesValues = Object.entries(this.histogramData.series).map(([x, y]) => ({x: parseFloat(x), y: y}));
+  // (seriesValues.find((value) => value.x === Number(nv)).y).result;
     removePoint();
     drawNewCircle(Number(nv));
   }

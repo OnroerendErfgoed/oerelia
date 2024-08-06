@@ -85,9 +85,6 @@ var ReferentielaagAutocorrectie = (function () {
         this.increment = 0.1;
         this.showHistogram = false;
     }
-    ReferentielaagAutocorrectie.prototype.bind = function () {
-        (0, d3_1.setupD3)(this.histogram, Number(this.relevanteAfstand));
-    };
     ReferentielaagAutocorrectie.prototype.openOpenbaarDomeinLegende = function () {
         this.dialogService
             .open({
@@ -110,6 +107,7 @@ var ReferentielaagAutocorrectie = (function () {
                         return [4, this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value)];
                     case 1:
                         result = _c.sent();
+                        (0, d3_1.setupD3)(this.histogram, result.diffs, Number(this.relevanteAfstand));
                         this.showHistogram = true;
                         return [3, 3];
                     case 2:

@@ -24,7 +24,6 @@ export declare class ReferentielaagAutocorrectie {
     private increment;
     private showHistogram;
     constructor(dialogService: DialogService);
-    bind(): void;
     openOpenbaarDomeinLegende(): void;
     onHistogramDataChanged(): Promise<void>;
     relevanteAfstandChanged(nv: string, ov: string): void;

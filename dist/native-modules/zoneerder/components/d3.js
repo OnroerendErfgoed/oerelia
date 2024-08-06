@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import * as d3 from 'd3';
 var x, y, chartData = undefined;
-export function setupD3(container, targetX) {
+export function setupD3(container, data, targetX) {
     if (!container) {
         return;
     }
@@ -48,22 +48,21 @@ export function setupD3(container, targetX) {
     var marginRight = 0;
     var marginBottom = 30;
     var marginLeft = 0;
-    function render_area_chart() {
+    function render_area_chart(data) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data;
+            var floatedData;
             return __generator(this, function (_a) {
-                response = { 0.0: -0.0, 0.1: 0.0, 0.2: 0.0, 0.3: 0.0, 0.4: 0.0, 0.5: 0.0, 0.6: 0.0, 0.7: 0.0, 0.8: 0.0, 0.9: 0.0, 1.0: 1.7, 1.1: -7.2, 1.2: -7.2, 1.3: -7.2, 1.4: -7.2, 1.5: -7.2, 1.6: -7.2, 1.7: -7.2, 1.8: -7.2, 1.9: -7.2, 2.0: -7.2, 2.1: -7.2, 2.2: -7.2, 2.3: -7.2, 2.4: -7.2, 2.5: 8.5, 2.6: 8.5, 2.7: 8.5, 2.8: 8.5, 2.9: 8.5, 3.0: 8.5, 3.1: 8.5, 3.2: 8.5, 3.3: 8.5, 3.4: 8.5, 3.5: 8.5, 3.6: 8.5, 3.7: 8.5, 3.8: 8.5, 3.9: 8.5, 4.0: 8.5, 4.1: 8.5, 4.2: 8.5, 4.3: 8.5, 4.4: 8.5, 4.5: 8.5, 4.6: 8.5, 4.7: 8.5, 4.8: 8.5, 4.9: 8.5, 5.0: 8.5, 5.1: 8.5, 5.2: 8.5, 5.3: 8.5, 5.4: 8.5, 5.5: 8.5, 5.6: 8.5, 5.7: 8.5, 5.8: 8.5, 5.9: 8.5, 6.0: 8.5 };
-                data = Object.entries(response).map(function (_a) {
+                floatedData = Object.entries(data).map(function (_a) {
                     var x = _a[0], y = _a[1];
                     return ({ x: parseFloat(x), y: Math.abs(y) });
                 });
-                data = data.sort(function (d1, d2) { return d1.x - d2.x; });
-                render_data(data);
+                floatedData = floatedData.sort(function (d1, d2) { return d1.x - d2.x; });
+                render_data(floatedData);
                 return [2];
             });
         });
     }
-    render_area_chart();
+    render_area_chart(data);
     function render_data(data) {
         chartData = data;
         x = d3.scaleLinear()

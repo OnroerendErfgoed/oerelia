@@ -23,12 +23,13 @@ export declare const enum StrategieEnum {
     Uitsluiten = "EXCLUDE"
 }
 export interface IAlignerResponse {
-    diffs: {
-        [key: string]: string;
-    };
+    diffs: Diffs;
     series: {
         [key: string]: {
             [key: string]: object;
         };
     };
 }
+export type Diffs = {
+    [key: string]: number;
+};
