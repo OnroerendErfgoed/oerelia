@@ -1,6 +1,13 @@
 import { DialogService } from 'aurelia-dialog';
 export declare class ReferentielaagAutocorrectie {
     private dialogService;
+    resultsUpdated: (event: any) => any;
+    series: {
+        [key: string]: {
+            [key: string]: object;
+        };
+    };
+    diffs: any[];
     readonly referentieLagen: {
         value: string;
         label: string;

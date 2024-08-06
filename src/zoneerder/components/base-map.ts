@@ -341,7 +341,7 @@ export abstract class BaseMap {
         '?REQUEST=GetLegendGraphic' +
         '&VERSION=1.0.0&FORMAT=image/png' +
         '&WIDTH=20&HEIGHT=20' +
-        '&LEGEND_OPTIONS=forceLabels:on;fontAntiAliasing:true;fontSize:10;fontColor:ffffff;dpi:182;' +
+        '&LEGEND_OPTIONS=forceLabels:on;fontAntiAliasing:true;fontSize:10;fontColor:ffffff;' +
         '&TRANSPARENT=true' +
         '&LAYER=' + layer);
       layer.set('legendItems', legendItems);
@@ -378,6 +378,28 @@ export abstract class BaseMap {
     });
   }
   
+  private _createPattern(color) {
+    const spacing = 10;
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = canvas.height = spacing; // Pattern size
+    
+    // Draw diagonal lines
+    context.strokeStyle = color; // Custom stroke color
+    context.lineWidth = 1;
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.lineTo(spacing, spacing);
+    context.moveTo(-spacing, 0);
+    context.lineTo(0, spacing);
+    context.moveTo(spacing, 0);
+    context.lineTo(2 * spacing, spacing);
+    context.stroke();
+    
+    return context.createPattern(canvas, 'repeat');
+  }
+  
+  
   private _createVectorLayer(options: VectorLayerOptions) {
     // delete layer if it exists on map
     const existingLayer = this.map.getLayers().getArray().find((layer) => layer.get('title') === options.title);
@@ -403,13 +425,18 @@ export abstract class BaseMap {
     
     const styleFunction = (feature: any) => {
       const styleText = textStyleFunction(feature);
+      let fillColor: string | CanvasPattern = options.style.fill;
+      if (options.style.hashed) {
+        fillColor = this._createPattern(options.style.fill);
+      }
       const style = new ol.style.Style({
         stroke: new ol.style.Stroke({
           color: options.style.stroke,
-          width: 3
+          width: 3,
+          lineDash: options.style.lineDash
         }),
         fill: new ol.style.Fill({
-          color: options.style.fill
+          color: fillColor
         }),
         text: styleText
       });
