@@ -69,6 +69,7 @@ export class ReferentielaagAutocorrectie {
         this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
         this.loadingData = false;
         setupD3(this.histogram, this.histogramData.diffs , Number(this.relevanteAfstand));
+        this.resultsUpdated(this.histogramData.series[this.relevanteAfstand]);
         this.showHistogram = true;
       } catch(e) {
         this.loadingData = false;

@@ -112,6 +112,7 @@ var ReferentielaagAutocorrectie = (function () {
                         _a.histogramData = _d.sent();
                         this.loadingData = false;
                         (0, d3_1.setupD3)(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
+                        this.resultsUpdated(this.histogramData.series[this.relevanteAfstand]);
                         this.showHistogram = true;
                         return [3, 4];
                     case 3:

@@ -60,7 +60,7 @@ var ReferentieLaagMap = (function (_super) {
                 fill: '#ffffff',
                 lineDash: [3, 3],
             },
-            geometries: [geometry],
+            geometries: geometry['geometries'] || [geometry],
             showLegend: true,
             visible: true
         });
@@ -76,7 +76,7 @@ var ReferentieLaagMap = (function (_super) {
                 fill: 'rgba(0, 255, 0, 0.3)',
                 hashed: true,
             },
-            geometries: [geometry],
+            geometries: geometry['geometries'] || [geometry],
             showLegend: true,
             visible: true
         });
@@ -92,7 +92,7 @@ var ReferentieLaagMap = (function (_super) {
                 fill: 'rgba(255, 0, 0, 0.3)',
                 hashed: true,
             },
-            geometries: [geometry],
+            geometries: geometry.type === 'GeometryCollection' ? geometry.geometries : [geometry],
             showLegend: true,
             visible: true
         });

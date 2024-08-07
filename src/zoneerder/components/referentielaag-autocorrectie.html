@@ -18,6 +18,9 @@
   <h5>Relevante afstand</h5>
   <relevante-afstand-input relevante-afstand.two-way="relevanteAfstand" disabled.bind="loadingData"></relevante-afstand-input>
   <div class="graph-container">
+    <div show.bind="loadingData">
+      <i class="fa fa-pulse fa-spinner"></i>
+    </div>
     <div ref="histogram" class="histogram-container" show.bind="showHistogram"></div>
     <div class="slider">
       <input type="range" name="mySlider" id="mySlider" min.bind="min" max.bind="max" value.bind="relevanteAfstand" step.bind="increment" disabled.bind="loadingData">
@@ -29,7 +32,4 @@
   <select value.bind="domeinstrategie" change.delegate="onHistogramDataChanged()">
     <option repeat.for="strategie of strategieen" model.bind="strategie">${strategie.label}</option>
   </select>
-  <!-- <div show.bind="loadingData">
-    <i class="fa fa-pulse fa-spinner"></i>
-  </div> -->
 </template>

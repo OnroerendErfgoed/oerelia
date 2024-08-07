@@ -450,16 +450,9 @@ export abstract class BaseMap {
     });
     
     if (options.geometries) {
-      options.geometries.forEach((geometry) => {
-        if (!geometry.coordinates) {
-          console.log('geen coordinaties');
-          console.log(options);
-        }
-        geometry.coordinates.forEach((coords) => {
-          const geom = new ol.geom.Polygon(coords);
-          const feature = new ol.Feature(geom);
-          vectorSource.addFeature(feature);
-        });
+      options.geometries?.forEach((geometry) => {
+        const features = this.geoJsonFormatter.readFeatures(geometry);
+        features.forEach((feature) => vectorSource.addFeature(feature));
       });
     }
     vLayer.set('style', options.style);
