@@ -404,6 +404,7 @@ export abstract class BaseMap {
     // delete layer if it exists on map
     const existingLayer = this.map.getLayers().getArray().find((layer) => layer.get('title') === options.title);
     if (existingLayer) {
+      options.visible = existingLayer.getVisible();
       this.map.removeLayer(existingLayer);
     }
     

@@ -57,8 +57,8 @@ var ReferentieLaagMap = (function (_super) {
             title: 'Output/Resultaat',
             style: {
                 stroke: 'rgb(255, 0, 0)',
-                fill: '#ffffff',
-                lineDash: [3, 3],
+                fill: 'rgba(255, 255, 255, 0.7)',
+                lineDash: [10, 10],
             },
             geometries: geometry['geometries'] || [geometry],
             showLegend: true,

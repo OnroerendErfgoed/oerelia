@@ -352,6 +352,7 @@ var BaseMap = (function () {
         var _a;
         var existingLayer = this.map.getLayers().getArray().find(function (layer) { return layer.get('title') === options.title; });
         if (existingLayer) {
+            options.visible = existingLayer.getVisible();
             this.map.removeLayer(existingLayer);
         }
         var vectorSource = new openlayers_1.default.source.Vector({});

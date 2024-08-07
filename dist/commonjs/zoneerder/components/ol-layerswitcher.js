@@ -46,18 +46,8 @@ var Layerswitcher = (function (_super) {
         _this.panel.className = 'panel';
         _this.element.appendChild(_this.panel);
         var self = _this;
-        _this.button.onclick = function () {
-            self.showPanel();
-            self.isShown = true;
-            self.button.style.display = 'none';
-            self.closeButton.style.display = 'inline-block';
-        };
-        _this.closeButton.onclick = function () {
-            self.hidePanel();
-            self.isShown = false;
-            self.button.style.display = 'inline-block';
-            self.closeButton.style.display = 'none';
-        };
+        _this.button.onclick = function () { return self.showPanel(); };
+        _this.closeButton.onclick = function () { return self.hidePanel(); };
         ol.control.Control.call(_this, {
             element: _this.element,
             target: _this.options.target
@@ -65,15 +55,17 @@ var Layerswitcher = (function (_super) {
         return _this;
     }
     Layerswitcher.prototype.showPanel = function () {
-        if (this.element.className !== this.shownClassName) {
-            this.element.className = this.shownClassName;
-            this.renderPanel();
-        }
+        this.element.className = this.shownClassName;
+        this.isShown = true;
+        this.button.style.display = 'none';
+        this.closeButton.style.display = 'inline-block';
+        this.renderPanel();
     };
     Layerswitcher.prototype.hidePanel = function () {
-        if (this.element.className !== this.hiddenClassName) {
-            this.element.className = this.hiddenClassName;
-        }
+        this.element.className = this.hiddenClassName;
+        this.isShown = false;
+        this.button.style.display = 'inline-block';
+        this.closeButton.style.display = 'none';
     };
     Layerswitcher.prototype.renderPanel = function () {
         this.ensureTopVisibleBaseLayerShown_();
@@ -96,11 +88,7 @@ var Layerswitcher = (function (_super) {
         this.mapListeners.length = 0;
         ol.control.Control.prototype.setMap.call(this, map);
         if (map) {
-            this.mapListeners.push(map.on('pointerdown', function () {
-                _this.hidePanel();
-                _this.button.style.display = 'inline-block';
-                _this.closeButton.style.display = 'none';
-            }));
+            this.mapListeners.push(map.getLayers().on("propertychange", function () { return _this.renderPanel(); }), map.on('pointerdown', function () { return _this.hidePanel(); }));
             this.renderPanel();
         }
     };
