@@ -5,6 +5,7 @@ export declare class RelevanteAfstandInput {
     private floatMin;
     private floatMax;
     private increment;
+    disabled: boolean;
     private onMinusClick;
     private onPlusClick;
 }

@@ -2,10 +2,10 @@
   <require from="./relevante-afstand-input.css"></require>
 
   <div class="relevante-afstand-input">
-    <i class="fa fa-minus-circle ${[floatMin, min].includes(relevanteAfstand) ? 'disabled' : ''}" click.delegate="![floatMin, min].includes(relevanteAfstand) && onMinusClick()"></i>
+    <i class="fa fa-minus-circle ${[floatMin, min].includes(relevanteAfstand) || disabled ? 'disabled' : ''}" click.delegate="![floatMin, min].includes(relevanteAfstand) && !disabled && onMinusClick()"></i>
     <div class="relevante-afstand-input-container">
-      <input type="number" min.bind="min" max.bind="max" step.bind="increment" value.bind="relevanteAfstand" class="number-input">
+      <input type="number" min.bind="min" max.bind="max" step.bind="increment" value.bind="relevanteAfstand" class="number-input" disabled.bind="disabled">
     </div>
-    <i class="fa fa-plus-circle ${[floatMax, max].includes(relevanteAfstand) ? 'disabled' : ''}" click.delegate="![floatMax, max].includes(relevanteAfstand) && onPlusClick()"></i>
+    <i class="fa fa-plus-circle ${[floatMax, max].includes(relevanteAfstand) || disabled ? 'disabled' : ''}" click.delegate="![floatMax, max].includes(relevanteAfstand) && !disabled && onPlusClick()"></i>
   </div>
 </template>

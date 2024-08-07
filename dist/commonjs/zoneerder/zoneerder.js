@@ -29,7 +29,6 @@ var Zoneerder = (function () {
     }
     Zoneerder.prototype.onMapLoaded = function ($event) {
         log.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
-        console.log(this.alignGrb);
     };
     Zoneerder.prototype.resize = function () {
         if (this.map) {

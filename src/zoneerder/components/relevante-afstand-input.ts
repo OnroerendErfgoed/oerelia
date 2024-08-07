@@ -6,6 +6,7 @@ export class RelevanteAfstandInput {
   @bindable private floatMin = "0.0";
   @bindable private floatMax = "6.0";
   @bindable private increment = 0.1;
+  @bindable disabled = false;
 
   private onMinusClick() {
     this.relevanteAfstand = (

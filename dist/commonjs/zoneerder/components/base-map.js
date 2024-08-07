@@ -394,6 +394,10 @@ var BaseMap = (function () {
         });
         if (options.geometries) {
             options.geometries.forEach(function (geometry) {
+                if (!geometry.coordinates) {
+                    console.log('geen coordinaties');
+                    console.log(options);
+                }
                 geometry.coordinates.forEach(function (coords) {
                     var geom = new openlayers_1.default.geom.Polygon(coords);
                     var feature = new openlayers_1.default.Feature(geom);

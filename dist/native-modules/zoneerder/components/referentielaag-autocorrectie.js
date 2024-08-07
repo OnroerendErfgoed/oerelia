@@ -71,10 +71,6 @@ var ReferentielaagAutocorrectie = (function () {
             { value: "EXCLUDE", label: "Uitsluiten (-1)" },
         ];
         this.referentielaag = null;
-        this.domeinstrategie = {
-            value: "SNAP_SINGLE_SIDE",
-            label: "Eénzijdig snappen (1)",
-        };
         this.relevanteAfstand = "3.0";
         this.max = "6";
         this.min = "0";
@@ -82,6 +78,7 @@ var ReferentielaagAutocorrectie = (function () {
         this.floatMax = "6.0";
         this.increment = 0.1;
         this.showHistogram = false;
+        this.loadingData = false;
     }
     ReferentielaagAutocorrectie.prototype.openOpenbaarDomeinLegende = function () {
         this.dialogService
@@ -96,23 +93,33 @@ var ReferentielaagAutocorrectie = (function () {
     };
     ReferentielaagAutocorrectie.prototype.onHistogramDataChanged = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a;
+            var _a, e_1;
             var _b, _c;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
-                        if (!(((_b = this.referentielaag) === null || _b === void 0 ? void 0 : _b.value) && ((_c = this.domeinstrategie) === null || _c === void 0 ? void 0 : _c.value))) return [3, 2];
+                        if (!(((_b = this.referentielaag) === null || _b === void 0 ? void 0 : _b.value) && ((_c = this.domeinstrategie) === null || _c === void 0 ? void 0 : _c.value))) return [3, 5];
+                        _d.label = 1;
+                    case 1:
+                        _d.trys.push([1, 3, , 4]);
+                        this.loadingData = true;
                         _a = this;
                         return [4, this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value)];
-                    case 1:
+                    case 2:
                         _a.histogramData = _d.sent();
+                        this.loadingData = false;
                         setupD3(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
                         this.showHistogram = true;
-                        return [3, 3];
-                    case 2:
+                        return [3, 4];
+                    case 3:
+                        e_1 = _d.sent();
+                        this.loadingData = false;
+                        return [3, 4];
+                    case 4: return [3, 6];
+                    case 5:
                         this.showHistogram = false;
-                        _d.label = 3;
-                    case 3: return [2];
+                        _d.label = 6;
+                    case 6: return [2];
                 }
             });
         });
@@ -121,9 +128,13 @@ var ReferentielaagAutocorrectie = (function () {
         if (!ov || ov === nv) {
             return;
         }
+        var floatNumber = Number(nv).toFixed(1);
         removePoint();
         drawNewCircle(Number(nv));
-        this.resultsUpdated(this.histogramData.series[nv]);
+        if (!this.histogramData) {
+            return;
+        }
+        this.resultsUpdated(this.histogramData.series[floatNumber]);
     };
     __decorate([
         bindable,

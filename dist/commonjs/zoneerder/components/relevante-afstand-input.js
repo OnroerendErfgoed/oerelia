@@ -19,6 +19,7 @@ var RelevanteAfstandInput = (function () {
         this.floatMin = "0.0";
         this.floatMax = "6.0";
         this.increment = 0.1;
+        this.disabled = false;
     }
     RelevanteAfstandInput.prototype.onMinusClick = function () {
         this.relevanteAfstand = (Number(this.relevanteAfstand) - this.increment).toFixed(1);
@@ -50,6 +51,10 @@ var RelevanteAfstandInput = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Object)
     ], RelevanteAfstandInput.prototype, "increment", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], RelevanteAfstandInput.prototype, "disabled", void 0);
     return RelevanteAfstandInput;
 }());
 exports.RelevanteAfstandInput = RelevanteAfstandInput;

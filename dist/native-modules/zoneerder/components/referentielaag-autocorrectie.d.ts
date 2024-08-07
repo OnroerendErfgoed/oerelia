@@ -24,6 +24,7 @@ export declare class ReferentielaagAutocorrectie {
     private floatMax;
     private increment;
     private showHistogram;
+    private loadingData;
     private histogramData;
     constructor(dialogService: DialogService);
     openOpenbaarDomeinLegende(): void;

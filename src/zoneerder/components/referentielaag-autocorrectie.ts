@@ -33,10 +33,7 @@ export class ReferentielaagAutocorrectie {
   histogram: HTMLElement;
 
   private referentielaag: Referentielaag = null;
-  private domeinstrategie: DomeinStrategie = {
-    value: StrategieEnum.EenzijdingSnappen,
-    label: "Eénzijdig snappen (1)",
-  };
+  private domeinstrategie: DomeinStrategie;
   @observable private relevanteAfstand: string = "3.0";
   private max = "6";
   private min = "0";
@@ -45,6 +42,7 @@ export class ReferentielaagAutocorrectie {
   private increment = 0.1;
 
   private showHistogram = false;
+  private loadingData = false;
   private histogramData: IAlignerResponse;
 
   constructor(private dialogService: DialogService) { }
@@ -66,9 +64,15 @@ export class ReferentielaagAutocorrectie {
   async onHistogramDataChanged() {
     if (this.referentielaag?.value && this.domeinstrategie?.value) {
       // API Call en histogram data ophalen.
-      this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
-      setupD3(this.histogram, this.histogramData.diffs , Number(this.relevanteAfstand));
-      this.showHistogram = true;
+      try {
+        this.loadingData = true;
+        this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
+        this.loadingData = false;
+        setupD3(this.histogram, this.histogramData.diffs , Number(this.relevanteAfstand));
+        this.showHistogram = true;
+      } catch(e) {
+        this.loadingData = false;
+      }
     } else {
       this.showHistogram = false;
     }
@@ -78,9 +82,10 @@ export class ReferentielaagAutocorrectie {
     if (!ov || ov === nv) {
       return;
     }
+    const floatNumber = Number(nv).toFixed(1);
     removePoint();
     drawNewCircle(Number(nv));
-    
-    this.resultsUpdated(this.histogramData.series[nv]);
+    if (!this.histogramData) { return; }
+    this.resultsUpdated(this.histogramData.series[floatNumber]);
   }
 }
