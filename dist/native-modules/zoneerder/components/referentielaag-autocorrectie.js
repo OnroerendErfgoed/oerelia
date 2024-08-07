@@ -79,7 +79,7 @@ var ReferentielaagAutocorrectie = (function () {
         this.increment = 0.1;
         this.showHistogram = false;
         this.loadingData = false;
-        this.volledigGealligneerd = false;
+        this.volledigGealigneerd = false;
     }
     ReferentielaagAutocorrectie.prototype.openOpenbaarDomeinLegende = function () {
         this.dialogService
@@ -117,7 +117,7 @@ var ReferentielaagAutocorrectie = (function () {
                             var x = _a[0], y = _a[1];
                             return ({ x: parseFloat(x), y: Math.abs(y) });
                         });
-                        this.volledigGealligneerd = data.every(function (point) { return point.y === 0; });
+                        this.volledigGealigneerd = data.every(function (point) { return point.y === 0; });
                         this.showHistogram = true;
                         return [3, 4];
                     case 3:

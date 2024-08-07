@@ -95,7 +95,7 @@ var ReferentieLaagMap = (function (_super) {
                 fill: 'rgba(255, 0, 0, 0.3)',
                 hashed: true,
             },
-            geometries: geometry.type === 'GeometryCollection' ? geometry.geometries : [geometry],
+            geometries: geometry['geometries'] || [geometry],
             showLegend: true,
             visible: true
         });

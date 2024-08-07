@@ -43,7 +43,7 @@ export class ReferentielaagAutocorrectie {
 
   private showHistogram = false;
   private loadingData = false;
-  private volledigGealligneerd = false;
+  private volledigGealigneerd = false;
   private histogramData: IAlignerResponse;
   private laatstGealligneerd: string;
 
@@ -75,7 +75,7 @@ export class ReferentielaagAutocorrectie {
         const floatNumber = Number(this.relevanteAfstand).toFixed(1);
         this.resultsUpdated(this.histogramData.series[floatNumber]);
         const data = Object.entries(this.histogramData.diffs).map(([x, y]) => ({x: parseFloat(x), y: Math.abs(y)}));
-        this.volledigGealligneerd = data.every((point) => point.y === 0);
+        this.volledigGealigneerd = data.every((point) => point.y === 0);
         this.showHistogram = true;
       } catch(e) {
         this.loadingData = false;
