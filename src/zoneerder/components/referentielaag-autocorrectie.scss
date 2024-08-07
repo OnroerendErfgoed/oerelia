@@ -32,7 +32,7 @@ referentielaag-autocorrectie {
     padding-left: 2px; // bit of padding because the image has some padding
     padding-right: 2px;
 
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 
     input {
       width: 100%;
@@ -71,5 +71,14 @@ referentielaag-autocorrectie {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    .alert-box {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 1vh;  
+    }
   }
 }

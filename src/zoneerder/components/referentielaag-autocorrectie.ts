@@ -43,6 +43,7 @@ export class ReferentielaagAutocorrectie {
 
   private showHistogram = false;
   private loadingData = false;
+  private volledigGealligneerd = false;
   private histogramData: IAlignerResponse;
 
   constructor(private dialogService: DialogService) { }
@@ -69,7 +70,10 @@ export class ReferentielaagAutocorrectie {
         this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
         this.loadingData = false;
         setupD3(this.histogram, this.histogramData.diffs , Number(this.relevanteAfstand));
-        this.resultsUpdated(this.histogramData.series[this.relevanteAfstand]);
+        const floatNumber = Number(this.relevanteAfstand).toFixed(1);
+        this.resultsUpdated(this.histogramData.series[floatNumber]);
+        const data = Object.entries(this.histogramData.diffs).map(([x, y]) => ({x: parseFloat(x), y: Math.abs(y)}));
+        this.volledigGealligneerd = data.every((point) => point.y === 0);
         this.showHistogram = true;
       } catch(e) {
         this.loadingData = false;

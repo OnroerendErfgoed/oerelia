@@ -34,7 +34,7 @@ referentielaag-autocorrectie .slider {
   width: 370px;
   padding-left: 2px;
   padding-right: 2px;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 referentielaag-autocorrectie .slider input {
   width: 100%;
@@ -65,4 +65,12 @@ referentielaag-autocorrectie .graph-container {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+referentielaag-autocorrectie .graph-container .alert-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 1vh;
 }

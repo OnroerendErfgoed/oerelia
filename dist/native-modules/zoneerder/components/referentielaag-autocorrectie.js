@@ -79,6 +79,7 @@ var ReferentielaagAutocorrectie = (function () {
         this.increment = 0.1;
         this.showHistogram = false;
         this.loadingData = false;
+        this.volledigGealligneerd = false;
     }
     ReferentielaagAutocorrectie.prototype.openOpenbaarDomeinLegende = function () {
         this.dialogService
@@ -93,7 +94,7 @@ var ReferentielaagAutocorrectie = (function () {
     };
     ReferentielaagAutocorrectie.prototype.onHistogramDataChanged = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, e_1;
+            var _a, floatNumber, data, e_1;
             var _b, _c;
             return __generator(this, function (_d) {
                 switch (_d.label) {
@@ -109,7 +110,13 @@ var ReferentielaagAutocorrectie = (function () {
                         _a.histogramData = _d.sent();
                         this.loadingData = false;
                         setupD3(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
-                        this.resultsUpdated(this.histogramData.series[this.relevanteAfstand]);
+                        floatNumber = Number(this.relevanteAfstand).toFixed(1);
+                        this.resultsUpdated(this.histogramData.series[floatNumber]);
+                        data = Object.entries(this.histogramData.diffs).map(function (_a) {
+                            var x = _a[0], y = _a[1];
+                            return ({ x: parseFloat(x), y: Math.abs(y) });
+                        });
+                        this.volledigGealligneerd = data.every(function (point) { return point.y === 0; });
                         this.showHistogram = true;
                         return [3, 4];
                     case 3:

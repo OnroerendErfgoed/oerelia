@@ -25,6 +25,7 @@ export declare class ReferentielaagAutocorrectie {
     private increment;
     private showHistogram;
     private loadingData;
+    private volledigGealligneerd;
     private histogramData;
     constructor(dialogService: DialogService);
     openOpenbaarDomeinLegende(): void;
