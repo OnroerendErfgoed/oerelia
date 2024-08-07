@@ -35,4 +35,8 @@
   <select value.bind="domeinstrategie" change.delegate="onHistogramDataChanged()">
     <option repeat.for="strategie of strategieen" model.bind="strategie">${strategie.label}</option>
   </select>
+  <div if.bind="laatstGealligneerd" class="laatst-gealligneerd-container">
+    <span>Laatst gealligneerd op: ${laatstGealligneerd}</span>
+    <span>GRB percelenlaag</span>
+  </div>
 </template>

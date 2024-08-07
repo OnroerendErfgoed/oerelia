@@ -45,6 +45,7 @@ export class ReferentielaagAutocorrectie {
   private loadingData = false;
   private volledigGealligneerd = false;
   private histogramData: IAlignerResponse;
+  private laatstGealligneerd: string;
 
   constructor(private dialogService: DialogService) { }
 
@@ -68,6 +69,7 @@ export class ReferentielaagAutocorrectie {
       try {
         this.loadingData = true;
         this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
+        this.laatstGealligneerd = this.getLaatstGealligneerdDatum();
         this.loadingData = false;
         setupD3(this.histogram, this.histogramData.diffs , Number(this.relevanteAfstand));
         const floatNumber = Number(this.relevanteAfstand).toFixed(1);
@@ -92,5 +94,18 @@ export class ReferentielaagAutocorrectie {
     drawNewCircle(Number(nv));
     if (!this.histogramData) { return; }
     this.resultsUpdated(this.histogramData.series[floatNumber]);
+  }
+
+  private getLaatstGealligneerdDatum() {
+    let now = new Date();
+
+    let day = now.getDate().toString().padStart(2, '0');
+    let month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based in JavaScript
+    let year = now.getFullYear();
+
+    let hours = now.getHours().toString().padStart(2, '0');
+    let minutes = now.getMinutes().toString().padStart(2, '0');
+
+    return `${day}/${month}/${year} om ${hours}:${minutes}`;
   }
 }

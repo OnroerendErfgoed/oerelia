@@ -111,6 +111,7 @@ var ReferentielaagAutocorrectie = (function () {
                         return [4, this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value)];
                     case 2:
                         _a.histogramData = _d.sent();
+                        this.laatstGealligneerd = this.getLaatstGealligneerdDatum();
                         this.loadingData = false;
                         (0, d3_1.setupD3)(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
                         floatNumber = Number(this.relevanteAfstand).toFixed(1);
@@ -146,6 +147,15 @@ var ReferentielaagAutocorrectie = (function () {
             return;
         }
         this.resultsUpdated(this.histogramData.series[floatNumber]);
+    };
+    ReferentielaagAutocorrectie.prototype.getLaatstGealligneerdDatum = function () {
+        var now = new Date();
+        var day = now.getDate().toString().padStart(2, '0');
+        var month = (now.getMonth() + 1).toString().padStart(2, '0');
+        var year = now.getFullYear();
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        return "".concat(day, "/").concat(month, "/").concat(year, " om ").concat(hours, ":").concat(minutes);
     };
     __decorate([
         aurelia_framework_1.bindable,

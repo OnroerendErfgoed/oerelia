@@ -81,4 +81,14 @@ referentielaag-autocorrectie {
       height: 1vh;  
     }
   }
+
+  .laatst-gealligneerd-container {
+    color: $primary-color;
+    // position: absolute;
+    // bottom: 0;
+    margin-bottom: 1rem;
+    span {
+      display: block;
+    }
+  }
 }
