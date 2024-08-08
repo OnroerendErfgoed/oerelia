@@ -3,7 +3,7 @@ import { ButtonConfig } from '../models/buttonConfig';
 export declare class ZoneVergelijkingDialog {
     zone: Contour;
     buttonConfig: ButtonConfig;
-    layerConfig: import("../..").LayerConfig;
+    layerConfig: import("exports").LayerConfig;
     alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
     activate(model: {
         zone: Contour;

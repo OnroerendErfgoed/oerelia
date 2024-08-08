@@ -108,7 +108,7 @@ var ReferentielaagAutocorrectie = (function () {
                         return [4, this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value)];
                     case 2:
                         _a.histogramData = _d.sent();
-                        this.laatstGealligneerd = this.getLaatstGealligneerdDatum();
+                        this.laatstGealigneerd = this.getLaatstGealigneerdDatum();
                         this.loadingData = false;
                         setupD3(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
                         floatNumber = Number(this.relevanteAfstand).toFixed(1);
@@ -145,7 +145,7 @@ var ReferentielaagAutocorrectie = (function () {
         }
         this.resultsUpdated(this.histogramData.series[floatNumber]);
     };
-    ReferentielaagAutocorrectie.prototype.getLaatstGealligneerdDatum = function () {
+    ReferentielaagAutocorrectie.prototype.getLaatstGealigneerdDatum = function () {
         var now = new Date();
         var day = now.getDate().toString().padStart(2, '0');
         var month = (now.getMonth() + 1).toString().padStart(2, '0');

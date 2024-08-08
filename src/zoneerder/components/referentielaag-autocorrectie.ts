@@ -45,7 +45,7 @@ export class ReferentielaagAutocorrectie {
   private loadingData = false;
   private volledigGealigneerd = false;
   private histogramData: IAlignerResponse;
-  private laatstGealligneerd: string;
+  private laatstGealigneerd: string;
 
   constructor(private dialogService: DialogService) { }
 
@@ -69,7 +69,7 @@ export class ReferentielaagAutocorrectie {
       try {
         this.loadingData = true;
         this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
-        this.laatstGealligneerd = this.getLaatstGealligneerdDatum();
+        this.laatstGealigneerd = this.getLaatstGealigneerdDatum();
         this.loadingData = false;
         setupD3(this.histogram, this.histogramData.diffs , Number(this.relevanteAfstand));
         const floatNumber = Number(this.relevanteAfstand).toFixed(1);
@@ -96,7 +96,7 @@ export class ReferentielaagAutocorrectie {
     this.resultsUpdated(this.histogramData.series[floatNumber]);
   }
 
-  private getLaatstGealligneerdDatum() {
+  private getLaatstGealigneerdDatum() {
     let now = new Date();
 
     let day = now.getDate().toString().padStart(2, '0');

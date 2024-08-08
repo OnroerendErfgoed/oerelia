@@ -74,10 +74,10 @@ referentielaag-autocorrectie .graph-container .alert-box {
   flex-direction: column;
   height: 1vh;
 }
-referentielaag-autocorrectie .laatst-gealligneerd-container {
+referentielaag-autocorrectie .laatst-gealigneerd-container {
   color: #944EA1;
   margin-bottom: 1rem;
 }
-referentielaag-autocorrectie .laatst-gealligneerd-container span {
+referentielaag-autocorrectie .laatst-gealigneerd-container span {
   display: block;
 }
