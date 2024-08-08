@@ -349,8 +349,10 @@ var BaseMap = (function () {
     };
     BaseMap.prototype._createVectorLayer = function (options) {
         var _this = this;
+        var _a;
         var existingLayer = this.map.getLayers().getArray().find(function (layer) { return layer.get('title') === options.title; });
         if (existingLayer) {
+            options.visible = existingLayer.getVisible();
             this.map.removeLayer(existingLayer);
         }
         var vectorSource = new openlayers_1.default.source.Vector({});
@@ -393,12 +395,9 @@ var BaseMap = (function () {
             visible: true
         });
         if (options.geometries) {
-            options.geometries.forEach(function (geometry) {
-                geometry.coordinates.forEach(function (coords) {
-                    var geom = new openlayers_1.default.geom.Polygon(coords);
-                    var feature = new openlayers_1.default.Feature(geom);
-                    vectorSource.addFeature(feature);
-                });
+            (_a = options.geometries) === null || _a === void 0 ? void 0 : _a.forEach(function (geometry) {
+                var features = _this.geoJsonFormatter.readFeatures(geometry);
+                features.forEach(function (feature) { return vectorSource.addFeature(feature); });
             });
         }
         vLayer.set('style', options.style);

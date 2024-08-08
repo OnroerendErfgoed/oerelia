@@ -16,6 +16,7 @@ var ZoneVergelijkingDialog = (function () {
             zoomSwitcher: false,
             zoomInOut: true,
         };
+        this.alignGrb = model.alignGrb;
     };
     return ZoneVergelijkingDialog;
 }());

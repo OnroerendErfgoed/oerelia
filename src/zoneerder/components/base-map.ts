@@ -404,6 +404,7 @@ export abstract class BaseMap {
     // delete layer if it exists on map
     const existingLayer = this.map.getLayers().getArray().find((layer) => layer.get('title') === options.title);
     if (existingLayer) {
+      options.visible = existingLayer.getVisible();
       this.map.removeLayer(existingLayer);
     }
     
@@ -450,12 +451,9 @@ export abstract class BaseMap {
     });
     
     if (options.geometries) {
-      options.geometries.forEach((geometry) => {
-        geometry.coordinates.forEach((coords) => {
-          const geom = new ol.geom.Polygon(coords);
-          const feature = new ol.Feature(geom);
-          vectorSource.addFeature(feature);
-        });
+      options.geometries?.forEach((geometry) => {
+        const features = this.geoJsonFormatter.readFeatures(geometry);
+        features.forEach((feature) => vectorSource.addFeature(feature));
       });
     }
     vLayer.set('style', options.style);

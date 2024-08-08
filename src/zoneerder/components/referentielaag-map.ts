@@ -1,12 +1,14 @@
 import * as ol from 'openlayers';
-import { Contour } from '../models/contour';
+import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 import { BaseMap } from './base-map';
 import { bindable } from 'aurelia-framework';
 import { LayerType } from '../models/layerConfig.enums';
+import { type Geometry } from 'geojson'
 
 export class ReferentieLaagMap extends BaseMap {
   @bindable zone: Contour;
-  
+  @bindable alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
+
   private resultLayer: ol.layer.Layer;
   private diffPlusLayer: ol.layer.Layer;
   private diffMinLayer: ol.layer.Layer;
@@ -35,16 +37,16 @@ export class ReferentieLaagMap extends BaseMap {
     this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
   }
   
-  createResultLayer(geometry: Contour) {
+  createResultLayer(geometry: Geometry) {
     const resultLayer = this._createLayer('input', {
       type: LayerType.Vector,
       title: 'Output/Resultaat',
       style: {
         stroke: 'rgb(255, 0, 0)',
-        fill: '#ffffff',
-        lineDash: [3, 3],
+        fill: 'rgba(255, 255, 255, 0.7)',
+        lineDash: [10, 10],
       },
-      geometries: [geometry],
+      geometries: geometry['geometries'] || [geometry],
       showLegend: true,
       visible: true
     });
@@ -52,7 +54,7 @@ export class ReferentieLaagMap extends BaseMap {
     return resultLayer;
   }
   
-  createDiffPlusLayer(geometry: Contour) {
+  createDiffPlusLayer(geometry: Geometry) {
     const diffPlusLayer = this._createLayer('diffPlus', {
       type: LayerType.Vector,
       title: 'Diff+',
@@ -61,7 +63,7 @@ export class ReferentieLaagMap extends BaseMap {
         fill: 'rgba(0, 255, 0, 0.3)',
         hashed: true,
       },
-      geometries: [geometry],
+      geometries: geometry['geometries'] || [geometry],
       showLegend: true,
       visible: true
     });
@@ -69,7 +71,7 @@ export class ReferentieLaagMap extends BaseMap {
     return diffPlusLayer;
   }
   
-  createDiffMinLayer(geometry: Contour) {
+  createDiffMinLayer(geometry: Geometry) {
     const diffMinLayer = this._createLayer('diffMin', {
       type: LayerType.Vector,
       title: 'Diff-',
@@ -78,7 +80,7 @@ export class ReferentieLaagMap extends BaseMap {
         fill: 'rgba(255, 0, 0, 0.3)',
         hashed: true,
       },
-      geometries: [geometry],
+      geometries: geometry['geometries'] || [geometry],
       showLegend: true,
       visible: true
     });
@@ -86,7 +88,7 @@ export class ReferentieLaagMap extends BaseMap {
     return diffMinLayer;
   }
   
-  resultsUpdated(results: { [key: string]: Contour }) {
+  resultsUpdated(results: { [key: string]: Geometry }) {
     if (!results) {
       this.map.removeLayer(this.resultLayer)
       this.map.removeLayer(this.diffPlusLayer);

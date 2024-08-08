@@ -1,5 +1,6 @@
 import { LayerType } from './layerConfig.enums';
 import { Contour } from './contour';
+import { type Geometry } from 'geojson';
 interface BaseLayerOptions {
     type: LayerType;
     title: string;
@@ -15,7 +16,7 @@ export interface VectorLayerOptions extends BaseLayerOptions {
         lineDash?: [number, number];
         hashed?: boolean;
     };
-    geometries?: Contour[];
+    geometries?: Contour[] | Geometry[];
 }
 interface GrbOrNgiLayerOptions extends BaseLayerOptions {
     type: LayerType.Ngi | LayerType.GRB;

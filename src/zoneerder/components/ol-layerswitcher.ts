@@ -1,11 +1,6 @@
 import * as ol from 'openlayers';
 import { LayerType } from '../models/layerConfig.enums';
 
-/**
- * VERY EXPERIMENTAL!
- * JS Openlayers 3+ layerswitcher with TS compatibilty, but not in TS!
- * Should be refactored to full TS/Aurelia support, tslint is fine.
- */
 export class Layerswitcher extends ol.control.Control {
   public panel: HTMLDivElement;
   public closeButton: HTMLButtonElement;
@@ -52,20 +47,8 @@ export class Layerswitcher extends ol.control.Control {
     this.element.appendChild(this.panel);
     
     const self = this;
-    
-    this.button.onclick = () => {
-      self.showPanel();
-      self.isShown = true;
-      self.button.style.display = 'none';
-      self.closeButton.style.display = 'inline-block';
-    };
-    
-    this.closeButton.onclick = () => {
-      self.hidePanel();
-      self.isShown = false;
-      self.button.style.display = 'inline-block';
-      self.closeButton.style.display = 'none';
-    };
+    this.button.onclick = () => self.showPanel();
+    this.closeButton.onclick = () => self.hidePanel();
     
     ol.control.Control.call(this, {
       element: this.element,
@@ -77,19 +60,21 @@ export class Layerswitcher extends ol.control.Control {
    * Show the layer panel
    */
   public showPanel() {
-    if (this.element.className !== this.shownClassName) {
-      this.element.className = this.shownClassName;
-      this.renderPanel();
-    }
+    this.element.className = this.shownClassName;
+    this.isShown = true;
+    this.button.style.display = 'none';
+    this.closeButton.style.display = 'inline-block';
+    this.renderPanel();
   }
   
   /**
    * Hide the layer panel
    */
   public hidePanel() {
-    if (this.element.className !== this.hiddenClassName) {
-      this.element.className = this.hiddenClassName;
-    }
+    this.element.className = this.hiddenClassName;
+    this.isShown = false;
+    this.button.style.display = 'inline-block';
+    this.closeButton.style.display = 'none';
   }
   
   /**
@@ -124,11 +109,10 @@ export class Layerswitcher extends ol.control.Control {
     // Wire up listeners etc. and store reference to new map
     ol.control.Control.prototype.setMap.call(this, map);
     if (map) {
-      this.mapListeners.push(map.on('pointerdown', () => {
-        this.hidePanel();
-        this.button.style.display = 'inline-block';
-        this.closeButton.style.display = 'none';
-      }));
+      this.mapListeners.push(
+        map.getLayers().on("propertychange", () => this.renderPanel()),
+        map.on('pointerdown', () => this.hidePanel())
+      );
       this.renderPanel();
     }
   }
@@ -250,7 +234,7 @@ export class Layerswitcher extends ol.control.Control {
         legendGraphic.style.position = 'relative'; // Ensure the container allows absolute positioning
         legendGraphic.appendChild(diagonal);
       } else {
-          legendGraphic.style.backgroundColor = fillColor;
+        legendGraphic.style.backgroundColor = fillColor;
       }
       label.appendChild(legendDiv);
     } else if (lyr.get('legendItems')) {

@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { Diffs } from 'zoneerder/models/contour';
 
 interface Datapoint {
   x: number,
@@ -7,7 +8,7 @@ interface Datapoint {
 
 let x, y, chartData = undefined;
 
-export function setupD3(container: HTMLElement, targetX: number) {
+export function setupD3(container: HTMLElement, data: Diffs,  targetX: number) {
   if (!container) { return };
   container.innerHTML = '';
   // Declare the chart dimensions and margins.
@@ -18,14 +19,13 @@ export function setupD3(container: HTMLElement, targetX: number) {
   const marginBottom = 30;
   const marginLeft = 0;
 
-  async function render_area_chart() {
-    const response = {0.0: -0.0, 0.1: 0.0, 0.2: 0.0, 0.3: 0.0, 0.4: 0.0, 0.5: 0.0, 0.6: 0.0, 0.7: 0.0, 0.8: 0.0, 0.9: 0.0, 1.0: 1.7, 1.1: -7.2, 1.2: -7.2, 1.3: -7.2, 1.4: -7.2, 1.5: -7.2, 1.6: -7.2, 1.7: -7.2, 1.8: -7.2, 1.9: -7.2, 2.0: -7.2, 2.1: -7.2, 2.2: -7.2, 2.3: -7.2, 2.4: -7.2, 2.5: 8.5, 2.6: 8.5, 2.7: 8.5, 2.8: 8.5, 2.9: 8.5, 3.0: 8.5, 3.1: 8.5, 3.2: 8.5, 3.3: 8.5, 3.4: 8.5, 3.5: 8.5, 3.6: 8.5, 3.7: 8.5, 3.8: 8.5, 3.9: 8.5, 4.0: 8.5, 4.1: 8.5, 4.2: 8.5, 4.3: 8.5, 4.4: 8.5, 4.5: 8.5, 4.6: 8.5, 4.7: 8.5, 4.8: 8.5, 4.9: 8.5, 5.0: 8.5, 5.1: 8.5, 5.2: 8.5, 5.3: 8.5, 5.4: 8.5, 5.5: 8.5, 5.6: 8.5, 5.7: 8.5, 5.8: 8.5, 5.9: 8.5, 6.0: 8.5};
-    let data = Object.entries(response).map(([x, y]) => ({x: parseFloat(x), y: Math.abs(y)}));
-    data = data.sort((d1, d2) => d1.x - d2.x);
-    render_data(data);
+  async function render_area_chart(data: Diffs) {
+    let floatedData = Object.entries(data).map(([x, y]) => ({x: parseFloat(x), y: Math.abs(y)}));
+    floatedData = floatedData.sort((d1, d2) => d1.x - d2.x);
+    render_data(floatedData);
   }
 
-  render_area_chart();
+  render_area_chart(data);
 
   function render_data(data: Datapoint[]) {
     // Declare the x (horizontal position) scale.

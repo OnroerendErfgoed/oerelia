@@ -1,17 +1,19 @@
 import * as ol from 'openlayers';
-import { Contour } from '../models/contour';
+import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 import { BaseMap } from './base-map';
+import { type Geometry } from 'geojson';
 export declare class ReferentieLaagMap extends BaseMap {
     zone: Contour;
+    alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
     private resultLayer;
     private diffPlusLayer;
     private diffMinLayer;
     constructor();
     attached(): void;
-    createResultLayer(geometry: Contour): ol.layer.Layer;
-    createDiffPlusLayer(geometry: Contour): ol.layer.Layer;
-    createDiffMinLayer(geometry: Contour): ol.layer.Layer;
+    createResultLayer(geometry: Geometry): ol.layer.Layer;
+    createDiffPlusLayer(geometry: Geometry): ol.layer.Layer;
+    createDiffMinLayer(geometry: Geometry): ol.layer.Layer;
     resultsUpdated(results: {
-        [key: string]: Contour;
+        [key: string]: Geometry;
     }): void;
 }
