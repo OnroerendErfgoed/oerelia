@@ -4,6 +4,7 @@ export * from './tabs/tabs-content';
 export * from './autocomplete/autocomplete';
 export * from './autocomplete/models/autocomplete-type';
 export * from './zoneerder/zoneerder';
+export * from './zoneerder/models/contour';
 export * from './zoneerder/models/layerConfig';
 export * from './zoneerder/models/layerConfig.enums';
 export * from './zoneerder/models/layerConfig.defaults';

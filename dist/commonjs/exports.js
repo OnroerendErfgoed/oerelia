@@ -20,6 +20,7 @@ __exportStar(require("./tabs/tabs-content"), exports);
 __exportStar(require("./autocomplete/autocomplete"), exports);
 __exportStar(require("./autocomplete/models/autocomplete-type"), exports);
 __exportStar(require("./zoneerder/zoneerder"), exports);
+__exportStar(require("./zoneerder/models/contour"), exports);
 __exportStar(require("./zoneerder/models/layerConfig"), exports);
 __exportStar(require("./zoneerder/models/layerConfig.enums"), exports);
 __exportStar(require("./zoneerder/models/layerConfig.defaults"), exports);
