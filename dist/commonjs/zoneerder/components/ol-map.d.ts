@@ -46,4 +46,5 @@ export declare class OlMap extends BaseMap {
     private _createInteractions;
     private _createDrawLayer;
     showZoneVergelijkingDialog(): void;
+    private createMultiPolygon;
 }

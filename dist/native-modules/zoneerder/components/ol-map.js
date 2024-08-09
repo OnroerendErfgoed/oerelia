@@ -303,14 +303,34 @@ var OlMap = (function (_super) {
         this.map.addLayer(this.drawLayer);
     };
     OlMap.prototype.showZoneVergelijkingDialog = function () {
+        var _this = this;
         void this.dialogService.open({
             viewModel: PLATFORM.moduleName('oerelia/zoneerder/components/zone-vergelijking-dialog'),
             model: { zone: this.zone, alignGrb: this.alignGrb }
         }).whenClosed(function (response) {
             if (!response.wasCancelled) {
-                var data = response.output.data;
+                var geom = response.output;
+                var multiPolygon = _this.createMultiPolygon(geom['geometries'] || [geom]);
+                var contour = _this.formatGeoJson(multiPolygon);
+                _this.zone = contour;
             }
         });
+    };
+    OlMap.prototype.createMultiPolygon = function (geometries) {
+        var multiPolygon = new ol.geom.MultiPolygon([]);
+        geometries.forEach(function (geom) {
+            if (geom.type === 'Polygon') {
+                var polygon = new ol.geom.Polygon(geom.coordinates);
+                multiPolygon.appendPolygon(polygon);
+            }
+            else if (geom.type === 'MultiPolygon') {
+                geom.coordinates.forEach(function (coordinate) {
+                    var polygon = new ol.geom.Polygon(coordinate);
+                    multiPolygon.appendPolygon(polygon);
+                });
+            }
+        });
+        return multiPolygon;
     };
     __decorate([
         bindable,

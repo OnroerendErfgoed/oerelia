@@ -8,6 +8,7 @@ import { LayerType } from '../models/layerConfig.enums';
 import { DialogService } from 'aurelia-dialog';
 import { BaseMap } from './base-map';
 import { bindingMode } from 'aurelia-binding';
+import { type Geometry } from 'geojson'
 
 const log = LogManager.getLogger('ol-map');
 
@@ -325,8 +326,29 @@ export class OlMap extends BaseMap {
       model: { zone: this.zone, alignGrb: this.alignGrb }
     }).whenClosed((response) => {
       if (!response.wasCancelled) {
-        const data = response.output.data;
+        const geom = response.output as Geometry;
+        const multiPolygon = this.createMultiPolygon(geom['geometries'] || [geom]);
+        const contour = this.formatGeoJson(multiPolygon);
+        this.zone = contour;
       }
     });
+  }
+
+  private createMultiPolygon(geometries: Geometry[]) {
+    const multiPolygon = new ol.geom.MultiPolygon([]);
+  
+    geometries.forEach((geom: Geometry) => {
+      if (geom.type === 'Polygon') {
+        const polygon = new ol.geom.Polygon(geom.coordinates as ol.Coordinate[][]);
+        multiPolygon.appendPolygon(polygon);
+      } else if (geom.type === 'MultiPolygon') {
+        geom.coordinates.forEach((coordinate: ol.Coordinate[][]) => {
+          const polygon = new ol.geom.Polygon(coordinate);
+          multiPolygon.appendPolygon(polygon);
+        });
+      }
+    });
+  
+    return multiPolygon;
   }
 }

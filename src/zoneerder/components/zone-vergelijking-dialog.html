@@ -15,8 +15,12 @@
         zone zich automatisch aanpassen. Contacteer je GIS beheerder indien de gewenste geometrie niet bekomen kan
         worden via deze tool.
       </p>
-      <referentie-laag-map zone.bind="zone" button-config.bind="buttonConfig" layer-config.bind="layerConfig" align-grb.bind="alignGrb">
+      <referentie-laag-map zone.bind="zone" resultaat.two-way="resultaat" button-config.bind="buttonConfig" layer-config.bind="layerConfig" align-grb.bind="alignGrb">
       </referentie-laag-map>
     </ux-dialog-body>
+    <ux-dialog-footer style="text-align: center">
+      <button class="button tiny" style="margin-right: 15px;" click.delegate="neemResultaatOverVanZone()">Resultaat overnemen als zone</button>
+      <button class="button tiny" click.delegate="controller.cancel()">Originele zone behouden</button>
+    </ux-dialog-footer>
   </ux-dialog>
 </template>

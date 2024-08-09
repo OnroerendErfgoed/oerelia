@@ -8,7 +8,8 @@ import { type Geometry } from 'geojson'
 export class ReferentieLaagMap extends BaseMap {
   @bindable zone: Contour;
   @bindable alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
-
+  @bindable resultaat: Geometry;
+  
   private resultLayer: ol.layer.Layer;
   private diffPlusLayer: ol.layer.Layer;
   private diffMinLayer: ol.layer.Layer;
@@ -96,6 +97,7 @@ export class ReferentieLaagMap extends BaseMap {
       this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
       return;
     }
+    this.resultaat = results['result'];
     this.resultLayer = this.createResultLayer(results['result']);
     this.diffPlusLayer = this.createDiffPlusLayer(results['result_diff_plus']);
     this.diffMinLayer = this.createDiffMinLayer(results['result_diff_min']);
