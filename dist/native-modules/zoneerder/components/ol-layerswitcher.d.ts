@@ -18,7 +18,7 @@ export declare class Layerswitcher extends ol.control.Control {
     setMap(map: any): void;
     ensureTopVisibleBaseLayerShown_(): void;
     setVisible_(lyr: any, visible: boolean): void;
-    renderLayer_(lyr: any, idx: any): HTMLLIElement;
+    renderLayer_(lyr: any): HTMLLIElement;
     private addLegend;
     renderLayers_(lyr: any, elm: Element): void;
     forEachRecursive(lyr: any, fn: any): void;
