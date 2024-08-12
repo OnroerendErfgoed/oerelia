@@ -107,6 +107,7 @@ var ReferentieLaagMap = (function (_super) {
             this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
             return;
         }
+        this.resultaat = results['result'];
         this.resultLayer = this.createResultLayer(results['result']);
         this.verschilPlusLayer = this.createVerschilPlusLayer(results['result_diff_plus']);
         this.verschilMinLayer = this.createVerschilMinLayer(results['result_diff_min']);
@@ -120,6 +121,10 @@ var ReferentieLaagMap = (function (_super) {
         bindable,
         __metadata("design:type", Function)
     ], ReferentieLaagMap.prototype, "alignGrb", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], ReferentieLaagMap.prototype, "resultaat", void 0);
     return ReferentieLaagMap;
 }(BaseMap));
 export { ReferentieLaagMap };

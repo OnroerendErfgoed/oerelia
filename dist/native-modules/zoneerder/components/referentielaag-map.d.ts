@@ -5,6 +5,7 @@ import { type Geometry } from 'geojson';
 export declare class ReferentieLaagMap extends BaseMap {
     zone: Contour;
     alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
+    resultaat: Geometry;
     private resultLayer;
     private verschilPlusLayer;
     private verschilMinLayer;
