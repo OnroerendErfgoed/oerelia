@@ -338,14 +338,9 @@ export class OlMap extends BaseMap {
     const multiPolygon = new ol.geom.MultiPolygon([]);
   
     geometries.forEach((geom: Geometry) => {
-      if (geom.type === 'Polygon') {
-        const polygon = new ol.geom.Polygon(geom.coordinates as ol.Coordinate[][]);
+      if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
+        const polygon = this.geoJsonFormatter.readGeometry(geom) as ol.geom.Polygon;
         multiPolygon.appendPolygon(polygon);
-      } else if (geom.type === 'MultiPolygon') {
-        geom.coordinates.forEach((coordinate: ol.Coordinate[][]) => {
-          const polygon = new ol.geom.Polygon(coordinate);
-          multiPolygon.appendPolygon(polygon);
-        });
       }
     });
   

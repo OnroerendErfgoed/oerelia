@@ -317,17 +317,12 @@ var OlMap = (function (_super) {
         });
     };
     OlMap.prototype.createMultiPolygon = function (geometries) {
+        var _this = this;
         var multiPolygon = new ol.geom.MultiPolygon([]);
         geometries.forEach(function (geom) {
-            if (geom.type === 'Polygon') {
-                var polygon = new ol.geom.Polygon(geom.coordinates);
+            if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
+                var polygon = _this.geoJsonFormatter.readGeometry(geom);
                 multiPolygon.appendPolygon(polygon);
-            }
-            else if (geom.type === 'MultiPolygon') {
-                geom.coordinates.forEach(function (coordinate) {
-                    var polygon = new ol.geom.Polygon(coordinate);
-                    multiPolygon.appendPolygon(polygon);
-                });
             }
         });
         return multiPolygon;
