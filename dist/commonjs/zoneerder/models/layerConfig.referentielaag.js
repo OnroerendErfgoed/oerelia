@@ -12,8 +12,8 @@ exports.refentielaagLayerConfig = {
         DHMV_II_SVF_25cm: { type: layerConfig_enums_1.LayerType.DHMV, title: 'Skyview 25cm', visible: false }
     },
     overlays: {
-        gebouwen: { type: layerConfig_enums_1.LayerType.GrbWMS, wmsLayers: 'GRB_GBG', title: 'GRB-Gebouwen', showLegend: true },
-        percelen: { type: layerConfig_enums_1.LayerType.GrbWMS, wmsLayers: 'GRB_ADP_GRENS', title: 'GRB-Percelen', showLegend: true }
+        gebouwen: { type: layerConfig_enums_1.LayerType.GrbWMS, wmsLayers: 'GRB_GBG', title: 'GRB-Gebouwen', showLegend: true, visible: true },
+        percelen: { type: layerConfig_enums_1.LayerType.GrbWMS, wmsLayers: 'GRB_ADP_GRENS', title: 'GRB-Percelen', showLegend: true, visible: true }
     }
 };
 
