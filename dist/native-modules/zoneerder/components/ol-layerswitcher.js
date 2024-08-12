@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as ol from 'openlayers';
+import { Guid } from 'typescript-guid';
 import { LayerType } from '../models/layerConfig.enums';
 var Layerswitcher = (function (_super) {
     __extends(Layerswitcher, _super);
@@ -111,11 +112,12 @@ var Layerswitcher = (function (_super) {
             });
         }
     };
-    Layerswitcher.prototype.renderLayer_ = function (lyr, idx) {
+    Layerswitcher.prototype.renderLayer_ = function (lyr) {
         var self = this;
+        var id = Guid.create();
         var li = document.createElement('li');
         var lyrTitle = lyr.get('title');
-        var lyrId = lyr.get('title').replace(' ', '-') + '_' + idx;
+        var lyrId = lyr.get('title').replace(' ', '-') + '_' + id;
         var label = document.createElement('label');
         if (lyr.getLayers) {
             li.className = 'group';
@@ -208,13 +210,13 @@ var Layerswitcher = (function (_super) {
         }
     };
     Layerswitcher.prototype.renderLayers_ = function (lyr, elm) {
+        var _this = this;
         var lyrs = lyr.getLayers().getArray().slice().reverse();
-        for (var i = 0, l = void 0; i < lyrs.length; i++) {
-            l = lyrs[i];
+        lyrs.forEach(function (l) {
             if (l.get('title')) {
-                elm.appendChild(this.renderLayer_(l, i));
+                elm.appendChild(_this.renderLayer_(l));
             }
-        }
+        });
     };
     Layerswitcher.prototype.forEachRecursive = function (lyr, fn) {
         var _this = this;

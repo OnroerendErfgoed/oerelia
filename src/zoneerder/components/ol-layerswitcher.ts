@@ -1,4 +1,5 @@
 import * as ol from 'openlayers';
+import { Guid } from 'typescript-guid';
 import { LayerType } from '../models/layerConfig.enums';
 
 export class Layerswitcher extends ol.control.Control {
@@ -158,11 +159,12 @@ export class Layerswitcher extends ol.control.Control {
    * @param {ol.layer.Base} lyr Layer to be rendered (should have a title property).
    * @param {Number} idx Position in parent group list.
    */
-  public renderLayer_(lyr: any, idx: any) {
+  public renderLayer_(lyr: any) {
     const self = this;
+    const id = Guid.create();
     const li = document.createElement('li');
     const lyrTitle = lyr.get('title');
-    const lyrId = lyr.get('title').replace(' ', '-') + '_' + idx;
+    const lyrId = lyr.get('title').replace(' ', '-') + '_' + id;
     const label = document.createElement('label');
     
     if (lyr.getLayers) {
@@ -262,12 +264,11 @@ export class Layerswitcher extends ol.control.Control {
    */
   public renderLayers_(lyr: any, elm: Element) {
     const lyrs = lyr.getLayers().getArray().slice().reverse();
-    for (let i = 0, l; i < lyrs.length; i++) {
-      l = lyrs[i];
+    lyrs.forEach((l) => {
       if (l.get('title')) {
-        elm.appendChild(this.renderLayer_(l, i));
+        elm.appendChild(this.renderLayer_(l));
       }
-    }
+    })
   }
   
   /**

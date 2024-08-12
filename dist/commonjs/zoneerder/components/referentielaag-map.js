@@ -70,10 +70,10 @@ var ReferentieLaagMap = (function (_super) {
         this.map.addLayer(resultLayer);
         return resultLayer;
     };
-    ReferentieLaagMap.prototype.createDiffPlusLayer = function (geometry) {
-        var diffPlusLayer = this._createLayer('diffPlus', {
+    ReferentieLaagMap.prototype.createVerschilPlusLayer = function (geometry) {
+        var verschilPlusLayer = this._createLayer('verschilPlus', {
             type: layerConfig_enums_1.LayerType.Vector,
-            title: 'Diff+',
+            title: 'Verschil+',
             style: {
                 stroke: 'rgb(255, 0, 0)',
                 fill: 'rgba(0, 255, 0, 0.3)',
@@ -83,13 +83,13 @@ var ReferentieLaagMap = (function (_super) {
             showLegend: true,
             visible: true
         });
-        this.map.addLayer(diffPlusLayer);
-        return diffPlusLayer;
+        this.map.addLayer(verschilPlusLayer);
+        return verschilPlusLayer;
     };
-    ReferentieLaagMap.prototype.createDiffMinLayer = function (geometry) {
-        var diffMinLayer = this._createLayer('diffMin', {
+    ReferentieLaagMap.prototype.createVerschilMinLayer = function (geometry) {
+        var verschilMinLayer = this._createLayer('verschilMin', {
             type: layerConfig_enums_1.LayerType.Vector,
-            title: 'Diff-',
+            title: 'Verschil-',
             style: {
                 stroke: 'rgb(255, 0, 0)',
                 fill: 'rgba(255, 0, 0, 0.3)',
@@ -99,21 +99,21 @@ var ReferentieLaagMap = (function (_super) {
             showLegend: true,
             visible: true
         });
-        this.map.addLayer(diffMinLayer);
-        return diffMinLayer;
+        this.map.addLayer(verschilMinLayer);
+        return verschilMinLayer;
     };
     ReferentieLaagMap.prototype.resultsUpdated = function (results) {
         if (!results) {
             this.map.removeLayer(this.resultLayer);
-            this.map.removeLayer(this.diffPlusLayer);
-            this.map.removeLayer(this.diffMinLayer);
+            this.map.removeLayer(this.verschilPlusLayer);
+            this.map.removeLayer(this.verschilMinLayer);
             this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
             return;
         }
         this.resultaat = results['result'];
         this.resultLayer = this.createResultLayer(results['result']);
-        this.diffPlusLayer = this.createDiffPlusLayer(results['result_diff_plus']);
-        this.diffMinLayer = this.createDiffMinLayer(results['result_diff_min']);
+        this.verschilPlusLayer = this.createVerschilPlusLayer(results['result_diff_plus']);
+        this.verschilMinLayer = this.createVerschilMinLayer(results['result_diff_min']);
         this.zoomToExtent(this.geoJsonFormatter.readGeometry(results['result']).getExtent());
     };
     __decorate([
