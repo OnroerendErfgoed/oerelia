@@ -25,7 +25,8 @@
     "primer-tooltips": "^2.0.0",
     "proj4": "^2.4.3",
     "sass": "^1.53.0",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "typescript-guid": "^1.0.3"
   },
   "devDependencies": {
     "@types/jasmine": "^2.8.9",
