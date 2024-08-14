@@ -278,7 +278,7 @@ var ActorWidget = (function () {
             var edit = document.createElement('a');
             edit.className = 'fa fa-pencil';
             edit.setAttribute('title', 'Actor editeren');
-            edit.href = params.context.actorenApiService.config.actorenUrl + "/beheer#/actoren/" + params.data.id;
+            edit.href = params.context.actorenApiService.config.actorenUrl + "/beheer/" + params.data.id;
             edit.target = '_blank';
             container.appendChild(edit);
             return container;
