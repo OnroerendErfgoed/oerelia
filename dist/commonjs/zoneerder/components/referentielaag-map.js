@@ -107,15 +107,17 @@ var ReferentieLaagMap = (function (_super) {
             this.map.removeLayer(this.resultLayer);
             this.map.removeLayer(this.verschilPlusLayer);
             this.map.removeLayer(this.verschilMinLayer);
-            this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
             return;
         }
         this.resultaat = results['result'];
         this.resultLayer = this.createResultLayer(results['result']);
         this.verschilPlusLayer = this.createVerschilPlusLayer(results['result_diff_plus']);
         this.verschilMinLayer = this.createVerschilMinLayer(results['result_diff_min']);
-        this.zoomToExtent(this.geoJsonFormatter.readGeometry(results['result']).getExtent());
     };
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", String)
+    ], ReferentieLaagMap.prototype, "laatstGealigneerd", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", contour_1.Contour)

@@ -36,7 +36,6 @@
     <option repeat.for="strategie of strategieen" model.bind="strategie">${strategie.label}</option>
   </select>
   <div if.bind="laatstGealigneerd" class="laatst-gealigneerd-container">
-    <span>Laatst gealigneerd op: ${laatstGealigneerd}</span>
-    <span>GRB percelenlaag</span>
+    <span>Laatst gealigneerd op: ${formatDate(laatstGealigneerd)}</span>
   </div>
 </template>

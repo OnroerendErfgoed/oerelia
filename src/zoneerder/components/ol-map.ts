@@ -21,7 +21,8 @@ export class OlMap extends BaseMap {
   @bindable public serviceConfig: IZoneerderServiceConfig;
   @bindable public showGrbTool = false;
   @bindable public alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
-
+  @bindable public laatstGealigneerd?: string;
+  
   public geometryObjectList: string[] = [];
   public WKTstring!: string;
   
@@ -58,6 +59,7 @@ export class OlMap extends BaseMap {
     this.element.dispatchEvent(new CustomEvent('loaded', {
       bubbles: true
     }));
+
     this.addZoneToDrawLayer();
     this.drawLayer.getSource().on('addfeature', (feature: any) => {
       log.debug('olMap::drawLayer::addfeature', feature);
@@ -252,6 +254,7 @@ export class OlMap extends BaseMap {
     const contour = this.formatGeoJson(multiPolygon);
     !!this.zone ? this.zone.coordinates = contour.coordinates
       : this.zone = new Contour(contour);
+    this.laatstGealigneerd = undefined;
   }
   
   private resetSelect() {
@@ -323,27 +326,30 @@ export class OlMap extends BaseMap {
     void this.dialogService.open({
       viewModel: PLATFORM.moduleName(
         'oerelia/zoneerder/components/zone-vergelijking-dialog'),
-      model: { zone: this.zone, alignGrb: this.alignGrb }
+      model: { zone: this.zone, alignGrb: this.alignGrb, laatstGealigneerd: this.laatstGealigneerd }
     }).whenClosed((response) => {
       if (!response.wasCancelled) {
-        const geom = response.output as Geometry;
+        const geom = response.output.resultaat as Geometry;
         const multiPolygon = this.createMultiPolygon(geom['geometries'] || [geom]);
-        const contour = this.formatGeoJson(multiPolygon);
-        this.zone = contour;
+        this.zone = this.formatGeoJson(multiPolygon);
+        setTimeout(() => {
+          // timeout to make sure drawLayerToZone was called before updating laatstGealigneerd
+          this.laatstGealigneerd = response.output.laatstGealigneerd;
+        });
       }
     });
   }
-
+  
   private createMultiPolygon(geometries: Geometry[]) {
     const multiPolygon = new ol.geom.MultiPolygon([]);
-  
+    
     geometries.forEach((geom: Geometry) => {
       if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
         const polygon = this.geoJsonFormatter.readGeometry(geom) as ol.geom.Polygon;
         multiPolygon.appendPolygon(polygon);
       }
     });
-  
+    
     return multiPolygon;
   }
 }

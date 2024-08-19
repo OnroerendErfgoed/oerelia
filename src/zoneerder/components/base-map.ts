@@ -87,7 +87,7 @@ export abstract class BaseMap {
     return transFormedPoint.getCoordinates();
   }
   
-  protected _createMap() {
+  protected  _createMap() {
     const target = this.mapnode;
     this.map = new ol.Map({
       layers: [],

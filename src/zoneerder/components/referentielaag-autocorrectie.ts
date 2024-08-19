@@ -1,9 +1,16 @@
-import { autoinject, observable, bindable } from "aurelia-framework";
+import { autoinject, observable, bindable, PLATFORM } from "aurelia-framework";
 import { setupD3, removePoint, drawNewCircle } from "./d3";
 import { DialogService } from "aurelia-dialog";
-import { PLATFORM } from "aurelia-framework";
-import { Contour, IAlignerResponse } from '../models/contour';
-import { DomeinStrategie, Referentielaag, ReferentielaagEnum, StrategieEnum } from '../models/contour';
+import {
+  Contour,
+  IAlignerResponse,
+  DomeinStrategie,
+  Referentielaag,
+  ReferentielaagEnum,
+  StrategieEnum
+} from '../models/contour';
+import * as moment from 'moment/moment';
+
 @autoinject
 export class ReferentielaagAutocorrectie {
   @bindable resultsUpdated = (event) => event;
@@ -15,23 +22,25 @@ export class ReferentielaagAutocorrectie {
       value: ReferentielaagEnum.GRBPercelenlaag,
       label: "Actuele GRB percelenlaag",
     },
-    { value: ReferentielaagEnum.GRBGebouwenlaag, 
-      label: "Actuele GRB gebouwlaag" 
+    {
+      value: ReferentielaagEnum.GRBGebouwenlaag,
+      label: "Actuele GRB gebouwlaag"
     },
   ];
-
+  
   readonly strategieen = [
     {
-      value: StrategieEnum.EenzijdingSnappen,
+      value: StrategieEnum.EenzijdigSnappen,
       label: "Eénzijdig snappen (1)",
     },
     { value: StrategieEnum.TweezijdigSnappen, label: "Tweezijdig snappen (2)" },
     { value: StrategieEnum.ExactOvernemen, label: "Exact overnemen (0)" },
     { value: StrategieEnum.Uitsluiten, label: "Uitsluiten (-1)" },
   ];
-
+  
   histogram: HTMLElement;
-
+  
+  @bindable laatstGealigneerd: string;
   private referentielaag: Referentielaag = null;
   private domeinstrategie: DomeinStrategie;
   @observable private relevanteAfstand: string = "3.0";
@@ -40,17 +49,16 @@ export class ReferentielaagAutocorrectie {
   private floatMin = "0.0";
   private floatMax = "6.0";
   private increment = 0.1;
-
+  
   private showHistogram = false;
   private loadingData = false;
   private volledigGealigneerd = false;
   private histogramData: IAlignerResponse;
-  private laatstGealigneerd: string;
-
-  constructor(private dialogService: DialogService) { }
-
+  
+  constructor(private dialogService: DialogService) {}
+  
   openOpenbaarDomeinLegende() {
-    this.dialogService
+    void this.dialogService
       .open({
         viewModel: PLATFORM.moduleName(
           "oerelia/zoneerder/components/domein-strategie-legende"
@@ -62,26 +70,26 @@ export class ReferentielaagAutocorrectie {
         }
       });
   }
-
+  
   async onHistogramDataChanged() {
-    if (this.referentielaag?.value && this.domeinstrategie?.value) {
-      // API Call en histogram data ophalen.
-      try {
-        this.loadingData = true;
-        this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
-        this.laatstGealigneerd = this.getLaatstGealigneerdDatum();
-        this.loadingData = false;
-        setupD3(this.histogram, this.histogramData.diffs , Number(this.relevanteAfstand));
-        const floatNumber = Number(this.relevanteAfstand).toFixed(1);
-        this.resultsUpdated(this.histogramData.series[floatNumber]);
-        const data = Object.entries(this.histogramData.diffs).map(([x, y]) => ({x: parseFloat(x), y: Math.abs(y)}));
-        this.volledigGealigneerd = data.every((point) => point.y === 0);
-        this.showHistogram = true;
-      } catch(e) {
-        this.loadingData = false;
-      }
-    } else {
+    if (!this.referentielaag?.value || !this.domeinstrategie?.value) {
       this.showHistogram = false;
+      return;
+    }
+    // API Call en histogram data ophalen.
+    try {
+      this.loadingData = true;
+      this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
+      this.laatstGealigneerd = new Date().toISOString()
+      this.loadingData = false;
+      setupD3(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
+      const floatNumber = Number(this.relevanteAfstand).toFixed(1);
+      this.resultsUpdated(this.histogramData.series[floatNumber]);
+      const data = Object.entries(this.histogramData.diffs).map(([x, y]) => ({ x: parseFloat(x), y: Math.abs(y) }));
+      this.volledigGealigneerd = data.every((point) => point.y === 0);
+      this.showHistogram = true;
+    } catch (e) {
+      this.loadingData = false;
     }
   }
   
@@ -95,17 +103,8 @@ export class ReferentielaagAutocorrectie {
     if (!this.histogramData) { return; }
     this.resultsUpdated(this.histogramData.series[floatNumber]);
   }
-
-  private getLaatstGealigneerdDatum() {
-    let now = new Date();
-
-    let day = now.getDate().toString().padStart(2, '0');
-    let month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based in JavaScript
-    let year = now.getFullYear();
-
-    let hours = now.getHours().toString().padStart(2, '0');
-    let minutes = now.getMinutes().toString().padStart(2, '0');
-
-    return `${day}/${month}/${year} om ${hours}:${minutes}`;
+  
+  formatDate(date) {
+    return moment(date).format('DD/MM/YYYY [om] HH:mm');
   }
 }

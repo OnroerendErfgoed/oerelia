@@ -251,6 +251,7 @@ var OlMap = (function (_super) {
         var contour = this.formatGeoJson(multiPolygon);
         !!this.zone ? this.zone.coordinates = contour.coordinates
             : this.zone = new contour_1.Contour(contour);
+        this.laatstGealigneerd = undefined;
     };
     OlMap.prototype.resetSelect = function () {
         this.selectPerceel = false;
@@ -309,13 +310,15 @@ var OlMap = (function (_super) {
         var _this = this;
         void this.dialogService.open({
             viewModel: aurelia_framework_1.PLATFORM.moduleName('oerelia/zoneerder/components/zone-vergelijking-dialog'),
-            model: { zone: this.zone, alignGrb: this.alignGrb }
+            model: { zone: this.zone, alignGrb: this.alignGrb, laatstGealigneerd: this.laatstGealigneerd }
         }).whenClosed(function (response) {
             if (!response.wasCancelled) {
-                var geom = response.output;
+                var geom = response.output.resultaat;
                 var multiPolygon = _this.createMultiPolygon(geom['geometries'] || [geom]);
-                var contour = _this.formatGeoJson(multiPolygon);
-                _this.zone = contour;
+                _this.zone = _this.formatGeoJson(multiPolygon);
+                setTimeout(function () {
+                    _this.laatstGealigneerd = response.output.laatstGealigneerd;
+                });
             }
         });
     };
@@ -358,6 +361,10 @@ var OlMap = (function (_super) {
         aurelia_framework_1.bindable,
         __metadata("design:type", Function)
     ], OlMap.prototype, "alignGrb", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", String)
+    ], OlMap.prototype, "laatstGealigneerd", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", geozoekdienst_api_service_1.GeozoekdienstApiService)

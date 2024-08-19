@@ -16,6 +16,7 @@ var ZoneVergelijkingDialog = (function () {
         this.layerConfig = refentielaagLayerConfig;
     }
     ZoneVergelijkingDialog.prototype.activate = function (model) {
+        var _this = this;
         this.zone = model.zone;
         this.buttonConfig = {
             zoomFullExtent: true,
@@ -26,9 +27,13 @@ var ZoneVergelijkingDialog = (function () {
             zoomInOut: true,
         };
         this.alignGrb = model.alignGrb;
+        var originalLaatstGealigneerd = model.laatstGealigneerd;
+        setTimeout(function () {
+            _this.laatstGealigneerd = originalLaatstGealigneerd;
+        });
     };
     ZoneVergelijkingDialog.prototype.neemResultaatOverVanZone = function () {
-        this.controller.ok(this.resultaat);
+        void this.controller.ok({ resultaat: this.resultaat, laatstGealigneerd: this.laatstGealigneerd });
     };
     ZoneVergelijkingDialog = __decorate([
         autoinject,

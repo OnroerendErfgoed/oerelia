@@ -1,6 +1,5 @@
 import { DialogService } from "aurelia-dialog";
-import { Contour, IAlignerResponse } from '../models/contour';
-import { ReferentielaagEnum, StrategieEnum } from '../models/contour';
+import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 export declare class ReferentielaagAutocorrectie {
     private dialogService;
     resultsUpdated: (event: any) => any;
@@ -15,6 +14,7 @@ export declare class ReferentielaagAutocorrectie {
         label: string;
     }[];
     histogram: HTMLElement;
+    laatstGealigneerd: string;
     private referentielaag;
     private domeinstrategie;
     private relevanteAfstand;
@@ -27,10 +27,9 @@ export declare class ReferentielaagAutocorrectie {
     private loadingData;
     private volledigGealigneerd;
     private histogramData;
-    private laatstGealigneerd;
     constructor(dialogService: DialogService);
     openOpenbaarDomeinLegende(): void;
     onHistogramDataChanged(): Promise<void>;
     relevanteAfstandChanged(nv: string, ov: string): void;
-    private getLaatstGealigneerdDatum;
+    formatDate(date: any): string;
 }

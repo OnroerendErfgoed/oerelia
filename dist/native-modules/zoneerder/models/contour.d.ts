@@ -17,7 +17,7 @@ export declare const enum ReferentielaagEnum {
     GRBGebouwenlaag = "GBG"
 }
 export declare const enum StrategieEnum {
-    EenzijdingSnappen = "SNAP_SINGLE_SIDE",
+    EenzijdigSnappen = "SNAP_SINGLE_SIDE",
     TweezijdigSnappen = "SNAP_ALL_SIDE",
     ExactOvernemen = "AS_IS",
     Uitsluiten = "EXCLUDE"
@@ -38,3 +38,4 @@ export interface ISeriesValue {
     result_diff_min: Contour;
     result_diff_plus: Contour;
 }
+export type AlignGrb = (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
