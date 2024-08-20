@@ -45,9 +45,8 @@ export class ReferentieLaagMap extends BaseMap {
       type: LayerType.Vector,
       title: 'Output/Resultaat',
       style: {
-        stroke: 'rgb(0, 255, 0)',
+        stroke: 'rgb(255, 0, 0)',
         fill: 'rgba(255, 255, 255, 0.7)',
-        lineDash: [10, 10],
       },
       geometries: geometry['geometries'] || [geometry],
       showLegend: true,
@@ -63,8 +62,8 @@ export class ReferentieLaagMap extends BaseMap {
       title: 'Verschil+',
       style: {
         stroke: 'rgb(255, 0, 0)',
-        strokeWidth: 2,
-        fill: 'rgba(0, 255, 0, 0.3)',
+        lineDash: [10, 10],
+        fill: 'rgba(0, 255, 0)',
         hashed: true,
       },
       geometries: geometry['geometries'] || [geometry],
@@ -81,8 +80,8 @@ export class ReferentieLaagMap extends BaseMap {
       title: 'Verschil-',
       style: {
         stroke: 'rgb(255, 0, 0)',
-        strokeWidth: 2,
-        fill: 'rgba(255, 0, 0, 0.3)',
+        lineDash: [10, 10],
+        fill: 'rgba(255, 0, 0)',
         hashed: true,
       },
       geometries: geometry['geometries'] || [geometry],
@@ -101,8 +100,8 @@ export class ReferentieLaagMap extends BaseMap {
       return;
     }
     this.resultaat = results['result'];
+    this.resultLayer = this.createResultLayer(results['result']);
     this.verschilPlusLayer = this.createVerschilPlusLayer(results['result_diff_plus']);
     this.verschilMinLayer = this.createVerschilMinLayer(results['result_diff_min']);
-    this.resultLayer = this.createResultLayer(results['result']);
   }
 }
