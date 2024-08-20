@@ -15,6 +15,7 @@ export interface VectorLayerOptions extends BaseLayerOptions {
         fill: string;
         lineDash?: [number, number];
         hashed?: boolean;
+        strokeWidth?: number;
     };
     geometries?: Contour[] | Geometry[];
 }
