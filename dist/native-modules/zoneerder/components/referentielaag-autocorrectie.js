@@ -43,11 +43,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { autoinject, observable, bindable } from "aurelia-framework";
+import { autoinject, observable, bindable, PLATFORM } from "aurelia-framework";
 import { setupD3, removePoint, drawNewCircle } from "./d3";
 import { DialogService } from "aurelia-dialog";
-import { PLATFORM } from "aurelia-framework";
 import { Contour } from '../models/contour';
+import * as moment from 'moment/moment';
 var ReferentielaagAutocorrectie = (function () {
     function ReferentielaagAutocorrectie(dialogService) {
         this.dialogService = dialogService;
@@ -57,7 +57,8 @@ var ReferentielaagAutocorrectie = (function () {
                 value: "ADP",
                 label: "Actuele GRB percelenlaag",
             },
-            { value: "GBG",
+            {
+                value: "GBG",
                 label: "Actuele GRB gebouwlaag"
             },
         ];
@@ -82,7 +83,7 @@ var ReferentielaagAutocorrectie = (function () {
         this.volledigGealigneerd = false;
     }
     ReferentielaagAutocorrectie.prototype.openOpenbaarDomeinLegende = function () {
-        this.dialogService
+        void this.dialogService
             .open({
             viewModel: PLATFORM.moduleName("oerelia/zoneerder/components/domein-strategie-legende"),
             model: {},
@@ -99,7 +100,10 @@ var ReferentielaagAutocorrectie = (function () {
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
-                        if (!(((_b = this.referentielaag) === null || _b === void 0 ? void 0 : _b.value) && ((_c = this.domeinstrategie) === null || _c === void 0 ? void 0 : _c.value))) return [3, 5];
+                        if (!((_b = this.referentielaag) === null || _b === void 0 ? void 0 : _b.value) || !((_c = this.domeinstrategie) === null || _c === void 0 ? void 0 : _c.value)) {
+                            this.showHistogram = false;
+                            return [2];
+                        }
                         _d.label = 1;
                     case 1:
                         _d.trys.push([1, 3, , 4]);
@@ -108,7 +112,7 @@ var ReferentielaagAutocorrectie = (function () {
                         return [4, this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value)];
                     case 2:
                         _a.histogramData = _d.sent();
-                        this.laatstGealigneerd = this.getLaatstGealigneerdDatum();
+                        this.laatstGealigneerd = new Date().toISOString();
                         this.loadingData = false;
                         setupD3(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
                         floatNumber = Number(this.relevanteAfstand).toFixed(1);
@@ -124,11 +128,7 @@ var ReferentielaagAutocorrectie = (function () {
                         e_1 = _d.sent();
                         this.loadingData = false;
                         return [3, 4];
-                    case 4: return [3, 6];
-                    case 5:
-                        this.showHistogram = false;
-                        _d.label = 6;
-                    case 6: return [2];
+                    case 4: return [2];
                 }
             });
         });
@@ -145,14 +145,8 @@ var ReferentielaagAutocorrectie = (function () {
         }
         this.resultsUpdated(this.histogramData.series[floatNumber]);
     };
-    ReferentielaagAutocorrectie.prototype.getLaatstGealigneerdDatum = function () {
-        var now = new Date();
-        var day = now.getDate().toString().padStart(2, '0');
-        var month = (now.getMonth() + 1).toString().padStart(2, '0');
-        var year = now.getFullYear();
-        var hours = now.getHours().toString().padStart(2, '0');
-        var minutes = now.getMinutes().toString().padStart(2, '0');
-        return "".concat(day, "/").concat(month, "/").concat(year, " om ").concat(hours, ":").concat(minutes);
+    ReferentielaagAutocorrectie.prototype.formatDate = function (date) {
+        return moment(date).format('DD/MM/YYYY [om] HH:mm');
     };
     __decorate([
         bindable,
@@ -166,6 +160,10 @@ var ReferentielaagAutocorrectie = (function () {
         bindable,
         __metadata("design:type", Function)
     ], ReferentielaagAutocorrectie.prototype, "alignGrb", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", String)
+    ], ReferentielaagAutocorrectie.prototype, "laatstGealigneerd", void 0);
     __decorate([
         observable,
         __metadata("design:type", String)

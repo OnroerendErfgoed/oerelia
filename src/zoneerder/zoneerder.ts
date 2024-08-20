@@ -22,6 +22,7 @@ export class Zoneerder {
   @bindable public isCollapsed?: boolean = true;
   @bindable public showGrbTool?: boolean = false;
   @bindable public alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
+  @bindable public laatstGealigneerd: string;
 
   protected suggest: { suggest: Function };
   private map: OlMap;

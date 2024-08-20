@@ -6,6 +6,7 @@ import { LayerType } from '../models/layerConfig.enums';
 import { type Geometry } from 'geojson'
 
 export class ReferentieLaagMap extends BaseMap {
+  @bindable laatstGealigneerd: string;
   @bindable zone: Contour;
   @bindable alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
   @bindable resultaat: Geometry;
@@ -34,6 +35,7 @@ export class ReferentieLaagMap extends BaseMap {
       showLegend: true,
       visible: true
     });
+
     this.map.addLayer(inputLayer);
     this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
   }
@@ -94,13 +96,11 @@ export class ReferentieLaagMap extends BaseMap {
       this.map.removeLayer(this.resultLayer)
       this.map.removeLayer(this.verschilPlusLayer);
       this.map.removeLayer(this.verschilMinLayer);
-      this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
       return;
     }
     this.resultaat = results['result'];
     this.resultLayer = this.createResultLayer(results['result']);
     this.verschilPlusLayer = this.createVerschilPlusLayer(results['result_diff_plus']);
     this.verschilMinLayer = this.createVerschilMinLayer(results['result_diff_min']);
-    this.zoomToExtent(this.geoJsonFormatter.readGeometry(results['result']).getExtent());
   }
 }
