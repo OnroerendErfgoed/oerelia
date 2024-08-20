@@ -39,4 +39,17 @@
     font-size: 50px;
     color: $white
   }
+  .spinner-text {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 70px));
+    color: $white;
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
 }

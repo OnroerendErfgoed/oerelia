@@ -17,6 +17,10 @@ var Spinner = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Boolean)
     ], Spinner.prototype, "active", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", String)
+    ], Spinner.prototype, "spinnerText", void 0);
     return Spinner;
 }());
 exports.Spinner = Spinner;
