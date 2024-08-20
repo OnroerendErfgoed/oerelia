@@ -433,7 +433,7 @@ export abstract class BaseMap {
       const style = new ol.style.Style({
         stroke: new ol.style.Stroke({
           color: options.style.stroke,
-          width: 3,
+          width: options.style.strokeWidth || 3,
           lineDash: options.style.lineDash
         }),
         fill: new ol.style.Fill({

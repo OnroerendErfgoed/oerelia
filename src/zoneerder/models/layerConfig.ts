@@ -11,7 +11,7 @@ interface BaseLayerOptions {
 
 export interface VectorLayerOptions extends BaseLayerOptions {
   type: LayerType.Vector;
-  style: { stroke: string, fill: string, lineDash?: [number, number], hashed?: boolean};
+  style: { stroke: string, fill: string, lineDash?: [number, number], hashed?: boolean, strokeWidth?: number };
   geometries?: Contour[] |  Geometry[];
 }
 

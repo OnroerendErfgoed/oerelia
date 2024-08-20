@@ -379,7 +379,7 @@ var BaseMap = (function () {
             var style = new openlayers_1.default.style.Style({
                 stroke: new openlayers_1.default.style.Stroke({
                     color: options.style.stroke,
-                    width: 3,
+                    width: options.style.strokeWidth || 3,
                     lineDash: options.style.lineDash
                 }),
                 fill: new openlayers_1.default.style.Fill({
