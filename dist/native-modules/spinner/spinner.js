@@ -15,6 +15,10 @@ var Spinner = (function () {
         bindable,
         __metadata("design:type", Boolean)
     ], Spinner.prototype, "active", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", String)
+    ], Spinner.prototype, "spinnerText", void 0);
     return Spinner;
 }());
 export { Spinner };
