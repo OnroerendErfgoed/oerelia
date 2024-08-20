@@ -47,7 +47,6 @@ import { autoinject, observable, bindable, PLATFORM } from "aurelia-framework";
 import { setupD3, removePoint, drawNewCircle } from "./d3";
 import { DialogService } from "aurelia-dialog";
 import { Contour } from '../models/contour';
-import * as moment from 'moment/moment';
 var ReferentielaagAutocorrectie = (function () {
     function ReferentielaagAutocorrectie(dialogService) {
         this.dialogService = dialogService;
@@ -87,10 +86,6 @@ var ReferentielaagAutocorrectie = (function () {
             .open({
             viewModel: PLATFORM.moduleName("oerelia/zoneerder/components/domein-strategie-legende"),
             model: {},
-        })
-            .whenClosed(function (response) {
-            if (!response.wasCancelled) {
-            }
         });
     };
     ReferentielaagAutocorrectie.prototype.onHistogramDataChanged = function () {
@@ -144,9 +139,6 @@ var ReferentielaagAutocorrectie = (function () {
             return;
         }
         this.resultsUpdated(this.histogramData.series[floatNumber]);
-    };
-    ReferentielaagAutocorrectie.prototype.formatDate = function (date) {
-        return moment(date).format('DD/MM/YYYY [om] HH:mm');
     };
     __decorate([
         bindable,

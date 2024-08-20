@@ -9,6 +9,7 @@ import { DialogService } from 'aurelia-dialog';
 import { BaseMap } from './base-map';
 import { bindingMode } from 'aurelia-binding';
 import { type Geometry } from 'geojson'
+import * as moment from 'moment';
 
 const log = LogManager.getLogger('ol-map');
 
@@ -22,7 +23,8 @@ export class OlMap extends BaseMap {
   @bindable public showGrbTool = false;
   @bindable public alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
   @bindable public laatstGealigneerd?: string;
-  
+  initialLaatstGealigneerd: string;
+
   public geometryObjectList: string[] = [];
   public WKTstring!: string;
   
@@ -37,7 +39,7 @@ export class OlMap extends BaseMap {
   private polygonIndex: number = 1;
   private circleIndex: number = 1;
   private totalArea = 0;
-  
+
   constructor(
     private element: Element,
     private crabService: CrabService,
@@ -49,6 +51,7 @@ export class OlMap extends BaseMap {
   }
   
   public attached() {
+    this.initialLaatstGealigneerd = this.laatstGealigneerd;
     log.debug('olMap::attached', this.zone);
     this._createMap();
     this._createMapButtons();
@@ -351,5 +354,9 @@ export class OlMap extends BaseMap {
     });
     
     return multiPolygon;
+  }
+
+  formatDate(date) {
+    return moment(date).format('DD/MM/YYYY [om] HH:mm');
   }
 }

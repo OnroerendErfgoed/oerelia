@@ -10,16 +10,16 @@ export class ReferentieLaagMap extends BaseMap {
   @bindable zone: Contour;
   @bindable alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
   @bindable resultaat: Geometry;
-  
+
   private resultLayer: ol.layer.Layer;
   private verschilPlusLayer: ol.layer.Layer;
   private verschilMinLayer: ol.layer.Layer;
-  
+
   constructor() {
     super()
     this._defineProjections();
   }
-  
+
   attached() {
     this._createMap();
     this._createMapButtons();
@@ -39,7 +39,7 @@ export class ReferentieLaagMap extends BaseMap {
     this.map.addLayer(inputLayer);
     this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
   }
-  
+
   createResultLayer(geometry: Geometry) {
     const resultLayer = this._createLayer('input', {
       type: LayerType.Vector,
@@ -47,7 +47,6 @@ export class ReferentieLaagMap extends BaseMap {
       style: {
         stroke: 'rgb(0, 255, 0)',
         fill: 'rgba(255, 255, 255, 0.7)',
-        lineDash: [10, 10],
       },
       geometries: geometry['geometries'] || [geometry],
       showLegend: true,
@@ -56,15 +55,14 @@ export class ReferentieLaagMap extends BaseMap {
     this.map.addLayer(resultLayer);
     return resultLayer;
   }
-  
+
   createVerschilPlusLayer(geometry: Geometry) {
     const verschilPlusLayer = this._createLayer('verschilPlus', {
       type: LayerType.Vector,
       title: 'Verschil+',
       style: {
-        stroke: 'rgb(255, 0, 0)',
-        strokeWidth: 2,
-        fill: 'rgba(0, 255, 0, 0.3)',
+        stroke: 'rgb(0, 0, 0, 0)',
+        fill: 'rgba(0, 255, 0)',
         hashed: true,
       },
       geometries: geometry['geometries'] || [geometry],
@@ -74,15 +72,14 @@ export class ReferentieLaagMap extends BaseMap {
     this.map.addLayer(verschilPlusLayer);
     return verschilPlusLayer;
   }
-  
+
   createVerschilMinLayer(geometry: Geometry) {
     const verschilMinLayer = this._createLayer('verschilMin', {
       type: LayerType.Vector,
       title: 'Verschil-',
       style: {
-        stroke: 'rgb(255, 0, 0)',
-        strokeWidth: 2,
-        fill: 'rgba(255, 0, 0, 0.3)',
+        stroke: 'rgb(0, 0, 0, 0)',
+        fill: 'rgba(255, 0, 0)',
         hashed: true,
       },
       geometries: geometry['geometries'] || [geometry],
@@ -92,7 +89,7 @@ export class ReferentieLaagMap extends BaseMap {
     this.map.addLayer(verschilMinLayer);
     return verschilMinLayer;
   }
-  
+
   resultsUpdated(results: { [key: string]: Geometry }) {
     if (!results) {
       this.map.removeLayer(this.resultLayer)
@@ -101,8 +98,8 @@ export class ReferentieLaagMap extends BaseMap {
       return;
     }
     this.resultaat = results['result'];
-    this.verschilPlusLayer = this.createVerschilPlusLayer(results['result_diff_plus']);
-    this.verschilMinLayer = this.createVerschilMinLayer(results['result_diff_min']);
     this.resultLayer = this.createResultLayer(results['result']);
+    this.verschilMinLayer = this.createVerschilMinLayer(results['result_diff_min']);
+    this.verschilPlusLayer = this.createVerschilPlusLayer(results['result_diff_plus']);
   }
 }

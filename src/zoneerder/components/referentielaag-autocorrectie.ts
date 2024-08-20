@@ -64,10 +64,6 @@ export class ReferentielaagAutocorrectie {
           "oerelia/zoneerder/components/domein-strategie-legende"
         ),
         model: {},
-      })
-      .whenClosed((response) => {
-        if (!response.wasCancelled) {
-        }
       });
   }
   
@@ -102,9 +98,5 @@ export class ReferentielaagAutocorrectie {
     drawNewCircle(Number(nv));
     if (!this.histogramData) { return; }
     this.resultsUpdated(this.histogramData.series[floatNumber]);
-  }
-  
-  formatDate(date) {
-    return moment(date).format('DD/MM/YYYY [om] HH:mm');
   }
 }
