@@ -56,7 +56,7 @@ var ReferentieLaagMap = (function (_super) {
             type: LayerType.Vector,
             title: 'Output/Resultaat',
             style: {
-                stroke: 'rgb(255, 0, 0)',
+                stroke: 'rgb(0, 255, 0)',
                 fill: 'rgba(255, 255, 255, 0.7)',
             },
             geometries: geometry['geometries'] || [geometry],
@@ -71,8 +71,7 @@ var ReferentieLaagMap = (function (_super) {
             type: LayerType.Vector,
             title: 'Verschil+',
             style: {
-                stroke: 'rgb(255, 0, 0)',
-                lineDash: [10, 10],
+                stroke: 'rgb(0, 0, 0, 0)',
                 fill: 'rgba(0, 255, 0)',
                 hashed: true,
             },
@@ -88,8 +87,7 @@ var ReferentieLaagMap = (function (_super) {
             type: LayerType.Vector,
             title: 'Verschil-',
             style: {
-                stroke: 'rgb(255, 0, 0)',
-                lineDash: [10, 10],
+                stroke: 'rgb(0, 0, 0, 0)',
                 fill: 'rgba(255, 0, 0)',
                 hashed: true,
             },
@@ -109,8 +107,8 @@ var ReferentieLaagMap = (function (_super) {
         }
         this.resultaat = results['result'];
         this.resultLayer = this.createResultLayer(results['result']);
-        this.verschilPlusLayer = this.createVerschilPlusLayer(results['result_diff_plus']);
         this.verschilMinLayer = this.createVerschilMinLayer(results['result_diff_min']);
+        this.verschilPlusLayer = this.createVerschilPlusLayer(results['result_diff_plus']);
     };
     __decorate([
         bindable,

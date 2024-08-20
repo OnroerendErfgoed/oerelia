@@ -16,6 +16,7 @@ export declare class OlMap extends BaseMap {
     showGrbTool: boolean;
     alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
     laatstGealigneerd?: string;
+    initialLaatstGealigneerd: string;
     geometryObjectList: string[];
     WKTstring: string;
     protected isDrawing: boolean;
@@ -48,4 +49,5 @@ export declare class OlMap extends BaseMap {
     private _createDrawLayer;
     showZoneVergelijkingDialog(): void;
     private createMultiPolygon;
+    formatDate(date: any): string;
 }

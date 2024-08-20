@@ -50,7 +50,6 @@ var aurelia_framework_1 = require("aurelia-framework");
 var d3_1 = require("./d3");
 var aurelia_dialog_1 = require("aurelia-dialog");
 var contour_1 = require("../models/contour");
-var moment = require("moment/moment");
 var ReferentielaagAutocorrectie = (function () {
     function ReferentielaagAutocorrectie(dialogService) {
         this.dialogService = dialogService;
@@ -90,10 +89,6 @@ var ReferentielaagAutocorrectie = (function () {
             .open({
             viewModel: aurelia_framework_1.PLATFORM.moduleName("oerelia/zoneerder/components/domein-strategie-legende"),
             model: {},
-        })
-            .whenClosed(function (response) {
-            if (!response.wasCancelled) {
-            }
         });
     };
     ReferentielaagAutocorrectie.prototype.onHistogramDataChanged = function () {
@@ -147,9 +142,6 @@ var ReferentielaagAutocorrectie = (function () {
             return;
         }
         this.resultsUpdated(this.histogramData.series[floatNumber]);
-    };
-    ReferentielaagAutocorrectie.prototype.formatDate = function (date) {
-        return moment(date).format('DD/MM/YYYY [om] HH:mm');
     };
     __decorate([
         aurelia_framework_1.bindable,

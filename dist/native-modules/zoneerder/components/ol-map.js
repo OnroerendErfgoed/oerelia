@@ -31,6 +31,7 @@ import { LayerType } from '../models/layerConfig.enums';
 import { DialogService } from 'aurelia-dialog';
 import { BaseMap } from './base-map';
 import { bindingMode } from 'aurelia-binding';
+import * as moment from 'moment';
 var log = LogManager.getLogger('ol-map');
 var OlMap = (function (_super) {
     __extends(OlMap, _super);
@@ -53,6 +54,7 @@ var OlMap = (function (_super) {
     }
     OlMap.prototype.attached = function () {
         var _this = this;
+        this.initialLaatstGealigneerd = this.laatstGealigneerd;
         log.debug('olMap::attached', this.zone);
         this._createMap();
         this._createMapButtons();
@@ -329,6 +331,9 @@ var OlMap = (function (_super) {
             }
         });
         return multiPolygon;
+    };
+    OlMap.prototype.formatDate = function (date) {
+        return moment(date).format('DD/MM/YYYY [om] HH:mm');
     };
     __decorate([
         bindable,

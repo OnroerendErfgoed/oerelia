@@ -1,5 +1,17 @@
 @import '../../assets/styles/pyoes/oe-settings';
 
+.laatst-gealigneerd-container {
+  font-size: 80%;
+  color: $primary-color;
+  // position: absolute;
+  // bottom: 0;
+  margin-bottom: 1rem;
+
+  span {
+    display: block;
+  }
+}
+
 .map {
   width: 100%;
   height: 100%;

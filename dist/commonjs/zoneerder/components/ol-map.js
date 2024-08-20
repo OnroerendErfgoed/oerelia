@@ -34,6 +34,7 @@ var layerConfig_enums_1 = require("../models/layerConfig.enums");
 var aurelia_dialog_1 = require("aurelia-dialog");
 var base_map_1 = require("./base-map");
 var aurelia_binding_1 = require("aurelia-binding");
+var moment = require("moment");
 var log = aurelia_framework_1.LogManager.getLogger('ol-map');
 var OlMap = (function (_super) {
     __extends(OlMap, _super);
@@ -56,6 +57,7 @@ var OlMap = (function (_super) {
     }
     OlMap.prototype.attached = function () {
         var _this = this;
+        this.initialLaatstGealigneerd = this.laatstGealigneerd;
         log.debug('olMap::attached', this.zone);
         this._createMap();
         this._createMapButtons();
@@ -332,6 +334,9 @@ var OlMap = (function (_super) {
             }
         });
         return multiPolygon;
+    };
+    OlMap.prototype.formatDate = function (date) {
+        return moment(date).format('DD/MM/YYYY [om] HH:mm');
     };
     __decorate([
         aurelia_framework_1.bindable,
