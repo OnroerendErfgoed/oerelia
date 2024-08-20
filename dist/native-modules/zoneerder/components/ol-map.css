@@ -9,12 +9,10 @@
 }
 
 .laatst-gealigneerd-container {
-  font-size: 80%;
+  display: inline-block;
+  font-size: 0.8rem;
   color: #944EA1;
-  margin-bottom: 1rem;
-}
-.laatst-gealigneerd-container span {
-  display: block;
+  margin-bottom: 0;
 }
 
 .map {

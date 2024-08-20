@@ -60,9 +60,9 @@
           <a click.delegate="showZoneVergelijkingDialog()" if.bind="totalArea">
             <span><i class="fa fa-pencil"></i> Vergelijk zone met referentielaag</span>
           </a>
-          <div if.bind="initialLaatstGealigneerd" class="laatst-gealigneerd-container">
-            <span>Laatst gealigneerd op: ${formatDate(initialLaatstGealigneerd)}</span>
-          </div>
+          <span if.bind="initialLaatstGealigneerd" class="laatst-gealigneerd-container">
+            Laatst gealigneerd op: ${formatDate(initialLaatstGealigneerd)}
+          </span>
           <div class="alert-box alert" if.bind="totalArea > 100000">
             <p style="font-size: 14px;">Oppervlakte: ${totalArea}m²</p>
             <p style="font-size: 14px;">
