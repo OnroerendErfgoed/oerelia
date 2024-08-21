@@ -3,9 +3,9 @@ import { olx } from 'openlayers';
 import FullScreenOptions = olx.control.FullScreenOptions;
 
 export class OeFullscreen extends ol.control.Control {
-  public options: FullScreenOptions;
-  public element: Element;
-  public layer: ol.layer.Vector;
+  options: FullScreenOptions;
+  element: Element;
+  layer: ol.layer.Vector;
   private watchId = null;
   private source: Element;
   private changeType: string;
