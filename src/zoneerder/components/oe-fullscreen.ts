@@ -3,7 +3,7 @@ import { olx } from 'openlayers';
 import FullScreenOptions = olx.control.FullScreenOptions;
 
 export class OeFullscreen extends ol.control.Control {
-  public options;
+  public options: FullScreenOptions;
   public element: Element;
   public layer: ol.layer.Vector;
   private watchId = null;
@@ -20,11 +20,15 @@ export class OeFullscreen extends ol.control.Control {
     this.element = document.createElement('div');
     this.element.className = `${className} ol-control ol-unselectable`;
 
-    this.source = this.options.source;
+    if (this.options.source instanceof Element) {
+      this.source = this.options.source;
+    } else {
+      this.source = document.getElementById(this.options.source);
+    }
 
     const button = document.createElement('button');
     button.setAttribute('title', tipLabel);
-    button.className = "full-screen-false";
+    button.className = 'full-screen-false';
     button.addEventListener('click', this.toggleFullscreen.bind(this), false);
     this.element.appendChild(button);
 
@@ -53,21 +57,17 @@ export class OeFullscreen extends ol.control.Control {
   private handleFullscreenChange() {
     const button = this.element.firstElementChild;
     if (!this.isFullScreen()) {
-      button.className = "full-screen-false";
-    } else if (button.className === "full-screen-false") {
-      button.className = "full-screen-true";
+      button.className = 'full-screen-false';
+    } else if (button.className === 'full-screen-false') {
+      button.className = 'full-screen-true';
     } else {
-      button.className = "full-screen-false";
+      button.className = 'full-screen-false';
     }
   }
 
   private toggleFullscreen() {
     const button = this.element.firstElementChild;
-    if (button.className === "full-screen-false") {
-      this.openFullscreen();
-    } else {
-      this.closeFullscreen();
-    }
+    button.className === 'full-screen-false' ? this.openFullscreen() : this.closeFullscreen();
   }
 
   private fullscreenSupported() {

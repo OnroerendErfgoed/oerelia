@@ -1,4 +1,4 @@
-referentie-laag-map {
+ referentie-laag-map {
   display: block;
   position: relative;
   height: 100%;
@@ -39,7 +39,7 @@ referentie-laag-map {
 
 @media (max-width: 1000px) {
   referentielaag-autocorrectie {
-    position: static
+    position: static;
     /* adjust the size, position, etc. of the legend for small screens here */
   }
 }

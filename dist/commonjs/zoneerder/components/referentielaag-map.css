@@ -34,6 +34,7 @@ referentie-laag-map {
 @media (max-width: 1000px) {
   referentielaag-autocorrectie {
     position: static;
+    /* adjust the size, position, etc. of the legend for small screens here */
   }
 }
 @media all and (display-mode: fullscreen) {
