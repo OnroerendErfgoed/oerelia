@@ -58,12 +58,14 @@ export class ReferentielaagAutocorrectie {
   constructor(private dialogService: DialogService) {}
   
   openOpenbaarDomeinLegende() {
+    const host = document.getElementById("referentielaag-map");
     void this.dialogService
       .open({
         viewModel: PLATFORM.moduleName(
           "oerelia/zoneerder/components/domein-strategie-legende"
         ),
         model: {},
+        host
       });
   }
   
