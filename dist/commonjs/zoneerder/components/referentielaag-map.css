@@ -33,7 +33,14 @@ referentie-laag-map {
 
 @media (max-width: 1000px) {
   referentielaag-autocorrectie {
-    position: static;
+    position: relative;
+    display: block;
+    margin: 0;
+    height: 75vh;
     /* adjust the size, position, etc. of the legend for small screens here */
+  }
+  .referentielaag-node {
+    overflow: hidden;
+    height: 110vh;
   }
 }
