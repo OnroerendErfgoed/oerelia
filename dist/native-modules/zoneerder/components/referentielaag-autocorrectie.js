@@ -46,7 +46,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import { autoinject, observable, bindable, PLATFORM } from "aurelia-framework";
 import { setupD3, removePoint, drawNewCircle } from "./d3";
 import { DialogService } from "aurelia-dialog";
-import { Contour } from '../models/contour';
+import { Contour, } from "../models/contour";
 var ReferentielaagAutocorrectie = (function () {
     function ReferentielaagAutocorrectie(dialogService) {
         this.dialogService = dialogService;
@@ -58,7 +58,7 @@ var ReferentielaagAutocorrectie = (function () {
             },
             {
                 value: "GBG",
-                label: "Actuele GRB gebouwlaag"
+                label: "Actuele GRB gebouwlaag",
             },
         ];
         this.strategieen = [
@@ -70,7 +70,14 @@ var ReferentielaagAutocorrectie = (function () {
             { value: "AS_IS", label: "Exact overnemen (0)" },
             { value: "EXCLUDE", label: "Uitsluiten (-1)" },
         ];
-        this.referentielaag = null;
+        this.referentielaag = {
+            value: "ADP",
+            label: "Actuele GRB percelenlaag",
+        };
+        this.domeinstrategie = {
+            value: "SNAP_SINGLE_SIDE",
+            label: "Eénzijdig snappen (1)",
+        };
         this.relevanteAfstand = "3.0";
         this.max = "6";
         this.min = "0";
@@ -81,9 +88,20 @@ var ReferentielaagAutocorrectie = (function () {
         this.loadingData = false;
         this.volledigGealigneerd = false;
     }
+    ReferentielaagAutocorrectie.prototype.bind = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.onHistogramDataChanged()];
+                    case 1:
+                        _a.sent();
+                        return [2];
+                }
+            });
+        });
+    };
     ReferentielaagAutocorrectie.prototype.openOpenbaarDomeinLegende = function () {
-        void this.dialogService
-            .open({
+        void this.dialogService.open({
             viewModel: PLATFORM.moduleName("oerelia/zoneerder/components/domein-strategie-legende"),
             model: {},
         });
@@ -114,7 +132,10 @@ var ReferentielaagAutocorrectie = (function () {
                         this.resultsUpdated(this.histogramData.series[floatNumber]);
                         data = Object.entries(this.histogramData.diffs).map(function (_a) {
                             var x = _a[0], y = _a[1];
-                            return ({ x: parseFloat(x), y: Math.abs(y) });
+                            return ({
+                                x: parseFloat(x),
+                                y: Math.abs(y),
+                            });
                         });
                         this.volledigGealigneerd = data.every(function (point) { return point.y === 0; });
                         this.showHistogram = true;

@@ -1,5 +1,5 @@
 import { DialogService } from "aurelia-dialog";
-import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from '../models/contour';
+import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from "../models/contour";
 export declare class ReferentielaagAutocorrectie {
     private dialogService;
     resultsUpdated: (event: any) => any;
@@ -28,6 +28,7 @@ export declare class ReferentielaagAutocorrectie {
     private volledigGealigneerd;
     private histogramData;
     constructor(dialogService: DialogService);
+    bind(): Promise<void>;
     openOpenbaarDomeinLegende(): void;
     onHistogramDataChanged(): Promise<void>;
     relevanteAfstandChanged(nv: string, ov: string): void;
