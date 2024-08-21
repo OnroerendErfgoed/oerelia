@@ -16,12 +16,14 @@ export declare class OlMap extends BaseMap {
     showGrbTool: boolean;
     alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
     laatstGealigneerd?: string;
+    showSelectGebouw: boolean;
     initialLaatstGealigneerd: string;
     geometryObjectList: string[];
     WKTstring: string;
     protected isDrawing: boolean;
     protected isDrawingCircle: boolean;
     protected selectPerceel: boolean;
+    protected selectGebouw: boolean;
     private apiService;
     private drawLayer;
     private mapInteractions;
@@ -37,7 +39,9 @@ export declare class OlMap extends BaseMap {
     startDrawZone(type: ol.geom.GeometryType): void;
     importAdrespunten(): void;
     startPerceelSelect(): void;
+    startGebouwSelect(): void;
     drawPerceel(olFeature: ol.Feature): void;
+    drawGebouw(olFeature: ol.Feature): void;
     drawWKTzone(wkt: ol.Feature): void;
     removeGeometryObject(name: string): void;
     geoLocationClick(): void;
