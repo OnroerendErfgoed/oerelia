@@ -43,9 +43,18 @@ export class OeFullscreen extends ol.control.Control {
     source.addEventListener("fullscreenchange", this.handleFullscreenChange.bind(this));
   }
 
+  private isFullScreen() {
+    return !!(
+      document['webkitIsFullScreen'] || document['mozFullScreen'] ||
+      document['msFullscreenElement'] || document.fullscreenElement
+    );
+  }
+
   private handleFullscreenChange() {
     const button = this.element.firstElementChild;
-    if (button.className === "full-screen-false") {
+    if (!this.isFullScreen()) {
+      button.className = "full-screen-false";
+    } else if (button.className === "full-screen-false") {
       button.className = "full-screen-true";
     } else {
       button.className = "full-screen-false";
