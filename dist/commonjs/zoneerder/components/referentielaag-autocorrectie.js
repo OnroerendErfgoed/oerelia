@@ -61,8 +61,8 @@ var ReferentielaagAutocorrectie = (function () {
             },
             {
                 value: "GBG",
-                label: "Actuele GRB gebouwlaag",
-            },
+                label: "Actuele GRB gebouwlaag"
+            }
         ];
         this.strategieen = [
             {
@@ -75,11 +75,11 @@ var ReferentielaagAutocorrectie = (function () {
         ];
         this.referentielaag = {
             value: "ADP",
-            label: "Actuele GRB percelenlaag",
+            label: "Actuele GRB percelenlaag"
         };
         this.domeinstrategie = {
             value: "SNAP_SINGLE_SIDE",
-            label: "Eénzijdig snappen (1)",
+            label: "Eénzijdig snappen (1)"
         };
         this.relevanteAfstand = "3.0";
         this.max = "6";
@@ -104,7 +104,8 @@ var ReferentielaagAutocorrectie = (function () {
         });
     };
     ReferentielaagAutocorrectie.prototype.openOpenbaarDomeinLegende = function () {
-        void this.dialogService.open({
+        void this.dialogService
+            .open({
             viewModel: aurelia_framework_1.PLATFORM.moduleName("oerelia/zoneerder/components/domein-strategie-legende"),
             model: {},
         });
@@ -135,10 +136,7 @@ var ReferentielaagAutocorrectie = (function () {
                         this.resultsUpdated(this.histogramData.series[floatNumber]);
                         data = Object.entries(this.histogramData.diffs).map(function (_a) {
                             var x = _a[0], y = _a[1];
-                            return ({
-                                x: parseFloat(x),
-                                y: Math.abs(y),
-                            });
+                            return ({ x: parseFloat(x), y: Math.abs(y) });
                         });
                         this.volledigGealigneerd = data.every(function (point) { return point.y === 0; });
                         this.showHistogram = true;

@@ -1,5 +1,5 @@
 import { DialogService } from "aurelia-dialog";
-import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from "../models/contour";
+import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 export declare class ReferentielaagAutocorrectie {
     private dialogService;
     resultsUpdated: (event: any) => any;
