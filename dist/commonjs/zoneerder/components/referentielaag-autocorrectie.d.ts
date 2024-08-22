@@ -28,6 +28,7 @@ export declare class ReferentielaagAutocorrectie {
     private volledigGealigneerd;
     private histogramData;
     constructor(dialogService: DialogService);
+    bind(): Promise<void>;
     openOpenbaarDomeinLegende(): void;
     onHistogramDataChanged(): Promise<void>;
     relevanteAfstandChanged(nv: string, ov: string): void;

@@ -32,6 +32,7 @@ import { DialogService } from 'aurelia-dialog';
 import { BaseMap } from './base-map';
 import { bindingMode } from 'aurelia-binding';
 import * as moment from 'moment';
+import * as jsts from 'jsts';
 var log = LogManager.getLogger('ol-map');
 var OlMap = (function (_super) {
     __extends(OlMap, _super);
@@ -322,15 +323,17 @@ var OlMap = (function (_super) {
         });
     };
     OlMap.prototype.createMultiPolygon = function (geometries) {
-        var _this = this;
-        var multiPolygon = new ol.geom.MultiPolygon([]);
+        var parser = new jsts.io.GeoJSONReader();
+        var geoWriter = new jsts.io.GeoJSONWriter();
+        var factory = new jsts.geom.GeometryFactory();
+        var unionedGeom = factory.createMultiPolygon([]);
         geometries.forEach(function (geom) {
             if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
-                var polygon = _this.geoJsonFormatter.readGeometry(geom);
-                multiPolygon.appendPolygon(polygon);
+                var polygon = parser.read(geom);
+                unionedGeom = unionedGeom.union(polygon);
             }
         });
-        return multiPolygon;
+        return this.geoJsonFormatter.readGeometry(geoWriter.write(unionedGeom));
     };
     OlMap.prototype.formatDate = function (date) {
         return moment(date).format('DD/MM/YYYY [om] HH:mm');

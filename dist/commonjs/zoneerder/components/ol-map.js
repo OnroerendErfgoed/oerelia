@@ -35,6 +35,7 @@ var aurelia_dialog_1 = require("aurelia-dialog");
 var base_map_1 = require("./base-map");
 var aurelia_binding_1 = require("aurelia-binding");
 var moment = require("moment");
+var jsts = require("jsts");
 var log = aurelia_framework_1.LogManager.getLogger('ol-map');
 var OlMap = (function (_super) {
     __extends(OlMap, _super);
@@ -325,15 +326,17 @@ var OlMap = (function (_super) {
         });
     };
     OlMap.prototype.createMultiPolygon = function (geometries) {
-        var _this = this;
-        var multiPolygon = new openlayers_1.default.geom.MultiPolygon([]);
+        var parser = new jsts.io.GeoJSONReader();
+        var geoWriter = new jsts.io.GeoJSONWriter();
+        var factory = new jsts.geom.GeometryFactory();
+        var unionedGeom = factory.createMultiPolygon([]);
         geometries.forEach(function (geom) {
             if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
-                var polygon = _this.geoJsonFormatter.readGeometry(geom);
-                multiPolygon.appendPolygon(polygon);
+                var polygon = parser.read(geom);
+                unionedGeom = unionedGeom.union(polygon);
             }
         });
-        return multiPolygon;
+        return this.geoJsonFormatter.readGeometry(geoWriter.write(unionedGeom));
     };
     OlMap.prototype.formatDate = function (date) {
         return moment(date).format('DD/MM/YYYY [om] HH:mm');
