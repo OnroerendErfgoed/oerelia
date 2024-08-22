@@ -23,7 +23,6 @@ var OeFullscreen = (function (_super) {
         var _this = _super.call(this, optOptions) || this;
         _this.watchId = null;
         _this.options = optOptions || {};
-        var tipLabel = _this.options.tipLabel ? _this.options.tipLabel : 'Vergroot / verklein het scherm';
         var className = _this.options.className || 'full-screen';
         _this.element = document.createElement('div');
         _this.element.className = "".concat(className, " ol-control ol-unselectable");
@@ -34,6 +33,7 @@ var OeFullscreen = (function (_super) {
             _this.source = document.getElementById(_this.options.source);
         }
         var button = document.createElement('button');
+        var tipLabel = _this.options.tipLabel ? _this.options.tipLabel : 'Vergroot / verklein het scherm';
         button.setAttribute('title', tipLabel);
         button.className = 'full-screen-false';
         button.addEventListener('click', _this.toggleFullscreen.bind(_this), false);

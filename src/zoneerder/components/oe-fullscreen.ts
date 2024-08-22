@@ -14,8 +14,6 @@ export class OeFullscreen extends ol.control.Control {
     super(optOptions);
     this.options = optOptions || {};
 
-    const tipLabel = this.options.tipLabel ? this.options.tipLabel : 'Vergroot / verklein het scherm';
-
     const className = this.options.className || 'full-screen';
     this.element = document.createElement('div');
     this.element.className = `${className} ol-control ol-unselectable`;
@@ -27,6 +25,7 @@ export class OeFullscreen extends ol.control.Control {
     }
 
     const button = document.createElement('button');
+    const tipLabel = this.options.tipLabel ? this.options.tipLabel : 'Vergroot / verklein het scherm';
     button.setAttribute('title', tipLabel);
     button.className = 'full-screen-false';
     button.addEventListener('click', this.toggleFullscreen.bind(this), false);

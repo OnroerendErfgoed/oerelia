@@ -20,10 +20,10 @@ var Geolocate = (function (_super) {
         var _this = _super.call(this, optOptions) || this;
         _this.watchId = null;
         _this.options = optOptions || {};
-        var tipLabel = _this.options.tipLabel ? _this.options.tipLabel : 'Zoom naar je eigen locatie';
         _this.element = document.createElement('div');
         _this.element.className = 'ol-geolocate ol-control ol-unselectable';
         var button = document.createElement('button');
+        var tipLabel = _this.options.tipLabel ? _this.options.tipLabel : 'Zoom naar je eigen locatie';
         button.setAttribute('title', tipLabel);
         button.innerHTML = '<i class="fa fa-map-marker"></i>';
         _this.element.appendChild(button);
