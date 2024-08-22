@@ -6,7 +6,7 @@ export declare class ZoneVergelijkingDialog {
     controller: DialogController;
     zone: Contour;
     buttonConfig: ButtonConfig;
-    layerConfig: import("../..").LayerConfig;
+    layerConfig: import("exports").LayerConfig;
     alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
     laatstGealigneerd: string;
     resultaat: Geometry;
