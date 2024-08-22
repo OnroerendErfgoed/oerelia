@@ -68,12 +68,12 @@ export class ReferentielaagAutocorrectie {
 
   openOpenbaarDomeinLegende() {
     void this.dialogService
-    .open({
-      viewModel: PLATFORM.moduleName(
-        "oerelia/zoneerder/components/domein-strategie-legende"
-      ),
-      model: {},
-    });
+      .open({
+        viewModel: PLATFORM.moduleName(
+          "oerelia/zoneerder/components/domein-strategie-legende"
+        ),
+        model: {},
+      });
   }
 
   async onHistogramDataChanged() {
