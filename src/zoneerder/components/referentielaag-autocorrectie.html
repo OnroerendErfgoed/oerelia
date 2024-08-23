@@ -10,7 +10,6 @@
 
   <h5>Referentielaag</h5>
   <select value.bind="referentielaag" change.delegate="onHistogramDataChanged()">
-    <option model.bind="null" selected>Kies een referentielaag</option>
     <option repeat.for="referentielaag of referentieLagen" model.bind="referentielaag">${referentielaag.label}
     </option>
   </select>

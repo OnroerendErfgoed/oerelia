@@ -59,7 +59,7 @@ var ReferentielaagAutocorrectie = (function () {
             {
                 value: "GBG",
                 label: "Actuele GRB gebouwlaag"
-            },
+            }
         ];
         this.strategieen = [
             {
@@ -70,7 +70,14 @@ var ReferentielaagAutocorrectie = (function () {
             { value: "AS_IS", label: "Exact overnemen (0)" },
             { value: "EXCLUDE", label: "Uitsluiten (-1)" },
         ];
-        this.referentielaag = null;
+        this.referentielaag = {
+            value: "ADP",
+            label: "Actuele GRB percelenlaag"
+        };
+        this.domeinstrategie = {
+            value: "SNAP_SINGLE_SIDE",
+            label: "Eénzijdig snappen (1)"
+        };
         this.relevanteAfstand = "3.0";
         this.max = "6";
         this.min = "0";
@@ -81,6 +88,18 @@ var ReferentielaagAutocorrectie = (function () {
         this.loadingData = false;
         this.volledigGealigneerd = false;
     }
+    ReferentielaagAutocorrectie.prototype.bind = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.onHistogramDataChanged()];
+                    case 1:
+                        _a.sent();
+                        return [2];
+                }
+            });
+        });
+    };
     ReferentielaagAutocorrectie.prototype.openOpenbaarDomeinLegende = function () {
         var host = document.getElementById("referentielaag-map");
         void this.dialogService
