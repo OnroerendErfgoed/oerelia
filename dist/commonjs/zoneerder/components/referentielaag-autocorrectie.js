@@ -104,7 +104,7 @@ var ReferentielaagAutocorrectie = (function () {
         });
     };
     ReferentielaagAutocorrectie.prototype.openOpenbaarDomeinLegende = function () {
-        var host = document.getElementById("referentielaag-map");
+        var host = document.getElementById("referentielaag-node");
         void this.dialogService
             .open({
             viewModel: aurelia_framework_1.PLATFORM.moduleName("oerelia/zoneerder/components/domein-strategie-legende"),
