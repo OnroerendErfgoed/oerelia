@@ -67,7 +67,7 @@ export class ReferentielaagAutocorrectie {
   }
 
   openOpenbaarDomeinLegende() {
-    const host = document.getElementById("referentielaag-map");
+    const host = document.getElementById("referentielaag-node");
     void this.dialogService
       .open({
         viewModel: PLATFORM.moduleName(

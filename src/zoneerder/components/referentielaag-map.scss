@@ -44,8 +44,8 @@
   }
 }
 
-@media all and (display-mode: fullscreen) {
-  .referentielaag-node {
-    height: 100%;
-  }
-}
+ referentie-laag-map:fullscreen {
+   .referentielaag-node {
+     height: 100%;
+   }
+ }

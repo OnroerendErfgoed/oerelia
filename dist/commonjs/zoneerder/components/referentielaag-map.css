@@ -37,8 +37,6 @@ referentie-laag-map {
     /* adjust the size, position, etc. of the legend for small screens here */
   }
 }
-@media all and (display-mode: fullscreen) {
-  .referentielaag-node {
-    height: 100%;
-  }
+referentie-laag-map:fullscreen .referentielaag-node {
+  height: 100%;
 }
