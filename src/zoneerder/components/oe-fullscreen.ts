@@ -3,9 +3,9 @@ import { olx } from 'openlayers';
 import FullScreenOptions = olx.control.FullScreenOptions;
 
 export class OeFullscreen extends ol.control.Control {
-  public options;
-  public element: Element;
-  public layer: ol.layer.Vector;
+  options: FullScreenOptions;
+  element: Element;
+  layer: ol.layer.Vector;
   private watchId = null;
   private source: Element;
   private changeType: string;
@@ -14,17 +14,20 @@ export class OeFullscreen extends ol.control.Control {
     super(optOptions);
     this.options = optOptions || {};
 
-    const tipLabel = this.options.tipLabel ? this.options.tipLabel : 'Vergroot / verklein het scherm';
-
     const className = this.options.className || 'full-screen';
     this.element = document.createElement('div');
     this.element.className = `${className} ol-control ol-unselectable`;
 
-    this.source = this.options.source;
+    if (this.options.source instanceof Element) {
+      this.source = this.options.source;
+    } else {
+      this.source = document.getElementById(this.options.source);
+    }
 
     const button = document.createElement('button');
+    const tipLabel = this.options.tipLabel ? this.options.tipLabel : 'Vergroot / verklein het scherm';
     button.setAttribute('title', tipLabel);
-    button.className = "full-screen-false";
+    button.className = 'full-screen-false';
     button.addEventListener('click', this.toggleFullscreen.bind(this), false);
     this.element.appendChild(button);
 
@@ -53,21 +56,17 @@ export class OeFullscreen extends ol.control.Control {
   private handleFullscreenChange() {
     const button = this.element.firstElementChild;
     if (!this.isFullScreen()) {
-      button.className = "full-screen-false";
-    } else if (button.className === "full-screen-false") {
-      button.className = "full-screen-true";
+      button.className = 'full-screen-false';
+    } else if (button.className === 'full-screen-false') {
+      button.className = 'full-screen-true';
     } else {
-      button.className = "full-screen-false";
+      button.className = 'full-screen-false';
     }
   }
 
   private toggleFullscreen() {
     const button = this.element.firstElementChild;
-    if (button.className === "full-screen-false") {
-      this.openFullscreen();
-    } else {
-      this.closeFullscreen();
-    }
+    button.className === 'full-screen-false' ? this.openFullscreen() : this.closeFullscreen();
   }
 
   private fullscreenSupported() {

@@ -10,6 +10,7 @@ import { BaseMap } from './base-map';
 import { bindingMode } from 'aurelia-binding';
 import { type Geometry } from 'geojson'
 import * as moment from 'moment';
+import * as jsts from 'jsts';
 
 const log = LogManager.getLogger('ol-map');
 
@@ -374,16 +375,18 @@ export class OlMap extends BaseMap {
   }
   
   private createMultiPolygon(geometries: Geometry[]) {
-    const multiPolygon = new ol.geom.MultiPolygon([]);
-    
+    const parser = new jsts.io.GeoJSONReader();
+    const geoWriter = new jsts.io.GeoJSONWriter();
+    const factory = new jsts.geom.GeometryFactory();
+  
+    let unionedGeom = factory.createMultiPolygon([]);
     geometries.forEach((geom: Geometry) => {
       if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
-        const polygon = this.geoJsonFormatter.readGeometry(geom) as ol.geom.Polygon;
-        multiPolygon.appendPolygon(polygon);
+        const polygon = parser.read(geom);
+        unionedGeom = unionedGeom.union(polygon);
       }
     });
-    
-    return multiPolygon;
+    return this.geoJsonFormatter.readGeometry(geoWriter.write(unionedGeom));
   }
 
   formatDate(date) {

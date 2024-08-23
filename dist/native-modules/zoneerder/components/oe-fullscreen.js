@@ -20,14 +20,19 @@ var OeFullscreen = (function (_super) {
         var _this = _super.call(this, optOptions) || this;
         _this.watchId = null;
         _this.options = optOptions || {};
-        var tipLabel = _this.options.tipLabel ? _this.options.tipLabel : 'Vergroot / verklein het scherm';
         var className = _this.options.className || 'full-screen';
         _this.element = document.createElement('div');
         _this.element.className = "".concat(className, " ol-control ol-unselectable");
-        _this.source = _this.options.source;
+        if (_this.options.source instanceof Element) {
+            _this.source = _this.options.source;
+        }
+        else {
+            _this.source = document.getElementById(_this.options.source);
+        }
         var button = document.createElement('button');
+        var tipLabel = _this.options.tipLabel ? _this.options.tipLabel : 'Vergroot / verklein het scherm';
         button.setAttribute('title', tipLabel);
-        button.className = "full-screen-false";
+        button.className = 'full-screen-false';
         button.addEventListener('click', _this.toggleFullscreen.bind(_this), false);
         _this.element.appendChild(button);
         ol.control.Control.call(_this, {
@@ -51,23 +56,18 @@ var OeFullscreen = (function (_super) {
     OeFullscreen.prototype.handleFullscreenChange = function () {
         var button = this.element.firstElementChild;
         if (!this.isFullScreen()) {
-            button.className = "full-screen-false";
+            button.className = 'full-screen-false';
         }
-        else if (button.className === "full-screen-false") {
-            button.className = "full-screen-true";
+        else if (button.className === 'full-screen-false') {
+            button.className = 'full-screen-true';
         }
         else {
-            button.className = "full-screen-false";
+            button.className = 'full-screen-false';
         }
     };
     OeFullscreen.prototype.toggleFullscreen = function () {
         var button = this.element.firstElementChild;
-        if (button.className === "full-screen-false") {
-            this.openFullscreen();
-        }
-        else {
-            this.closeFullscreen();
-        }
+        button.className === 'full-screen-false' ? this.openFullscreen() : this.closeFullscreen();
     };
     OeFullscreen.prototype.fullscreenSupported = function () {
         var body = document.body;

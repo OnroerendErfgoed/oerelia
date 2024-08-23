@@ -1,4 +1,4 @@
-referentie-laag-map {
+ referentie-laag-map {
   display: block;
   position: relative;
   height: 100%;
@@ -6,7 +6,7 @@ referentie-laag-map {
 
 .referentielaag-node {
   background-color: aliceblue;
-  height: 70vh;
+  height: 65vh;
 
   .ol-control button {
     background-color: rgba(45, 163, 206, 0.7);
@@ -39,13 +39,13 @@ referentie-laag-map {
 
 @media (max-width: 1000px) {
   referentielaag-autocorrectie {
-    position: static
+    position: static;
     /* adjust the size, position, etc. of the legend for small screens here */
   }
 }
 
-@media all and (display-mode: fullscreen) {
-  .referentielaag-node {
-    height: 100%;
-  }
-}
+ referentie-laag-map:fullscreen {
+   .referentielaag-node {
+     height: 100%;
+   }
+ }
