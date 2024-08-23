@@ -45,10 +45,12 @@ var OlMap = (function (_super) {
         _this.crabService = crabService;
         _this.dialogService = dialogService;
         _this.showGrbTool = false;
+        _this.showSelectGebouw = true;
         _this.geometryObjectList = [];
         _this.isDrawing = false;
         _this.isDrawingCircle = false;
         _this.selectPerceel = false;
+        _this.selectGebouw = false;
         _this.polygonIndex = 1;
         _this.circleIndex = 1;
         _this.totalArea = 0;
@@ -163,6 +165,19 @@ var OlMap = (function (_super) {
             });
         });
     };
+    OlMap.prototype.startGebouwSelect = function () {
+        var _this = this;
+        this.toggleDrawZone(false);
+        this.selectGebouw = true;
+        this.map.on('click', function (evt) {
+            log.debug('GebouwSelect', evt);
+            _this.apiService.searchGebouw(evt.coordinate, _this.mapProjection.getCode()).then(function (result) {
+                _this.geoJsonFormatter.readFeatures(result).forEach(function (perceel) {
+                    _this.drawGebouw(perceel);
+                });
+            });
+        });
+    };
     OlMap.prototype.drawPerceel = function (olFeature) {
         if (olFeature) {
             var name_1 = "Perceel ".concat(olFeature.get('CAPAKEY'));
@@ -176,16 +191,29 @@ var OlMap = (function (_super) {
             toastr.error('Er werd geen perceel gevonden op deze locatie.');
         }
     };
+    OlMap.prototype.drawGebouw = function (olFeature) {
+        if (olFeature) {
+            var name_2 = "Perceel ".concat(olFeature.get('OIDN'));
+            if (this.geometryObjectList.indexOf(name_2) === -1) {
+                olFeature.set('name', name_2);
+                this.drawLayer.getSource().addFeature(olFeature);
+                this.geometryObjectList.push(name_2);
+            }
+        }
+        else {
+            toastr.error('Er werd geen perceel gevonden op deze locatie.');
+        }
+    };
     OlMap.prototype.drawWKTzone = function (wkt) {
         var wktParser = new openlayers_1.default.format.WKT();
         try {
             var featureFromWKT = wktParser.readFeature(wkt);
-            var name_2 = "Polygoon ".concat(this.polygonIndex++);
+            var name_3 = "Polygoon ".concat(this.polygonIndex++);
             featureFromWKT.setProperties({
-                name: name_2
+                name: name_3
             });
             this.drawLayer.getSource().addFeature(featureFromWKT);
-            this.geometryObjectList.push(name_2);
+            this.geometryObjectList.push(name_3);
             this.zoomToFeatures();
             this.WKTstring = '';
         }
@@ -374,6 +402,10 @@ var OlMap = (function (_super) {
         aurelia_framework_1.bindable,
         __metadata("design:type", String)
     ], OlMap.prototype, "laatstGealigneerd", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], OlMap.prototype, "showSelectGebouw", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", geozoekdienst_api_service_1.GeozoekdienstApiService)

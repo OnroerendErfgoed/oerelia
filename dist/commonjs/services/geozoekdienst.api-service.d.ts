@@ -4,4 +4,5 @@ export declare class GeozoekdienstApiService {
     constructor(http: HttpClient);
     getGeozoekDienstObjecten(geometrie: any): Promise<any>;
     searchPerceel(coordinate: any, srsname: any): Promise<any>;
+    searchGebouw(coordinate: any, srsname: any): Promise<any>;
 }

@@ -74,4 +74,32 @@ export class GeozoekdienstApiService {
         }
       });
   }
+
+  public searchGebouw(coordinate, srsname): Promise<any> {
+    const filter = new ol.format.filter.Intersects(
+      'SHAPE',
+      new ol.geom.Point(coordinate, 'XY'),
+      'urn:x-ogc:def:crs:EPSG:31370'
+    );
+
+    const featureRequest = new ol.format.WFS().writeGetFeature({
+      srsName: srsname,
+      featureNS: 'https://geo.api.vlaanderen.be/GRB',
+      featurePrefix: 'GRB',
+      featureTypes: ['GBG'],
+      outputFormat: 'application/json',
+      filter: filter
+    });
+
+    return this.http.createRequest(oeAppConfig.agivGrbUrl)
+      .asPost()
+      .withContent(new XMLSerializer().serializeToString(featureRequest))
+      .withHeader('Content-Type', 'application/xml')
+      .send()
+      .then((response) => {
+        if (response.isSuccess) {
+          return response.content;
+        }
+      });
+  }
 }

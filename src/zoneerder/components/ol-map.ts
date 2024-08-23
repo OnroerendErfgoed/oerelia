@@ -24,6 +24,7 @@ export class OlMap extends BaseMap {
   @bindable public showGrbTool = false;
   @bindable public alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
   @bindable public laatstGealigneerd?: string;
+  @bindable public showSelectGebouw = true;
   initialLaatstGealigneerd: string;
 
   public geometryObjectList: string[] = [];
@@ -32,7 +33,8 @@ export class OlMap extends BaseMap {
   protected isDrawing: boolean = false;
   protected isDrawingCircle: boolean = false;
   protected selectPerceel: boolean = false;
-  
+  protected selectGebouw: boolean = false;
+
   @bindable private apiService: GeozoekdienstApiService;
   private drawLayer: ol.layer.Layer;
   
@@ -160,6 +162,20 @@ export class OlMap extends BaseMap {
       });
     });
   }
+
+    public startGebouwSelect() {
+    this.toggleDrawZone(false);
+    this.selectGebouw = true;
+    this.map.on('click', (evt: any) => {
+      log.debug('GebouwSelect', evt);
+      this.apiService.searchGebouw(evt.coordinate, this.mapProjection.getCode()).then((result: any) => {
+        this.geoJsonFormatter.readFeatures(result).forEach((perceel) => {
+          this.drawGebouw(perceel);
+        });
+      });
+    });
+  }
+
   
   public drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
@@ -173,7 +189,20 @@ export class OlMap extends BaseMap {
       toastr.error('Er werd geen perceel gevonden op deze locatie.');
     }
   }
-  
+
+  public drawGebouw(olFeature: ol.Feature) {
+    if (olFeature) {
+      const name = `Perceel ${olFeature.get('OIDN')}`;
+      if (this.geometryObjectList.indexOf(name) === -1) {
+        olFeature.set('name', name);
+        (this.drawLayer.getSource() as ol.source.Vector).addFeature(olFeature);
+        this.geometryObjectList.push(name);
+      }
+    } else {
+      toastr.error('Er werd geen perceel gevonden op deze locatie.');
+    }
+  }
+
   public drawWKTzone(wkt: ol.Feature) {
     const wktParser = new ol.format.WKT();
     try {
