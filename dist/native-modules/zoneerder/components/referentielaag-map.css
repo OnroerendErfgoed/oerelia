@@ -6,7 +6,7 @@ referentie-laag-map {
 
 .referentielaag-node {
   background-color: aliceblue;
-  height: 70vh;
+  height: 65vh;
 }
 .referentielaag-node .ol-control button {
   background-color: rgba(45, 163, 206, 0.7);
@@ -36,4 +36,7 @@ referentie-laag-map {
     position: static;
     /* adjust the size, position, etc. of the legend for small screens here */
   }
+}
+referentie-laag-map:fullscreen .referentielaag-node {
+  height: 100%;
 }

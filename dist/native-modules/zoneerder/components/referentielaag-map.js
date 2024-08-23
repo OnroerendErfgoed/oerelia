@@ -26,6 +26,7 @@ import { Contour } from '../models/contour';
 import { BaseMap } from './base-map';
 import { bindable } from 'aurelia-framework';
 import { LayerType } from '../models/layerConfig.enums';
+import { OeFullscreen } from './oe-fullscreen';
 var ReferentieLaagMap = (function (_super) {
     __extends(ReferentieLaagMap, _super);
     function ReferentieLaagMap() {
@@ -109,6 +110,14 @@ var ReferentieLaagMap = (function (_super) {
         this.resultLayer = this.createResultLayer(results['result']);
         this.verschilMinLayer = this.createVerschilMinLayer(results['result_diff_min']);
         this.verschilPlusLayer = this.createVerschilPlusLayer(results['result_diff_plus']);
+    };
+    ReferentieLaagMap.prototype.addFullscreenButton = function (className) {
+        this.map.addControl(new OeFullscreen({
+            tipLabel: 'Vergroot / verklein het scherm',
+            className: className,
+            label: '',
+            source: this.map.getTargetElement().parentElement
+        }));
     };
     __decorate([
         bindable,

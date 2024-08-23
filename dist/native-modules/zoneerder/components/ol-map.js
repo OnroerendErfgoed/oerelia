@@ -310,7 +310,8 @@ var OlMap = (function (_super) {
         var _this = this;
         void this.dialogService.open({
             viewModel: PLATFORM.moduleName('oerelia/zoneerder/components/zone-vergelijking-dialog'),
-            model: { zone: this.zone, alignGrb: this.alignGrb, laatstGealigneerd: this.laatstGealigneerd }
+            model: { zone: this.zone, alignGrb: this.alignGrb, laatstGealigneerd: this.laatstGealigneerd },
+            host: this.mapnode
         }).whenClosed(function (response) {
             if (!response.wasCancelled) {
                 var geom = response.output.resultaat;

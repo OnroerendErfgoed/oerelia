@@ -17,6 +17,7 @@ var layerConfig_enums_1 = require("../models/layerConfig.enums");
 var ol_layerswitcher_1 = require("./ol-layerswitcher");
 var buttonConfig_defaults_1 = require("../models/buttonConfig.defaults");
 var layerConfig_defaults_1 = require("../models/layerConfig.defaults");
+var oe_fullscreen_1 = require("./oe-fullscreen");
 var log = aurelia_framework_1.LogManager.getLogger('ol-map');
 var BaseMap = (function () {
     function BaseMap() {
@@ -160,7 +161,7 @@ var BaseMap = (function () {
         }));
     };
     BaseMap.prototype.addFullscreenButton = function (className) {
-        this.map.addControl(new openlayers_1.default.control.FullScreen({
+        this.map.addControl(new oe_fullscreen_1.OeFullscreen({
             tipLabel: 'Vergroot / verklein het scherm',
             className: className,
             label: ''

@@ -67,12 +67,14 @@ export class ReferentielaagAutocorrectie {
   }
 
   openOpenbaarDomeinLegende() {
+    const host = document.getElementById("referentielaag-node");
     void this.dialogService
       .open({
         viewModel: PLATFORM.moduleName(
           "oerelia/zoneerder/components/domein-strategie-legende"
         ),
         model: {},
+        host
       });
   }
 

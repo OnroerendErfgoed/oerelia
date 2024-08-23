@@ -4,6 +4,7 @@ import { BaseMap } from './base-map';
 import { bindable } from 'aurelia-framework';
 import { LayerType } from '../models/layerConfig.enums';
 import { type Geometry } from 'geojson'
+import { OeFullscreen } from './oe-fullscreen';
 
 export class ReferentieLaagMap extends BaseMap {
   @bindable laatstGealigneerd: string;
@@ -101,5 +102,14 @@ export class ReferentieLaagMap extends BaseMap {
     this.resultLayer = this.createResultLayer(results['result']);
     this.verschilMinLayer = this.createVerschilMinLayer(results['result_diff_min']);
     this.verschilPlusLayer = this.createVerschilPlusLayer(results['result_diff_plus']);
+  }
+
+  protected addFullscreenButton(className: string): void {
+    this.map.addControl(new OeFullscreen({
+      tipLabel: 'Vergroot / verklein het scherm',
+      className: className,
+      label: '',
+      source: this.map.getTargetElement().parentElement
+    }));
   }
 }

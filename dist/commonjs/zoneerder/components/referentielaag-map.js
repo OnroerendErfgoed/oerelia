@@ -29,6 +29,7 @@ var contour_1 = require("../models/contour");
 var base_map_1 = require("./base-map");
 var aurelia_framework_1 = require("aurelia-framework");
 var layerConfig_enums_1 = require("../models/layerConfig.enums");
+var oe_fullscreen_1 = require("./oe-fullscreen");
 var ReferentieLaagMap = (function (_super) {
     __extends(ReferentieLaagMap, _super);
     function ReferentieLaagMap() {
@@ -112,6 +113,14 @@ var ReferentieLaagMap = (function (_super) {
         this.resultLayer = this.createResultLayer(results['result']);
         this.verschilMinLayer = this.createVerschilMinLayer(results['result_diff_min']);
         this.verschilPlusLayer = this.createVerschilPlusLayer(results['result_diff_plus']);
+    };
+    ReferentieLaagMap.prototype.addFullscreenButton = function (className) {
+        this.map.addControl(new oe_fullscreen_1.OeFullscreen({
+            tipLabel: 'Vergroot / verklein het scherm',
+            className: className,
+            label: '',
+            source: this.map.getTargetElement().parentElement
+        }));
     };
     __decorate([
         aurelia_framework_1.bindable,

@@ -14,6 +14,7 @@ import { LayerType } from '../models/layerConfig.enums';
 import { Layerswitcher } from './ol-layerswitcher';
 import { defaultButtonConfig } from '../models/buttonConfig.defaults';
 import { defaultLayerConfig } from '../models/layerConfig.defaults';
+import { OeFullscreen } from './oe-fullscreen';
 var log = LogManager.getLogger('ol-map');
 var BaseMap = (function () {
     function BaseMap() {
@@ -157,7 +158,7 @@ var BaseMap = (function () {
         }));
     };
     BaseMap.prototype.addFullscreenButton = function (className) {
-        this.map.addControl(new ol.control.FullScreen({
+        this.map.addControl(new OeFullscreen({
             tipLabel: 'Vergroot / verklein het scherm',
             className: className,
             label: ''

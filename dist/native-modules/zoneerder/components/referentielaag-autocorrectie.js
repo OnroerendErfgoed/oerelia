@@ -101,10 +101,12 @@ var ReferentielaagAutocorrectie = (function () {
         });
     };
     ReferentielaagAutocorrectie.prototype.openOpenbaarDomeinLegende = function () {
+        var host = document.getElementById("referentielaag-node");
         void this.dialogService
             .open({
             viewModel: PLATFORM.moduleName("oerelia/zoneerder/components/domein-strategie-legende"),
             model: {},
+            host: host
         });
     };
     ReferentielaagAutocorrectie.prototype.onHistogramDataChanged = function () {

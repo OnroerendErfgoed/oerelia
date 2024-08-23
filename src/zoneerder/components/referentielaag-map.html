@@ -5,9 +5,9 @@
   <require from="./referentielaag-autocorrectie"></require>
   <require from="./layerswitcher.css"></require>
 
-  <div ref="mapnode" class="referentielaag-node"></div>
-  <referentielaag-autocorrectie
+  <div ref="mapnode" class="referentielaag-node" id="referentielaag-node"></div>
+   <referentielaag-autocorrectie
     results-updated.call="resultsUpdated($event)" zone.two-way="zone"
     align-grb.bind="alignGrb" laatst-gealigneerd.two-way="laatstGealigneerd"
-  ></referentielaag-autocorrectie>
+    ></referentielaag-autocorrectie>
 </template>

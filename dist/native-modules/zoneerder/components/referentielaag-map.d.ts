@@ -18,4 +18,5 @@ export declare class ReferentieLaagMap extends BaseMap {
     resultsUpdated(results: {
         [key: string]: Geometry;
     }): void;
+    protected addFullscreenButton(className: string): void;
 }

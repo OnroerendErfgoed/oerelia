@@ -3,11 +3,12 @@
 referentielaag-autocorrectie {
   background-color: white;
   position: absolute;
+  z-index: 1;
   right: 0;
   top: 0;
   margin: 1rem;
   padding: 1rem;
-  height: 65vh;
+  height: calc(100% - 2rem);
   overflow-y: auto;
 
   h3 i.fa-magic {
@@ -78,7 +79,7 @@ referentielaag-autocorrectie {
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      height: 1vh;  
+      height: 1vh;
     }
   }
 }

@@ -330,7 +330,8 @@ export class OlMap extends BaseMap {
     void this.dialogService.open({
       viewModel: PLATFORM.moduleName(
         'oerelia/zoneerder/components/zone-vergelijking-dialog'),
-      model: { zone: this.zone, alignGrb: this.alignGrb, laatstGealigneerd: this.laatstGealigneerd }
+      model: { zone: this.zone, alignGrb: this.alignGrb, laatstGealigneerd: this.laatstGealigneerd },
+      host: this.mapnode
     }).whenClosed((response) => {
       if (!response.wasCancelled) {
         const geom = response.output.resultaat as Geometry;
