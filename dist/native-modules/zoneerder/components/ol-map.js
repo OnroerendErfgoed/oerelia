@@ -43,6 +43,7 @@ var OlMap = (function (_super) {
         _this.dialogService = dialogService;
         _this.showGrbTool = false;
         _this.showSelectGebouw = true;
+        _this.alignerAreaLimit = 100000;
         _this.geometryObjectList = [];
         _this.isDrawing = false;
         _this.isDrawingCircle = false;
@@ -403,6 +404,10 @@ var OlMap = (function (_super) {
         bindable,
         __metadata("design:type", Object)
     ], OlMap.prototype, "showSelectGebouw", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], OlMap.prototype, "alignerAreaLimit", void 0);
     __decorate([
         bindable,
         __metadata("design:type", GeozoekdienstApiService)
