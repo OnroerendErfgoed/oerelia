@@ -14,19 +14,19 @@ export interface IErkenning {
 }
 
 export interface IErkenningNew {
-      id:number
-      erkenningsnummer:string
-      startdatum: string
-      einddatum: string
-      opmerkingen: string
-      erkend_als: IErkendAls
-      reden_erkenning: IRedenErkenning
-      oorsprong_erkenning: IOorsprongErkenning
+  id: number
+  erkenningsnummer: string
+  startdatum: string
+  einddatum: string
+  opmerkingen: string
+  erkend_als: IErkendAls
+  reden_erkenning: IRedenErkenning
+  oorsprong_erkenning: IOorsprongErkenning
 }
 
 export interface IOorsprongErkenning {
-    id: string;
-    uri: string;
+  id: string;
+  uri: string;
 }
 
 export interface IErkendAls {
