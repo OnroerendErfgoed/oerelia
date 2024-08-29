@@ -24,8 +24,8 @@ export class OlMap extends BaseMap {
   @bindable showGrbTool = false;
   @bindable alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
   @bindable laatstGealigneerd?: string;
-  @bindable showSelectGebouw = true;
-  @bindable alignerAreaLimit = 100000;
+  @bindable showSelectGebouw: boolean;
+  @bindable alignerAreaLimit: number;
   initialLaatstGealigneerd: string;
 
   geometryObjectList: string[] = [];
@@ -193,14 +193,14 @@ export class OlMap extends BaseMap {
 
   drawGebouw(olFeature: ol.Feature) {
     if (olFeature) {
-      const name = `Perceel ${olFeature.get('OIDN')}`;
+      const name = `Gebouw ${olFeature.get('OIDN')}`;
       if (this.geometryObjectList.indexOf(name) === -1) {
         olFeature.set('name', name);
         (this.drawLayer.getSource() as ol.source.Vector).addFeature(olFeature);
         this.geometryObjectList.push(name);
       }
     } else {
-      toastr.error('Er werd geen perceel gevonden op deze locatie.');
+      toastr.error('Er werd geen gebouw gevonden op deze locatie.');
     }
   }
 
@@ -293,6 +293,7 @@ export class OlMap extends BaseMap {
   
   private resetSelect() {
     this.selectPerceel = false;
+    this.selectGebouw = false;
     (this.map as any).removeEventListener('click');
   }
   

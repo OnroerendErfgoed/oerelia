@@ -25,6 +25,8 @@ var Zoneerder = (function () {
         this.disabled = false;
         this.isCollapsed = true;
         this.showGrbTool = false;
+        this.showSelectGebouw = true;
+        this.alignerAreaLimit = 100000;
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     }
     Zoneerder.prototype.onMapLoaded = function ($event) {
@@ -94,11 +96,11 @@ var Zoneerder = (function () {
     ], Zoneerder.prototype, "laatstGealigneerd", void 0);
     __decorate([
         aurelia_framework_1.bindable,
-        __metadata("design:type", Boolean)
+        __metadata("design:type", Object)
     ], Zoneerder.prototype, "showSelectGebouw", void 0);
     __decorate([
         aurelia_framework_1.bindable,
-        __metadata("design:type", Number)
+        __metadata("design:type", Object)
     ], Zoneerder.prototype, "alignerAreaLimit", void 0);
     Zoneerder = __decorate([
         (0, aurelia_framework_1.inject)(aurelia_http_client_1.HttpClient, crab_api_service_1.CrabService, geozoekdienst_api_service_1.GeozoekdienstApiService),
