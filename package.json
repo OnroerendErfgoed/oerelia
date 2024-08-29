@@ -70,9 +70,9 @@
     "vinyl-fs": "^3.0.3"
   },
   "scripts": {
-    "build": "au build-plugin",
-    "start": "au run",
-    "watch": "au build-plugin --watch",
+    "build": "NODE_OPTIONS=--no-experimental-fetch au build-plugin",
+    "start": "NODE_OPTIONS=--no-experimental-fetch au run",
+    "watch": "NODE_OPTIONS=--no-experimental-fetch au build-plugin --watch",
     "prepare": "npm run build",
     "pretest": "au lint",
     "preversion": "au test",
