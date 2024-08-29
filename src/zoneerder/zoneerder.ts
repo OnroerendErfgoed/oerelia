@@ -23,8 +23,8 @@ export class Zoneerder {
   @bindable showGrbTool?: boolean = false;
   @bindable alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
   @bindable laatstGealigneerd: string;
-  @bindable showSelectGebouw: boolean;
-  @bindable alignerAreaLimit: number;
+  @bindable showSelectGebouw = true;
+  @bindable alignerAreaLimit = 100000;
 
   protected suggest: { suggest: Function };
 

@@ -45,8 +45,6 @@ var OlMap = (function (_super) {
         _this.crabService = crabService;
         _this.dialogService = dialogService;
         _this.showGrbTool = false;
-        _this.showSelectGebouw = true;
-        _this.alignerAreaLimit = 100000;
         _this.geometryObjectList = [];
         _this.isDrawing = false;
         _this.isDrawingCircle = false;
@@ -194,7 +192,7 @@ var OlMap = (function (_super) {
     };
     OlMap.prototype.drawGebouw = function (olFeature) {
         if (olFeature) {
-            var name_2 = "Perceel ".concat(olFeature.get('OIDN'));
+            var name_2 = "Gebouw ".concat(olFeature.get('OIDN'));
             if (this.geometryObjectList.indexOf(name_2) === -1) {
                 olFeature.set('name', name_2);
                 this.drawLayer.getSource().addFeature(olFeature);
@@ -202,7 +200,7 @@ var OlMap = (function (_super) {
             }
         }
         else {
-            toastr.error('Er werd geen perceel gevonden op deze locatie.');
+            toastr.error('Er werd geen gebouw gevonden op deze locatie.');
         }
     };
     OlMap.prototype.drawWKTzone = function (wkt) {
@@ -287,6 +285,7 @@ var OlMap = (function (_super) {
     };
     OlMap.prototype.resetSelect = function () {
         this.selectPerceel = false;
+        this.selectGebouw = false;
         this.map.removeEventListener('click');
     };
     OlMap.prototype.toggleDrawZone = function (bool, type) {
@@ -405,11 +404,11 @@ var OlMap = (function (_super) {
     ], OlMap.prototype, "laatstGealigneerd", void 0);
     __decorate([
         aurelia_framework_1.bindable,
-        __metadata("design:type", Object)
+        __metadata("design:type", Boolean)
     ], OlMap.prototype, "showSelectGebouw", void 0);
     __decorate([
         aurelia_framework_1.bindable,
-        __metadata("design:type", Object)
+        __metadata("design:type", Number)
     ], OlMap.prototype, "alignerAreaLimit", void 0);
     __decorate([
         aurelia_framework_1.bindable,
