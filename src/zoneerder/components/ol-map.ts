@@ -8,7 +8,7 @@ import { LayerType } from '../models/layerConfig.enums';
 import { DialogService } from 'aurelia-dialog';
 import { BaseMap } from './base-map';
 import { bindingMode } from 'aurelia-binding';
-import { type Geometry } from 'geojson'
+import { type Geometry } from 'geojson';
 import * as moment from 'moment';
 import * as jsts from 'jsts';
 
@@ -16,19 +16,20 @@ const log = LogManager.getLogger('ol-map');
 
 @autoinject
 export class OlMap extends BaseMap {
-  @bindable public disabled: boolean;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
-  @bindable public adrespunten?: Contour[];
-  @bindable public isCollapsed: boolean;
-  @bindable public serviceConfig: IZoneerderServiceConfig;
-  @bindable public showGrbTool = false;
-  @bindable public alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
-  @bindable public laatstGealigneerd?: string;
-  @bindable public showSelectGebouw = true;
+  @bindable disabled: boolean;
+  @bindable({ defaultBindingMode: bindingMode.twoWay }) zone: Contour;
+  @bindable adrespunten?: Contour[];
+  @bindable isCollapsed: boolean;
+  @bindable serviceConfig: IZoneerderServiceConfig;
+  @bindable showGrbTool = false;
+  @bindable alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
+  @bindable laatstGealigneerd?: string;
+  @bindable showSelectGebouw = true;
+  @bindable alignerAreaLimit = 100000;
   initialLaatstGealigneerd: string;
 
-  public geometryObjectList: string[] = [];
-  public WKTstring!: string;
+  geometryObjectList: string[] = [];
+  WKTstring!: string;
   
   protected isDrawing: boolean = false;
   protected isDrawingCircle: boolean = false;
@@ -53,7 +54,7 @@ export class OlMap extends BaseMap {
     this._defineProjections();
   }
   
-  public attached() {
+  attached() {
     this.initialLaatstGealigneerd = this.laatstGealigneerd;
     log.debug('olMap::attached', this.zone);
     this._createMap();
@@ -100,22 +101,22 @@ export class OlMap extends BaseMap {
     this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
   }
   
-  public zoneChanged() {
+  zoneChanged() {
     this.addZoneToDrawLayer();
   }
   
-  public disabledChanged(newValue: boolean, oldValue: boolean) {
+  disabledChanged(newValue: boolean, oldValue: boolean) {
     log.debug('olMap::disabledChanged', newValue, oldValue);
     if (this.initialized) {
       this.updateMapSize();
     }
   }
   
-  public zoomToFeatures() {
+  zoomToFeatures() {
     this.zoomToExtent((this.drawLayer.getSource() as ol.source.Vector).getExtent());
   }
   
-  public startDrawZone(type: ol.geom.GeometryType) {
+  startDrawZone(type: ol.geom.GeometryType) {
     this.resetSelect();
     this.toggleDrawZone(true, type);
     if (type === 'Polygon') {
@@ -131,7 +132,7 @@ export class OlMap extends BaseMap {
     }
   }
   
-  public importAdrespunten() {
+  importAdrespunten() {
     if (this.adrespunten && this.adrespunten.length > 0) {
       this.adrespunten.forEach((a: Contour) => {
         this.apiService.searchPerceel(a.coordinates[0], this.mapProjection.getCode()).then((result: any) => {
@@ -150,7 +151,7 @@ export class OlMap extends BaseMap {
     }
   }
   
-  public startPerceelSelect() {
+  startPerceelSelect() {
     this.toggleDrawZone(false);
     this.selectPerceel = true;
     this.map.on('click', (evt: any) => {
@@ -163,7 +164,7 @@ export class OlMap extends BaseMap {
     });
   }
 
-    public startGebouwSelect() {
+    startGebouwSelect() {
     this.toggleDrawZone(false);
     this.selectGebouw = true;
     this.map.on('click', (evt: any) => {
@@ -177,7 +178,7 @@ export class OlMap extends BaseMap {
   }
 
   
-  public drawPerceel(olFeature: ol.Feature) {
+  drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
       if (this.geometryObjectList.indexOf(name) === -1) {
@@ -190,7 +191,7 @@ export class OlMap extends BaseMap {
     }
   }
 
-  public drawGebouw(olFeature: ol.Feature) {
+  drawGebouw(olFeature: ol.Feature) {
     if (olFeature) {
       const name = `Perceel ${olFeature.get('OIDN')}`;
       if (this.geometryObjectList.indexOf(name) === -1) {
@@ -203,7 +204,7 @@ export class OlMap extends BaseMap {
     }
   }
 
-  public drawWKTzone(wkt: ol.Feature) {
+  drawWKTzone(wkt: ol.Feature) {
     const wktParser = new ol.format.WKT();
     try {
       const featureFromWKT = wktParser.readFeature(wkt);
@@ -220,7 +221,7 @@ export class OlMap extends BaseMap {
     }
   }
   
-  public removeGeometryObject(name: string) {
+  removeGeometryObject(name: string) {
     const drawLayerSource = this.drawLayer.getSource() as ol.source.Vector;
     const featuresToRemove = drawLayerSource.getFeatures().filter((feature) =>
       feature.getProperties().name === name);
@@ -235,7 +236,7 @@ export class OlMap extends BaseMap {
     this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
   }
   
-  public geoLocationClick() {
+  geoLocationClick() {
     const view = this.map.getView();
     const geolocation = new ol.Geolocation({
       projection: this.map.getView().getProjection(),
@@ -252,7 +253,7 @@ export class OlMap extends BaseMap {
     });
   }
   
-  public zoomButtonClick() {
+  zoomButtonClick() {
     const view = this.map.getView();
     const center = view.getCenter();
     const zoom = view.getZoom();
@@ -355,7 +356,7 @@ export class OlMap extends BaseMap {
   }
   
   
-  public showZoneVergelijkingDialog() {
+  showZoneVergelijkingDialog() {
     void this.dialogService.open({
       viewModel: PLATFORM.moduleName(
         'oerelia/zoneerder/components/zone-vergelijking-dialog'),

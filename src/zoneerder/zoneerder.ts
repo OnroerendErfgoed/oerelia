@@ -12,19 +12,22 @@ const log = LogManager.getLogger('ol-map');
 
 @inject(HttpClient, CrabService, GeozoekdienstApiService)
 export class Zoneerder {
-  @bindable public locatie: any;
-  @bindable public disabled: boolean = false;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public zone: Contour;
-  @bindable public adrespunten?: Contour[];
-  @bindable public buttonConfig: ButtonConfig;
-  @bindable public layerConfig: LayerConfig;
-  @bindable public serviceConfig: IZoneerderServiceConfig;
-  @bindable public isCollapsed?: boolean = true;
-  @bindable public showGrbTool?: boolean = false;
-  @bindable public alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
-  @bindable public laatstGealigneerd: string;
+  @bindable locatie: any;
+  @bindable disabled: boolean = false;
+  @bindable({ defaultBindingMode: bindingMode.twoWay }) zone: Contour;
+  @bindable adrespunten?: Contour[];
+  @bindable buttonConfig: ButtonConfig;
+  @bindable layerConfig: LayerConfig;
+  @bindable serviceConfig: IZoneerderServiceConfig;
+  @bindable isCollapsed?: boolean = true;
+  @bindable showGrbTool?: boolean = false;
+  @bindable alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
+  @bindable laatstGealigneerd: string;
+  @bindable showSelectGebouw: boolean;
+  @bindable alignerAreaLimit: number;
 
   protected suggest: { suggest: Function };
+
   private map: OlMap;
 
   constructor(
@@ -35,23 +38,23 @@ export class Zoneerder {
     this.suggest = { suggest: (value) => this.crabService.suggestLocatie(value) };
   }
 
-  public onMapLoaded($event) {
+  onMapLoaded($event) {
     log.debug('tab-locatie::onMapLoaded', $event, this.map.getMapInfo());
   }
 
-  public resize() {
+  resize() {
     if (this.map) {
       this.map.updateMapSize();
     }
   }
 
-  public locatieChanged() {
+  locatieChanged() {
     if (this.locatie) {
       this.zoomToCrab(this.locatie);
     }
   }
 
-  public zoomToCrab(locatie: any) {
+  zoomToCrab(locatie: any) {
     this.crabService.geolocate(locatie.id)
       .then(geolocationresponse => {
         const extent = this.map.transformBoundingboxToMapExtent(geolocationresponse.boundingbox);

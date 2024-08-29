@@ -92,6 +92,14 @@ var Zoneerder = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", String)
     ], Zoneerder.prototype, "laatstGealigneerd", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Boolean)
+    ], Zoneerder.prototype, "showSelectGebouw", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Number)
+    ], Zoneerder.prototype, "alignerAreaLimit", void 0);
     Zoneerder = __decorate([
         (0, aurelia_framework_1.inject)(aurelia_http_client_1.HttpClient, crab_api_service_1.CrabService, geozoekdienst_api_service_1.GeozoekdienstApiService),
         __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient,

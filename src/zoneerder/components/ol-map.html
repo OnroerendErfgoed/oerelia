@@ -61,16 +61,16 @@
           </ul>
         </div>
         <template if.bind="showGrbTool">
-          <a  if.bind="totalArea && totalArea <= 100000" click.delegate="showZoneVergelijkingDialog()">
+          <a  if.bind="totalArea && totalArea <= alignerAreaLimit" click.delegate="showZoneVergelijkingDialog()">
             <span><i class="fa fa-pencil"></i> Vergelijk zone met referentielaag</span>
           </a>
           <span if.bind="initialLaatstGealigneerd" class="laatst-gealigneerd-container">
             Laatst gealigneerd op: ${formatDate(initialLaatstGealigneerd)}
           </span>
-          <div class="alert-box alert" if.bind="totalArea > 100000">
+          <div class="alert-box alert" if.bind="totalArea > alignerAreaLimit">
             <p style="font-size: 14px;">Oppervlakte: ${totalArea}m²</p>
             <p style="font-size: 14px;">
-              De oppervlakte van het object is te groot (>100 000 m²) om de autocorrectie uit te voeren via de
+              De oppervlakte van het object is te groot (>${alignerAreaLimit} m²) om de autocorrectie uit te voeren via de
               webbrowser. Contacteer je GIS beheerder om deze zone aan te passen.
             </p>
           </div>

@@ -17,6 +17,7 @@ export declare class OlMap extends BaseMap {
     alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
     laatstGealigneerd?: string;
     showSelectGebouw: boolean;
+    alignerAreaLimit: number;
     initialLaatstGealigneerd: string;
     geometryObjectList: string[];
     WKTstring: string;

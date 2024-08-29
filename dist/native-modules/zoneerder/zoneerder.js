@@ -89,6 +89,14 @@ var Zoneerder = (function () {
         bindable,
         __metadata("design:type", String)
     ], Zoneerder.prototype, "laatstGealigneerd", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Boolean)
+    ], Zoneerder.prototype, "showSelectGebouw", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Number)
+    ], Zoneerder.prototype, "alignerAreaLimit", void 0);
     Zoneerder = __decorate([
         inject(HttpClient, CrabService, GeozoekdienstApiService),
         __metadata("design:paramtypes", [HttpClient,
