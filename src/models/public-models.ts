@@ -13,6 +13,28 @@ export interface IErkenning {
   uri: string;
 }
 
+export interface IErkenningNew {
+  id: number
+  erkenningsnummer: string
+  startdatum: string
+  einddatum: string
+  opmerkingen: string
+  erkend_als: IErkendAls
+  reden_erkenning: IRedenErkenning
+  oorsprong_erkenning: IOorsprongErkenning
+}
+
+export interface IOorsprongErkenning {
+  id: string;
+  uri: string;
+}
+
+export interface IErkendAls {
+  id: number;
+  erkend_als: string;
+  type_erkenning: string;
+}
+
 export interface ISystemFields {
   created_at: string;
   updated_at: string;
@@ -32,7 +54,7 @@ export interface IActor {
   adressen: IActorAdres[];
   afkorting: string;
   emails: IEmail[];
-  erkenningen: IErkenning[];
+  erkenningen: IErkenning[] | IErkenningNew[];
   id: number;
   ids: IId[];
   info: unknown[];
@@ -53,7 +75,7 @@ export interface IActor {
 }
 
 export class Actor {
-  public erkenningen: IErkenning[];
+  public erkenningen: IErkenning[] | IErkenningNew[];
   public id: string;
   public omschrijving: string;
   public uri: string;
