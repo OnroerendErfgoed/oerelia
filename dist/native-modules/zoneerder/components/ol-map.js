@@ -151,6 +151,7 @@ var OlMap = (function (_super) {
     OlMap.prototype.startPerceelSelect = function () {
         var _this = this;
         this.toggleDrawZone(false);
+        this.resetSelect();
         this.selectPerceel = true;
         this.map.on('click', function (evt) {
             log.debug('Perceelselect', evt);
@@ -164,6 +165,7 @@ var OlMap = (function (_super) {
     OlMap.prototype.startGebouwSelect = function () {
         var _this = this;
         this.toggleDrawZone(false);
+        this.resetSelect();
         this.selectGebouw = true;
         this.map.on('click', function (evt) {
             log.debug('GebouwSelect', evt);

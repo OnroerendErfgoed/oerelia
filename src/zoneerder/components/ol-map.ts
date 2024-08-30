@@ -153,6 +153,7 @@ export class OlMap extends BaseMap {
   
   startPerceelSelect() {
     this.toggleDrawZone(false);
+    this.resetSelect();
     this.selectPerceel = true;
     this.map.on('click', (evt: any) => {
       log.debug('Perceelselect', evt);
@@ -166,6 +167,7 @@ export class OlMap extends BaseMap {
 
     startGebouwSelect() {
     this.toggleDrawZone(false);
+    this.resetSelect();
     this.selectGebouw = true;
     this.map.on('click', (evt: any) => {
       log.debug('GebouwSelect', evt);
