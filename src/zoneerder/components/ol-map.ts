@@ -71,7 +71,9 @@ export class OlMap extends BaseMap {
     this.drawLayer.getSource().on('addfeature', (feature: any) => {
       log.debug('olMap::drawLayer::addfeature', feature);
       this.drawLayerToZone();
+      this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
     });
+    this.addZoneToDrawLayer();
   }
   
   private addZoneToDrawLayer() {
@@ -98,7 +100,6 @@ export class OlMap extends BaseMap {
     if (this.geometryObjectList.indexOf('Zone') === -1) {
       this.geometryObjectList.push('Zone');
     }
-    this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
   }
   
   zoneChanged() {
@@ -286,7 +287,7 @@ export class OlMap extends BaseMap {
         this.totalArea += Math.PI * Math.pow(geom.getRadius(), 2);
       }
     });
-    
+
     const contour = this.formatGeoJson(multiPolygon);
     !!this.zone ? this.zone.coordinates = contour.coordinates
       : this.zone = new Contour(contour);
@@ -382,15 +383,12 @@ export class OlMap extends BaseMap {
     const parser = new jsts.io.GeoJSONReader();
     const geoWriter = new jsts.io.GeoJSONWriter();
     const factory = new jsts.geom.GeometryFactory();
-  
-    let unionedGeom = factory.createMultiPolygon([]);
-    geometries.forEach((geom: Geometry) => {
-      if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
-        const polygon = parser.read(geom);
-        unionedGeom = unionedGeom.union(polygon);
-      }
-    });
-    return this.geoJsonFormatter.readGeometry(geoWriter.write(unionedGeom));
+
+    const polygons = geometries
+      .filter((geom: Geometry) => geom.type === 'Polygon' || geom.type === 'MultiPolygon')
+      .map((geom: Geometry) => parser.read(geom));
+    const multiPolygon = factory.createMultiPolygon(polygons);
+    return this.geoJsonFormatter.readGeometry(geoWriter.write(multiPolygon));
   }
 
   formatDate(date) {

@@ -70,7 +70,9 @@ var OlMap = (function (_super) {
         this.drawLayer.getSource().on('addfeature', function (feature) {
             log.debug('olMap::drawLayer::addfeature', feature);
             _this.drawLayerToZone();
+            _this.zoomToExtent(_this.geoJsonFormatter.readGeometry(_this.zone).getExtent());
         });
+        this.addZoneToDrawLayer();
     };
     OlMap.prototype.addZoneToDrawLayer = function () {
         var _this = this;
@@ -97,7 +99,6 @@ var OlMap = (function (_super) {
         if (this.geometryObjectList.indexOf('Zone') === -1) {
             this.geometryObjectList.push('Zone');
         }
-        this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
     };
     OlMap.prototype.zoneChanged = function () {
         this.addZoneToDrawLayer();
@@ -357,14 +358,11 @@ var OlMap = (function (_super) {
         var parser = new jsts.io.GeoJSONReader();
         var geoWriter = new jsts.io.GeoJSONWriter();
         var factory = new jsts.geom.GeometryFactory();
-        var unionedGeom = factory.createMultiPolygon([]);
-        geometries.forEach(function (geom) {
-            if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
-                var polygon = parser.read(geom);
-                unionedGeom = unionedGeom.union(polygon);
-            }
-        });
-        return this.geoJsonFormatter.readGeometry(geoWriter.write(unionedGeom));
+        var polygons = geometries
+            .filter(function (geom) { return geom.type === 'Polygon' || geom.type === 'MultiPolygon'; })
+            .map(function (geom) { return parser.read(geom); });
+        var multiPolygon = factory.createMultiPolygon(polygons);
+        return this.geoJsonFormatter.readGeometry(geoWriter.write(multiPolygon));
     };
     OlMap.prototype.formatDate = function (date) {
         return moment(date).format('DD/MM/YYYY [om] HH:mm');
