@@ -69,11 +69,12 @@ var OlMap = (function (_super) {
         this.element.dispatchEvent(new CustomEvent('loaded', {
             bubbles: true
         }));
-        this.addZoneToDrawLayer();
         this.drawLayer.getSource().on('addfeature', function (feature) {
             log.debug('olMap::drawLayer::addfeature', feature);
             _this.drawLayerToZone();
+            _this.zoomToExtent(_this.geoJsonFormatter.readGeometry(_this.zone).getExtent());
         });
+        this.addZoneToDrawLayer();
     };
     OlMap.prototype.addZoneToDrawLayer = function () {
         var _this = this;
@@ -100,7 +101,6 @@ var OlMap = (function (_super) {
         if (this.geometryObjectList.indexOf('Zone') === -1) {
             this.geometryObjectList.push('Zone');
         }
-        this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
     };
     OlMap.prototype.zoneChanged = function () {
         this.addZoneToDrawLayer();
@@ -367,6 +367,9 @@ var OlMap = (function (_super) {
                 unionedGeom = unionedGeom.union(polygon);
             }
         });
+        if (unionedGeom instanceof jsts.geom.Polygon) {
+            unionedGeom = factory.createMultiPolygon([unionedGeom]);
+        }
         return this.geoJsonFormatter.readGeometry(geoWriter.write(unionedGeom));
     };
     OlMap.prototype.formatDate = function (date) {
