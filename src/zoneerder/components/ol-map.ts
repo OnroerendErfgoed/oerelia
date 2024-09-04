@@ -67,7 +67,6 @@ export class OlMap extends BaseMap {
       bubbles: true
     }));
 
-    this.addZoneToDrawLayer();
     this.drawLayer.getSource().on('addfeature', (feature: any) => {
       log.debug('olMap::drawLayer::addfeature', feature);
       this.drawLayerToZone();

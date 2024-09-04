@@ -66,7 +66,6 @@ var OlMap = (function (_super) {
         this.element.dispatchEvent(new CustomEvent('loaded', {
             bubbles: true
         }));
-        this.addZoneToDrawLayer();
         this.drawLayer.getSource().on('addfeature', function (feature) {
             log.debug('olMap::drawLayer::addfeature', feature);
             _this.drawLayerToZone();
