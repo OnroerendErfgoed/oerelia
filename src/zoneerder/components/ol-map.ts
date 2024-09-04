@@ -358,7 +358,6 @@ export class OlMap extends BaseMap {
     this.map.addLayer(this.drawLayer);
   }
 
-
   showZoneVergelijkingDialog() {
     void this.dialogService.open({
       viewModel: PLATFORM.moduleName(
@@ -390,7 +389,7 @@ export class OlMap extends BaseMap {
         unionedGeom = unionedGeom.union(polygon);
       }
     });
-    if (unionedGeom instanceof  jsts.geom.Polygon){
+    if (unionedGeom instanceof jsts.geom.Polygon){
       unionedGeom = factory.createMultiPolygon([unionedGeom]);
     }
     return this.geoJsonFormatter.readGeometry(geoWriter.write(unionedGeom));
