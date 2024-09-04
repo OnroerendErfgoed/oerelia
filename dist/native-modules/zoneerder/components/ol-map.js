@@ -357,11 +357,17 @@ var OlMap = (function (_super) {
         var parser = new jsts.io.GeoJSONReader();
         var geoWriter = new jsts.io.GeoJSONWriter();
         var factory = new jsts.geom.GeometryFactory();
-        var polygons = geometries
-            .filter(function (geom) { return geom.type === 'Polygon' || geom.type === 'MultiPolygon'; })
-            .map(function (geom) { return parser.read(geom); });
-        var multiPolygon = factory.createMultiPolygon(polygons);
-        return this.geoJsonFormatter.readGeometry(geoWriter.write(multiPolygon));
+        var unionedGeom = factory.createMultiPolygon([]);
+        geometries.forEach(function (geom) {
+            if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
+                var polygon = parser.read(geom);
+                unionedGeom = unionedGeom.union(polygon);
+            }
+        });
+        if (unionedGeom instanceof jsts.geom.Polygon) {
+            unionedGeom = factory.createMultiPolygon([unionedGeom]);
+        }
+        return this.geoJsonFormatter.readGeometry(geoWriter.write(unionedGeom));
     };
     OlMap.prototype.formatDate = function (date) {
         return moment(date).format('DD/MM/YYYY [om] HH:mm');

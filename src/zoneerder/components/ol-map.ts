@@ -30,7 +30,7 @@ export class OlMap extends BaseMap {
 
   geometryObjectList: string[] = [];
   WKTstring!: string;
-  
+
   protected isDrawing: boolean = false;
   protected isDrawingCircle: boolean = false;
   protected selectPerceel: boolean = false;
@@ -38,7 +38,7 @@ export class OlMap extends BaseMap {
 
   @bindable private apiService: GeozoekdienstApiService;
   private drawLayer: ol.layer.Layer;
-  
+
   private mapInteractions: any;
   private polygonIndex: number = 1;
   private circleIndex: number = 1;
@@ -53,7 +53,7 @@ export class OlMap extends BaseMap {
     log.debug('olMap::constructor', this.zone);
     this._defineProjections();
   }
-  
+
   attached() {
     this.initialLaatstGealigneerd = this.laatstGealigneerd;
     log.debug('olMap::attached', this.zone);
@@ -62,7 +62,7 @@ export class OlMap extends BaseMap {
     this._createLayers();
     this._createDrawLayer();
     this._createInteractions('Polygon', false);
-    
+
     this.element.dispatchEvent(new CustomEvent('loaded', {
       bubbles: true
     }));
@@ -74,7 +74,7 @@ export class OlMap extends BaseMap {
     });
     this.addZoneToDrawLayer();
   }
-  
+
   private addZoneToDrawLayer() {
     if (!this.drawLayer) {
       return;
@@ -100,22 +100,22 @@ export class OlMap extends BaseMap {
       this.geometryObjectList.push('Zone');
     }
   }
-  
+
   zoneChanged() {
     this.addZoneToDrawLayer();
   }
-  
+
   disabledChanged(newValue: boolean, oldValue: boolean) {
     log.debug('olMap::disabledChanged', newValue, oldValue);
     if (this.initialized) {
       this.updateMapSize();
     }
   }
-  
+
   zoomToFeatures() {
     this.zoomToExtent((this.drawLayer.getSource() as ol.source.Vector).getExtent());
   }
-  
+
   startDrawZone(type: ol.geom.GeometryType) {
     this.resetSelect();
     this.toggleDrawZone(true, type);
@@ -131,7 +131,7 @@ export class OlMap extends BaseMap {
       });
     }
   }
-  
+
   importAdrespunten() {
     if (this.adrespunten && this.adrespunten.length > 0) {
       this.adrespunten.forEach((a: Contour) => {
@@ -150,7 +150,7 @@ export class OlMap extends BaseMap {
       toastr.error('Er kan geen algemene locatie afgeleid worden omdat geen enkel locatie-element een punt bevat.');
     }
   }
-  
+
   startPerceelSelect() {
     this.toggleDrawZone(false);
     this.resetSelect();
@@ -179,7 +179,7 @@ export class OlMap extends BaseMap {
     });
   }
 
-  
+
   drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
@@ -222,7 +222,7 @@ export class OlMap extends BaseMap {
       toastr.error(error, 'Dit is een ongeldige WKT geometrie.');
     }
   }
-  
+
   removeGeometryObject(name: string) {
     const drawLayerSource = this.drawLayer.getSource() as ol.source.Vector;
     const featuresToRemove = drawLayerSource.getFeatures().filter((feature) =>
@@ -234,10 +234,10 @@ export class OlMap extends BaseMap {
     if (this.zone.coordinates.length === 0) {
       this.zone = null;
     }
-    
+
     this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
   }
-  
+
   geoLocationClick() {
     const view = this.map.getView();
     const geolocation = new ol.Geolocation({
@@ -246,7 +246,7 @@ export class OlMap extends BaseMap {
         enableHighAccuracy: true
       }
     });
-    
+
     geolocation.setTracking(true);
     geolocation.once('change:position', () => {
       view.setCenter(geolocation.getPosition());
@@ -254,23 +254,23 @@ export class OlMap extends BaseMap {
       geolocation.setTracking(false);
     });
   }
-  
+
   zoomButtonClick() {
     const view = this.map.getView();
     const center = view.getCenter();
     const zoom = view.getZoom();
     const coordinates = this.transformLambert72ToWebMercator(center);
-    
+
     //Zoom * 2 is some kind of hack so the zoom levels somewhat align with the zoom levels on crabpyUrl.
     // Change if a better solution is found.
     window.open((this.serviceConfig.crabpyUrl) + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
   }
-  
+
   private drawLayerToZone() {
     this.totalArea = 0;
     const multiPolygon = new ol.geom.MultiPolygon([], 'XY');
     const features: ol.Feature[] = (this.drawLayer.getSource() as ol.source.Vector).getFeatures();
-    
+
     features.forEach((feature: ol.Feature) => {
       const geom = feature.getGeometry();
       if (geom instanceof ol.geom.Polygon) {
@@ -292,16 +292,16 @@ export class OlMap extends BaseMap {
       : this.zone = new Contour(contour);
     this.laatstGealigneerd = undefined;
   }
-  
+
   private resetSelect() {
     this.selectPerceel = false;
     this.selectGebouw = false;
     (this.map as any).removeEventListener('click');
   }
-  
+
   private toggleDrawZone(bool: boolean, type?: ol.geom.GeometryType) {
     type ? this._createInteractions(type, bool) : this._createInteractions('Polygon', false);
-    
+
     switch (type) {
       case 'Polygon': {
         this.isDrawing = bool;
@@ -319,18 +319,18 @@ export class OlMap extends BaseMap {
         break;
       }
     }
-    
+
     if (!bool) {
       this.mapInteractions.drawZone.removeEventListener('drawend');
     }
   }
-  
+
   private _createInteractions(type: ol.geom.GeometryType, setActive: boolean) {
     log.debug('olMap::_createInteractions');
     // Zone interactions
-    
+
     this.map.getInteractions().pop();
-    
+
     const drawZoneInteraction: ol.interaction.Draw = new ol.interaction.Draw({
       type: (type),
       source: this.drawLayer.getSource() as ol.source.Vector,
@@ -338,12 +338,12 @@ export class OlMap extends BaseMap {
     });
     this.map.addInteraction(drawZoneInteraction);
     drawZoneInteraction.setActive(setActive);
-    
+
     this.mapInteractions = {
       drawZone: drawZoneInteraction
     };
   }
-  
+
   private _createDrawLayer() {
     // Vector layer
     this.drawLayer = this._createLayer('drawLayer', {
@@ -357,8 +357,8 @@ export class OlMap extends BaseMap {
     });
     this.map.addLayer(this.drawLayer);
   }
-  
-  
+
+
   showZoneVergelijkingDialog() {
     void this.dialogService.open({
       viewModel: PLATFORM.moduleName(
@@ -377,17 +377,23 @@ export class OlMap extends BaseMap {
       }
     });
   }
-  
+
   private createMultiPolygon(geometries: Geometry[]) {
     const parser = new jsts.io.GeoJSONReader();
     const geoWriter = new jsts.io.GeoJSONWriter();
     const factory = new jsts.geom.GeometryFactory();
 
-    const polygons = geometries
-      .filter((geom: Geometry) => geom.type === 'Polygon' || geom.type === 'MultiPolygon')
-      .map((geom: Geometry) => parser.read(geom));
-    const multiPolygon = factory.createMultiPolygon(polygons);
-    return this.geoJsonFormatter.readGeometry(geoWriter.write(multiPolygon));
+    let unionedGeom = factory.createMultiPolygon([]);
+    geometries.forEach((geom: Geometry) => {
+      if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
+        const polygon = parser.read(geom);
+        unionedGeom = unionedGeom.union(polygon);
+      }
+    });
+    if (unionedGeom instanceof  jsts.geom.Polygon){
+      unionedGeom = factory.createMultiPolygon([unionedGeom]);
+    }
+    return this.geoJsonFormatter.readGeometry(geoWriter.write(unionedGeom));
   }
 
   formatDate(date) {
