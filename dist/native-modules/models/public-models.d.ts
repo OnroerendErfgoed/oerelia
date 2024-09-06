@@ -17,6 +17,7 @@ export interface IErkenningNew {
     startdatum: string;
     einddatum: string;
     opmerkingen: string;
+    type: string;
     erkend_als: IErkendAls;
     reden_erkenning: IRedenErkenning;
     oorsprong_erkenning: IOorsprongErkenning;
