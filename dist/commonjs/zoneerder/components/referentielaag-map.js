@@ -73,7 +73,7 @@ var ReferentieLaagMap = (function (_super) {
     ReferentieLaagMap.prototype.createVerschilPlusLayer = function (geometry) {
         var verschilPlusLayer = this._createLayer('verschilPlus', {
             type: layerConfig_enums_1.LayerType.Vector,
-            title: 'Verschil+',
+            title: 'Verschil +',
             style: {
                 stroke: 'rgb(0, 0, 0, 0)',
                 fill: 'rgba(0, 255, 0)',
@@ -89,7 +89,7 @@ var ReferentieLaagMap = (function (_super) {
     ReferentieLaagMap.prototype.createVerschilMinLayer = function (geometry) {
         var verschilMinLayer = this._createLayer('verschilMin', {
             type: layerConfig_enums_1.LayerType.Vector,
-            title: 'Verschil-',
+            title: 'Verschil -',
             style: {
                 stroke: 'rgb(0, 0, 0, 0)',
                 fill: 'rgba(255, 0, 0)',

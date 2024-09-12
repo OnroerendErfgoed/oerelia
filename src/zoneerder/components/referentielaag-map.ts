@@ -60,7 +60,7 @@ export class ReferentieLaagMap extends BaseMap {
   createVerschilPlusLayer(geometry: Geometry) {
     const verschilPlusLayer = this._createLayer('verschilPlus', {
       type: LayerType.Vector,
-      title: 'Verschil+',
+      title: 'Verschil +',
       style: {
         stroke: 'rgb(0, 0, 0, 0)',
         fill: 'rgba(0, 255, 0)',
@@ -77,7 +77,7 @@ export class ReferentieLaagMap extends BaseMap {
   createVerschilMinLayer(geometry: Geometry) {
     const verschilMinLayer = this._createLayer('verschilMin', {
       type: LayerType.Vector,
-      title: 'Verschil-',
+      title: 'Verschil -',
       style: {
         stroke: 'rgb(0, 0, 0, 0)',
         fill: 'rgba(255, 0, 0)',
