@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.RestMessage = void 0;
 var message_1 = require("./message");
 var RestMessage = (function () {
     function RestMessage(config) {
@@ -32,18 +33,18 @@ var RestMessage = (function () {
         var message = { title: result.response.message, message: '' };
         if (result.response.errors.length > 1) {
             result.response.errors.forEach(function (error) {
-                message.message += "<li>" + error + "</li>";
+                message.message += "<li>".concat(error, "</li>");
             });
-            message.message = "<ul>" + message.message + "</ul>";
+            message.message = "<ul>".concat(message.message, "</ul>");
         }
         else if (result.response.errors.length === 1) {
             message.message = result.response.errors[0] === message.title ? '' : result.response.errors[0];
         }
         else {
             message.message = "Er is iets mis gelopen:<br>" +
-                ("<b>method:</b> " + result.requestMessage.method + "<br>") +
-                ("<b>url:</b> " + result.requestMessage.url + "<br>") +
-                ("<b>code:</b> " + result.code + "<br>");
+                "<b>method:</b> ".concat(result.requestMessage.method, "<br>") +
+                "<b>url:</b> ".concat(result.requestMessage.url, "<br>") +
+                "<b>code:</b> ".concat(result.code, "<br>");
         }
         return message_1.Message.error(message);
     };

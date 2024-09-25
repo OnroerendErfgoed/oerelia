@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ActorDetail = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var ActorDetail = (function () {
     function ActorDetail(element) {
@@ -22,7 +23,8 @@ var ActorDetail = (function () {
         __metadata("design:type", Object)
     ], ActorDetail.prototype, "actor", void 0);
     ActorDetail = __decorate([
-        aurelia_framework_1.autoinject(), aurelia_framework_1.customElement('actor-detail'),
+        (0, aurelia_framework_1.autoinject)(),
+        (0, aurelia_framework_1.customElement)('actor-detail'),
         __metadata("design:paramtypes", [Element])
     ], ActorDetail);
     return ActorDetail;

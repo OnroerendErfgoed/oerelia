@@ -2,16 +2,20 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 import * as ol from 'openlayers';
+import { Guid } from 'typescript-guid';
+import { LayerType } from '../models/layerConfig.enums';
 var Layerswitcher = (function (_super) {
     __extends(Layerswitcher, _super);
     function Layerswitcher(optOptions) {
@@ -23,8 +27,6 @@ var Layerswitcher = (function (_super) {
         _this.panelTitle = _this.options.title ?
             _this.options.title : 'Basic Layers';
         _this.mapListeners = [];
-        _this.hiddenClassName = 'ol-unselectable ol-control layer-switcher';
-        _this.shownClassName = _this.hiddenClassName + ' shown';
         _this.hiddenClassName = 'ol-unselectable ol-control layer-switcher';
         _this.shownClassName = _this.hiddenClassName + ' shown';
         _this.element = document.createElement('div');
@@ -42,18 +44,8 @@ var Layerswitcher = (function (_super) {
         _this.panel.className = 'panel';
         _this.element.appendChild(_this.panel);
         var self = _this;
-        _this.button.onclick = function () {
-            self.showPanel();
-            self.isShown = true;
-            self.button.style.display = 'none';
-            self.closeButton.style.display = 'inline-block';
-        };
-        _this.closeButton.onclick = function () {
-            self.hidePanel();
-            self.isShown = false;
-            self.button.style.display = 'inline-block';
-            self.closeButton.style.display = 'none';
-        };
+        _this.button.onclick = function () { return self.showPanel(); };
+        _this.closeButton.onclick = function () { return self.hidePanel(); };
         ol.control.Control.call(_this, {
             element: _this.element,
             target: _this.options.target
@@ -61,15 +53,17 @@ var Layerswitcher = (function (_super) {
         return _this;
     }
     Layerswitcher.prototype.showPanel = function () {
-        if (this.element.className !== this.shownClassName) {
-            this.element.className = this.shownClassName;
-            this.renderPanel();
-        }
+        this.element.className = this.shownClassName;
+        this.isShown = true;
+        this.button.style.display = 'none';
+        this.closeButton.style.display = 'inline-block';
+        this.renderPanel();
     };
     Layerswitcher.prototype.hidePanel = function () {
-        if (this.element.className !== this.hiddenClassName) {
-            this.element.className = this.hiddenClassName;
-        }
+        this.element.className = this.hiddenClassName;
+        this.isShown = false;
+        this.button.style.display = 'inline-block';
+        this.closeButton.style.display = 'none';
     };
     Layerswitcher.prototype.renderPanel = function () {
         this.ensureTopVisibleBaseLayerShown_();
@@ -92,11 +86,7 @@ var Layerswitcher = (function (_super) {
         this.mapListeners.length = 0;
         ol.control.Control.prototype.setMap.call(this, map);
         if (map) {
-            this.mapListeners.push(map.on('pointerdown', function () {
-                _this.hidePanel();
-                _this.button.style.display = 'inline-block';
-                _this.closeButton.style.display = 'none';
-            }));
+            this.mapListeners.push(map.getLayers().on("propertychange", function () { return _this.renderPanel(); }), map.on('pointerdown', function () { return _this.hidePanel(); }));
             this.renderPanel();
         }
     };
@@ -122,11 +112,12 @@ var Layerswitcher = (function (_super) {
             });
         }
     };
-    Layerswitcher.prototype.renderLayer_ = function (lyr, idx) {
+    Layerswitcher.prototype.renderLayer_ = function (lyr) {
         var self = this;
+        var id = Guid.create();
         var li = document.createElement('li');
         var lyrTitle = lyr.get('title');
-        var lyrId = lyr.get('title').replace(' ', '-') + '_' + idx;
+        var lyrId = lyr.get('title').replace(' ', '-') + '_' + id;
         var label = document.createElement('label');
         if (lyr.getLayers) {
             li.className = 'group';
@@ -151,21 +142,81 @@ var Layerswitcher = (function (_super) {
                 var check = 'checked';
                 self.setVisible_(lyr, e.target[check]);
             };
-            li.appendChild(input);
             label.htmlFor = lyrId;
-            label.innerHTML = lyrTitle;
-            li.appendChild(label);
+            var title = document.createElement('span');
+            title.innerHTML = lyrTitle;
+            var row = document.createElement('div');
+            row.className = 'row';
+            row.appendChild(input);
+            row.appendChild(label);
+            li.appendChild(row);
+            if (lyr.get('showLegend')) {
+                this.addLegend(lyr, li, label);
+            }
+            label.appendChild(title);
         }
         return li;
     };
-    Layerswitcher.prototype.renderLayers_ = function (lyr, elm) {
-        var lyrs = lyr.getLayers().getArray().slice().reverse();
-        for (var i = 0, l = void 0; i < lyrs.length; i++) {
-            l = lyrs[i];
-            if (l.get('title')) {
-                elm.appendChild(this.renderLayer_(l, i));
+    Layerswitcher.prototype.addLegend = function (lyr, li, label) {
+        var legendDiv = document.createElement('div');
+        if (lyr.get('layerType') === LayerType.Vector) {
+            legendDiv.style.backgroundColor = 'white';
+            legendDiv.style.width = '14px';
+            legendDiv.style.height = '14px';
+            legendDiv.style.display = 'inline-block';
+            legendDiv.style.verticalAlign = 'sub';
+            legendDiv.style.marginRight = '4px';
+            var legendGraphic = document.createElement('div');
+            var style = lyr.get('style');
+            var fillColor = style.fill;
+            var strokeColor = style.stroke;
+            var strokeStyle = style.lineDash ? 'dashed' : 'solid';
+            legendGraphic.style.border = '1px ' + strokeStyle + ' ' + strokeColor;
+            legendGraphic.style.height = '100%';
+            legendDiv.appendChild(legendGraphic);
+            if (style.hashed) {
+                var diagonal = document.createElement('div');
+                var lineLength = Math.sqrt(2) * 100;
+                diagonal.style.position = 'absolute';
+                diagonal.style.borderTop = '2px solid ' + fillColor;
+                diagonal.style.width = lineLength + '%';
+                diagonal.style.height = '0';
+                diagonal.style.top = '50%';
+                diagonal.style.left = '50%';
+                diagonal.style.transform = 'translate(-50%, -50%) rotate(-45deg)';
+                legendGraphic.style.position = 'relative';
+                legendGraphic.appendChild(diagonal);
             }
+            else {
+                legendGraphic.style.backgroundColor = fillColor;
+            }
+            label.appendChild(legendDiv);
         }
+        else if (lyr.get('legendItems')) {
+            var legendRow = document.createElement('div');
+            legendRow.className = 'row';
+            legendDiv.className = 'large-12 column';
+            for (var _i = 0, _a = lyr.get('legendItems'); _i < _a.length; _i++) {
+                var legendUrl = _a[_i];
+                var legendImage = document.createElement('img');
+                legendImage.src = legendUrl;
+                legendImage.style.marginLeft = '9px';
+                legendDiv.appendChild(legendImage);
+            }
+            var legendSpan = document.createElement('span');
+            legendSpan.appendChild(legendDiv);
+            legendRow.appendChild(legendSpan);
+            li.appendChild(legendRow);
+        }
+    };
+    Layerswitcher.prototype.renderLayers_ = function (lyr, elm) {
+        var _this = this;
+        var lyrs = lyr.getLayers().getArray().slice().reverse();
+        lyrs.forEach(function (l) {
+            if (l.get('title')) {
+                elm.appendChild(_this.renderLayer_(l));
+            }
+        });
     };
     Layerswitcher.prototype.forEachRecursive = function (lyr, fn) {
         var _this = this;

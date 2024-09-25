@@ -7,12 +7,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { bindingMode, observable } from 'aurelia-binding';
 import { bindable } from 'aurelia-templating';
@@ -115,7 +117,7 @@ var Autocomplete = (function () {
                     _this.collapse();
                 }
                 else {
-                    (_a = _this.suggestions).splice.apply(_a, __spreadArrays([0, _this.suggestions.length], suggestions));
+                    (_a = _this.suggestions).splice.apply(_a, __spreadArray([0, _this.suggestions.length], suggestions, false));
                     if (suggestions.length === 1 && _this.type !== autocompleteType.Suggest) {
                         _this.select(suggestions[0]);
                     }

@@ -1,0 +1,37 @@
+<template>
+  <require from="./referentielaag-autocorrectie.css"></require>
+  <require from="./domein-strategie-legende"></require>
+  <require from="./relevante-afstand-input"></require>
+
+  <h3>
+    <i class="fa fa-magic"></i>
+    Zone autocorrectie
+  </h3>
+
+  <h5>Referentielaag</h5>
+  <select value.bind="referentielaag" change.delegate="onHistogramDataChanged()">
+    <option repeat.for="referentielaag of referentieLagen" model.bind="referentielaag">${referentielaag.label}
+    </option>
+  </select>
+
+  <h5>Relevante afstand</h5>
+  <relevante-afstand-input relevante-afstand.two-way="relevanteAfstand" disabled.bind="loadingData || !histogramData"></relevante-afstand-input>
+  <div class="graph-container">
+    <div show.bind="loadingData">
+      <i class="fa fa-pulse fa-spinner"></i>
+    </div>
+    <div ref="histogram" class="histogram-container" show.bind="showHistogram"></div>
+    <div class="slider">
+      <input type="range" name="mySlider" id="mySlider" min.bind="min" max.bind="max" value.bind="relevanteAfstand" step.bind="increment" disabled.bind="loadingData || !histogramData">
+      <span class="value-min">${min}</span><span class="value-max">${max}</span>
+    </div>
+    <div class="alert-box warning" show.bind="volledigGealigneerd">
+      Zone lijkt volledig gealigneerd
+    </div>
+  </div>
+  <h5 class="openbare-domein-strategie-title">Openbare domein strategie</h5><i class="fa fa-info-circle"
+    click.delegate="openOpenbaarDomeinLegende()"></i>
+  <select value.bind="domeinstrategie" change.delegate="onHistogramDataChanged()">
+    <option repeat.for="strategie of strategieen" model.bind="strategie">${strategie.label}</option>
+  </select>
+</template>

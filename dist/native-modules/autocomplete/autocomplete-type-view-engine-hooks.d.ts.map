@@ -1,1 +1,0 @@
-{"version":3,"sources":["autocomplete/autocomplete-type-view-engine-hooks.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,eAAe,EAAE,IAAI,EAAE,MAAM,mBAAmB,CAAC;AAO1D,qBAAa,+BAAgC,YAAW,eAAe;IAK9D,UAAU,CAAC,IAAI,EAAE,IAAI;CAQ7B","file":"autocomplete-type-view-engine-hooks.d.ts","sourceRoot":"../../../src/"}

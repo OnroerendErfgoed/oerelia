@@ -23,7 +23,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -45,6 +45,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AdresCrab = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_validation_1 = require("aurelia-validation");
 var foundation_validation_renderer_1 = require("../foundation-validation-renderer/foundation-validation-renderer");
@@ -339,7 +340,7 @@ var AdresCrab = (function () {
         return postcodes.filter(function (postcode) { return postcode.nummer.includes(searchPostcode); });
     };
     AdresCrab.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
-        var adresList = lodash_1.uniqBy(adressen
+        var adresList = (0, lodash_1.uniqBy)(adressen
             .filter(function (adres) { return adres.huisnummer
             .includes(searchHuisnummer); }), 'huisnummer');
         return adresList.sort(function (a, b) { return a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }); });
@@ -379,7 +380,7 @@ var AdresCrab = (function () {
         __metadata("design:type", Object)
     ], AdresCrab.prototype, "copyAvailable", void 0);
     AdresCrab = __decorate([
-        aurelia_framework_1.inject(aurelia_validation_1.ValidationController, aurelia_validation_1.ValidationControllerFactory, adresregister_api_service_1.AdresregisterService),
+        (0, aurelia_framework_1.inject)(aurelia_validation_1.ValidationController, aurelia_validation_1.ValidationControllerFactory, adresregister_api_service_1.AdresregisterService),
         __metadata("design:paramtypes", [aurelia_validation_1.ValidationController,
             aurelia_validation_1.ValidationControllerFactory,
             adresregister_api_service_1.AdresregisterService])

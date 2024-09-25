@@ -3,16 +3,19 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Geolocate = void 0;
 var ol = require("openlayers");
 var Geolocate = (function (_super) {
     __extends(Geolocate, _super);
@@ -20,10 +23,10 @@ var Geolocate = (function (_super) {
         var _this = _super.call(this, optOptions) || this;
         _this.watchId = null;
         _this.options = optOptions || {};
-        var tipLabel = _this.options.tipLabel ? _this.options.tipLabel : 'Zoom naar je eigen locatie';
         _this.element = document.createElement('div');
         _this.element.className = 'ol-geolocate ol-control ol-unselectable';
         var button = document.createElement('button');
+        var tipLabel = _this.options.tipLabel ? _this.options.tipLabel : 'Zoom naar je eigen locatie';
         button.setAttribute('title', tipLabel);
         button.innerHTML = '<i class="fa fa-map-marker"></i>';
         _this.element.appendChild(button);

@@ -1,0 +1,85 @@
+@import '../../assets/styles/pyoes/oe-settings';
+
+referentielaag-autocorrectie {
+  background-color: white;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  top: 0;
+  margin: 1rem;
+  padding: 1rem;
+  height: calc(100% - 2rem);
+  overflow-y: auto;
+
+  h3 i.fa-magic {
+    padding-right: 20px;
+  }
+
+  // color for slider
+  input[type=range] {
+    accent-color: $primary-color;
+  }
+
+  input[type=range]::-moz-range-track {
+    background-color: $primary-color;
+  }
+
+  input[type=range]::-moz-range-thumb {
+    background: $primary-color;
+  }
+
+  .slider {
+    width: 370px;
+    padding-left: 2px; // bit of padding because the image has some padding
+    padding-right: 2px;
+
+    margin-bottom: 1rem;
+
+    input {
+      width: 100%;
+    }
+
+    .value {
+      display: inline-block;
+
+      &-min {
+        float: left;
+      }
+
+      &-max {
+        float: right;
+      }
+    }
+  }
+
+  .openbare-domein-strategie-title {
+    display: inline-block;
+    padding-right: 5px;
+  }
+
+  .histogram-container {
+    min-width: 370px;
+    position: relative;
+
+    svg {
+      width: 100%;
+    }
+  }
+
+  .graph-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .alert-box {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 1vh;
+    }
+  }
+}

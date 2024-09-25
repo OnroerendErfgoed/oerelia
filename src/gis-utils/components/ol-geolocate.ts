@@ -10,12 +10,11 @@ export class Geolocate extends ol.control.Control {
     super(optOptions);
     this.options = optOptions || {};
 
-    const tipLabel = this.options.tipLabel ? this.options.tipLabel : 'Zoom naar je eigen locatie';
-
     this.element = document.createElement('div');
     this.element.className = 'ol-geolocate ol-control ol-unselectable';
 
     const button = document.createElement('button');
+    const tipLabel = this.options.tipLabel ? this.options.tipLabel : 'Zoom naar je eigen locatie';
     button.setAttribute('title', tipLabel);
     button.innerHTML = '<i class="fa fa-map-marker"></i>';
     this.element.appendChild(button);
@@ -45,7 +44,7 @@ export class Geolocate extends ol.control.Control {
         source.clear(true);
         this.watchId = null;
       } else {
-        this.watchId =  navigator.geolocation.watchPosition(function(pos: Position) {
+        this.watchId =  navigator.geolocation.watchPosition(function(pos) {
           self._addPositionFeature(pos, view, source, positionFeature);
         },
         function (error) {
@@ -56,7 +55,7 @@ export class Geolocate extends ol.control.Control {
         });
       }
     } else {
-      navigator.geolocation.getCurrentPosition(function(pos: Position) {
+      navigator.geolocation.getCurrentPosition(function(pos) {
         self._addPositionFeature(pos, view, source, positionFeature);
       });
     }

@@ -31,7 +31,7 @@ var GeozoekdienstApiService = (function () {
             categorie: 'aanduidingsobjecten',
             geometrie: geometrie
         };
-        return this.http.createRequest(oeAppConfig.crabpyUrl + "/zoekdiensten/afbakeningen")
+        return this.http.createRequest("".concat(oeAppConfig.crabpyUrl, "/zoekdiensten/afbakeningen"))
             .asPost()
             .withContent(content)
             .send()
@@ -51,6 +51,27 @@ var GeozoekdienstApiService = (function () {
             featureNS: 'https://geo.api.vlaanderen.be/GRB',
             featurePrefix: 'GRB',
             featureTypes: ['ADP'],
+            outputFormat: 'application/json',
+            filter: filter
+        });
+        return this.http.createRequest(oeAppConfig.agivGrbUrl)
+            .asPost()
+            .withContent(new XMLSerializer().serializeToString(featureRequest))
+            .withHeader('Content-Type', 'application/xml')
+            .send()
+            .then(function (response) {
+            if (response.isSuccess) {
+                return response.content;
+            }
+        });
+    };
+    GeozoekdienstApiService.prototype.searchGebouw = function (coordinate, srsname) {
+        var filter = new ol.format.filter.Intersects('SHAPE', new ol.geom.Point(coordinate, 'XY'), 'urn:x-ogc:def:crs:EPSG:31370');
+        var featureRequest = new ol.format.WFS().writeGetFeature({
+            srsName: srsname,
+            featureNS: 'https://geo.api.vlaanderen.be/GRB',
+            featurePrefix: 'GRB',
+            featureTypes: ['GBG'],
             outputFormat: 'application/json',
             filter: filter
         });

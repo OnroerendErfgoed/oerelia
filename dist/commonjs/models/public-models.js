@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Tab = exports.Actor = void 0;
 var Actor = (function () {
     function Actor() {
     }

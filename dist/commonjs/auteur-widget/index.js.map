@@ -1,1 +1,1 @@
-{"version":3,"sources":["auteur-widget/index.ts"],"names":[],"mappings":";;;;;AAAA,uDAAqE;AAErE,qCAAgC;AAEhC,SAAgB,SAAS,CAAC,MAA8B;IACtD,MAAM,CAAC,eAAe,CAAC;QACrB,4BAAQ,CAAC,UAAU,CAAC,iBAAiB,CAAC;KACvC,CAAC,CAAC;AACL,CAAC;AAJD,8BAIC","file":"index.js","sourceRoot":"../../../src/"}
+{"version":3,"sources":["auteur-widget/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;AAIA,8BAIC;AARD,uDAAqE;AAErE,kDAAgC;AAEhC,SAAgB,SAAS,CAAC,MAA8B;IACtD,MAAM,CAAC,eAAe,CAAC;QACrB,4BAAQ,CAAC,UAAU,CAAC,iBAAiB,CAAC;KACvC,CAAC,CAAC;AACL,CAAC","file":"index.js","sourceRoot":"../../../src/"}

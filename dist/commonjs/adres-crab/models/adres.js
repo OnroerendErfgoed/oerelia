@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Huisnummer = exports.Straat = exports.Postcode = exports.Gemeente = exports.Adres = void 0;
 var Adres = (function () {
     function Adres() {
     }

@@ -1,7 +1,7 @@
 import { HttpClient } from 'aurelia-http-client';
 import { CrabService } from '../services/crab.api-service';
 import { GeozoekdienstApiService } from '../services/geozoekdienst.api-service';
-import { Contour } from './models/contour';
+import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from './models/contour';
 import { ButtonConfig } from './models/buttonConfig';
 import { LayerConfig } from './models/layerConfig';
 import { IZoneerderServiceConfig } from 'models/public-models';
@@ -17,6 +17,11 @@ export declare class Zoneerder {
     layerConfig: LayerConfig;
     serviceConfig: IZoneerderServiceConfig;
     isCollapsed?: boolean;
+    showGrbTool?: boolean;
+    alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
+    laatstGealigneerd: string;
+    showSelectGebouw: boolean;
+    alignerAreaLimit: number;
     protected suggest: {
         suggest: Function;
     };

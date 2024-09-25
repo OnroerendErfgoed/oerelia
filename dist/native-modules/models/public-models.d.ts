@@ -111,7 +111,7 @@ export interface IHeader {
     key: string;
     value: string;
 }
-export declare type ParamsType = Record<string, unknown>;
+export type ParamsType = Record<string, unknown>;
 export interface IHttpOptions {
     params?: ParamsType;
     headers?: IHeader[];

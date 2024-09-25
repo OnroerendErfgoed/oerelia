@@ -57,13 +57,7 @@ zoneerder {
       bottom: 0;
     }
 
-    .ol-control button {
-      background-color: rgba(45, 163, 206, 0.7);
-      z-index: 2;
-    }
-    .ol-scale-line {
-      background-color: rgba(45,163,206,0.8);
-    }
+
   }
 
   autocomplete {
@@ -98,7 +92,7 @@ zoneerder {
     -moz-flex-flow: column;
     -ms-flex-flow: column;
     flex-flow: column;
-    width: 270px;
+    width: 285px;
     background: #FFF;
     padding: 15px;
     position: absolute;
@@ -129,7 +123,8 @@ zoneerder {
       flex-flow: column;
       border-top: 1px solid #D5D5D5;
       overflow-y: auto;
-      
+      margin-bottom: 0.3rem;
+
       ul {
         -webkit-box-flex: 1 1 auto;
         -moz-box-flex: 1 1 auto;
@@ -152,72 +147,5 @@ zoneerder {
     }
   }
 
-  .layer-switcher {
-    position: absolute;
-    top: 6.225em;
-    left: 0.5em;
-    text-align: left;
-    z-index: 999;
 
-    &.shown {
-      height: 290px;
-      overflow-y: auto;
-
-      .panel {
-        display: block;
-        margin: 0;
-      }
-    }
-  
-    .panel {
-      padding: 0 !important;
-      border: 1px solid #cccccc;
-      background-color: rgba($fresh-blue, 0.5);
-      display: none;
-  
-      p {
-        margin-left: 1em;
-        font-size: 14px;
-        color: $white;
-        margin: 0;
-        margin-left: 10px;
-      }
-    
-      ul {
-        padding-left: 1em;
-        list-style: none;
-    
-        li {
-          input {
-            display: inline;
-            margin: 0;
-            margin-right: 5px;
-            vertical-align: middle;
-          }
-    
-          label {
-            font-size: 12px;
-            display: inline;
-            color: $white;
-            margin-right: 10px;
-          }
-        }
-      }
-    }
-  
-    button {
-      float: right;
-      background-color: rgba($fresh-blue, 0.5);
-      border: none;
-      padding-top: 2px;
-  
-      &:hover {
-        background-color: rgba($fresh-blue, 0.5);
-      }
-    }
-
-    &.ol-control, .ol-control:hover {
-      background-color: inherit !important;
-    }  
-  }
 }

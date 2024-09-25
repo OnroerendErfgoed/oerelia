@@ -1,5 +1,6 @@
 <template>
   <require from="openlayers/dist/ol.css"></require>
+  <require from="./layerswitcher.css"></require>
 
   <div ref="mapnode" class="map">
     <div class="geolocation ol-unselectable ol-control" if.bind="buttonConfig.zoomGeoLocation">
@@ -30,6 +31,10 @@
             <span if.bind="!selectPerceel"><i class="fa fa-hand-pointer-o"></i> Selecteer perceel</span>
             <span else><i class="fa fa-ban"></i> Annuleer perceel</span>
           </a>
+          <a if.bind="showSelectGebouw" click.delegate="!selectGebouw ? startGebouwSelect() : resetSelect()">
+            <span if.bind="!selectGebouw"><i class="fa fa-hand-pointer-o"></i> Selecteer gebouw</span>
+            <span else><i class="fa fa-ban"></i> Annuleer gebouw</span>
+          </a>
           <a click.delegate="importAdrespunten()" if.bind="adrespunten && adrespunten.length > 0">
             <span><i class="fa fa-link"></i> Neem over van adrespunten</span>
           </a>
@@ -55,6 +60,21 @@
             </li>
           </ul>
         </div>
+        <template if.bind="showGrbTool">
+          <a  if.bind="totalArea && totalArea <= alignerAreaLimit" click.delegate="showZoneVergelijkingDialog()">
+            <span><i class="fa fa-pencil"></i> Vergelijk zone met referentielaag</span>
+          </a>
+          <span if.bind="initialLaatstGealigneerd" class="laatst-gealigneerd-container">
+            Laatst gealigneerd op: ${formatDate(initialLaatstGealigneerd)}
+          </span>
+          <div class="alert-box alert" if.bind="totalArea > alignerAreaLimit">
+            <p style="font-size: 14px;">Oppervlakte: ${totalArea}m²</p>
+            <p style="font-size: 14px;">
+              De oppervlakte van het object is te groot (>${alignerAreaLimit} m²) om de autocorrectie uit te voeren via de
+              webbrowser. Contacteer je GIS beheerder om deze zone aan te passen.
+            </p>
+          </div>
+        </template>
       </div>
     </div>
   </div>

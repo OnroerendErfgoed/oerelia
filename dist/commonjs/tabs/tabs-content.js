@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TabsContent = void 0;
 var TabsContent = (function () {
     function TabsContent() {
     }

@@ -1,1 +1,0 @@
-{"version":3,"sources":["utilities/message/restMessage.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,YAAY,EAAE,MAAM,2BAA2B,CAAC;AAKzD,qBAAa,WAAW;WAER,OAAO,CAAC,MAAM,EAAE,YAAY,GAAG,WAAW;IAIxD,OAAO,CAAC,WAAW,CAAiB;IACpC,OAAO,CAAC,iBAAiB,CAAkB;IAE3C,OAAO;IAuBP,OAAO,CAAC,KAAK;IAkBb,OAAO,CAAC,WAAW;CAGpB","file":"restMessage.d.ts","sourceRoot":"../../../../src/"}

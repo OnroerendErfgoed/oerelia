@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MapUtil = exports.MapConfig = void 0;
 var ol = require("openlayers");
 var ol_geolocate_1 = require("./components/ol-geolocate");
 var ol_layerswitcher_1 = require("./components/ol-layerswitcher");
