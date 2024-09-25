@@ -1,1 +1,0 @@
-{"version":3,"sources":["utilities/message/interfaces/IMessageEmitterOptions.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,sBAAsB;IACrC,OAAO,CAAC,EAAE,MAAM,CAAC;IACjB,eAAe,CAAC,EAAE,MAAM,CAAC;IACzB,WAAW,CAAC,EAAE,OAAO,CAAC;IACtB,iBAAiB,CAAC,EAAE,OAAO,CAAC;IAC5B,qBAAqB,CAAC,EAAE,OAAO,CAAC;CACjC","file":"IMessageEmitterOptions.d.ts","sourceRoot":"../../../../../src/"}

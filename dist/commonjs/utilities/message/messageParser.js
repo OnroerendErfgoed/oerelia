@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MessageParser = void 0;
 var MessageParser = (function () {
     function MessageParser() {
     }
@@ -22,12 +23,12 @@ var MessageParser = (function () {
             customMessage = 'Er is een fout opgetreden - Aanvraag tot informatie bij Beeldbank mislukt';
         }
         if (!reg.test(response.requestMessage.url)) {
-            url = response.requestMessage.baseUrl + "/" + url;
+            url = "".concat(response.requestMessage.baseUrl, "/").concat(url);
         }
         if (response.statusCode === 401 || response.statusCode === 403) {
-            result.response.message = "Niet bevoegd (" + response.statusCode + ")";
+            result.response.message = "Niet bevoegd (".concat(response.statusCode, ")");
             result.response.errors = [
-                "U hebt niet voldoende rechten om deze data op te halen: " + url
+                "U hebt niet voldoende rechten om deze data op te halen: ".concat(url)
             ];
         }
         else if (response.statusCode === 412) {
@@ -58,12 +59,12 @@ var MessageParser = (function () {
             var hrefUrl = 'mailto: ict@onroerenderfgoed.be?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
             var oeUrl = "<a href='" + hrefUrl + "' target='_blank'>ict@onroerenderfgoed.be</a>";
             result.response.errors = [
-                "Er liep iets mis bij het ophalen van " + url + ".<br>\n         Mail naar " + oeUrl + " om dit probleem te melden."
+                "Er liep iets mis bij het ophalen van ".concat(url, ".<br>\n         Mail naar ").concat(oeUrl, " om dit probleem te melden.")
             ];
         }
         else if (response.statusCode === 400) {
             result.response.errors = [
-                "Fout bij valideren van " + response.requestMessage.url + " (statuscode: 400)"
+                "Fout bij valideren van ".concat(response.requestMessage.url, " (statuscode: 400)")
             ];
         }
         return result;

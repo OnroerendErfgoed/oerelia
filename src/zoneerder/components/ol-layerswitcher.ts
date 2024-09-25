@@ -1,10 +1,7 @@
 import * as ol from 'openlayers';
+import { Guid } from 'typescript-guid';
+import { LayerType } from '../models/layerConfig.enums';
 
-/**
- * VERY EXPERIMENTAL!
- * JS Openlayers 3+ layerswitcher with TS compatibilty, but not in TS!
- * Should be refactored to full TS/Aurelia support, tslint is fine.
- */
 export class Layerswitcher extends ol.control.Control {
   public panel: HTMLDivElement;
   public closeButton: HTMLButtonElement;
@@ -17,33 +14,30 @@ export class Layerswitcher extends ol.control.Control {
   public panelTitle: string;
   public element: Element;
   public options: any;
-
+  
   constructor(optOptions: any) {
     super(optOptions);
     this.options = optOptions || {};
-
+    
     this.tipLabel = this.options.tipLabel ?
       this.options.tipLabel : 'Legend';
-
+    
     this.panelTitle = this.options.title ?
       this.options.title : 'Basic Layers';
-
+    
     this.mapListeners = [];
-
+    
     this.hiddenClassName = 'ol-unselectable ol-control layer-switcher';
     this.shownClassName = this.hiddenClassName + ' shown';
-
-    this.hiddenClassName = 'ol-unselectable ol-control layer-switcher';
-    this.shownClassName = this.hiddenClassName + ' shown';
-
+    
     this.element = document.createElement('div');
     this.element.className = this.hiddenClassName;
-
+    
     this.button = document.createElement('button');
     this.button.setAttribute('title', this.tipLabel);
     this.button.innerHTML = '<i class="fa fa-map"></i>';
     this.element.appendChild(this.button);
-
+    
     this.closeButton = document.createElement('button');
     this.closeButton.setAttribute('title', 'Sluiten');
     this.closeButton.style.display = 'none';
@@ -52,58 +46,49 @@ export class Layerswitcher extends ol.control.Control {
     this.panel = document.createElement('div');
     this.panel.className = 'panel';
     this.element.appendChild(this.panel);
-
+    
     const self = this;
-
-    this.button.onclick = () => {
-      self.showPanel();
-      self.isShown = true;
-      self.button.style.display = 'none';
-      self.closeButton.style.display = 'inline-block';
-    };
-
-    this.closeButton.onclick = () => {
-      self.hidePanel();
-      self.isShown = false;
-      self.button.style.display = 'inline-block';
-      self.closeButton.style.display = 'none';
-    };
-
+    this.button.onclick = () => self.showPanel();
+    this.closeButton.onclick = () => self.hidePanel();
+    
     ol.control.Control.call(this, {
       element: this.element,
       target: this.options.target
     });
   }
-
+  
   /**
    * Show the layer panel
    */
   public showPanel() {
-    if (this.element.className !== this.shownClassName) {
-      this.element.className = this.shownClassName;
-      this.renderPanel();
-    }
+    this.element.className = this.shownClassName;
+    this.isShown = true;
+    this.button.style.display = 'none';
+    this.closeButton.style.display = 'inline-block';
+    this.renderPanel();
   }
-
+  
   /**
    * Hide the layer panel
    */
   public hidePanel() {
-    if (this.element.className !== this.hiddenClassName) {
-      this.element.className = this.hiddenClassName;
-    }
+    this.element.className = this.hiddenClassName;
+    this.isShown = false;
+    this.button.style.display = 'inline-block';
+    this.closeButton.style.display = 'none';
   }
-
+  
   /**
    * Cause the panel to be re-draw to represent the current layer state.
    */
   public renderPanel() {
     this.ensureTopVisibleBaseLayerShown_();
-
+    
     while (this.panel.firstChild) {
       this.panel.removeChild(this.panel.firstChild);
     }
-
+    
+    
     const p = document.createElement('p');
     p.innerHTML = this.panelTitle;
     this.panel.appendChild(p);
@@ -111,7 +96,7 @@ export class Layerswitcher extends ol.control.Control {
     this.panel.appendChild(ul);
     this.renderLayers_(this.getMap(), ul);
   }
-
+  
   /**
    * Set the map instance the control is associated with.
    * @param {ol.Map} map The map instance.
@@ -125,15 +110,14 @@ export class Layerswitcher extends ol.control.Control {
     // Wire up listeners etc. and store reference to new map
     ol.control.Control.prototype.setMap.call(this, map);
     if (map) {
-      this.mapListeners.push(map.on('pointerdown', () => {
-        this.hidePanel();
-        this.button.style.display = 'inline-block';
-        this.closeButton.style.display = 'none';
-      }));
+      this.mapListeners.push(
+        map.getLayers().on("propertychange", () => this.renderPanel()),
+        map.on('pointerdown', () => this.hidePanel())
+      );
       this.renderPanel();
     }
   }
-
+  
   /**
    * Ensure only the top-most base layer is visible if more than one is visible
    */
@@ -144,9 +128,11 @@ export class Layerswitcher extends ol.control.Control {
         lastVisibleBaseLyr = l;
       }
     });
-    if (lastVisibleBaseLyr) { this.setVisible_(lastVisibleBaseLyr, true); }
+    if (lastVisibleBaseLyr) {
+      this.setVisible_(lastVisibleBaseLyr, true);
+    }
   }
-
+  
   /**
    * Toggle the visible state of a layer.
    * Takes care of hiding other layers in the same exclusive group if the layer
@@ -166,20 +152,21 @@ export class Layerswitcher extends ol.control.Control {
       });
     }
   }
-
+  
   /**
    * Render all layers that are children of a group.
    * @private method
    * @param {ol.layer.Base} lyr Layer to be rendered (should have a title property).
    * @param {Number} idx Position in parent group list.
    */
-  public renderLayer_(lyr: any, idx: any) {
+  public renderLayer_(lyr: any) {
     const self = this;
+    const id = Guid.create();
     const li = document.createElement('li');
     const lyrTitle = lyr.get('title');
-    const lyrId = lyr.get('title').replace(' ', '-') + '_' + idx;
+    const lyrId = lyr.get('title').replace(' ', '-') + '_' + id;
     const label = document.createElement('label');
-
+    
     if (lyr.getLayers) {
       li.className = 'group';
       label.innerHTML = lyrTitle;
@@ -201,14 +188,74 @@ export class Layerswitcher extends ol.control.Control {
         const check: string = 'checked';
         self.setVisible_(lyr, (e as any).target[check]);
       };
-      li.appendChild(input);
+      
       label.htmlFor = lyrId;
-      label.innerHTML = lyrTitle;
-      li.appendChild(label);
+      const title = document.createElement('span');
+      title.innerHTML = lyrTitle;
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.appendChild(input);
+      row.appendChild(label);
+      li.appendChild(row);
+      if (lyr.get('showLegend')) {
+        this.addLegend(lyr, li, label);
+      }
+      label.appendChild(title);
     }
     return li;
   }
-
+  
+  private addLegend(lyr: ol.layer.Base, li: Element, label: Element) {
+    const legendDiv = document.createElement('div');
+    if (lyr.get('layerType') === LayerType.Vector) {
+      legendDiv.style.backgroundColor = 'white';
+      legendDiv.style.width = '14px';
+      legendDiv.style.height = '14px';
+      legendDiv.style.display = 'inline-block';
+      legendDiv.style.verticalAlign = 'sub';
+      legendDiv.style.marginRight = '4px';
+      const legendGraphic = document.createElement('div');
+      const style = lyr.get('style');
+      const fillColor = style.fill;
+      const strokeColor = style.stroke;
+      const strokeStyle = style.lineDash ? 'dashed' : 'solid';
+      legendGraphic.style.border = '1px ' + strokeStyle + ' ' + strokeColor;
+      legendGraphic.style.height = '100%';
+      legendDiv.appendChild(legendGraphic);
+      
+      if (style.hashed) {
+        const diagonal = document.createElement('div');
+        const lineLength = Math.sqrt(2) * 100;
+        diagonal.style.position = 'absolute'; // Allow precise positioning
+        diagonal.style.borderTop = '2px solid ' + fillColor;
+        diagonal.style.width = lineLength + '%'; // Extend the line length
+        diagonal.style.height = '0'; // Set height to zero for a horizontal line
+        diagonal.style.top = '50%'; // Position the line vertically centered
+        diagonal.style.left = '50%'; // Position the line horizontally centered
+        diagonal.style.transform = 'translate(-50%, -50%) rotate(-45deg)'; // Center and rotate the line
+        legendGraphic.style.position = 'relative'; // Ensure the container allows absolute positioning
+        legendGraphic.appendChild(diagonal);
+      } else {
+        legendGraphic.style.backgroundColor = fillColor;
+      }
+      label.appendChild(legendDiv);
+    } else if (lyr.get('legendItems')) {
+      const legendRow = document.createElement('div');
+      legendRow.className = 'row';
+      legendDiv.className = 'large-12 column';
+      for (const legendUrl of lyr.get('legendItems')) {
+        const legendImage = document.createElement('img');
+        legendImage.src = legendUrl;
+        legendImage.style.marginLeft = '9px';
+        legendDiv.appendChild(legendImage);
+      }
+      const legendSpan = document.createElement('span');
+      legendSpan.appendChild(legendDiv);
+      legendRow.appendChild(legendSpan);
+      li.appendChild(legendRow);
+    }
+  }
+  
   /**
    * Render all layers that are children of a group.
    * @private
@@ -217,14 +264,13 @@ export class Layerswitcher extends ol.control.Control {
    */
   public renderLayers_(lyr: any, elm: Element) {
     const lyrs = lyr.getLayers().getArray().slice().reverse();
-    for (let i = 0, l; i < lyrs.length; i++) {
-      l = lyrs[i];
+    lyrs.forEach((l) => {
       if (l.get('title')) {
-        elm.appendChild(this.renderLayer_(l, i));
+        elm.appendChild(this.renderLayer_(l));
       }
-    }
+    })
   }
-
+  
   /**
    * Call the supplied function for each layer in the passed layer group
    * recursing nested groups.

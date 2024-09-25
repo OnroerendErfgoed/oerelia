@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Contour = void 0;
 var Contour = (function () {
     function Contour(c) {
         if (c) {

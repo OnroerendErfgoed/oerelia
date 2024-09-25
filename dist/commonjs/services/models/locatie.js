@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Huisnummer = exports.Straat = exports.Gemeente = void 0;
 var Gemeente = (function () {
     function Gemeente(id, naam, niscode) {
         this.id = id;

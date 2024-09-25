@@ -3,8 +3,10 @@ import { IRestResult } from './IRestResult';
 export interface IRestMessage {
     result: IRestResult;
     success?: IMessage;
-    customErrors?: [{
-        condition: boolean;
-        error: IMessage;
-    }];
+    customErrors?: [
+        {
+            condition: boolean;
+            error: IMessage;
+        }
+    ];
 }

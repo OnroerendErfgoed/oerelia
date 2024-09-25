@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ExpanderContainer = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var ExpanderContainer = (function () {
     function ExpanderContainer() {
@@ -18,7 +19,7 @@ var ExpanderContainer = (function () {
         this.expanders.forEach(function (expander) { return expander.expanded = false; });
     };
     __decorate([
-        aurelia_framework_1.children('expander'),
+        (0, aurelia_framework_1.children)('expander'),
         __metadata("design:type", Array)
     ], ExpanderContainer.prototype, "expanders", void 0);
     ExpanderContainer = __decorate([

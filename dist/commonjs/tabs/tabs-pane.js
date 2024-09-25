@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TabsPane = void 0;
 var aurelia_templating_1 = require("aurelia-templating");
 var TabsPane = (function () {
     function TabsPane() {
@@ -34,7 +35,7 @@ var TabsPane = (function () {
         __metadata("design:type", Object)
     ], TabsPane.prototype, "tabViewModel", void 0);
     TabsPane = __decorate([
-        aurelia_templating_1.containerless()
+        (0, aurelia_templating_1.containerless)()
     ], TabsPane);
     return TabsPane;
 }());

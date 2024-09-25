@@ -1,0 +1,49 @@
+.tabs-content {
+  background: rgb(237, 237, 237);
+  padding: 5px 10px;
+  margin-top: 1px;
+}
+
+.tabs dd {
+  margin-right: 1px !important;
+}
+
+.relevante-afstand-input {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.relevante-afstand-input i.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+.relevante-afstand-input-container {
+  position: relative;
+  display: inline-block;
+  width: 20%;
+}
+.relevante-afstand-input-container input {
+  display: inline-block;
+  margin-bottom: 0 !important;
+}
+.relevante-afstand-input-container::after {
+  content: "m";
+  position: absolute;
+  color: rgba(0, 0, 0, 0.75);
+  right: 10px;
+  top: 7px;
+}
+.relevante-afstand-input .fa {
+  cursor: pointer;
+  color: #944EA1;
+  padding: 0.5rem;
+}
+.relevante-afstand-input .relevante-afstand-input-container input[type=number]::-webkit-inner-spin-button,
+.relevante-afstand-input .relevante-afstand-input-container input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.relevante-afstand-input .relevante-afstand-input-container input[type=number] {
+  -moz-appearance: textfield;
+}

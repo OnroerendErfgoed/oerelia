@@ -21,6 +21,9 @@ var Zoneerder = (function () {
         this.geozoekdienstApiService = geozoekdienstApiService;
         this.disabled = false;
         this.isCollapsed = true;
+        this.showGrbTool = false;
+        this.showSelectGebouw = true;
+        this.alignerAreaLimit = 100000;
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     }
     Zoneerder.prototype.onMapLoaded = function ($event) {
@@ -76,6 +79,26 @@ var Zoneerder = (function () {
         bindable,
         __metadata("design:type", Boolean)
     ], Zoneerder.prototype, "isCollapsed", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Boolean)
+    ], Zoneerder.prototype, "showGrbTool", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Function)
+    ], Zoneerder.prototype, "alignGrb", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", String)
+    ], Zoneerder.prototype, "laatstGealigneerd", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], Zoneerder.prototype, "showSelectGebouw", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], Zoneerder.prototype, "alignerAreaLimit", void 0);
     Zoneerder = __decorate([
         inject(HttpClient, CrabService, GeozoekdienstApiService),
         __metadata("design:paramtypes", [HttpClient,

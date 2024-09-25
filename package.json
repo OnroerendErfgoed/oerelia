@@ -1,20 +1,22 @@
 {
   "name": "oerelia",
   "description": "Onroerend Erfgoed Aurelia component library",
-  "version": "0.29.3",
+  "version": "0.30.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/OnroerendErfgoed/oerelia.git"
   },
   "license": "MIT",
   "dependencies": {
+    "@types/d3": "^7.4.3",
     "@types/pikaday": "^1.7.5",
     "@types/proj4": "^2.3.4",
     "ag-grid-aurelia": "^21.0.1",
     "ag-grid-community": "^23.2.1",
     "aurelia-dialog": "^2.0.0",
     "aurelia-http-client": "^1.3.1",
-    "aurelia-validation": "^1.5.0",
+    "aurelia-validation": "^2.0.0",
+    "d3": "^7.9.0",
     "jsts": "2.0.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
@@ -23,14 +25,15 @@
     "primer-tooltips": "^2.0.0",
     "proj4": "^2.4.3",
     "sass": "^1.53.0",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "typescript-guid": "^1.0.3"
   },
   "devDependencies": {
     "@types/jasmine": "^2.8.9",
+    "@types/lodash": "4.14.149",
     "@types/node": "^10.11.6",
     "@types/openlayers": "^4.6.18",
     "@types/toastr": "^2.1.39",
-    "@types/lodash": "4.14.149",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.3.2",
     "aurelia-cli": "1.2.2",
@@ -63,13 +66,13 @@
     "text": "requirejs/text#latest",
     "through2": "^3.0.0",
     "tslint": "^5.13.0",
-    "typescript": "3.6.4",
+    "typescript": "5.5.3",
     "vinyl-fs": "^3.0.3"
   },
   "scripts": {
-    "build": "au build-plugin",
-    "start": "au run",
-    "watch": "au build-plugin --watch",
+    "build": "NODE_OPTIONS=--no-experimental-fetch au build-plugin",
+    "start": "NODE_OPTIONS=--no-experimental-fetch au run",
+    "watch": "NODE_OPTIONS=--no-experimental-fetch au build-plugin --watch",
     "prepare": "npm run build",
     "pretest": "au lint",
     "preversion": "au test",
@@ -80,7 +83,7 @@
   },
   "main": "dist/commonjs/index.js",
   "module": "dist/native-modules/index.js",
-  "private": true,
+  "private": false,
   "files": [
     "dist",
     "src"

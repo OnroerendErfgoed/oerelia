@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CrabService = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_http_client_1 = require("aurelia-http-client");
 var locatie_1 = require("./models/locatie");
@@ -70,7 +71,7 @@ var CrabService = (function () {
     };
     CrabService.prototype.getGemeentenByProvincie = function (provincie) {
         var _this = this;
-        return this.crabGet("crab/provincies/" + provincie + "/gemeenten").then(function (response) {
+        return this.crabGet("crab/provincies/".concat(provincie, "/gemeenten")).then(function (response) {
             if (response.isSuccess) {
                 var gemeenten = response.content.map(function (el) {
                     return new locatie_1.Gemeente(el.naam, el.id, el.niscode);
@@ -107,7 +108,7 @@ var CrabService = (function () {
         }
     };
     CrabService.prototype.getDeelgemeenten = function (gemeente) {
-        return this.crabGet("crab/gemeenten/" + gemeente + "/deelgemeenten").then(function (response) {
+        return this.crabGet("crab/gemeenten/".concat(gemeente, "/deelgemeenten")).then(function (response) {
             if (response.isSuccess) {
                 return response.content;
             }
@@ -115,7 +116,7 @@ var CrabService = (function () {
         });
     };
     CrabService.prototype.getPostcodes = function (gemeente) {
-        return this.crabGet("crab/gemeenten/" + gemeente + "/postkantons").then(function (response) {
+        return this.crabGet("crab/gemeenten/".concat(gemeente, "/postkantons")).then(function (response) {
             if (response.isSuccess) {
                 return response.content;
             }
@@ -123,7 +124,7 @@ var CrabService = (function () {
         });
     };
     CrabService.prototype.getStraten = function (gemeente) {
-        return this.crabGet("crab/gemeenten/" + gemeente + "/straten").then(function (response) {
+        return this.crabGet("crab/gemeenten/".concat(gemeente, "/straten")).then(function (response) {
             if (response.isSuccess) {
                 var straten = response.content.map(function (el) {
                     return new locatie_1.Straat(el.id, el.label);
@@ -134,7 +135,7 @@ var CrabService = (function () {
         });
     };
     CrabService.prototype.getHuisnrs = function (straat) {
-        return this.crabGet("crab/straten/" + straat + "/huisnummers").then(function (response) {
+        return this.crabGet("crab/straten/".concat(straat, "/huisnummers")).then(function (response) {
             if (response.isSuccess) {
                 var huisnummers = response.content.map(function (el) {
                     return new locatie_1.Huisnummer(el.id, el.label);
@@ -185,7 +186,7 @@ var CrabService = (function () {
         return this.http.get(endpoint);
     };
     CrabService = __decorate([
-        aurelia_framework_1.inject(aurelia_http_client_1.HttpClient),
+        (0, aurelia_framework_1.inject)(aurelia_http_client_1.HttpClient),
         __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient])
     ], CrabService);
     return CrabService;
