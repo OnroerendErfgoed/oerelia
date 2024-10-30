@@ -1,6 +1,6 @@
 import { bindable, bindingMode } from 'aurelia-framework';
 export class RelevanteAfstandInput {
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) private relevanteAfstand: string = "3.0";
+  @bindable({ defaultBindingMode: bindingMode.twoWay }) private relevanteAfstand: string = "0.0";
   @bindable private max = "6";
   @bindable private min = "0";
   @bindable private floatMin = "0.0";
