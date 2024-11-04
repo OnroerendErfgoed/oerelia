@@ -90,7 +90,6 @@ export class OlMap extends BaseMap {
       return;
     }
 
-    let wktString = '';
     this.zone.coordinates.forEach((coords) => {
       const polygon = new ol.geom.Polygon(coords);
       const feature = new ol.Feature({
@@ -99,10 +98,17 @@ export class OlMap extends BaseMap {
       });
       drawSource.addFeature(feature);
       this.totalArea += polygon.getArea();
-      wktString += this.wktFormat.writeFeature(feature);    
     });
 
     if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === 'Zone')) {
+      const polygons = this.zone.coordinates.map((coords) => new ol.geom.Polygon(coords));
+      const multiPolygon = new ol.geom.MultiPolygon(polygons.map(polygon => polygon.getCoordinates()));
+      const feature = new ol.Feature({
+        name: 'Zone',
+        geometry: multiPolygon
+      });
+      const wktString = this.wktFormat.writeFeature(feature);
+
       this.geometryObjectList.push({ name: 'Zone', wktString });
     }
   }

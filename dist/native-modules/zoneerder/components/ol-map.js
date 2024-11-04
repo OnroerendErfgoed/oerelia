@@ -87,7 +87,6 @@ var OlMap = (function (_super) {
         if (!this.zone) {
             return;
         }
-        var wktString = '';
         this.zone.coordinates.forEach(function (coords) {
             var polygon = new ol.geom.Polygon(coords);
             var feature = new ol.Feature({
@@ -96,9 +95,15 @@ var OlMap = (function (_super) {
             });
             drawSource.addFeature(feature);
             _this.totalArea += polygon.getArea();
-            wktString += _this.wktFormat.writeFeature(feature);
         });
         if (!this.geometryObjectList.some(function (geometryObject) { return geometryObject.name === 'Zone'; })) {
+            var polygons = this.zone.coordinates.map(function (coords) { return new ol.geom.Polygon(coords); });
+            var multiPolygon = new ol.geom.MultiPolygon(polygons.map(function (polygon) { return polygon.getCoordinates(); }));
+            var feature = new ol.Feature({
+                name: 'Zone',
+                geometry: multiPolygon
+            });
+            var wktString = this.wktFormat.writeFeature(feature);
             this.geometryObjectList.push({ name: 'Zone', wktString: wktString });
         }
     };
