@@ -108,7 +108,6 @@ export class OlMap extends BaseMap {
         geometry: multiPolygon
       });
       const wktString = this.wktFormat.writeFeature(feature);
-
       this.geometryObjectList.push({ name: 'Zone', wktString });
     }
   }
