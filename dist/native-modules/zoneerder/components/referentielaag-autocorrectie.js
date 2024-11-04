@@ -78,7 +78,7 @@ var ReferentielaagAutocorrectie = (function () {
             value: "SNAP_SINGLE_SIDE",
             label: "Eénzijdig snappen (1)"
         };
-        this.relevanteAfstand = "3.0";
+        this.relevanteAfstand = "0.0";
         this.max = "6";
         this.min = "0";
         this.floatMin = "0.0";
@@ -128,6 +128,7 @@ var ReferentielaagAutocorrectie = (function () {
                         return [4, this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value)];
                     case 2:
                         _a.histogramData = _d.sent();
+                        this.relevanteAfstand = this.getRelevanteAfstand(this.histogramData.diffs);
                         this.laatstGealigneerd = new Date().toISOString();
                         this.loadingData = false;
                         setupD3(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
@@ -160,6 +161,14 @@ var ReferentielaagAutocorrectie = (function () {
             return;
         }
         this.resultsUpdated(this.histogramData.series[floatNumber]);
+    };
+    ReferentielaagAutocorrectie.prototype.getRelevanteAfstand = function (diffs) {
+        var diffsEntries = Object.entries(diffs).filter(function (_a) {
+            var key = _a[0], value = _a[1];
+            return value !== 0;
+        });
+        var predictedRelevantEntry = diffsEntries.reduce(function (minEntry, currentEntry) { return (currentEntry[1] < minEntry[1] ? currentEntry : minEntry); }, [null, Infinity]);
+        return predictedRelevantEntry[0] || "0.0";
     };
     __decorate([
         bindable,
