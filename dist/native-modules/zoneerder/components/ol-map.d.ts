@@ -1,5 +1,5 @@
 import ol from 'openlayers';
-import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from '../models/contour';
+import { Contour, IAlignerResponse, IGeometryObject, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 import { CrabService } from '../../services/crab.api-service';
 import { IZoneerderServiceConfig } from 'exports';
 import { DialogService } from 'aurelia-dialog';
@@ -19,7 +19,7 @@ export declare class OlMap extends BaseMap {
     showSelectGebouw: boolean;
     alignerAreaLimit: number;
     initialLaatstGealigneerd: string;
-    geometryObjectList: string[];
+    geometryObjectList: IGeometryObject[];
     WKTstring: string;
     protected isDrawing: boolean;
     protected isDrawingCircle: boolean;
@@ -31,6 +31,7 @@ export declare class OlMap extends BaseMap {
     private polygonIndex;
     private circleIndex;
     private totalArea;
+    private wktFormat;
     constructor(element: Element, crabService: CrabService, dialogService: DialogService);
     attached(): void;
     private addZoneToDrawLayer;

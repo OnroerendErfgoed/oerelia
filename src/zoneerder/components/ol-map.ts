@@ -1,6 +1,6 @@
 import { bindable, LogManager, PLATFORM, autoinject } from 'aurelia-framework';
 import ol from 'openlayers';
-import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from '../models/contour';
+import { Contour, IAlignerResponse, IGeometryObject, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { CrabService } from '../../services/crab.api-service';
 import { IZoneerderServiceConfig } from 'exports';
@@ -28,7 +28,7 @@ export class OlMap extends BaseMap {
   @bindable alignerAreaLimit: number;
   initialLaatstGealigneerd: string;
 
-  geometryObjectList: string[] = [];
+  geometryObjectList: IGeometryObject[] = [];
   WKTstring!: string;
 
   protected isDrawing: boolean = false;
@@ -43,6 +43,7 @@ export class OlMap extends BaseMap {
   private polygonIndex: number = 1;
   private circleIndex: number = 1;
   private totalArea = 0;
+  private wktFormat: ol.format.WKT;
 
   constructor(
     private element: Element,
@@ -52,6 +53,7 @@ export class OlMap extends BaseMap {
     super();
     log.debug('olMap::constructor', this.zone);
     this._defineProjections();
+    this.wktFormat = new ol.format.WKT();
   }
 
   attached() {
@@ -87,6 +89,8 @@ export class OlMap extends BaseMap {
     if (!this.zone) {
       return;
     }
+
+    let wktString = '';
     this.zone.coordinates.forEach((coords) => {
       const polygon = new ol.geom.Polygon(coords);
       const feature = new ol.Feature({
@@ -95,9 +99,11 @@ export class OlMap extends BaseMap {
       });
       drawSource.addFeature(feature);
       this.totalArea += polygon.getArea();
+      wktString += this.wktFormat.writeFeature(feature);    
     });
-    if (this.geometryObjectList.indexOf('Zone') === -1) {
-      this.geometryObjectList.push('Zone');
+
+    if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === 'Zone')) {
+      this.geometryObjectList.push({ name: 'Zone', wktString });
     }
   }
 
@@ -122,12 +128,23 @@ export class OlMap extends BaseMap {
     if (type === 'Polygon') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
         evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
-        this.geometryObjectList.push(evt.feature.getProperties().name);
+        const wktString = this.wktFormat.writeFeature(evt.feature); 
+        this.geometryObjectList.push({name: evt.feature.getProperties().name, wktString: wktString});
       });
     } else if (type === 'Circle') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
         evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
-        this.geometryObjectList.push(evt.feature.getProperties().name);
+        
+        // Convert the circle to a polygon
+        const circleGeometry = evt.feature.getGeometry();
+        const polygonGeometry = ol.geom.Polygon.fromCircle(circleGeometry);
+        // Create a new feature with the polygon geometry for WKT conversion
+        const polygonFeature = new ol.Feature(polygonGeometry);
+        const wktString = this.wktFormat.writeFeature(polygonFeature);
+        this.geometryObjectList.push({
+          name: evt.feature.getProperties().name, 
+          wktString: wktString
+        });
       });
     }
   }
@@ -140,8 +157,8 @@ export class OlMap extends BaseMap {
             const name = 'Adrespunten';
             perceel.set('name', name);
             (this.drawLayer.getSource() as ol.source.Vector).addFeature(perceel);
-            if (this.geometryObjectList.indexOf(name) === -1) {
-              this.geometryObjectList.push(name);
+            if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === name)) {
+              this.geometryObjectList.push({name: name, wktString: ''});
             }
           });
         });
@@ -183,10 +200,11 @@ export class OlMap extends BaseMap {
   drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
-      if (this.geometryObjectList.indexOf(name) === -1) {
+      if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === name)) {
         olFeature.set('name', name);
         (this.drawLayer.getSource() as ol.source.Vector).addFeature(olFeature);
-        this.geometryObjectList.push(name);
+        const wktString = this.wktFormat.writeFeature(olFeature);    
+        this.geometryObjectList.push({name: name, wktString: wktString});
       }
     } else {
       toastr.error('Er werd geen perceel gevonden op deze locatie.');
@@ -196,10 +214,11 @@ export class OlMap extends BaseMap {
   drawGebouw(olFeature: ol.Feature) {
     if (olFeature) {
       const name = `Gebouw ${olFeature.get('OIDN')}`;
-      if (this.geometryObjectList.indexOf(name) === -1) {
+      if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === name)) {
         olFeature.set('name', name);
         (this.drawLayer.getSource() as ol.source.Vector).addFeature(olFeature);
-        this.geometryObjectList.push(name);
+        const wktString = this.wktFormat.writeFeature(olFeature);
+        this.geometryObjectList.push({name: name, wktString: wktString});
       }
     } else {
       toastr.error('Er werd geen gebouw gevonden op deze locatie.');
@@ -207,15 +226,14 @@ export class OlMap extends BaseMap {
   }
 
   drawWKTzone(wkt: ol.Feature) {
-    const wktParser = new ol.format.WKT();
     try {
-      const featureFromWKT = wktParser.readFeature(wkt);
+      const featureFromWKT = this.wktFormat.readFeature(wkt);
       const name = `Polygoon ${this.polygonIndex++}`;
       featureFromWKT.setProperties({
         name: name
       });
       (this.drawLayer.getSource() as ol.source.Vector).addFeature(featureFromWKT);
-      this.geometryObjectList.push(name);
+      this.geometryObjectList.push({name: name, wktString: this.WKTstring });
       this.zoomToFeatures();
       this.WKTstring = '';
     } catch (error) {
@@ -235,7 +253,8 @@ export class OlMap extends BaseMap {
       this.zone = null;
     }
 
-    this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
+    const index = this.geometryObjectList.findIndex((geom) => geom.name === name);
+    this.geometryObjectList.splice(index, 1);
   }
 
   geoLocationClick() {
