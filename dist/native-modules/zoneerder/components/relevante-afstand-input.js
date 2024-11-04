@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { bindable, bindingMode } from 'aurelia-framework';
 var RelevanteAfstandInput = (function () {
     function RelevanteAfstandInput() {
-        this.relevanteAfstand = "3.0";
+        this.relevanteAfstand = "0.0";
         this.max = "6";
         this.min = "0";
         this.floatMin = "0.0";
