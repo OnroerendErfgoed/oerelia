@@ -79,14 +79,14 @@ var OlMap = (function (_super) {
     };
     OlMap.prototype.addZoneToDrawLayer = function () {
         var _this = this;
-        if (!this.drawLayer) {
+        var _a;
+        if (!this.drawLayer || ((_a = this.geometryObjectList) === null || _a === void 0 ? void 0 : _a.length) > 0) {
             return;
         }
         var drawSource = this.drawLayer.getSource();
         drawSource.getFeatures().forEach(function (f) {
             drawSource.removeFeature(f);
         });
-        this.geometryObjectList = [];
         if (!this.zone) {
             return;
         }
