@@ -58,7 +58,7 @@
               <div class="small-3 columns">
                 <div style="float: left;">
                   <span ref="elementRef" show.bind="false">${geometryObject.wktString}</span>
-                  <copy-button if.bind="geometryObject.wktString" element.bind="elementRef"></copy-button>
+                  <copy-button if.bind="geometryObject.wktString" clipboard-title.bind="'Kopieer WKT string'" element.bind="elementRef"></copy-button>
                 </div>
                 <div style="float: right;">
                   <i click.delegate="removeGeometryObject(geometryObject.name)" class="fa fa-trash"></i>

@@ -13,6 +13,7 @@ exports.CopyButton = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var CopyButton = (function () {
     function CopyButton() {
+        this.clipboardTitle = 'Kopiëren';
         this.showCheckIcon = false;
     }
     CopyButton.prototype.copy = function () {
@@ -46,6 +47,10 @@ var CopyButton = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", HTMLElement)
     ], CopyButton.prototype, "element", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], CopyButton.prototype, "clipboardTitle", void 0);
     return CopyButton;
 }());
 exports.CopyButton = CopyButton;

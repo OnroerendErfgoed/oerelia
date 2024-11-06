@@ -2,6 +2,7 @@ import { bindable } from 'aurelia-framework';
 
 export class CopyButton {
   @bindable public element: HTMLElement;
+  @bindable public clipboardTitle = 'Kopiëren';
   public showCheckIcon: boolean = false;
 
   public copy() {
