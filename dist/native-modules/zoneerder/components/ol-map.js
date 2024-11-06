@@ -52,6 +52,7 @@ var OlMap = (function (_super) {
         _this.totalArea = 0;
         log.debug('olMap::constructor', _this.zone);
         _this._defineProjections();
+        _this.wktFormat = new ol.format.WKT();
         return _this;
     }
     OlMap.prototype.attached = function () {
@@ -75,14 +76,14 @@ var OlMap = (function (_super) {
     };
     OlMap.prototype.addZoneToDrawLayer = function () {
         var _this = this;
-        if (!this.drawLayer) {
+        var _a;
+        if (!this.drawLayer || ((_a = this.geometryObjectList) === null || _a === void 0 ? void 0 : _a.length) > 0) {
             return;
         }
         var drawSource = this.drawLayer.getSource();
         drawSource.getFeatures().forEach(function (f) {
             drawSource.removeFeature(f);
         });
-        this.geometryObjectList = [];
         if (!this.zone) {
             return;
         }
@@ -95,8 +96,15 @@ var OlMap = (function (_super) {
             drawSource.addFeature(feature);
             _this.totalArea += polygon.getArea();
         });
-        if (this.geometryObjectList.indexOf('Zone') === -1) {
-            this.geometryObjectList.push('Zone');
+        if (!this.geometryObjectList.some(function (geometryObject) { return geometryObject.name === 'Zone'; })) {
+            var polygons = this.zone.coordinates.map(function (coords) { return new ol.geom.Polygon(coords); });
+            var multiPolygon = new ol.geom.MultiPolygon(polygons.map(function (polygon) { return polygon.getCoordinates(); }));
+            var feature = new ol.Feature({
+                name: 'Zone',
+                geometry: multiPolygon
+            });
+            var wktString = this.wktFormat.writeFeature(feature);
+            this.geometryObjectList.push({ name: 'Zone', wktString: wktString });
         }
     };
     OlMap.prototype.zoneChanged = function () {
@@ -118,13 +126,21 @@ var OlMap = (function (_super) {
         if (type === 'Polygon') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
                 evt.feature.setProperties({ name: "Polygoon ".concat(_this.polygonIndex++) });
-                _this.geometryObjectList.push(evt.feature.getProperties().name);
+                var wktString = _this.wktFormat.writeFeature(evt.feature);
+                _this.geometryObjectList.push({ name: evt.feature.getProperties().name, wktString: wktString });
             });
         }
         else if (type === 'Circle') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
                 evt.feature.setProperties({ name: "Cirkel ".concat(_this.circleIndex++) });
-                _this.geometryObjectList.push(evt.feature.getProperties().name);
+                var circleGeometry = evt.feature.getGeometry();
+                var polygonGeometry = ol.geom.Polygon.fromCircle(circleGeometry);
+                var polygonFeature = new ol.Feature(polygonGeometry);
+                var wktString = _this.wktFormat.writeFeature(polygonFeature);
+                _this.geometryObjectList.push({
+                    name: evt.feature.getProperties().name,
+                    wktString: wktString
+                });
             });
         }
     };
@@ -137,8 +153,8 @@ var OlMap = (function (_super) {
                         var name = 'Adrespunten';
                         perceel.set('name', name);
                         _this.drawLayer.getSource().addFeature(perceel);
-                        if (_this.geometryObjectList.indexOf(name) === -1) {
-                            _this.geometryObjectList.push(name);
+                        if (!_this.geometryObjectList.some(function (geometryObject) { return geometryObject.name === name; })) {
+                            _this.geometryObjectList.push({ name: name, wktString: '' });
                         }
                     });
                 });
@@ -179,10 +195,11 @@ var OlMap = (function (_super) {
     OlMap.prototype.drawPerceel = function (olFeature) {
         if (olFeature) {
             var name_1 = "Perceel ".concat(olFeature.get('CAPAKEY'));
-            if (this.geometryObjectList.indexOf(name_1) === -1) {
+            if (!this.geometryObjectList.some(function (geometryObject) { return geometryObject.name === name_1; })) {
                 olFeature.set('name', name_1);
                 this.drawLayer.getSource().addFeature(olFeature);
-                this.geometryObjectList.push(name_1);
+                var wktString = this.wktFormat.writeFeature(olFeature);
+                this.geometryObjectList.push({ name: name_1, wktString: wktString });
             }
         }
         else {
@@ -192,10 +209,11 @@ var OlMap = (function (_super) {
     OlMap.prototype.drawGebouw = function (olFeature) {
         if (olFeature) {
             var name_2 = "Gebouw ".concat(olFeature.get('OIDN'));
-            if (this.geometryObjectList.indexOf(name_2) === -1) {
+            if (!this.geometryObjectList.some(function (geometryObject) { return geometryObject.name === name_2; })) {
                 olFeature.set('name', name_2);
                 this.drawLayer.getSource().addFeature(olFeature);
-                this.geometryObjectList.push(name_2);
+                var wktString = this.wktFormat.writeFeature(olFeature);
+                this.geometryObjectList.push({ name: name_2, wktString: wktString });
             }
         }
         else {
@@ -203,15 +221,14 @@ var OlMap = (function (_super) {
         }
     };
     OlMap.prototype.drawWKTzone = function (wkt) {
-        var wktParser = new ol.format.WKT();
         try {
-            var featureFromWKT = wktParser.readFeature(wkt);
+            var featureFromWKT = this.wktFormat.readFeature(wkt);
             var name_3 = "Polygoon ".concat(this.polygonIndex++);
             featureFromWKT.setProperties({
                 name: name_3
             });
             this.drawLayer.getSource().addFeature(featureFromWKT);
-            this.geometryObjectList.push(name_3);
+            this.geometryObjectList.push({ name: name_3, wktString: this.WKTstring });
             this.zoomToFeatures();
             this.WKTstring = '';
         }
@@ -231,7 +248,8 @@ var OlMap = (function (_super) {
         if (this.zone.coordinates.length === 0) {
             this.zone = null;
         }
-        this.geometryObjectList.splice(this.geometryObjectList.indexOf(name), 1);
+        var index = this.geometryObjectList.findIndex(function (geom) { return geom.name === name; });
+        this.geometryObjectList.splice(index, 1);
     };
     OlMap.prototype.geoLocationClick = function () {
         var view = this.map.getView();

@@ -32,4 +32,5 @@ export declare class ReferentielaagAutocorrectie {
     openOpenbaarDomeinLegende(): void;
     onHistogramDataChanged(): Promise<void>;
     relevanteAfstandChanged(nv: string, ov: string): void;
+    private getRelevanteAfstand;
 }

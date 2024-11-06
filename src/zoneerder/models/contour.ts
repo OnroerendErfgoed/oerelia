@@ -48,3 +48,8 @@ export interface ISeriesValue {
 }
 
 export type AlignGrb = (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
+
+export interface IGeometryObject {
+  name: string;
+  wktString: string;
+}

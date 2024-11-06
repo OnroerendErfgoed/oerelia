@@ -39,3 +39,7 @@ export interface ISeriesValue {
     result_diff_plus: Contour;
 }
 export type AlignGrb = (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
+export interface IGeometryObject {
+    name: string;
+    wktString: string;
+}

@@ -7,7 +7,8 @@ import {
   DomeinStrategie,
   Referentielaag,
   ReferentielaagEnum,
-  StrategieEnum
+  StrategieEnum,
+  Diffs
 } from '../models/contour';
 
 @autoinject
@@ -48,7 +49,7 @@ export class ReferentielaagAutocorrectie {
     value: StrategieEnum.EenzijdigSnappen,
     label: "Eénzijdig snappen (1)"
   };
-  @observable private relevanteAfstand: string = "3.0";
+  @observable private relevanteAfstand: string = "0.0";
   private max = "6";
   private min = "0";
   private floatMin = "0.0";
@@ -87,6 +88,7 @@ export class ReferentielaagAutocorrectie {
     try {
       this.loadingData = true;
       this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
+      this.relevanteAfstand = this.getRelevanteAfstand(this.histogramData.diffs);
       this.laatstGealigneerd = new Date().toISOString();
       this.loadingData = false;
       setupD3(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
@@ -109,5 +111,15 @@ export class ReferentielaagAutocorrectie {
     drawNewCircle(Number(nv));
     if (!this.histogramData) { return; }
     this.resultsUpdated(this.histogramData.series[floatNumber]);
+  }
+
+  private getRelevanteAfstand(diffs: Diffs) {
+    // Set relevante afstand to minimum predicted relevant distance.
+    const diffsEntries = Object.entries(diffs).filter(([key, value]) => value !== 0);
+    const predictedRelevantEntry = diffsEntries.reduce(
+      (minEntry, currentEntry) => (currentEntry[1] < minEntry[1] ? currentEntry : minEntry),
+      [null, Infinity]
+    );
+    return predictedRelevantEntry[0] || "0.0";
   }
 }

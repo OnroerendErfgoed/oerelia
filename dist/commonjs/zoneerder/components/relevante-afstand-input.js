@@ -13,7 +13,7 @@ exports.RelevanteAfstandInput = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var RelevanteAfstandInput = (function () {
     function RelevanteAfstandInput() {
-        this.relevanteAfstand = "3.0";
+        this.relevanteAfstand = "0.0";
         this.max = "6";
         this.min = "0";
         this.floatMin = "0.0";
