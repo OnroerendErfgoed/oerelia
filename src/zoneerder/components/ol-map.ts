@@ -78,14 +78,14 @@ export class OlMap extends BaseMap {
   }
 
   private addZoneToDrawLayer() {
-    if (!this.drawLayer) {
+    if (!this.drawLayer || this.geometryObjectList?.length > 0) {
       return;
     }
     const drawSource = (this.drawLayer.getSource() as ol.source.Vector);
     drawSource.getFeatures().forEach((f: any) => {
       drawSource.removeFeature(f);
     });
-    this.geometryObjectList = [];
+
     if (!this.zone) {
       return;
     }
