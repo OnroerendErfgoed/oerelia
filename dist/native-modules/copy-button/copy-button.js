@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { bindable } from 'aurelia-framework';
 var CopyButton = (function () {
     function CopyButton() {
+        this.clipboardTitle = 'Kopiëren';
         this.showCheckIcon = false;
     }
     CopyButton.prototype.copy = function () {
@@ -43,6 +44,10 @@ var CopyButton = (function () {
         bindable,
         __metadata("design:type", HTMLElement)
     ], CopyButton.prototype, "element", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], CopyButton.prototype, "clipboardTitle", void 0);
     return CopyButton;
 }());
 export { CopyButton };
