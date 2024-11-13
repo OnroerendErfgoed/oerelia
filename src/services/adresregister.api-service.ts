@@ -6,7 +6,8 @@ import { sortBy } from 'lodash';
 import { Niscode } from './models/niscode.enum';
 import {
   IAdresregisterAdres, IDeelgemeente, IGemeente, IGeolocationResponse, IGewest,
-  ILand, ILocatieSuggest, IPostinfo, IProvincie, IStraat
+  ILand, ILocatieSuggest, IPostinfo, IProvincie, IStraat,
+  ParamsType
 } from '../models/public-models';
 
 declare const oeAppConfig: any;
@@ -130,14 +131,14 @@ export class AdresregisterService {
   }
 
   getStraten(gemeente: string): Promise<IStraat[]> {
-    return this.crabGet<IStraat[]>(`adressenregister/gemeenten/${gemeente}/straten`);
+    return this.crabGet<IStraat[]>(`adressenregister/gemeenten/${gemeente}/straten`, {status: 'inGebruik'});
   }
 
   getAdressen(straat: string, huisnummer?: string): Promise<IAdresregisterAdres[]> {
     if (huisnummer) {
-      return this.crabGet<IAdresregisterAdres[]>(`adressenregister/straten/${straat}/huisnummers/${huisnummer}`);
+      return this.crabGet<IAdresregisterAdres[]>(`adressenregister/straten/${straat}/huisnummers/${huisnummer}`, {status: 'inGebruik'});
     }
-    return this.crabGet<IAdresregisterAdres[]>(`adressenregister/straten/${straat}/adressen`);
+    return this.crabGet<IAdresregisterAdres[]>(`adressenregister/straten/${straat}/adressen`, {status: 'inGebruik'});
   }
 
   async suggestLocatie(value: string): Promise<ILocatieSuggest[]> {
@@ -151,8 +152,8 @@ export class AdresregisterService {
     return this.crabGet('geolocation/' + value);
   }
 
-  private async crabGet<T>(endpoint: string): Promise<T> {
-    const response = await this.http.get(endpoint);
+  private async crabGet<T>(endpoint: string, params: ParamsType = {}): Promise<T> {
+    const response = await this.http.get(endpoint, params);
 
     if (response.isSuccess) {
       return response.content;

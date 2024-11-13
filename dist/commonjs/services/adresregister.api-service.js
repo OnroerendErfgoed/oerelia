@@ -199,13 +199,13 @@ var AdresregisterService = (function () {
         return this.crabGet("adressenregister/gemeenten/".concat(gemeente, "/postinfo"));
     };
     AdresregisterService.prototype.getStraten = function (gemeente) {
-        return this.crabGet("adressenregister/gemeenten/".concat(gemeente, "/straten"));
+        return this.crabGet("adressenregister/gemeenten/".concat(gemeente, "/straten"), { status: 'inGebruik' });
     };
     AdresregisterService.prototype.getAdressen = function (straat, huisnummer) {
         if (huisnummer) {
-            return this.crabGet("adressenregister/straten/".concat(straat, "/huisnummers/").concat(huisnummer));
+            return this.crabGet("adressenregister/straten/".concat(straat, "/huisnummers/").concat(huisnummer), { status: 'inGebruik' });
         }
-        return this.crabGet("adressenregister/straten/".concat(straat, "/adressen"));
+        return this.crabGet("adressenregister/straten/".concat(straat, "/adressen"), { status: 'inGebruik' });
     };
     AdresregisterService.prototype.suggestLocatie = function (value) {
         return __awaiter(this, void 0, void 0, function () {
@@ -220,12 +220,13 @@ var AdresregisterService = (function () {
     AdresregisterService.prototype.geolocate = function (value) {
         return this.crabGet('geolocation/' + value);
     };
-    AdresregisterService.prototype.crabGet = function (endpoint) {
-        return __awaiter(this, void 0, void 0, function () {
+    AdresregisterService.prototype.crabGet = function (endpoint_1) {
+        return __awaiter(this, arguments, void 0, function (endpoint, params) {
             var response;
+            if (params === void 0) { params = {}; }
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, this.http.get(endpoint)];
+                    case 0: return [4, this.http.get(endpoint, params)];
                     case 1:
                         response = _a.sent();
                         if (response.isSuccess) {
