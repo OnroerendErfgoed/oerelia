@@ -29,6 +29,7 @@ export interface IAlignerResponse {
             [key: string]: ISeriesValue;
         };
     };
+    predictions: Diffs;
 }
 export type Diffs = {
     [key: string]: number;
