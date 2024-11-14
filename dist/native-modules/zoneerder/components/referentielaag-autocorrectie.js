@@ -128,7 +128,7 @@ var ReferentielaagAutocorrectie = (function () {
                         return [4, this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value)];
                     case 2:
                         _a.histogramData = _d.sent();
-                        this.relevanteAfstand = this.getRelevanteAfstand(this.histogramData.diffs);
+                        this.relevanteAfstand = this.getRelevanteAfstand(this.histogramData.predictions);
                         this.laatstGealigneerd = new Date().toISOString();
                         this.loadingData = false;
                         setupD3(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
@@ -162,13 +162,10 @@ var ReferentielaagAutocorrectie = (function () {
         }
         this.resultsUpdated(this.histogramData.series[floatNumber]);
     };
-    ReferentielaagAutocorrectie.prototype.getRelevanteAfstand = function (diffs) {
-        var diffsEntries = Object.entries(diffs).filter(function (_a) {
-            var key = _a[0], value = _a[1];
-            return value !== 0;
-        });
-        var predictedRelevantEntry = diffsEntries.reduce(function (minEntry, currentEntry) { return (currentEntry[1] < minEntry[1] ? currentEntry : minEntry); }, [null, Infinity]);
-        return predictedRelevantEntry[0] || "0.0";
+    ReferentielaagAutocorrectie.prototype.getRelevanteAfstand = function (predictions) {
+        if (!predictions || Object.entries(predictions).length == 0)
+            return "0.0";
+        return Object.keys(predictions)[0];
     };
     __decorate([
         bindable,

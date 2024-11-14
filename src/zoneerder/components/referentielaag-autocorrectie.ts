@@ -88,7 +88,7 @@ export class ReferentielaagAutocorrectie {
     try {
       this.loadingData = true;
       this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
-      this.relevanteAfstand = this.getRelevanteAfstand(this.histogramData.diffs);
+      this.relevanteAfstand = this.getRelevanteAfstand(this.histogramData.predictions);
       this.laatstGealigneerd = new Date().toISOString();
       this.loadingData = false;
       setupD3(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
@@ -113,13 +113,8 @@ export class ReferentielaagAutocorrectie {
     this.resultsUpdated(this.histogramData.series[floatNumber]);
   }
 
-  private getRelevanteAfstand(diffs: Diffs) {
-    // Set relevante afstand to minimum predicted relevant distance.
-    const diffsEntries = Object.entries(diffs).filter(([key, value]) => value !== 0);
-    const predictedRelevantEntry = diffsEntries.reduce(
-      (minEntry, currentEntry) => (currentEntry[1] < minEntry[1] ? currentEntry : minEntry),
-      [null, Infinity]
-    );
-    return predictedRelevantEntry[0] || "0.0";
+  private getRelevanteAfstand(predictions: Diffs) {
+    if (!predictions || Object.entries(predictions).length == 0) return "0.0";
+    return Object.keys(predictions)[0];
   }
 }
