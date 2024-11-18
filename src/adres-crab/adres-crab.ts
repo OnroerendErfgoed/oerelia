@@ -7,7 +7,8 @@ import { IAdresCrabConfig } from './types/adres-crab-config';
 import { uniqBy } from 'lodash';
 import { Message } from '../utilities/message/message';
 import { IAdresregisterAdres, ICrabAdres, IGemeente, 
-  ILand, IPostcode } from '../models/public-models';
+  ILand, IPostcode, 
+  ParamsType} from '../models/public-models';
 
 @inject(ValidationController, ValidationControllerFactory, AdresregisterService)
 export class AdresCrab {
