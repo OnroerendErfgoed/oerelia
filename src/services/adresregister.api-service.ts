@@ -111,19 +111,19 @@ export class AdresregisterService {
   }
 
   getGemeentenPerGewest(niscode: Niscode): Promise<IGemeente[]> {
-    return this.crabGet<IGemeente[]>(`adressenregister/gewesten/${niscode}/gemeenten`);
+    return this.crabGet<IGemeente[]>(`adressenregister/gewesten/${niscode}/gemeenten`, { status: 'inGebruik' });
   }
 
   public getGemeentenByProvincie(provincie: string): Promise<IGemeente[]> {
-    return this.crabGet<IGemeente[]>(`adressenregister/provincies/${provincie}/gemeenten`);
+    return this.crabGet<IGemeente[]>(`adressenregister/provincies/${provincie}/gemeenten`, { status: 'inGebruik' });
   }
 
   public async getGemeenteByNiscode(niscode: string): Promise<IGemeente> {
-    return this.crabGet<IGemeente>(`adressenregister/gemeenten/${niscode}`);
+    return this.crabGet<IGemeente>(`adressenregister/gemeenten/${niscode}`, { status: 'inGebruik' });
   }
 
   getDeelgemeenten(gemeente: string): Promise<IDeelgemeente[]> {
-    return this.crabGet<IDeelgemeente[]>(`adressenregister/gemeenten/${gemeente}/deelgemeenten`);
+    return this.crabGet<IDeelgemeente[]>(`adressenregister/gemeenten/${gemeente}/deelgemeenten`, { status: 'inGebruik' });
   }
 
   getPostinfo(gemeente: string): Promise<IPostinfo[]> {

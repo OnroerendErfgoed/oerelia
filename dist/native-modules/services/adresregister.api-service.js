@@ -177,20 +177,20 @@ var AdresregisterService = (function () {
         });
     };
     AdresregisterService.prototype.getGemeentenPerGewest = function (niscode) {
-        return this.crabGet("adressenregister/gewesten/".concat(niscode, "/gemeenten"));
+        return this.crabGet("adressenregister/gewesten/".concat(niscode, "/gemeenten"), { status: 'inGebruik' });
     };
     AdresregisterService.prototype.getGemeentenByProvincie = function (provincie) {
-        return this.crabGet("adressenregister/provincies/".concat(provincie, "/gemeenten"));
+        return this.crabGet("adressenregister/provincies/".concat(provincie, "/gemeenten"), { status: 'inGebruik' });
     };
     AdresregisterService.prototype.getGemeenteByNiscode = function (niscode) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2, this.crabGet("adressenregister/gemeenten/".concat(niscode))];
+                return [2, this.crabGet("adressenregister/gemeenten/".concat(niscode), { status: 'inGebruik' })];
             });
         });
     };
     AdresregisterService.prototype.getDeelgemeenten = function (gemeente) {
-        return this.crabGet("adressenregister/gemeenten/".concat(gemeente, "/deelgemeenten"));
+        return this.crabGet("adressenregister/gemeenten/".concat(gemeente, "/deelgemeenten"), { status: 'inGebruik' });
     };
     AdresregisterService.prototype.getPostinfo = function (gemeente) {
         return this.crabGet("adressenregister/gemeenten/".concat(gemeente, "/postinfo"));
