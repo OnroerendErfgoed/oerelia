@@ -37,15 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setupD3 = setupD3;
-exports.removePoint = removePoint;
+exports.removeRelevanteAfstandMarker = removeRelevanteAfstandMarker;
 exports.drawNewCircle = drawNewCircle;
 var d3 = require("d3");
 var x, y, chartData = undefined;
-function setupD3(container, data, targetX) {
+function setupD3(container, data, relevanteAfstanden, setRelevanteAfstandFn) {
     if (!container) {
         return;
     }
-    ;
     container.innerHTML = '';
     var width = 350;
     var height = 200;
@@ -67,7 +66,7 @@ function setupD3(container, data, targetX) {
             });
         });
     }
-    render_area_chart(data);
+    void render_area_chart(data);
     function render_data(data) {
         chartData = data;
         x = d3.scaleLinear()
@@ -93,51 +92,55 @@ function setupD3(container, data, targetX) {
         svg.append("g")
             .attr("transform", "translate(".concat(marginLeft, ",").concat(height - marginBottom, ")"))
             .call(xAxis);
-        drawNewCircle(targetX);
-        var point = chartData === null || chartData === void 0 ? void 0 : chartData.find(function (d) { return d.x === targetX; });
-        if (point) {
-            svg.append("circle")
-                .attr("cx", x(point.x))
-                .attr("cy", y(point.y))
-                .attr("r", 5)
-                .attr("fill", '#944EA1');
-            svg.append("text")
-                .attr("x", x(point.x) < 50 ? x(point.x) + 10 : x(point.x) - 10)
-                .attr("y", y(point.y) - 5)
-                .attr("text-anchor", x(point.x) < 50 ? "start" : "end")
-                .attr("font-size", "14px")
-                .attr("fill", '#944EA1')
-                .attr("class", "circle-label")
-                .text(point.y + ' m²');
-        }
         container.append(svg.node());
+        relevanteAfstanden.forEach(function (afstand) {
+            drawNewCircle(afstand, data, true, setRelevanteAfstandFn);
+        });
+        drawNewCircle(relevanteAfstanden[0], chartData);
     }
 }
-function removePoint() {
-    var circle = d3.select('svg').selectAll('circle');
+function removeRelevanteAfstandMarker() {
+    var circle = d3.select('svg').selectAll('circle.selected-afstand-marker');
     circle.remove();
-    var text = d3.select('svg').selectAll('text.circle-label');
+    var text = d3.select('svg').selectAll('text.selected-afstand-marker-label');
     text.remove();
 }
-function drawNewCircle(targetX) {
-    var point = chartData === null || chartData === void 0 ? void 0 : chartData.find(function (d) { return d.x === targetX; });
+function drawNewCircle(targetX, data, isPredictionMarker, setRelevanteAfstandFn) {
+    if (data === void 0) { data = chartData; }
+    if (isPredictionMarker === void 0) { isPredictionMarker = false; }
+    if (setRelevanteAfstandFn === void 0) { setRelevanteAfstandFn = null; }
+    var point = data === null || data === void 0 ? void 0 : data.find(function (d) { return d.x === targetX; });
     if (!point) {
         return;
     }
     var map = d3.select('svg');
-    map.append("circle")
+    var grey = '#9F9F9F';
+    var circle = map.append("circle")
         .attr("cx", x(point.x))
         .attr("cy", y(point.y))
-        .attr("r", 5)
-        .attr("fill", '#944EA1');
-    map.append("text")
+        .attr("r", isPredictionMarker ? 4 : 5)
+        .attr('class', isPredictionMarker ? 'prediction-marker-' + point.x : 'selected-afstand-marker')
+        .attr("fill", isPredictionMarker ? 'transparent' : '#944EA1')
+        .attr("stroke", isPredictionMarker ? '#9F9F9F' : '#944EA1');
+    var label = map.append("text")
         .attr("x", x(point.x) < 50 ? x(point.x) + 10 : x(point.x) - 10)
         .attr("y", y(point.y) - 5)
         .attr("text-anchor", x(point.x) < 50 ? "start" : "end")
         .attr("font-size", "14px")
-        .attr("fill", '#944EA1')
-        .attr("class", "circle-label")
+        .attr("fill", isPredictionMarker ? '#9F9F9F' : '#944EA1')
+        .attr("class", "circle-label " + (isPredictionMarker ? 'invisible prediction-marker-label-' + point.x : 'selected-afstand-marker-label'))
         .text(point.y + ' m²');
+    if (isPredictionMarker && setRelevanteAfstandFn) {
+        circle.on("click", function () {
+            setRelevanteAfstandFn(point.x);
+        });
+        circle.on("mouseover", function () {
+            label.attr("class", "circle-label visible prediction-marker-label-" + point.x);
+        });
+        circle.on("mouseout", function () {
+            label.attr("class", "circle-label invisible prediction-marker-label-" + point.x);
+        });
+    }
 }
 
 //# sourceMappingURL=d3.js.map

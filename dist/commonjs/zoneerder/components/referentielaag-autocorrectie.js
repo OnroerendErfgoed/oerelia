@@ -131,10 +131,11 @@ var ReferentielaagAutocorrectie = (function () {
                         return [4, this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value)];
                     case 2:
                         _a.histogramData = _d.sent();
-                        this.relevanteAfstand = this.getRelevanteAfstand(this.histogramData.predictions);
+                        this.relevanteAfstanden = this.getRelevanteAfstanden(this.histogramData.predictions);
+                        this.relevanteAfstand = this.relevanteAfstanden[0];
                         this.laatstGealigneerd = new Date().toISOString();
                         this.loadingData = false;
-                        (0, d3_1.setupD3)(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
+                        (0, d3_1.setupD3)(this.histogram, this.histogramData.diffs, this.relevanteAfstanden.map(function (x) { return Number(x); }), this.setRelevanteAfstand.bind(this));
                         floatNumber = Number(this.relevanteAfstand).toFixed(1);
                         this.resultsUpdated(this.histogramData.series[floatNumber]);
                         data = Object.entries(this.histogramData.diffs).map(function (_a) {
@@ -153,22 +154,27 @@ var ReferentielaagAutocorrectie = (function () {
             });
         });
     };
+    ReferentielaagAutocorrectie.prototype.setRelevanteAfstand = function (value) {
+        this.relevanteAfstand = value.toFixed(1);
+    };
     ReferentielaagAutocorrectie.prototype.relevanteAfstandChanged = function (nv, ov) {
         if (!ov || ov === nv) {
             return;
         }
         var floatNumber = Number(nv).toFixed(1);
-        (0, d3_1.removePoint)();
+        (0, d3_1.removeRelevanteAfstandMarker)();
         (0, d3_1.drawNewCircle)(Number(nv));
         if (!this.histogramData) {
             return;
         }
         this.resultsUpdated(this.histogramData.series[floatNumber]);
     };
-    ReferentielaagAutocorrectie.prototype.getRelevanteAfstand = function (predictions) {
-        if (!predictions || Object.entries(predictions).length == 0)
-            return "0.0";
-        return Object.keys(predictions)[0];
+    ReferentielaagAutocorrectie.prototype.getRelevanteAfstanden = function (predictions) {
+        var distances = (!predictions || Object.entries(predictions).length == 0) ? ["0.0"] : Object.keys(predictions);
+        if (distances[0] === "0.0") {
+            distances.push(distances.shift());
+        }
+        return distances;
     };
     __decorate([
         aurelia_framework_1.bindable,

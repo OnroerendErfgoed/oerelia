@@ -1,5 +1,5 @@
 import { autoinject, observable, bindable, PLATFORM } from "aurelia-framework";
-import { setupD3, removePoint, drawNewCircle } from "./d3";
+import { setupD3, removeRelevanteAfstandMarker, drawNewCircle } from "./d3";
 import { DialogService } from "aurelia-dialog";
 import {
   Contour,
@@ -60,6 +60,7 @@ export class ReferentielaagAutocorrectie {
   private loadingData = false;
   private volledigGealigneerd = false;
   private histogramData: IAlignerResponse;
+  private relevanteAfstanden: string[];
 
   constructor(private dialogService: DialogService) { }
 
@@ -88,10 +89,11 @@ export class ReferentielaagAutocorrectie {
     try {
       this.loadingData = true;
       this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
-      this.relevanteAfstand = this.getRelevanteAfstand(this.histogramData.predictions);
+      this.relevanteAfstanden = this.getRelevanteAfstanden(this.histogramData.predictions);
+      this.relevanteAfstand = this.relevanteAfstanden[0];
       this.laatstGealigneerd = new Date().toISOString();
       this.loadingData = false;
-      setupD3(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
+      setupD3(this.histogram, this.histogramData.diffs, this.relevanteAfstanden.map((x) => Number(x)), this.setRelevanteAfstand.bind(this));
       const floatNumber = Number(this.relevanteAfstand).toFixed(1);
       this.resultsUpdated(this.histogramData.series[floatNumber]);
       const data = Object.entries(this.histogramData.diffs).map(([x, y]) => ({ x: parseFloat(x), y: Math.abs(y) }));
@@ -102,19 +104,26 @@ export class ReferentielaagAutocorrectie {
     }
   }
 
+  setRelevanteAfstand(value: Number) {
+    this.relevanteAfstand = value.toFixed(1);
+  }
+
   relevanteAfstandChanged(nv: string, ov: string) {
     if (!ov || ov === nv) {
       return;
     }
     const floatNumber = Number(nv).toFixed(1);
-    removePoint();
+    removeRelevanteAfstandMarker();
     drawNewCircle(Number(nv));
     if (!this.histogramData) { return; }
     this.resultsUpdated(this.histogramData.series[floatNumber]);
   }
 
-  private getRelevanteAfstand(predictions: Diffs) {
-    if (!predictions || Object.entries(predictions).length == 0) return "0.0";
-    return Object.keys(predictions)[0];
+  private getRelevanteAfstanden(predictions: Diffs) {
+    const distances = (!predictions || Object.entries(predictions).length == 0) ? ["0.0"] : Object.keys(predictions);
+    if (distances[0] === "0.0") {
+      distances.push(distances.shift());
+    }
+    return distances;
   }
 }
