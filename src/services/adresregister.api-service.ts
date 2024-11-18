@@ -131,14 +131,14 @@ export class AdresregisterService {
   }
 
   getStraten(gemeente: string): Promise<IStraat[]> {
-    return this.crabGet<IStraat[]>(`adressenregister/gemeenten/${gemeente}/straten`, {status: 'inGebruik'});
+    return this.crabGet<IStraat[]>(`adressenregister/gemeenten/${gemeente}/straten`, { status: 'inGebruik' });
   }
 
   getAdressen(straat: string, huisnummer?: string): Promise<IAdresregisterAdres[]> {
     if (huisnummer) {
-      return this.crabGet<IAdresregisterAdres[]>(`adressenregister/straten/${straat}/huisnummers/${huisnummer}`, {status: 'inGebruik'});
+      return this.crabGet<IAdresregisterAdres[]>(`adressenregister/straten/${straat}/huisnummers/${huisnummer}`, { status: 'inGebruik' });
     }
-    return this.crabGet<IAdresregisterAdres[]>(`adressenregister/straten/${straat}/adressen`, {status: 'inGebruik'});
+    return this.crabGet<IAdresregisterAdres[]>(`adressenregister/straten/${straat}/adressen`, { status: 'inGebruik' });
   }
 
   async suggestLocatie(value: string): Promise<ILocatieSuggest[]> {
