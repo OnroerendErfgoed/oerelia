@@ -60,6 +60,7 @@ export class ReferentielaagAutocorrectie {
   private loadingData = false;
   private volledigGealigneerd = false;
   private histogramData: IAlignerResponse;
+  private relevanteAfstanden: string[];
 
   constructor(private dialogService: DialogService) { }
 
@@ -88,10 +89,11 @@ export class ReferentielaagAutocorrectie {
     try {
       this.loadingData = true;
       this.histogramData = await this.alignGrb(this.zone, this.referentielaag.value, this.domeinstrategie.value);
-      this.relevanteAfstand = this.getRelevanteAfstand(this.histogramData.predictions);
+      this.relevanteAfstanden = this.getRelevanteAfstanden(this.histogramData.predictions);
+      this.relevanteAfstand = this.relevanteAfstanden[0];
       this.laatstGealigneerd = new Date().toISOString();
       this.loadingData = false;
-      setupD3(this.histogram, this.histogramData.diffs, Number(this.relevanteAfstand));
+      setupD3(this.histogram, this.histogramData.diffs, this.relevanteAfstanden.map((x) => Number(x)));
       const floatNumber = Number(this.relevanteAfstand).toFixed(1);
       this.resultsUpdated(this.histogramData.series[floatNumber]);
       const data = Object.entries(this.histogramData.diffs).map(([x, y]) => ({ x: parseFloat(x), y: Math.abs(y) }));
@@ -113,8 +115,11 @@ export class ReferentielaagAutocorrectie {
     this.resultsUpdated(this.histogramData.series[floatNumber]);
   }
 
-  private getRelevanteAfstand(predictions: Diffs) {
-    if (!predictions || Object.entries(predictions).length == 0) return "0.0";
-    return Object.keys(predictions)[0];
+  private getRelevanteAfstanden(predictions: Diffs) {
+    const distances = (!predictions || Object.entries(predictions).length == 0) ? ["0.0"] : Object.keys(predictions);
+    if (distances[0] === "0.0") {
+      distances.push(distances.shift());
+    }
+    return distances;
   }
 }

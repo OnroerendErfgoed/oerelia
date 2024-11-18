@@ -41,11 +41,10 @@ exports.removePoint = removePoint;
 exports.drawNewCircle = drawNewCircle;
 var d3 = require("d3");
 var x, y, chartData = undefined;
-function setupD3(container, data, targetX) {
+function setupD3(container, data, relevanteAfstanden) {
     if (!container) {
         return;
     }
-    ;
     container.innerHTML = '';
     var width = 350;
     var height = 200;
@@ -67,7 +66,7 @@ function setupD3(container, data, targetX) {
             });
         });
     }
-    render_area_chart(data);
+    void render_area_chart(data);
     function render_data(data) {
         chartData = data;
         x = d3.scaleLinear()
@@ -93,24 +92,8 @@ function setupD3(container, data, targetX) {
         svg.append("g")
             .attr("transform", "translate(".concat(marginLeft, ",").concat(height - marginBottom, ")"))
             .call(xAxis);
-        drawNewCircle(targetX);
-        var point = chartData === null || chartData === void 0 ? void 0 : chartData.find(function (d) { return d.x === targetX; });
-        if (point) {
-            svg.append("circle")
-                .attr("cx", x(point.x))
-                .attr("cy", y(point.y))
-                .attr("r", 5)
-                .attr("fill", '#944EA1');
-            svg.append("text")
-                .attr("x", x(point.x) < 50 ? x(point.x) + 10 : x(point.x) - 10)
-                .attr("y", y(point.y) - 5)
-                .attr("text-anchor", x(point.x) < 50 ? "start" : "end")
-                .attr("font-size", "14px")
-                .attr("fill", '#944EA1')
-                .attr("class", "circle-label")
-                .text(point.y + ' m²');
-        }
         container.append(svg.node());
+        drawNewCircle(relevanteAfstanden[0], chartData);
     }
 }
 function removePoint() {
@@ -119,8 +102,9 @@ function removePoint() {
     var text = d3.select('svg').selectAll('text.circle-label');
     text.remove();
 }
-function drawNewCircle(targetX) {
-    var point = chartData === null || chartData === void 0 ? void 0 : chartData.find(function (d) { return d.x === targetX; });
+function drawNewCircle(targetX, data) {
+    if (data === void 0) { data = chartData; }
+    var point = data === null || data === void 0 ? void 0 : data.find(function (d) { return d.x === targetX; });
     if (!point) {
         return;
     }
