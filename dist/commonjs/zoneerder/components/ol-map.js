@@ -70,17 +70,19 @@ var OlMap = (function (_super) {
         this.element.dispatchEvent(new CustomEvent('loaded', {
             bubbles: true
         }));
-        this.drawLayer.getSource().on('addfeature', function (feature) {
+        this.drawLayer.getSource().on('addfeature', function (featureEvent) {
+            var feature = featureEvent.feature;
             log.debug('olMap::drawLayer::addfeature', feature);
-            _this.drawLayerToZone();
+            var name = feature.get('name');
+            _this.drawLayerToZone(name);
             _this.zoomToExtent(_this.geoJsonFormatter.readGeometry(_this.zone).getExtent());
         });
         this.addZoneToDrawLayer();
     };
-    OlMap.prototype.addZoneToDrawLayer = function () {
+    OlMap.prototype.addZoneToDrawLayer = function (name) {
         var _this = this;
-        var _a;
-        if (!this.drawLayer || ((_a = this.geometryObjectList) === null || _a === void 0 ? void 0 : _a.length) > 0) {
+        if (name === void 0) { name = 'Zone'; }
+        if (!this.drawLayer) {
             return;
         }
         var drawSource = this.drawLayer.getSource();
@@ -90,25 +92,18 @@ var OlMap = (function (_super) {
         if (!this.zone) {
             return;
         }
+        var wktString = '';
         this.zone.coordinates.forEach(function (coords) {
             var polygon = new openlayers_1.default.geom.Polygon(coords);
             var feature = new openlayers_1.default.Feature({
-                name: 'Zone',
+                name: name,
                 geometry: polygon
             });
             drawSource.addFeature(feature);
             _this.totalArea += polygon.getArea();
+            wktString += _this.wktFormat.writeFeature(feature);
         });
-        if (!this.geometryObjectList.some(function (geometryObject) { return geometryObject.name === 'Zone'; })) {
-            var polygons = this.zone.coordinates.map(function (coords) { return new openlayers_1.default.geom.Polygon(coords); });
-            var multiPolygon = new openlayers_1.default.geom.MultiPolygon(polygons.map(function (polygon) { return polygon.getCoordinates(); }));
-            var feature = new openlayers_1.default.Feature({
-                name: 'Zone',
-                geometry: multiPolygon
-            });
-            var wktString = this.wktFormat.writeFeature(feature);
-            this.geometryObjectList.push({ name: 'Zone', wktString: wktString });
-        }
+        this.geometryObjectList = [{ name: name, wktString: wktString }];
     };
     OlMap.prototype.zoneChanged = function () {
         this.addZoneToDrawLayer();
@@ -276,8 +271,9 @@ var OlMap = (function (_super) {
         var coordinates = this.transformLambert72ToWebMercator(center);
         window.open((this.serviceConfig.crabpyUrl) + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
     };
-    OlMap.prototype.drawLayerToZone = function () {
+    OlMap.prototype.drawLayerToZone = function (name) {
         var _this = this;
+        if (name === void 0) { name = 'Zone'; }
         this.totalArea = 0;
         var multiPolygon = new openlayers_1.default.geom.MultiPolygon([], 'XY');
         var features = this.drawLayer.getSource().getFeatures();
@@ -299,8 +295,15 @@ var OlMap = (function (_super) {
             }
         });
         var contour = this.formatGeoJson(multiPolygon);
-        !!this.zone ? this.zone.coordinates = contour.coordinates
-            : this.zone = new contour_1.Contour(contour);
+        if (this.zone) {
+            this.zone.coordinates = contour.coordinates;
+        }
+        else {
+            this.zone = new contour_1.Contour(contour);
+            setTimeout(function () {
+                _this.addZoneToDrawLayer(name);
+            });
+        }
         this.laatstGealigneerd = undefined;
     };
     OlMap.prototype.resetSelect = function () {
