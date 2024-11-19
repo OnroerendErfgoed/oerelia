@@ -8,8 +8,8 @@ interface Datapoint {
 
 let x, y, chartData = undefined;
 
-export function setupD3(container: HTMLElement, data: Diffs,  targetX: number) {
-  if (!container) { return };
+export function setupD3(container: HTMLElement, data: Diffs,  relevanteAfstanden: number[]) {
+  if (!container) { return }
   container.innerHTML = '';
   // Declare the chart dimensions and margins.
   const width = 350;
@@ -25,7 +25,7 @@ export function setupD3(container: HTMLElement, data: Diffs,  targetX: number) {
     render_data(floatedData);
   }
 
-  render_area_chart(data);
+  void render_area_chart(data);
 
   function render_data(data: Datapoint[]) {
     // Declare the x (horizontal position) scale.
@@ -40,10 +40,10 @@ export function setupD3(container: HTMLElement, data: Diffs,  targetX: number) {
       .range([height - marginBottom, marginTop]);
 
     const area = d3.area<Datapoint>()
-    .x(d => x(d.x))
-    .y0(y(0)) // Set y0 to the minimum value of your y scale
-    .y1(d => y(d.y))
-    .curve(d3.curveStepAfter);
+      .x(d => x(d.x))
+      .y0(y(0)) // Set y0 to the minimum value of your y scale
+      .y1(d => y(d.y))
+      .curve(d3.curveStepAfter);
 
     // Create the SVG container.
     const svg = d3.create("svg")
@@ -51,7 +51,7 @@ export function setupD3(container: HTMLElement, data: Diffs,  targetX: number) {
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
       .attr("style", "max-width: 100%;");
-      // height: auto;
+    // height: auto;
 
     // Append a path for the area (under the axes).
     svg.append("path")
@@ -64,28 +64,9 @@ export function setupD3(container: HTMLElement, data: Diffs,  targetX: number) {
       .attr("transform", `translate(${marginLeft},${height - marginBottom})`)
       .call(xAxis);
 
-    drawNewCircle(targetX);
-
-    const point = chartData?.find((d: Datapoint) => d.x === targetX);
-    // Add a marker for the point.
-    if (point) {
-      svg.append("circle")
-        .attr("cx", x(point.x))
-        .attr("cy", y(point.y))
-        .attr("r", 5)
-        .attr("fill", '#944EA1');
-
-      svg.append("text")
-        .attr("x", x(point.x) < 50 ? x(point.x) + 10 : x(point.x) - 10) // Adjust position based on x value
-        .attr("y", y(point.y) - 5) // Adjust this value to center the text vertically
-        .attr("text-anchor", x(point.x) < 50 ? "start" : "end") // Adjust text-anchor based on x value
-        .attr("font-size", "14px") // Set the font size
-        .attr("fill", '#944EA1') // Set the fill color
-        .attr("class", "circle-label")
-        .text(point.y + ' m²');
-    }
-
     container.append(svg.node()!);
+
+    drawNewCircle(relevanteAfstanden[0], chartData);
   }
 }
 
@@ -96,8 +77,8 @@ export function removePoint() {
   text.remove();
 }
 
-export function drawNewCircle(targetX: number) {
-  const point = chartData?.find((d: Datapoint) => d.x === targetX);
+export function drawNewCircle(targetX: number, data = chartData) {
+  const point = data?.find((d: Datapoint) => d.x === targetX);
 
   if (!point) { return; }
 

@@ -37,6 +37,7 @@ export const enum StrategieEnum {
 export interface IAlignerResponse {
   diffs: Diffs;
   series: { [key: string]: { [key: string]: ISeriesValue } };
+  predictions: Diffs;
 }
 
 export type Diffs = { [key: string]: number };
