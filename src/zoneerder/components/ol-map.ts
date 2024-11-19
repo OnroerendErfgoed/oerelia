@@ -69,18 +69,21 @@ export class OlMap extends BaseMap {
       bubbles: true
     }));
 
-    this.drawLayer.getSource().on('addfeature', (feature: any) => {
+    this.drawLayer.getSource().on('addfeature', (featureEvent: any) => {
+      const feature = featureEvent.feature;
       log.debug('olMap::drawLayer::addfeature', feature);
-      this.drawLayerToZone();
+      const name = feature.get('name');
+      this.drawLayerToZone(name);
       this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
     });
     this.addZoneToDrawLayer();
   }
 
-  private addZoneToDrawLayer() {
-    if (!this.drawLayer || this.geometryObjectList?.length > 0) {
+  private addZoneToDrawLayer(name= 'Zone') {
+    if (!this.drawLayer) {
       return;
     }
+
     const drawSource = (this.drawLayer.getSource() as ol.source.Vector);
     drawSource.getFeatures().forEach((f: any) => {
       drawSource.removeFeature(f);
@@ -90,26 +93,18 @@ export class OlMap extends BaseMap {
       return;
     }
 
+    let wktString = '';
     this.zone.coordinates.forEach((coords) => {
       const polygon = new ol.geom.Polygon(coords);
       const feature = new ol.Feature({
-        name: 'Zone',
+        name,
         geometry: polygon
       });
       drawSource.addFeature(feature);
       this.totalArea += polygon.getArea();
+      wktString += this.wktFormat.writeFeature(feature);
     });
-
-    if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === 'Zone')) {
-      const polygons = this.zone.coordinates.map((coords) => new ol.geom.Polygon(coords));
-      const multiPolygon = new ol.geom.MultiPolygon(polygons.map(polygon => polygon.getCoordinates()));
-      const feature = new ol.Feature({
-        name: 'Zone',
-        geometry: multiPolygon
-      });
-      const wktString = this.wktFormat.writeFeature(feature);
-      this.geometryObjectList.push({ name: 'Zone', wktString });
-    }
+    this.geometryObjectList = [{ name, wktString }];
   }
 
   zoneChanged() {
@@ -290,7 +285,7 @@ export class OlMap extends BaseMap {
     window.open((this.serviceConfig.crabpyUrl) + '/#zoom=' + zoom * 2 + '&lat=' + coordinates[1] + '&lon=' + coordinates[0]);
   }
 
-  private drawLayerToZone() {
+  private drawLayerToZone(name='Zone') {
     this.totalArea = 0;
     const multiPolygon = new ol.geom.MultiPolygon([], 'XY');
     const features: ol.Feature[] = (this.drawLayer.getSource() as ol.source.Vector).getFeatures();
@@ -312,8 +307,15 @@ export class OlMap extends BaseMap {
     });
 
     const contour = this.formatGeoJson(multiPolygon);
-    !!this.zone ? this.zone.coordinates = contour.coordinates
-      : this.zone = new Contour(contour);
+    if (this.zone) {
+      this.zone.coordinates = contour.coordinates;
+    } else {
+      this.zone = new Contour(contour);
+      setTimeout(()=>{
+        //make sure the zone is added using the original name
+        this.addZoneToDrawLayer(name);
+      })
+    }
     this.laatstGealigneerd = undefined;
   }
 
