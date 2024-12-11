@@ -145,7 +145,8 @@ var ActorWidget = (function () {
                         busnummer: f.adres && f.adres.busnummer ? f.adres.busnummer : undefined,
                         persid: f.persid ? f.persid : undefined,
                         rrn: f.rrn ? f.rrn : undefined,
-                        kbo: f.kbo ? f.kbo : undefined
+                        kbo: f.kbo ? f.kbo : undefined,
+                        geldige_actor: true
                     };
                 }
                 else {
@@ -157,7 +158,8 @@ var ActorWidget = (function () {
                     }
                     paramsObj = {
                         omschrijving: query || null,
-                        sort: sort
+                        sort: sort,
+                        geldige_actor: true
                     };
                 }
                 params.context.actorenApiService.getActoren(params.startRow, params.endRow, paramsObj)
