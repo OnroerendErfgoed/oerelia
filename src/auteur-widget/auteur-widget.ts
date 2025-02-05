@@ -1,7 +1,7 @@
 import { DialogController, DialogService } from 'aurelia-dialog';
 import { autoinject, LogManager, bindable } from 'aurelia-framework';
 import { ColDef, GridOptions, IGetRowsParams } from 'ag-grid-community';
-import { IAuteur, IRangeHeader, IResponse, ParamsType } from 'models/public-models';
+import { IAuteur, IErkenning, IErkenningNew, IRangeHeader, IResponse, IUser, ParamsType } from 'models/public-models';
 
 const log = LogManager.getLogger('auteur-widget');
 
@@ -10,20 +10,40 @@ export class AuteurWidget {
   @bindable auteurType: string;
   @bindable service: unknown;
   @bindable auteursUrl: string;
+  @bindable isEigenaarVermogensrecht = false;
+  @bindable userErkenningen?: IErkenning[] | IErkenningNew[];;
 
   public zoekterm: string;
-  public title: string = 'Auteur toevoegen';
+  public erkendeCollegas: boolean = false;
+  mailLink: string;
+
   private gridOptions = {} as GridOptions;
   private buttonActief = false;
-
-  constructor(public dialogService: DialogService, public controller: DialogController) { }
+  constructor(public dialogService: DialogService, public controller: DialogController) {}
 
   public bind() {
+    const mailSubject = 'Nieuwe auteur toevoegen';
+    const mailBody = `Beste,\n\n` +
+    `Gelieve een auteur toe te voegen aan de auteursdatabank met volgende gegevens:\n\n` +
+    `Indien de auteur een natuurlijk persoon is:\n` +
+    `Naam (verplicht):\n` +
+    `Voornaam (verplicht):\n` +
+    `e-mail:\n` +
+    `Mag het e-mailadres publiek zichtbaar zijn in de toepassing?:\n` +
+    `Orcid:\n` +
+    `Bedrijf waarvoor auteur werkt:\n\n` +
+    `Indien de auteur een organisatie is:\n` +
+    `Naam (verplicht):\n` +
+    `KBO (verplicht):\n` +
+    `e-mail:\n` +
+    `Mag het e-mailadres publiek zichtbaar zijn in de toepassing?:`;
+    
+    this.mailLink = `mailto:ict@onroerenderfgoed.be?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
     this.gridOptions.context = this;
     this.gridOptions.suppressMovableColumns = true;
     this.gridOptions.defaultColDef = {
       resizable: true,
-      sortable: true
+      sortable: true,
     };
     this.gridOptions.headerHeight = 45;
     this.gridOptions.rowHeight = 40;
@@ -36,8 +56,8 @@ export class AuteurWidget {
     this.gridOptions.overlayLoadingTemplate = '<i class="fa fa-pulse fa-spinner"></i>';
     this.gridOptions.enableBrowserTooltips = true;
     this.gridOptions.columnDefs = this.getColumnDefinitions();
-    this.gridOptions.rowSelection = 'single';
-    this.gridOptions.onRowSelected = () => this.buttonActief = true;
+    this.gridOptions.rowSelection = 'multiple';
+    this.gridOptions.onRowSelected = () => this.buttonActief = this.isAnyRowSelected();
   }
 
   public async setRowData() {
@@ -90,12 +110,19 @@ export class AuteurWidget {
       return;
     }
 
-    const selectedAuteur = this.gridOptions.api.getSelectedRows()[0] as IAuteur;
-    this.controller.ok(selectedAuteur);
+    const selectedAuteurs = this.gridOptions.api.getSelectedRows() as IAuteur[];
+    this.controller.ok(selectedAuteurs);
   }
 
   private getColumnDefinitions(): ColDef[] {
     return [
+      {
+        headerName: '',
+        field: 'select',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        width: 10,
+      },
       { headerName: 'ID', field: 'id', sort: 'desc', width: 35 },
       { headerName: 'Naam', colId: 'naam', field: 'omschrijving', width: 200 },
       { headerName: 'Huidige relaties', field: 'relaties', sortable: false,
@@ -153,11 +180,23 @@ export class AuteurWidget {
       type: this.auteurType
     };
 
+    if (this.erkendeCollegas) {
+      const erkenningen = (this.userErkenningen
+        .filter((erkenning: IErkenningNew) => erkenning.type === 'rechtspersoon')) as IErkenningNew[];
+
+      const omschrijvingen = erkenningen?.map((erkenning) => erkenning.oorsprong_erkenning.omschrijving);
+      paramsObj['relatie'] = '[' + omschrijvingen.join(',') + ']';
+    }
+
     if (params.sortModel.length) {
       const sortModel = params.sortModel[0];
       paramsObj.sort = ((sortModel.sort === 'asc') ? '' : '-') + sortModel.colId;
     }
 
     return paramsObj;
+  }
+
+  isAnyRowSelected() {
+    return this.gridOptions.api && this.gridOptions.api.getSelectedRows().length > 0;
   }
 }

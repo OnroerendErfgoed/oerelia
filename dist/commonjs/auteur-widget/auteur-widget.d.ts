@@ -1,12 +1,16 @@
 import { DialogController, DialogService } from 'aurelia-dialog';
+import { IErkenning, IErkenningNew } from 'models/public-models';
 export declare class AuteurWidget {
     dialogService: DialogService;
     controller: DialogController;
     auteurType: string;
     service: unknown;
     auteursUrl: string;
+    isEigenaarVermogensrecht: boolean;
+    userErkenningen?: IErkenning[] | IErkenningNew[];
     zoekterm: string;
-    title: string;
+    erkendeCollegas: boolean;
+    mailLink: string;
     private gridOptions;
     private buttonActief;
     constructor(dialogService: DialogService, controller: DialogController);
@@ -21,4 +25,5 @@ export declare class AuteurWidget {
     private actiesCellRenderer;
     private huidigeRelatiesCellRenderer;
     private setParameters;
+    isAnyRowSelected(): boolean;
 }

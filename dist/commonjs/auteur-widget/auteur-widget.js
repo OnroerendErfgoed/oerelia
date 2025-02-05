@@ -53,17 +53,35 @@ var AuteurWidget = (function () {
     function AuteurWidget(dialogService, controller) {
         this.dialogService = dialogService;
         this.controller = controller;
-        this.title = 'Auteur toevoegen';
+        this.isEigenaarVermogensrecht = false;
+        this.erkendeCollegas = false;
         this.gridOptions = {};
         this.buttonActief = false;
     }
+    ;
     AuteurWidget.prototype.bind = function () {
         var _this = this;
+        var mailSubject = 'Nieuwe auteur toevoegen';
+        var mailBody = "Beste,\n\n" +
+            "Gelieve een auteur toe te voegen aan de auteursdatabank met volgende gegevens:\n\n" +
+            "Indien de auteur een natuurlijk persoon is:\n" +
+            "Naam (verplicht):\n" +
+            "Voornaam (verplicht):\n" +
+            "e-mail:\n" +
+            "Mag het e-mailadres publiek zichtbaar zijn in de toepassing?:\n" +
+            "Orcid:\n" +
+            "Bedrijf waarvoor auteur werkt:\n\n" +
+            "Indien de auteur een organisatie is:\n" +
+            "Naam (verplicht):\n" +
+            "KBO (verplicht):\n" +
+            "e-mail:\n" +
+            "Mag het e-mailadres publiek zichtbaar zijn in de toepassing?:";
+        this.mailLink = "mailto:ict@onroerenderfgoed.be?subject=".concat(encodeURIComponent(mailSubject), "&body=").concat(encodeURIComponent(mailBody));
         this.gridOptions.context = this;
         this.gridOptions.suppressMovableColumns = true;
         this.gridOptions.defaultColDef = {
             resizable: true,
-            sortable: true
+            sortable: true,
         };
         this.gridOptions.headerHeight = 45;
         this.gridOptions.rowHeight = 40;
@@ -76,8 +94,8 @@ var AuteurWidget = (function () {
         this.gridOptions.overlayLoadingTemplate = '<i class="fa fa-pulse fa-spinner"></i>';
         this.gridOptions.enableBrowserTooltips = true;
         this.gridOptions.columnDefs = this.getColumnDefinitions();
-        this.gridOptions.rowSelection = 'single';
-        this.gridOptions.onRowSelected = function () { return _this.buttonActief = true; };
+        this.gridOptions.rowSelection = 'multiple';
+        this.gridOptions.onRowSelected = function () { return _this.buttonActief = _this.isAnyRowSelected(); };
     };
     AuteurWidget.prototype.setRowData = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -139,11 +157,18 @@ var AuteurWidget = (function () {
         if (!this.buttonActief) {
             return;
         }
-        var selectedAuteur = this.gridOptions.api.getSelectedRows()[0];
-        this.controller.ok(selectedAuteur);
+        var selectedAuteurs = this.gridOptions.api.getSelectedRows();
+        this.controller.ok(selectedAuteurs);
     };
     AuteurWidget.prototype.getColumnDefinitions = function () {
         return [
+            {
+                headerName: '',
+                field: 'select',
+                checkboxSelection: true,
+                headerCheckboxSelection: true,
+                width: 10,
+            },
             { headerName: 'ID', field: 'id', sort: 'desc', width: 35 },
             { headerName: 'Naam', colId: 'naam', field: 'omschrijving', width: 200 },
             { headerName: 'Huidige relaties', field: 'relaties', sortable: false,
@@ -196,11 +221,20 @@ var AuteurWidget = (function () {
             sort: null,
             type: this.auteurType
         };
+        if (this.erkendeCollegas) {
+            var erkenningen = (this.userErkenningen
+                .filter(function (erkenning) { return erkenning.type === 'rechtspersoon'; }));
+            var omschrijvingen = erkenningen === null || erkenningen === void 0 ? void 0 : erkenningen.map(function (erkenning) { return erkenning.oorsprong_erkenning.omschrijving; });
+            paramsObj['relatie'] = '[' + omschrijvingen.join(',') + ']';
+        }
         if (params.sortModel.length) {
             var sortModel = params.sortModel[0];
             paramsObj.sort = ((sortModel.sort === 'asc') ? '' : '-') + sortModel.colId;
         }
         return paramsObj;
+    };
+    AuteurWidget.prototype.isAnyRowSelected = function () {
+        return this.gridOptions.api && this.gridOptions.api.getSelectedRows().length > 0;
     };
     __decorate([
         aurelia_framework_1.bindable,
@@ -214,6 +248,14 @@ var AuteurWidget = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", String)
     ], AuteurWidget.prototype, "auteursUrl", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], AuteurWidget.prototype, "isEigenaarVermogensrecht", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Array)
+    ], AuteurWidget.prototype, "userErkenningen", void 0);
     AuteurWidget = __decorate([
         aurelia_framework_1.autoinject,
         __metadata("design:paramtypes", [aurelia_dialog_1.DialogService, aurelia_dialog_1.DialogController])
