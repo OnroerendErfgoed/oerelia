@@ -13,7 +13,7 @@
               keydown.delegate="search() & debounce:300" style="font-family: FontAwesome, 'Flanders Art Sans'">
           </div>
         </div>
-        <div class="large-4 columns">
+        <div class="large-4 columns" if.bind="isEigenaarVermogensrecht">
           <input type="checkbox" id="checkbox-erkende-collegas" change.delegate="search()" class="checkbox-custom" checked.bind="erkendeCollegas">
           <label for="checkbox-erkende-collegas" class="checkbox-custom-label">Toon enkel mijn erkende collega's</label>
         </div>
