@@ -169,8 +169,9 @@ var AuteurWidget = (function () {
                 headerCheckboxSelection: true,
                 width: 10,
             },
-            { headerName: 'ID', field: 'id', sort: 'desc', width: 35 },
+            { headerName: 'ID', field: 'id', sort: 'desc', width: 50 },
             { headerName: 'Naam', colId: 'naam', field: 'omschrijving', width: 200 },
+            { headerName: 'Identificatie', colId: 'identificatie', field: 'identificatie', width: 200 },
             { headerName: 'Huidige relaties', field: 'relaties', sortable: false,
                 cellRenderer: this.huidigeRelatiesCellRenderer, width: 150 },
             { headerName: '', cellClass: 'acties-cell', sortable: false,
@@ -183,7 +184,7 @@ var AuteurWidget = (function () {
             var openLink = document.createElement('a');
             openLink.setAttribute('target', '_blank');
             openLink.setAttribute('href', params.data.uri);
-            openLink.setAttribute('title', 'Bekijk deze auteur');
+            openLink.setAttribute('title', 'Bekijk deze auteur in de auteursdatabank');
             openLink.setAttribute('style', 'display: inline-flex');
             var openElement = document.createElement('i');
             openElement.className = 'fa fa-eye';
