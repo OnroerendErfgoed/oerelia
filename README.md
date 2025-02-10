@@ -80,5 +80,6 @@ aurelia.use.plugin(PLATFORM.moduleName('oerelia/tabs'));
 ### In other application
 
 `yalc add oerelia@0.0.0` with the correct version number
+
 After publishing Oerelia run:
 `yalc update`
