@@ -5,5 +5,6 @@ export declare enum LayerType {
     GrbWMS = "GrbWMS",
     ErfgoedWms = "ErfgoedWms",
     DHMV = "DHMV",
-    OMWRGBMRVL = "OMWRGBMRVL"
+    OMWRGBMRVL = "OMWRGBMRVL",
+    Kunstwerk = "GRB:KNW"
 }

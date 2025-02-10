@@ -9,7 +9,8 @@ import {
   LayerConfig,
   VectorLayerOptions,
   GrbWmsLayerOptions,
-  WmsLayerOptions
+  WmsLayerOptions,
+  KunstwerkWmsLayerOptions
 } from '../models/layerConfig';
 import { LayerType } from '../models/layerConfig.enums';
 import { Layerswitcher } from './ol-layerswitcher';
@@ -252,6 +253,7 @@ export abstract class BaseMap {
     //BaseLayers
     const layers = Object.keys(this.layerConfig.baseLayers)
       .map((id) => ({ id, options: this.layerConfig.baseLayers[id] }))
+      .filter((layer) => !layer.options.hidden)
       .map(({ id, options }) => this._createLayer(id, options, true))
     const baseLayerGroup = new ol.layer.Group({ layers });
     baseLayerGroup.set('title', 'Achtergrond kaart');
@@ -260,6 +262,7 @@ export abstract class BaseMap {
     // Overlays
     const overlays = Object.keys(this.layerConfig.overlays)
       .map((id) => ({ id, options: this.layerConfig.overlays[id] }))
+      .filter((layer) => !layer.options.hidden)
       .map(({ id, options }) => this._createLayer(id, options, false))
     overlays.forEach((layer) => this.map.addLayer(layer));
   }
@@ -268,7 +271,7 @@ export abstract class BaseMap {
     let layer: ol.layer.Layer;
 
     if (layerOptions.type === LayerType.GRB || layerOptions.type === LayerType.DHMV || layerOptions.type === LayerType.OMWRGBMRVL) layer = this._createGrbLayer(id, layerOptions.type);
-    else if (layerOptions.type === LayerType.GrbWMS) layer = this._createGrbWMSLayer(layerOptions);
+    else if (layerOptions.type === LayerType.GrbWMS || layerOptions.type === LayerType.Kunstwerk) layer = this._createGrbWMSLayer(layerOptions);
     else if (layerOptions.type === LayerType.ErfgoedWms) layer = this._createErfgoedWMSLayer(layerOptions.wmsLayers);
     else if (layerOptions.type === LayerType.Ngi) layer = this._createNgiLayer(id);
     else if (layerOptions.type === LayerType.Vector) layer = this._createVectorLayer(layerOptions);
@@ -349,7 +352,7 @@ export abstract class BaseMap {
     }
   }
 
-  private _createGrbWMSLayer(layerOptions: GrbWmsLayerOptions) {
+  private _createGrbWMSLayer(layerOptions: GrbWmsLayerOptions|KunstwerkWmsLayerOptions) {
     const url = '//geo.api.vlaanderen.be/' + LayerType.GRB + '/wms';
     const layer = new ol.layer.Tile({
       extent: this.mapProjection.getExtent(),

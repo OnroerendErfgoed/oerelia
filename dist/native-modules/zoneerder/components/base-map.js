@@ -203,6 +203,7 @@ var BaseMap = (function () {
         log.debug('Create layers', this.layerConfig);
         var layers = Object.keys(this.layerConfig.baseLayers)
             .map(function (id) { return ({ id: id, options: _this.layerConfig.baseLayers[id] }); })
+            .filter(function (layer) { return !layer.options.hidden; })
             .map(function (_a) {
             var id = _a.id, options = _a.options;
             return _this._createLayer(id, options, true);
@@ -212,6 +213,7 @@ var BaseMap = (function () {
         this.map.addLayer(baseLayerGroup);
         var overlays = Object.keys(this.layerConfig.overlays)
             .map(function (id) { return ({ id: id, options: _this.layerConfig.overlays[id] }); })
+            .filter(function (layer) { return !layer.options.hidden; })
             .map(function (_a) {
             var id = _a.id, options = _a.options;
             return _this._createLayer(id, options, false);
@@ -223,7 +225,7 @@ var BaseMap = (function () {
         var layer;
         if (layerOptions.type === LayerType.GRB || layerOptions.type === LayerType.DHMV || layerOptions.type === LayerType.OMWRGBMRVL)
             layer = this._createGrbLayer(id, layerOptions.type);
-        else if (layerOptions.type === LayerType.GrbWMS)
+        else if (layerOptions.type === LayerType.GrbWMS || layerOptions.type === LayerType.Kunstwerk)
             layer = this._createGrbWMSLayer(layerOptions);
         else if (layerOptions.type === LayerType.ErfgoedWms)
             layer = this._createErfgoedWMSLayer(layerOptions.wmsLayers);

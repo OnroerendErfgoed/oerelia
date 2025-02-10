@@ -10,6 +10,7 @@ export var defaultLayerConfig = {
     },
     overlays: {
         overlay: { type: LayerType.Ngi, title: 'Topokaart overlay' },
+        kunstwerken: { type: LayerType.Kunstwerk, wmsLayers: 'GRB_KNW', title: 'GRB - KNW - kunstwerk', hidden: true },
         gebouwen: { type: LayerType.GrbWMS, wmsLayers: 'GRB_GBG', title: 'GRB-Gebouwenlaag' },
         percelen: { type: LayerType.GrbWMS, wmsLayers: 'GRB_ADP_GRENS', title: 'GRB-Percelenlaag' },
         bes: {

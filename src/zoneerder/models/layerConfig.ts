@@ -7,6 +7,7 @@ interface BaseLayerOptions {
   visible?: boolean;
   className?: string;
   showLegend?: boolean;
+  hidden?: boolean;
 }
 
 export interface VectorLayerOptions extends BaseLayerOptions {
@@ -39,10 +40,14 @@ export interface OMWRGBMRVLOptions extends BaseLayerOptions {
   type: LayerType.OMWRGBMRVL;
 }
 
+export interface KunstwerkWmsLayerOptions extends WmsLayerOptions {
+  type: LayerType.Kunstwerk;
+}
+
 export type GrbLayerOptions = GrbOrNgiLayerOptions;
 export type NgiLayerOptions = GrbOrNgiLayerOptions;
 
-export type LayerOptions = VectorLayerOptions | GrbLayerOptions | NgiLayerOptions | GrbWmsLayerOptions | ErfgoedWmsLayerOptions | DHMVLayerOptions | OMWRGBMRVLOptions;
+export type LayerOptions = VectorLayerOptions | GrbLayerOptions | NgiLayerOptions | GrbWmsLayerOptions | ErfgoedWmsLayerOptions | DHMVLayerOptions | OMWRGBMRVLOptions | KunstwerkWmsLayerOptions;
 
 export interface LayerConfig {
   baseLayers: { [layerId: string]: LayerOptions }
