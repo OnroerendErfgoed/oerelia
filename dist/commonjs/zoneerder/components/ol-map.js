@@ -244,7 +244,7 @@ var OlMap = (function (_super) {
             }
         }
         else {
-            toastr.error('Er werd geen gebouw gevonden op deze locatie.');
+            toastr.error('Er werd geen kunstwerk gevonden op deze locatie.');
         }
     };
     OlMap.prototype.drawWKTzone = function (wkt) {

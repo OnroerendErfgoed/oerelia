@@ -250,7 +250,7 @@ export class OlMap extends BaseMap {
         this.geometryObjectList.push({name: name, wktString: wktString});
       }
     } else {
-      toastr.error('Er werd geen gebouw gevonden op deze locatie.');
+      toastr.error('Er werd geen kunstwerk gevonden op deze locatie.');
     }
   }
 
