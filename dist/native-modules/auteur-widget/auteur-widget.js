@@ -55,9 +55,11 @@ var AuteurWidget = (function () {
         this.collegas = false;
         this.gridOptions = {};
         this.buttonActief = false;
+        this.validAuteurRelaties = [];
     }
     AuteurWidget.prototype.bind = function () {
         var _this = this;
+        this.validAuteurRelaties = this.filterValidRelaties(this.auteurRelaties);
         var mailSubject = 'Nieuwe auteur toevoegen';
         var mailBody = "Beste,\n\n" +
             "Gelieve een auteur toe te voegen aan de auteursdatabank met volgende gegevens:\n\n" +
@@ -214,16 +216,15 @@ var AuteurWidget = (function () {
         return '';
     };
     AuteurWidget.prototype.setParameters = function (params) {
+        var _a;
         var paramsObj = {
             tekst: this.zoekterm ? this.zoekterm + '*' : null,
             sort: null,
             type: this.auteurType
         };
         if (this.collegas) {
-            console.log(this.collegas);
-            var isDeelVanRelaties = this.filterValidRelaties(this.auteurRelaties);
-            var omschrijvingen = isDeelVanRelaties === null || isDeelVanRelaties === void 0 ? void 0 : isDeelVanRelaties.map(function (isDeelVanRelatie) { return isDeelVanRelatie.naar_uri; });
-            paramsObj['relatie'] = '[' + omschrijvingen.join(',') + ']';
+            var uris = (_a = this.validAuteurRelaties) === null || _a === void 0 ? void 0 : _a.map(function (isDeelVanRelatie) { return isDeelVanRelatie.naar_uri; });
+            paramsObj['relatie'] = '[' + uris.join(',') + ']';
         }
         if (params.sortModel.length) {
             var sortModel = params.sortModel[0];

@@ -7,13 +7,13 @@
 
     <ux-dialog-body>
       <div class="row">
-        <div class="large-8 columns">
+        <div class="${validAuteurRelaties.length > 0 ? 'large-8' : 'large-12'} columns">
           <div class="placeholder-container">
             <input type="text" focus.one-way="true" placeholder="&#xF002; Zoek een ${isEigenaarVermogensrecht ? 'eigenaar vermogensrechten' : 'auteur' } op naam of orcid" value.bind="zoekterm"
               keydown.delegate="search() & debounce:300" style="font-family: FontAwesome, 'Flanders Art Sans'">
           </div>
         </div>
-        <div class="large-4 columns" if.bind="isEigenaarVermogensrecht">
+        <div class="large-4 columns" if.bind="validAuteurRelaties.length > 0">
           <input type="checkbox" id="checkbox-collegas" change.delegate="search()" class="checkbox-custom" checked.bind="collegas">
           <label for="checkbox-collegas" class="checkbox-custom-label">Toon enkel mijn collega's</label>
         </div>

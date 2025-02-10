@@ -14,6 +14,7 @@ export declare class AuteurWidget {
     mailLink: string;
     private gridOptions;
     private buttonActief;
+    private validAuteurRelaties;
     constructor(dialogService: DialogService, controller: DialogController);
     bind(): void;
     setRowData(): Promise<void>;

@@ -20,9 +20,12 @@ export class AuteurWidget {
 
   private gridOptions = {} as GridOptions;
   private buttonActief = false;
+  private validAuteurRelaties = [];
   constructor(public dialogService: DialogService, public controller: DialogController) {}
 
   public bind() {
+    this.validAuteurRelaties = this.filterValidRelaties(this.auteurRelaties);
+
     const mailSubject = 'Nieuwe auteur toevoegen';
     const mailBody = `Beste,\n\n` +
     `Gelieve een auteur toe te voegen aan de auteursdatabank met volgende gegevens:\n\n` +
@@ -183,10 +186,8 @@ export class AuteurWidget {
     };
 
     if (this.collegas) {
-      console.log(this.collegas);
-      const isDeelVanRelaties = this.filterValidRelaties(this.auteurRelaties);
-      const omschrijvingen = isDeelVanRelaties?.map((isDeelVanRelatie) => isDeelVanRelatie.naar_uri);
-      paramsObj['relatie'] = '[' + omschrijvingen.join(',') + ']';
+      const uris = this.validAuteurRelaties?.map((isDeelVanRelatie) => isDeelVanRelatie.naar_uri);
+      paramsObj['relatie'] = '[' + uris.join(',') + ']';
     }
 
     if (params.sortModel.length) {
