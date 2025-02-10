@@ -25,7 +25,7 @@ export interface WmsLayerOptions extends BaseLayerOptions {
 }
 
 export interface GrbWmsLayerOptions extends WmsLayerOptions {
-  type: LayerType.GrbWMS | LayerType.Kunstwerk;
+  type: LayerType.GrbWMS;
 }
 
 export interface ErfgoedWmsLayerOptions extends WmsLayerOptions {

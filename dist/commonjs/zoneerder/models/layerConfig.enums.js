@@ -10,7 +10,6 @@ var LayerType;
     LayerType["ErfgoedWms"] = "ErfgoedWms";
     LayerType["DHMV"] = "DHMV";
     LayerType["OMWRGBMRVL"] = "OMWRGBMRVL";
-    LayerType["Kunstwerk"] = "GRB:KNW";
 })(LayerType || (exports.LayerType = LayerType = {}));
 
 //# sourceMappingURL=layerConfig.enums.js.map

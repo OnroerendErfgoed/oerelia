@@ -270,7 +270,7 @@ export abstract class BaseMap {
     let layer: ol.layer.Layer;
 
     if (layerOptions.type === LayerType.GRB || layerOptions.type === LayerType.DHMV || layerOptions.type === LayerType.OMWRGBMRVL) layer = this._createGrbLayer(id, layerOptions.type);
-    else if (layerOptions.type === LayerType.GrbWMS || layerOptions.type === LayerType.Kunstwerk) layer = this._createGrbWMSLayer(layerOptions);
+    else if (layerOptions.type === LayerType.GrbWMS) layer = this._createGrbWMSLayer(layerOptions);
     else if (layerOptions.type === LayerType.ErfgoedWms) layer = this._createErfgoedWMSLayer(layerOptions.wmsLayers);
     else if (layerOptions.type === LayerType.Ngi) layer = this._createNgiLayer(id);
     else if (layerOptions.type === LayerType.Vector) layer = this._createVectorLayer(layerOptions);

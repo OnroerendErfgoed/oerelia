@@ -228,7 +228,7 @@ var BaseMap = (function () {
         var layer;
         if (layerOptions.type === layerConfig_enums_1.LayerType.GRB || layerOptions.type === layerConfig_enums_1.LayerType.DHMV || layerOptions.type === layerConfig_enums_1.LayerType.OMWRGBMRVL)
             layer = this._createGrbLayer(id, layerOptions.type);
-        else if (layerOptions.type === layerConfig_enums_1.LayerType.GrbWMS || layerOptions.type === layerConfig_enums_1.LayerType.Kunstwerk)
+        else if (layerOptions.type === layerConfig_enums_1.LayerType.GrbWMS)
             layer = this._createGrbWMSLayer(layerOptions);
         else if (layerOptions.type === layerConfig_enums_1.LayerType.ErfgoedWms)
             layer = this._createErfgoedWMSLayer(layerOptions.wmsLayers);
