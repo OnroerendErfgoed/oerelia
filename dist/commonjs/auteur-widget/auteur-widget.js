@@ -54,7 +54,8 @@ var AuteurWidget = (function () {
         this.dialogService = dialogService;
         this.controller = controller;
         this.isEigenaarVermogensrecht = false;
-        this.erkendeCollegas = false;
+        this.isBeheerder = false;
+        this.collegas = false;
         this.gridOptions = {};
         this.buttonActief = false;
     }
@@ -222,7 +223,7 @@ var AuteurWidget = (function () {
             sort: null,
             type: this.auteurType
         };
-        if (this.erkendeCollegas) {
+        if (this.collegas) {
             var erkenningen = (this.userErkenningen
                 .filter(function (erkenning) { return erkenning.type === 'rechtspersoon'; }));
             var omschrijvingen = erkenningen === null || erkenningen === void 0 ? void 0 : erkenningen.map(function (erkenning) { return erkenning.oorsprong_erkenning.omschrijving; });
@@ -253,6 +254,10 @@ var AuteurWidget = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Object)
     ], AuteurWidget.prototype, "isEigenaarVermogensrecht", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], AuteurWidget.prototype, "isBeheerder", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Array)

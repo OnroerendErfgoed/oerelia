@@ -11,10 +11,11 @@ export class AuteurWidget {
   @bindable service: unknown;
   @bindable auteursUrl: string;
   @bindable isEigenaarVermogensrecht = false;
+  @bindable isBeheerder = false;
   @bindable userErkenningen?: IErkenning[] | IErkenningNew[];;
 
   public zoekterm: string;
-  public erkendeCollegas: boolean = false;
+  public collegas: boolean = false;
   mailLink: string;
 
   private gridOptions = {} as GridOptions;
@@ -181,7 +182,7 @@ export class AuteurWidget {
       type: this.auteurType
     };
 
-    if (this.erkendeCollegas) {
+    if (this.collegas) {
       const erkenningen = (this.userErkenningen
         .filter((erkenning: IErkenningNew) => erkenning.type === 'rechtspersoon')) as IErkenningNew[];
 

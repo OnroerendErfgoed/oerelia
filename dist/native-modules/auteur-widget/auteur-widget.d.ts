@@ -7,9 +7,10 @@ export declare class AuteurWidget {
     service: unknown;
     auteursUrl: string;
     isEigenaarVermogensrecht: boolean;
+    isBeheerder: boolean;
     userErkenningen?: IErkenning[] | IErkenningNew[];
     zoekterm: string;
-    erkendeCollegas: boolean;
+    collegas: boolean;
     mailLink: string;
     private gridOptions;
     private buttonActief;
