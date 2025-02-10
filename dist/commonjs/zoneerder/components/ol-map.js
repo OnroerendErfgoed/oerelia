@@ -50,6 +50,7 @@ var OlMap = (function (_super) {
         _this.isDrawingCircle = false;
         _this.selectPerceel = false;
         _this.selectGebouw = false;
+        _this.selectKunstwerk = false;
         _this.polygonIndex = 1;
         _this.circleIndex = 1;
         _this.totalArea = 0;
@@ -190,6 +191,20 @@ var OlMap = (function (_super) {
             });
         });
     };
+    OlMap.prototype.startKunstwerkSelect = function () {
+        var _this = this;
+        this.toggleDrawZone(false);
+        this.resetSelect();
+        this.selectKunstwerk = true;
+        this.map.on('click', function (evt) {
+            log.debug('KunstwerkSelect', evt);
+            _this.apiService.searchKunstwerk(evt.coordinate, _this.mapProjection.getCode()).then(function (result) {
+                _this.geoJsonFormatter.readFeatures(result).forEach(function (perceel) {
+                    _this.drawKunstwerk(perceel);
+                });
+            });
+        });
+    };
     OlMap.prototype.drawPerceel = function (olFeature) {
         if (olFeature) {
             var name_1 = "Perceel ".concat(olFeature.get('CAPAKEY'));
@@ -218,15 +233,29 @@ var OlMap = (function (_super) {
             toastr.error('Er werd geen gebouw gevonden op deze locatie.');
         }
     };
+    OlMap.prototype.drawKunstwerk = function (olFeature) {
+        if (olFeature) {
+            var name_3 = "Kunstwerk ".concat(olFeature.get('OIDN'));
+            if (!this.geometryObjectList.some(function (geometryObject) { return geometryObject.name === name_3; })) {
+                olFeature.set('name', name_3);
+                this.drawLayer.getSource().addFeature(olFeature);
+                var wktString = this.wktFormat.writeFeature(olFeature);
+                this.geometryObjectList.push({ name: name_3, wktString: wktString });
+            }
+        }
+        else {
+            toastr.error('Er werd geen gebouw gevonden op deze locatie.');
+        }
+    };
     OlMap.prototype.drawWKTzone = function (wkt) {
         try {
             var featureFromWKT = this.wktFormat.readFeature(wkt);
-            var name_3 = "Polygoon ".concat(this.polygonIndex++);
+            var name_4 = "Polygoon ".concat(this.polygonIndex++);
             featureFromWKT.setProperties({
-                name: name_3
+                name: name_4
             });
             this.drawLayer.getSource().addFeature(featureFromWKT);
-            this.geometryObjectList.push({ name: name_3, wktString: this.WKTstring });
+            this.geometryObjectList.push({ name: name_4, wktString: this.WKTstring });
             this.zoomToFeatures();
             this.WKTstring = '';
         }
@@ -432,6 +461,10 @@ var OlMap = (function (_super) {
         aurelia_framework_1.bindable,
         __metadata("design:type", Boolean)
     ], OlMap.prototype, "showSelectGebouw", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Boolean)
+    ], OlMap.prototype, "showSelectKunstwerk", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Number)

@@ -21,6 +21,7 @@ export declare class Zoneerder {
     alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
     laatstGealigneerd: string;
     showSelectGebouw: boolean;
+    showSelectKunstwerk: boolean;
     alignerAreaLimit: number;
     protected suggest: {
         suggest: Function;

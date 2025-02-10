@@ -23,6 +23,7 @@ var Zoneerder = (function () {
         this.isCollapsed = true;
         this.showGrbTool = false;
         this.showSelectGebouw = true;
+        this.showSelectKunstwerk = false;
         this.alignerAreaLimit = 100000;
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     }
@@ -95,6 +96,10 @@ var Zoneerder = (function () {
         bindable,
         __metadata("design:type", Object)
     ], Zoneerder.prototype, "showSelectGebouw", void 0);
+    __decorate([
+        bindable,
+        __metadata("design:type", Object)
+    ], Zoneerder.prototype, "showSelectKunstwerk", void 0);
     __decorate([
         bindable,
         __metadata("design:type", Object)

@@ -25,6 +25,7 @@ export class OlMap extends BaseMap {
   @bindable alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
   @bindable laatstGealigneerd?: string;
   @bindable showSelectGebouw: boolean;
+  @bindable showSelectKunstwerk: boolean;
   @bindable alignerAreaLimit: number;
   initialLaatstGealigneerd: string;
 
@@ -35,6 +36,7 @@ export class OlMap extends BaseMap {
   protected isDrawingCircle: boolean = false;
   protected selectPerceel: boolean = false;
   protected selectGebouw: boolean = false;
+  protected selectKunstwerk: boolean = false;
 
   @bindable private apiService: GeozoekdienstApiService;
   private drawLayer: ol.layer.Layer;
@@ -182,7 +184,7 @@ export class OlMap extends BaseMap {
     });
   }
 
-    startGebouwSelect() {
+  startGebouwSelect() {
     this.toggleDrawZone(false);
     this.resetSelect();
     this.selectGebouw = true;
@@ -196,6 +198,19 @@ export class OlMap extends BaseMap {
     });
   }
 
+  startKunstwerkSelect() {
+    this.toggleDrawZone(false);
+    this.resetSelect();
+    this.selectKunstwerk = true;
+    this.map.on('click', (evt: any) => {
+      log.debug('KunstwerkSelect', evt);
+      this.apiService.searchKunstwerk(evt.coordinate, this.mapProjection.getCode()).then((result: any) => {
+        this.geoJsonFormatter.readFeatures(result).forEach((perceel) => {
+          this.drawKunstwerk(perceel);
+        });
+      });
+    });
+  }
 
   drawPerceel(olFeature: ol.Feature) {
     if (olFeature) {
@@ -214,6 +229,20 @@ export class OlMap extends BaseMap {
   drawGebouw(olFeature: ol.Feature) {
     if (olFeature) {
       const name = `Gebouw ${olFeature.get('OIDN')}`;
+      if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === name)) {
+        olFeature.set('name', name);
+        (this.drawLayer.getSource() as ol.source.Vector).addFeature(olFeature);
+        const wktString = this.wktFormat.writeFeature(olFeature);
+        this.geometryObjectList.push({name: name, wktString: wktString});
+      }
+    } else {
+      toastr.error('Er werd geen gebouw gevonden op deze locatie.');
+    }
+  }
+
+  drawKunstwerk(olFeature: ol.Feature) {
+    if (olFeature) {
+      const name = `Kunstwerk ${olFeature.get('OIDN')}`;
       if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === name)) {
         olFeature.set('name', name);
         (this.drawLayer.getSource() as ol.source.Vector).addFeature(olFeature);

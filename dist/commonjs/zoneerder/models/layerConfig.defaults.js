@@ -13,7 +13,7 @@ exports.defaultLayerConfig = {
     },
     overlays: {
         overlay: { type: layerConfig_enums_1.LayerType.Ngi, title: 'Topokaart overlay' },
-        kunstwerken: { type: layerConfig_enums_1.LayerType.Kunstwerk, wmsLayers: 'GRB_KNW', title: 'GRB - KNW - kunstwerk', hidden: true },
+        kunstwerken: { type: layerConfig_enums_1.LayerType.Kunstwerk, wmsLayers: 'GRB_KNW', title: 'GRB-Kunstwerkenlaag', hidden: true },
         gebouwen: { type: layerConfig_enums_1.LayerType.GrbWMS, wmsLayers: 'GRB_GBG', title: 'GRB-Gebouwenlaag' },
         percelen: { type: layerConfig_enums_1.LayerType.GrbWMS, wmsLayers: 'GRB_ADP_GRENS', title: 'GRB-Percelenlaag' },
         bes: {
