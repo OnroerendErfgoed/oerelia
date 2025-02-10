@@ -351,6 +351,7 @@ export class OlMap extends BaseMap {
   private resetSelect() {
     this.selectPerceel = false;
     this.selectGebouw = false;
+    this.selectKunstwerk = false;
     (this.map as any).removeEventListener('click');
   }
 

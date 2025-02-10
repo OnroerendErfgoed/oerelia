@@ -9,8 +9,7 @@ import {
   LayerConfig,
   VectorLayerOptions,
   GrbWmsLayerOptions,
-  WmsLayerOptions,
-  KunstwerkWmsLayerOptions
+  WmsLayerOptions
 } from '../models/layerConfig';
 import { LayerType } from '../models/layerConfig.enums';
 import { Layerswitcher } from './ol-layerswitcher';
@@ -352,7 +351,7 @@ export abstract class BaseMap {
     }
   }
 
-  private _createGrbWMSLayer(layerOptions: GrbWmsLayerOptions|KunstwerkWmsLayerOptions) {
+  private _createGrbWMSLayer(layerOptions: GrbWmsLayerOptions) {
     const url = '//geo.api.vlaanderen.be/' + LayerType.GRB + '/wms';
     const layer = new ol.layer.Tile({
       extent: this.mapProjection.getExtent(),

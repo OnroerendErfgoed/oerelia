@@ -25,7 +25,7 @@ export interface WmsLayerOptions extends BaseLayerOptions {
 }
 
 export interface GrbWmsLayerOptions extends WmsLayerOptions {
-  type: LayerType.GrbWMS;
+  type: LayerType.GrbWMS | LayerType.Kunstwerk;
 }
 
 export interface ErfgoedWmsLayerOptions extends WmsLayerOptions {
@@ -40,14 +40,10 @@ export interface OMWRGBMRVLOptions extends BaseLayerOptions {
   type: LayerType.OMWRGBMRVL;
 }
 
-export interface KunstwerkWmsLayerOptions extends WmsLayerOptions {
-  type: LayerType.Kunstwerk;
-}
-
 export type GrbLayerOptions = GrbOrNgiLayerOptions;
 export type NgiLayerOptions = GrbOrNgiLayerOptions;
 
-export type LayerOptions = VectorLayerOptions | GrbLayerOptions | NgiLayerOptions | GrbWmsLayerOptions | ErfgoedWmsLayerOptions | DHMVLayerOptions | OMWRGBMRVLOptions | KunstwerkWmsLayerOptions;
+export type LayerOptions = VectorLayerOptions | GrbLayerOptions | NgiLayerOptions | GrbWmsLayerOptions | ErfgoedWmsLayerOptions | DHMVLayerOptions | OMWRGBMRVLOptions;
 
 export interface LayerConfig {
   baseLayers: { [layerId: string]: LayerOptions }

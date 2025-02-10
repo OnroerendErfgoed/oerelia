@@ -335,6 +335,7 @@ var OlMap = (function (_super) {
     OlMap.prototype.resetSelect = function () {
         this.selectPerceel = false;
         this.selectGebouw = false;
+        this.selectKunstwerk = false;
         this.map.removeEventListener('click');
     };
     OlMap.prototype.toggleDrawZone = function (bool, type) {
