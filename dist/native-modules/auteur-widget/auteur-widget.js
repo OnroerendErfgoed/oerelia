@@ -56,7 +56,6 @@ var AuteurWidget = (function () {
         this.gridOptions = {};
         this.buttonActief = false;
     }
-    ;
     AuteurWidget.prototype.bind = function () {
         var _this = this;
         var mailSubject = 'Nieuwe auteur toevoegen';
@@ -221,9 +220,9 @@ var AuteurWidget = (function () {
             type: this.auteurType
         };
         if (this.collegas) {
-            var erkenningen = (this.userErkenningen
-                .filter(function (erkenning) { return erkenning.type === 'rechtspersoon'; }));
-            var omschrijvingen = erkenningen === null || erkenningen === void 0 ? void 0 : erkenningen.map(function (erkenning) { return erkenning.oorsprong_erkenning.omschrijving; });
+            console.log(this.collegas);
+            var isDeelVanRelaties = this.filterValidRelaties(this.auteurRelaties);
+            var omschrijvingen = isDeelVanRelaties === null || isDeelVanRelaties === void 0 ? void 0 : isDeelVanRelaties.map(function (isDeelVanRelatie) { return isDeelVanRelatie.naar_uri; });
             paramsObj['relatie'] = '[' + omschrijvingen.join(',') + ']';
         }
         if (params.sortModel.length) {
@@ -234,6 +233,14 @@ var AuteurWidget = (function () {
     };
     AuteurWidget.prototype.isAnyRowSelected = function () {
         return this.gridOptions.api && this.gridOptions.api.getSelectedRows().length > 0;
+    };
+    AuteurWidget.prototype.filterValidRelaties = function (relaties) {
+        var today = new Date();
+        return relaties.filter(function (rel) {
+            return rel.type.id === 1 &&
+                (rel.startdatum === null || new Date(rel.startdatum) <= today) &&
+                (rel.einddatum === null || new Date(rel.einddatum) >= today);
+        });
     };
     __decorate([
         bindable,
@@ -258,7 +265,7 @@ var AuteurWidget = (function () {
     __decorate([
         bindable,
         __metadata("design:type", Array)
-    ], AuteurWidget.prototype, "userErkenningen", void 0);
+    ], AuteurWidget.prototype, "auteurRelaties", void 0);
     AuteurWidget = __decorate([
         autoinject,
         __metadata("design:paramtypes", [DialogService, DialogController])

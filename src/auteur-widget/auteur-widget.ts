@@ -1,7 +1,7 @@
 import { DialogController, DialogService } from 'aurelia-dialog';
 import { autoinject, LogManager, bindable } from 'aurelia-framework';
 import { ColDef, GridOptions, IGetRowsParams } from 'ag-grid-community';
-import { IAuteur, IErkenning, IErkenningNew, IRangeHeader, IResponse, IUser, ParamsType } from 'models/public-models';
+import { IAuteur, IAuteurRelatie, IErkenning, IErkenningNew, IRangeHeader, IResponse, IUser, ParamsType } from 'models/public-models';
 
 const log = LogManager.getLogger('auteur-widget');
 
@@ -12,7 +12,7 @@ export class AuteurWidget {
   @bindable auteursUrl: string;
   @bindable isEigenaarVermogensrecht = false;
   @bindable isBeheerder = false;
-  @bindable userErkenningen?: IErkenning[] | IErkenningNew[];;
+  @bindable auteurRelaties?: IAuteurRelatie[];
 
   public zoekterm: string;
   public collegas: boolean = false;
@@ -183,10 +183,9 @@ export class AuteurWidget {
     };
 
     if (this.collegas) {
-      const erkenningen = (this.userErkenningen
-        .filter((erkenning: IErkenningNew) => erkenning.type === 'rechtspersoon')) as IErkenningNew[];
-
-      const omschrijvingen = erkenningen?.map((erkenning) => erkenning.oorsprong_erkenning.omschrijving);
+      console.log(this.collegas);
+      const isDeelVanRelaties = this.filterValidRelaties(this.auteurRelaties);
+      const omschrijvingen = isDeelVanRelaties?.map((isDeelVanRelatie) => isDeelVanRelatie.naar_uri);
       paramsObj['relatie'] = '[' + omschrijvingen.join(',') + ']';
     }
 
@@ -200,5 +199,15 @@ export class AuteurWidget {
 
   isAnyRowSelected() {
     return this.gridOptions.api && this.gridOptions.api.getSelectedRows().length > 0;
+  }
+
+  private filterValidRelaties(relaties: IAuteurRelatie[]): IAuteurRelatie[] {
+    const today = new Date();
+
+    return relaties.filter(rel =>
+      rel.type.id === 1 &&
+      (rel.startdatum === null || new Date(rel.startdatum) <= today) &&
+      (rel.einddatum === null || new Date(rel.einddatum) >= today)
+    );
   }
 }
