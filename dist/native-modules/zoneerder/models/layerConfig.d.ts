@@ -7,6 +7,7 @@ interface BaseLayerOptions {
     visible?: boolean;
     className?: string;
     showLegend?: boolean;
+    hidden?: boolean;
 }
 export interface VectorLayerOptions extends BaseLayerOptions {
     type: LayerType.Vector;
