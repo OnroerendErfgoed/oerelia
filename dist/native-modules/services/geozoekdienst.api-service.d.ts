@@ -5,4 +5,5 @@ export declare class GeozoekdienstApiService {
     getGeozoekDienstObjecten(geometrie: any): Promise<any>;
     searchPerceel(coordinate: any, srsname: any): Promise<any>;
     searchGebouw(coordinate: any, srsname: any): Promise<any>;
+    searchKunstwerk(coordinate: any, srsname: any): Promise<any>;
 }

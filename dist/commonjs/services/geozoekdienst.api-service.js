@@ -89,6 +89,27 @@ var GeozoekdienstApiService = (function () {
             }
         });
     };
+    GeozoekdienstApiService.prototype.searchKunstwerk = function (coordinate, srsname) {
+        var filter = new ol.format.filter.Intersects('SHAPE', new ol.geom.Point(coordinate, 'XY'), 'urn:x-ogc:def:crs:EPSG:31370');
+        var featureRequest = new ol.format.WFS().writeGetFeature({
+            srsName: srsname,
+            featureNS: 'https://geo.api.vlaanderen.be/GRB',
+            featurePrefix: 'GRB',
+            featureTypes: ['KNW'],
+            outputFormat: 'application/json',
+            filter: filter
+        });
+        return this.http.createRequest(oeAppConfig.agivGrbUrl)
+            .asPost()
+            .withContent(new XMLSerializer().serializeToString(featureRequest))
+            .withHeader('Content-Type', 'application/xml')
+            .send()
+            .then(function (response) {
+            if (response.isSuccess) {
+                return response.content;
+            }
+        });
+    };
     GeozoekdienstApiService = __decorate([
         (0, aurelia_framework_1.inject)(aurelia_http_client_1.HttpClient),
         __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient])
