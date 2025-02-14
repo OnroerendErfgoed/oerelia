@@ -55,6 +55,8 @@ var AuteurWidget = (function () {
         this.controller = controller;
         this.isEigenaarVermogensrecht = false;
         this.isBeheerder = false;
+        this.auteurRelaties = [];
+        this.single = false;
         this.collegas = false;
         this.gridOptions = {};
         this.buttonActief = false;
@@ -96,7 +98,7 @@ var AuteurWidget = (function () {
         this.gridOptions.overlayLoadingTemplate = '<i class="fa fa-pulse fa-spinner"></i>';
         this.gridOptions.enableBrowserTooltips = true;
         this.gridOptions.columnDefs = this.getColumnDefinitions();
-        this.gridOptions.rowSelection = 'multiple';
+        this.gridOptions.rowSelection = this.single ? 'single' : 'multiple';
         this.gridOptions.onRowSelected = function () { return _this.buttonActief = _this.isAnyRowSelected(); };
     };
     AuteurWidget.prototype.setRowData = function () {
@@ -160,7 +162,7 @@ var AuteurWidget = (function () {
             return;
         }
         var selectedAuteurs = this.gridOptions.api.getSelectedRows();
-        this.controller.ok(selectedAuteurs);
+        this.controller.ok(this.single ? selectedAuteurs[0] : selectedAuteurs);
     };
     AuteurWidget.prototype.getColumnDefinitions = function () {
         return [
@@ -270,6 +272,10 @@ var AuteurWidget = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Array)
     ], AuteurWidget.prototype, "auteurRelaties", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], AuteurWidget.prototype, "single", void 0);
     AuteurWidget = __decorate([
         aurelia_framework_1.autoinject,
         __metadata("design:paramtypes", [aurelia_dialog_1.DialogService, aurelia_dialog_1.DialogController])

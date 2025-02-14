@@ -12,7 +12,8 @@ export class AuteurWidget {
   @bindable auteursUrl: string;
   @bindable isEigenaarVermogensrecht = false;
   @bindable isBeheerder = false;
-  @bindable auteurRelaties?: IAuteurRelatie[];
+  @bindable auteurRelaties?: IAuteurRelatie[] = [];
+  @bindable single = false;
 
   public zoekterm: string;
   public collegas: boolean = false;
@@ -60,7 +61,7 @@ export class AuteurWidget {
     this.gridOptions.overlayLoadingTemplate = '<i class="fa fa-pulse fa-spinner"></i>';
     this.gridOptions.enableBrowserTooltips = true;
     this.gridOptions.columnDefs = this.getColumnDefinitions();
-    this.gridOptions.rowSelection = 'multiple';
+    this.gridOptions.rowSelection = this.single ? 'single' : 'multiple';
     this.gridOptions.onRowSelected = () => this.buttonActief = this.isAnyRowSelected();
   }
 
@@ -115,7 +116,7 @@ export class AuteurWidget {
     }
 
     const selectedAuteurs = this.gridOptions.api.getSelectedRows() as IAuteur[];
-    this.controller.ok(selectedAuteurs);
+    this.controller.ok(this.single ? selectedAuteurs[0] : selectedAuteurs);
   }
 
   private getColumnDefinitions(): ColDef[] {

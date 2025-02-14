@@ -9,6 +9,7 @@ export declare class AuteurWidget {
     isEigenaarVermogensrecht: boolean;
     isBeheerder: boolean;
     auteurRelaties?: IAuteurRelatie[];
+    single: boolean;
     zoekterm: string;
     collegas: boolean;
     mailLink: string;
