@@ -252,6 +252,7 @@ export abstract class BaseMap {
     //BaseLayers
     const layers = Object.keys(this.layerConfig.baseLayers)
       .map((id) => ({ id, options: this.layerConfig.baseLayers[id] }))
+      .filter((layer) => !layer.options.hidden)
       .map(({ id, options }) => this._createLayer(id, options, true))
     const baseLayerGroup = new ol.layer.Group({ layers });
     baseLayerGroup.set('title', 'Achtergrond kaart');
@@ -260,6 +261,7 @@ export abstract class BaseMap {
     // Overlays
     const overlays = Object.keys(this.layerConfig.overlays)
       .map((id) => ({ id, options: this.layerConfig.overlays[id] }))
+      .filter((layer) => !layer.options.hidden)
       .map(({ id, options }) => this._createLayer(id, options, false))
     overlays.forEach((layer) => this.map.addLayer(layer));
   }
