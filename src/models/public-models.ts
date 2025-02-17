@@ -28,6 +28,7 @@ export interface IErkenningNew {
 export interface IOorsprongErkenning {
   id: string;
   uri: string;
+  omschrijving: string;
 }
 
 export interface IErkendAls {
