@@ -12,3 +12,13 @@ auteur-widget .auteur-toevoegen-dialog {
   max-width: 1000px;
   width: 95vw;
 }
+auteur-widget .auteur-toevoegen-dialog .eigenaar-vermogensrecht-footer-text {
+  text-align: start !important;
+  padding: 0px 16px 16px 16px;
+}
+auteur-widget .float-right {
+  float: right;
+}
+auteur-widget .ag-checkbox-input {
+  height: 100% !important;
+}

@@ -18,6 +18,20 @@ auteur-widget {
     &-dialog {
       max-width: 1000px;
       width: 95vw;
+
+     .eigenaar-vermogensrecht-footer-text {
+      text-align: start !important;
+      padding: 0px 16px 16px 16px;
+     }
     }
+  }
+
+  .float-right {
+    float: right;
+  }
+
+  .ag-checkbox-input {
+    // Fixes clickable checkboxes
+    height: 100% !important;
   }
 }

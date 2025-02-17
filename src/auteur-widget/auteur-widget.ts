@@ -1,7 +1,7 @@
 import { DialogController, DialogService } from 'aurelia-dialog';
 import { autoinject, LogManager, bindable } from 'aurelia-framework';
 import { ColDef, GridOptions, IGetRowsParams } from 'ag-grid-community';
-import { IAuteur, IRangeHeader, IResponse, ParamsType } from 'models/public-models';
+import { IAuteur, IAuteurRelatie, IErkenning, IErkenningNew, IRangeHeader, IResponse, IUser, ParamsType } from 'models/public-models';
 
 const log = LogManager.getLogger('auteur-widget');
 
@@ -10,20 +10,45 @@ export class AuteurWidget {
   @bindable auteurType: string;
   @bindable service: unknown;
   @bindable auteursUrl: string;
+  @bindable isEigenaarVermogensrecht = false;
+  @bindable isBeheerder = false;
+  @bindable auteurRelaties?: IAuteurRelatie[] = [];
+  @bindable single = false;
 
   public zoekterm: string;
-  public title: string = 'Auteur toevoegen';
+  public collegas: boolean = false;
+  mailLink: string;
+
   private gridOptions = {} as GridOptions;
   private buttonActief = false;
-
-  constructor(public dialogService: DialogService, public controller: DialogController) { }
+  private validAuteurRelaties = [];
+  constructor(public dialogService: DialogService, public controller: DialogController) {}
 
   public bind() {
+    this.validAuteurRelaties = this.filterValidRelaties(this.auteurRelaties);
+
+    const mailSubject = 'Nieuwe auteur toevoegen';
+    const mailBody = `Beste,\n\n` +
+    `Gelieve een auteur toe te voegen aan de auteursdatabank met volgende gegevens:\n\n` +
+    `Indien de auteur een natuurlijk persoon is:\n` +
+    `Naam (verplicht):\n` +
+    `Voornaam (verplicht):\n` +
+    `e-mail:\n` +
+    `Mag het e-mailadres publiek zichtbaar zijn in de toepassing?:\n` +
+    `Orcid:\n` +
+    `Bedrijf waarvoor auteur werkt:\n\n` +
+    `Indien de auteur een organisatie is:\n` +
+    `Naam (verplicht):\n` +
+    `KBO (verplicht):\n` +
+    `e-mail:\n` +
+    `Mag het e-mailadres publiek zichtbaar zijn in de toepassing?:`;
+    
+    this.mailLink = `mailto:ict@onroerenderfgoed.be?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
     this.gridOptions.context = this;
     this.gridOptions.suppressMovableColumns = true;
     this.gridOptions.defaultColDef = {
       resizable: true,
-      sortable: true
+      sortable: true,
     };
     this.gridOptions.headerHeight = 45;
     this.gridOptions.rowHeight = 40;
@@ -36,8 +61,8 @@ export class AuteurWidget {
     this.gridOptions.overlayLoadingTemplate = '<i class="fa fa-pulse fa-spinner"></i>';
     this.gridOptions.enableBrowserTooltips = true;
     this.gridOptions.columnDefs = this.getColumnDefinitions();
-    this.gridOptions.rowSelection = 'single';
-    this.gridOptions.onRowSelected = () => this.buttonActief = true;
+    this.gridOptions.rowSelection = this.single ? 'single' : 'multiple';
+    this.gridOptions.onRowSelected = () => this.buttonActief = this.isAnyRowSelected();
   }
 
   public async setRowData() {
@@ -90,14 +115,22 @@ export class AuteurWidget {
       return;
     }
 
-    const selectedAuteur = this.gridOptions.api.getSelectedRows()[0] as IAuteur;
-    this.controller.ok(selectedAuteur);
+    const selectedAuteurs = this.gridOptions.api.getSelectedRows() as IAuteur[];
+    this.controller.ok(this.single ? selectedAuteurs[0] : selectedAuteurs);
   }
 
   private getColumnDefinitions(): ColDef[] {
     return [
-      { headerName: 'ID', field: 'id', sort: 'desc', width: 35 },
+      {
+        headerName: '',
+        field: 'select',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        width: 10,
+      },
+      { headerName: 'ID', field: 'id', sort: 'desc', width: 50 },
       { headerName: 'Naam', colId: 'naam', field: 'omschrijving', width: 200 },
+      { headerName: 'Identificatie', colId: 'identificatie', field: 'identificatie', width: 200 },
       { headerName: 'Huidige relaties', field: 'relaties', sortable: false,
       cellRenderer: this.huidigeRelatiesCellRenderer, width: 150 },
       { headerName: '', cellClass: 'acties-cell', sortable: false,
@@ -111,7 +144,7 @@ export class AuteurWidget {
       const openLink = document.createElement('a');
       openLink.setAttribute('target', '_blank');
       openLink.setAttribute('href', params.data.uri);
-      openLink.setAttribute('title', 'Bekijk deze auteur');
+      openLink.setAttribute('title', 'Bekijk deze auteur in de auteursdatabank');
       openLink.setAttribute('style', 'display: inline-flex');
 
       const openElement = document.createElement('i');
@@ -153,11 +186,30 @@ export class AuteurWidget {
       type: this.auteurType
     };
 
+    if (this.collegas) {
+      const uris = this.validAuteurRelaties?.map((isDeelVanRelatie) => isDeelVanRelatie.naar_uri);
+      paramsObj['relatie'] = '[' + uris.join(',') + ']';
+    }
+
     if (params.sortModel.length) {
       const sortModel = params.sortModel[0];
       paramsObj.sort = ((sortModel.sort === 'asc') ? '' : '-') + sortModel.colId;
     }
 
     return paramsObj;
+  }
+
+  isAnyRowSelected() {
+    return this.gridOptions.api && this.gridOptions.api.getSelectedRows().length > 0;
+  }
+
+  private filterValidRelaties(relaties: IAuteurRelatie[]): IAuteurRelatie[] {
+    const today = new Date();
+
+    return relaties.filter(rel =>
+      rel.type.id === 1 &&
+      (rel.startdatum === null || new Date(rel.startdatum) <= today) &&
+      (rel.einddatum === null || new Date(rel.einddatum) >= today)
+    );
   }
 }
