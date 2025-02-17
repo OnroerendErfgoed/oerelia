@@ -67,6 +67,7 @@ export interface IActor {
     urls: string[];
     voornaam: string;
     zichtbaarheid: IType;
+    auteur_uri: string;
 }
 export declare class Actor {
     erkenningen: IErkenning[] | IErkenningNew[];
