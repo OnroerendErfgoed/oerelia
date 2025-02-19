@@ -37,9 +37,9 @@
       <button class="button tiny" click.delegate="controller.cancel()">Annuleren</button>
       <div if.bind="!isBeheerder" class="eigenaar-vermogensrecht-footer-text">
         <small>
-          Staat de ${isEigenaarVermogensrecht ? 'eigenaar vermogensrecht ' : 'auteur '} die je wenst toe te voegen niet in deze lijst of zijn de gegevens niet correct? 
+          Staat de ${isEigenaarVermogensrecht ? 'eigenaar vermogensrechten ' : 'auteur '} die je wenst toe te voegen niet in deze lijst of zijn de gegevens niet correct? 
           Bezorg ons dan de correcte gegevens via <a href="${mailLink}">auteurs@onroerenderfgoed.be</a>. Bezorg ons minstens een naam en voornaam, 
-          optioneel een e-mailadres, orcid en het bedrijf waarvoor de auteur werkt.
+          optioneel een e-mailadres, orcid en het bedrijf waarvoor de ${isEigenaarVermogensrecht ? 'eigenaar vermogensrechten ' : 'auteur '} werkt.
         </small>
       </div>
     </ux-dialog-footer>
