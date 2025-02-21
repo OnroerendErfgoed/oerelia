@@ -77,7 +77,7 @@ var AuteurWidget = (function () {
             "KBO (verplicht):\n" +
             "e-mail:\n" +
             "Mag het e-mailadres publiek zichtbaar zijn in de toepassing?:";
-        this.mailLink = "mailto:ict@onroerenderfgoed.be?subject=".concat(encodeURIComponent(mailSubject), "&body=").concat(encodeURIComponent(mailBody));
+        this.mailLink = "mailto:auteurs@onroerenderfgoed.be?subject=".concat(encodeURIComponent(mailSubject), "&body=").concat(encodeURIComponent(mailBody));
         this.gridOptions.context = this;
         this.gridOptions.suppressMovableColumns = true;
         this.gridOptions.defaultColDef = {
@@ -171,10 +171,10 @@ var AuteurWidget = (function () {
                 width: 10,
             },
             { headerName: 'ID', field: 'id', sort: 'desc', width: 50 },
-            { headerName: 'Naam', colId: 'naam', field: 'omschrijving', width: 200 },
-            { headerName: 'Identificatie', colId: 'identificatie', field: 'identificatie', width: 200 },
+            { headerName: 'Naam', colId: 'naam', field: 'omschrijving', width: 150 },
+            { headerName: 'Identificatie', colId: 'identificatie', field: 'identificatie', width: 150 },
             { headerName: 'Huidige relaties', field: 'relaties', sortable: false,
-                cellRenderer: this.huidigeRelatiesCellRenderer, width: 150 },
+                cellRenderer: this.huidigeRelatiesCellRenderer, flex: 1 },
             { headerName: '', cellClass: 'acties-cell', sortable: false,
                 cellRenderer: this.actiesCellRenderer, minWidth: 75, maxWidth: 75 }
         ];
