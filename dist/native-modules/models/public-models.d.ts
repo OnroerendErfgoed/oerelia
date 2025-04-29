@@ -25,6 +25,7 @@ export interface IErkenningNew {
 export interface IOorsprongErkenning {
     id: string;
     uri: string;
+    omschrijving: string;
 }
 export interface IErkendAls {
     id: number;
@@ -66,6 +67,7 @@ export interface IActor {
     urls: string[];
     voornaam: string;
     zichtbaarheid: IType;
+    auteur_uri: string;
 }
 export declare class Actor {
     erkenningen: IErkenning[] | IErkenningNew[];

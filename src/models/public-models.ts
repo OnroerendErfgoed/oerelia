@@ -28,6 +28,7 @@ export interface IErkenningNew {
 export interface IOorsprongErkenning {
   id: string;
   uri: string;
+  omschrijving: string;
 }
 
 export interface IErkendAls {
@@ -73,6 +74,7 @@ export interface IActor {
   urls: string[];
   voornaam: string;
   zichtbaarheid: IType;
+  auteur_uri: string;
 }
 
 export class Actor {
