@@ -100,6 +100,7 @@ var AuteurWidget = (function () {
         this.gridOptions.columnDefs = this.getColumnDefinitions();
         this.gridOptions.rowSelection = this.single ? 'single' : 'multiple';
         this.gridOptions.onRowSelected = function () { return _this.buttonActief = _this.isAnyRowSelected(); };
+        this.gridOptions.getRowNodeId = function (data) { return data.id; };
     };
     AuteurWidget.prototype.setRowData = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -121,6 +122,7 @@ var AuteurWidget = (function () {
                                     data = _a.sent();
                                     if (data) {
                                         params.successCallback(data.content, data.lastRow);
+                                        this.setSelectedAuteurRows();
                                         if (data.content.length <= 0) {
                                             params.context.gridOptions.api.showNoRowsOverlay();
                                             params.context.gridOptions.api.setInfiniteRowCount(0, false);
@@ -246,6 +248,14 @@ var AuteurWidget = (function () {
             return rel.type.id === 1 &&
                 (rel.startdatum === null || new Date(rel.startdatum) <= today) &&
                 (rel.einddatum === null || new Date(rel.einddatum) >= today);
+        });
+    };
+    AuteurWidget.prototype.setSelectedAuteurRows = function () {
+        var selectedIds = this.gridOptions.api.getSelectedNodes().map(function (node) { return node.id; });
+        this.gridOptions.api.forEachNode(function (node) {
+            if (selectedIds.includes(node.id)) {
+                node.setSelected(true);
+            }
         });
     };
     __decorate([
