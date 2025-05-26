@@ -63,6 +63,7 @@ export class AuteurWidget {
     this.gridOptions.columnDefs = this.getColumnDefinitions();
     this.gridOptions.rowSelection = this.single ? 'single' : 'multiple';
     this.gridOptions.onRowSelected = () => this.buttonActief = this.isAnyRowSelected();
+    this.gridOptions.getRowNodeId = (data) => data.id;
   }
 
   public async setRowData() {
@@ -77,6 +78,7 @@ export class AuteurWidget {
 
         if (data) {
           params.successCallback(data.content, data.lastRow);
+          this.setSelectedAuteurRows();
           if (data.content.length <= 0) {
             params.context.gridOptions.api.showNoRowsOverlay();
             params.context.gridOptions.api.setInfiniteRowCount(0, false);
@@ -211,5 +213,14 @@ export class AuteurWidget {
       (rel.startdatum === null || new Date(rel.startdatum) <= today) &&
       (rel.einddatum === null || new Date(rel.einddatum) >= today)
     );
+  }
+
+  private setSelectedAuteurRows() {
+    const selectedIds = this.gridOptions.api.getSelectedNodes().map(node => node.id);
+    this.gridOptions.api.forEachNode(node => {
+      if (selectedIds.includes(node.id)) {
+        node.setSelected(true);
+      }
+    });
   }
 }

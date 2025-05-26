@@ -30,4 +30,5 @@ export declare class AuteurWidget {
     private setParameters;
     isAnyRowSelected(): boolean;
     private filterValidRelaties;
+    private setSelectedAuteurRows;
 }
