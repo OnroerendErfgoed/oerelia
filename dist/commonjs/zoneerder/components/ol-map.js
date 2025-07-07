@@ -93,17 +93,15 @@ var OlMap = (function (_super) {
         if (!this.zone) {
             return;
         }
-        var wktString = '';
-        this.zone.coordinates.forEach(function (coords) {
-            var polygon = new openlayers_1.default.geom.Polygon(coords);
-            var feature = new openlayers_1.default.Feature({
-                name: name,
-                geometry: polygon
-            });
+        var polygons = this.zone.coordinates.map(function (coords) { return new openlayers_1.default.geom.Polygon(coords); });
+        polygons.forEach(function (polygon) {
+            var feature = new openlayers_1.default.Feature({ name: name, geometry: polygon });
             drawSource.addFeature(feature);
             _this.totalArea += polygon.getArea();
-            wktString += _this.wktFormat.writeFeature(feature);
         });
+        var multiPolygon = new openlayers_1.default.geom.MultiPolygon(polygons.map(function (polygon) { return polygon.getCoordinates(); }));
+        var feature = new openlayers_1.default.Feature({ name: name, geometry: multiPolygon });
+        var wktString = this.wktFormat.writeFeature(feature);
         this.geometryObjectList = [{ name: name, wktString: wktString }];
     };
     OlMap.prototype.zoneChanged = function () {

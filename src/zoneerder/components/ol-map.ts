@@ -95,17 +95,17 @@ export class OlMap extends BaseMap {
       return;
     }
 
-    let wktString = '';
-    this.zone.coordinates.forEach((coords) => {
-      const polygon = new ol.geom.Polygon(coords);
-      const feature = new ol.Feature({
-        name,
-        geometry: polygon
-      });
+    const polygons = this.zone.coordinates.map((coords) => new ol.geom.Polygon(coords));
+    polygons.forEach((polygon) => {
+      const feature = new ol.Feature({name, geometry: polygon});
       drawSource.addFeature(feature);
       this.totalArea += polygon.getArea();
-      wktString += this.wktFormat.writeFeature(feature);
     });
+
+    const multiPolygon = new ol.geom.MultiPolygon(polygons.map(polygon => polygon.getCoordinates()));
+    const feature = new ol.Feature({name, geometry: multiPolygon});
+    const wktString = this.wktFormat.writeFeature(feature);
+
     this.geometryObjectList = [{ name, wktString }];
   }
 
@@ -130,13 +130,13 @@ export class OlMap extends BaseMap {
     if (type === 'Polygon') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
         evt.feature.setProperties({ name: `Polygoon ${this.polygonIndex++}` });
-        const wktString = this.wktFormat.writeFeature(evt.feature); 
+        const wktString = this.wktFormat.writeFeature(evt.feature);
         this.geometryObjectList.push({name: evt.feature.getProperties().name, wktString: wktString});
       });
     } else if (type === 'Circle') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
         evt.feature.setProperties({ name: `Cirkel ${this.circleIndex++}` });
-        
+
         // Convert the circle to a polygon
         const circleGeometry = evt.feature.getGeometry();
         const polygonGeometry = ol.geom.Polygon.fromCircle(circleGeometry);
@@ -144,7 +144,7 @@ export class OlMap extends BaseMap {
         const polygonFeature = new ol.Feature(polygonGeometry);
         const wktString = this.wktFormat.writeFeature(polygonFeature);
         this.geometryObjectList.push({
-          name: evt.feature.getProperties().name, 
+          name: evt.feature.getProperties().name,
           wktString: wktString
         });
       });
@@ -218,7 +218,7 @@ export class OlMap extends BaseMap {
       if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === name)) {
         olFeature.set('name', name);
         (this.drawLayer.getSource() as ol.source.Vector).addFeature(olFeature);
-        const wktString = this.wktFormat.writeFeature(olFeature);    
+        const wktString = this.wktFormat.writeFeature(olFeature);
         this.geometryObjectList.push({name: name, wktString: wktString});
       }
     } else {
