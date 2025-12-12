@@ -43,6 +43,8 @@ export class Geolocate extends ol.control.Control {
         navigator.geolocation.clearWatch(this.watchId);
         source.clear(true);
         this.watchId = null;
+
+        this.element.classList.remove('tracking-on');
       } else {
         this.watchId =  navigator.geolocation.watchPosition(function(pos) {
           self._addPositionFeature(pos, view, source, positionFeature);
@@ -53,6 +55,7 @@ export class Geolocate extends ol.control.Control {
         {
           enableHighAccuracy: true
         });
+        this.element.classList.add('tracking-on');
       }
     } else {
       navigator.geolocation.getCurrentPosition(function(pos) {

@@ -48,6 +48,7 @@ var Geolocate = (function (_super) {
                 navigator.geolocation.clearWatch(this.watchId);
                 source.clear(true);
                 this.watchId = null;
+                this.element.classList.remove('tracking-on');
             }
             else {
                 this.watchId = navigator.geolocation.watchPosition(function (pos) {
@@ -57,6 +58,7 @@ var Geolocate = (function (_super) {
                 }, {
                     enableHighAccuracy: true
                 });
+                this.element.classList.add('tracking-on');
             }
         }
         else {
