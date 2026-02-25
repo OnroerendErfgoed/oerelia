@@ -247,7 +247,8 @@ export class MapUtil {
     });
 
     if (mergedJstsGeom) {
-      const polygon = parser.write(mergedJstsGeom);
+      const buffered = mergedJstsGeom.buffer(0);
+      const polygon = parser.write(buffered);
       const coords = polygon.getType() === 'Polygon' ? [polygon.getCoordinates()] : polygon.getCoordinates();
       if (coords[0].length > 0) {
         return new ol.Feature({
@@ -297,7 +298,8 @@ export class MapUtil {
       jstsGeom = (parser.read(polygon1.getGeometry())).difference(parser.read(polygon2.getGeometry()));
     }
 
-    const polygon = parser.write(jstsGeom);
+    const buffered = jstsGeom.buffer(0);
+    const polygon = parser.write(buffered);
     const coords = polygon.getType() === 'Polygon' ? [polygon.getCoordinates()] : polygon.getCoordinates();
     if (coords[0].length > 0) {
       return new ol.Feature({

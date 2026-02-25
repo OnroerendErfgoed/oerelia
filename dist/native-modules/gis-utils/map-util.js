@@ -221,7 +221,8 @@ var MapUtil = (function () {
             mergedJstsGeom = mergedJstsGeom ? mergedJstsGeom.union(jstsGeom) : jstsGeom;
         });
         if (mergedJstsGeom) {
-            var polygon = parser.write(mergedJstsGeom);
+            var buffered = mergedJstsGeom.buffer(0);
+            var polygon = parser.write(buffered);
             var coords = polygon.getType() === 'Polygon' ? [polygon.getCoordinates()] : polygon.getCoordinates();
             if (coords[0].length > 0) {
                 return new ol.Feature({
@@ -266,7 +267,8 @@ var MapUtil = (function () {
         else {
             jstsGeom = (parser.read(polygon1.getGeometry())).difference(parser.read(polygon2.getGeometry()));
         }
-        var polygon = parser.write(jstsGeom);
+        var buffered = jstsGeom.buffer(0);
+        var polygon = parser.write(buffered);
         var coords = polygon.getType() === 'Polygon' ? [polygon.getCoordinates()] : polygon.getCoordinates();
         if (coords[0].length > 0) {
             return new ol.Feature({
