@@ -1,33 +1,51 @@
-import * as ol from 'openlayers';
+import Feature from 'ol/Feature';
+import Map from 'ol/Map';
+import Point from 'ol/geom/Point';
+import VectorLayer from 'ol/layer/Vector';
+import { transform } from 'ol/proj';
+import VectorSource from 'ol/source/Vector';
+import CircleStyle from 'ol/style/Circle';
+import Fill from 'ol/style/Fill';
+import Stroke from 'ol/style/Stroke';
+import Style from 'ol/style/Style';
+import OlControl from 'ol/control/Control';
 
-export class Geolocate extends ol.control.Control {
+export class Geolocate extends OlControl {
   public options;
-  public element: Element;
-  public layer: ol.layer.Vector;
+  public layer: VectorLayer<VectorSource>;
+  private map: Map;
   private watchId = null;
 
   constructor(optOptions) {
-    super(optOptions);
-    this.options = optOptions || {};
-
-    this.element = document.createElement('div');
-    this.element.className = 'ol-geolocate ol-control ol-unselectable';
+    const options = optOptions || {};
+    const element = document.createElement('div');
+    element.className = 'ol-geolocate ol-control ol-unselectable';
 
     const button = document.createElement('button');
-    const tipLabel = this.options.tipLabel ? this.options.tipLabel : 'Zoom naar je eigen locatie';
+    const tipLabel = options.tipLabel ? options.tipLabel : 'Zoom naar je eigen locatie';
     button.setAttribute('title', tipLabel);
     button.innerHTML = '<i class="fa fa-map-marker"></i>';
-    this.element.appendChild(button);
-    button.addEventListener('click', this._zoomToLocation.bind(this), false);
+    element.appendChild(button);
 
-    ol.control.Control.call(this, {
-      element: this.element,
-      target: this.options.target
+    super({
+      element,
+      target: options.target
     });
+
+    this.options = options;
+    button.addEventListener('click', this._zoomToLocation.bind(this), false);
+  }
+
+  public setMap(map: Map) {
+    super.setMap(map);
+    this.map = map;
   }
 
   private _zoomToLocation() {
-    const map = this.getMap();
+    const map = this.map;
+    if (!map) {
+      return;
+    }
     const view = map.getView();
 
     if(!this.layer) {
@@ -61,25 +79,25 @@ export class Geolocate extends ol.control.Control {
     }
   }
 
-  private _createLayer(map: ol.Map): ol.layer.Vector {
-    const source = new ol.source.Vector();
-    const layer = new ol.layer.Vector({
+  private _createLayer(map: Map): VectorLayer<VectorSource> {
+    const source = new VectorSource();
+    const layer = new VectorLayer({
       source: source
     });
     map.addLayer(layer);
     return layer;
   }
 
-  private _createFeature(): ol.Feature {
-    const feature = new ol.Feature();
+  private _createFeature(): Feature {
+    const feature = new Feature();
     feature.setStyle(
-      new ol.style.Style({
-        image: new ol.style.Circle({
+      new Style({
+        image: new CircleStyle({
           radius: 6,
-          fill: new ol.style.Fill({
+          fill: new Fill({
             color: '#3399CC'
           }),
-          stroke: new ol.style.Stroke({
+          stroke: new Stroke({
             color: '#fff',
             width: 2
           })
@@ -91,7 +109,7 @@ export class Geolocate extends ol.control.Control {
 
   private _addPositionFeature(pos, view, source, positionFeature) {
     const zoomLevel = this.options.zoomLevel ? this.options.zoomLevel : 12;
-    const coordinates = ol.proj.transform(
+    const coordinates = transform(
       [pos.coords.longitude, pos.coords.latitude],
       'EPSG:4326',
       view.getProjection()
@@ -99,7 +117,7 @@ export class Geolocate extends ol.control.Control {
 
     view.setCenter(coordinates);
     view.setZoom(zoomLevel);
-    positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+    positionFeature.setGeometry(coordinates ? new Point(coordinates) : null);
     source.clear(true);
     source.addFeatures([
       positionFeature

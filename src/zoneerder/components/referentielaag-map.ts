@@ -1,4 +1,4 @@
-import * as ol from 'openlayers';
+import Layer from 'ol/layer/Layer';
 import { Contour, IAlignerResponse, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 import { BaseMap } from './base-map';
 import { bindable } from 'aurelia-framework';
@@ -12,9 +12,9 @@ export class ReferentieLaagMap extends BaseMap {
   @bindable alignGrb: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
   @bindable resultaat: Geometry;
 
-  private resultLayer: ol.layer.Layer;
-  private verschilPlusLayer: ol.layer.Layer;
-  private verschilMinLayer: ol.layer.Layer;
+  private resultLayer: Layer<any>;
+  private verschilPlusLayer: Layer<any>;
+  private verschilMinLayer: Layer<any>;
 
   constructor() {
     super()

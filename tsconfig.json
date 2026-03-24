@@ -18,6 +18,7 @@
       "dom"
     ],
     "moduleResolution": "node",
+    "skipLibCheck": true,
     "baseUrl": "src",
     "resolveJsonModule": true,
     "paths": {

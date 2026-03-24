@@ -1,5 +1,32 @@
 import { LogManager, autoinject, bindable } from 'aurelia-framework';
-import ol from 'openlayers';
+import { getCenter, getTopLeft, getWidth, type Extent } from 'ol/extent';
+import GeoJSON from 'ol/format/GeoJSON';
+import Point from 'ol/geom/Point';
+import type Geometry from 'ol/geom/Geometry';
+import Layer from 'ol/layer/Layer';
+import GroupLayer from 'ol/layer/Group';
+import TileLayer from 'ol/layer/Tile';
+import VectorLayer from 'ol/layer/Vector';
+import Map from 'ol/Map';
+import type { Coordinate } from 'ol/coordinate';
+import { defaults as defaultControls } from 'ol/control';
+import Attribution from 'ol/control/Attribution';
+import Rotate from 'ol/control/Rotate';
+import ScaleLine from 'ol/control/ScaleLine';
+import Zoom from 'ol/control/Zoom';
+import ZoomToExtent from 'ol/control/ZoomToExtent';
+import { get as getProjection } from 'ol/proj';
+import type Projection from 'ol/proj/Projection';
+import { register } from 'ol/proj/proj4';
+import TileWMS from 'ol/source/TileWMS';
+import VectorSource from 'ol/source/Vector';
+import WMTSSource from 'ol/source/WMTS';
+import Fill from 'ol/style/Fill';
+import Stroke from 'ol/style/Stroke';
+import Style from 'ol/style/Style';
+import Text from 'ol/style/Text';
+import WMTSTileGrid from 'ol/tilegrid/WMTS';
+import View from 'ol/View';
 import proj4 from 'proj4';
 import { ButtonConfig } from '../models/buttonConfig';
 import { Contour } from '../models/contour';
@@ -26,12 +53,12 @@ export abstract class BaseMap {
 
   @bindable protected buttonConfig: ButtonConfig;
   @bindable protected layerConfig: LayerConfig;
-  protected extentVlaanderen: ol.Extent = [9928.0, 66928.0, 272072.0, 329072.0];
-  protected geoJsonFormatter: ol.format.GeoJSON;
+  protected extentVlaanderen: Extent = [9928.0, 66928.0, 272072.0, 329072.0];
+  protected geoJsonFormatter: GeoJSON;
   protected initialized = false;
-  protected map: ol.Map;
-  protected mapnode: Element;
-  protected mapProjection: ol.proj.Projection;
+  protected map: Map;
+  protected mapnode: HTMLElement;
+  protected mapProjection: Projection;
 
   bind() {
     this.buttonConfig = this.buttonConfig || defaultButtonConfig;
@@ -43,13 +70,13 @@ export abstract class BaseMap {
     this.map.updateSize();
   }
 
-  zoomToExtent(extent: ol.Extent) {
+  zoomToExtent(extent: Extent) {
     this.updateMapSize();
     this.map.getView().fit(extent, { maxZoom: 14 });
   }
 
 
-  formatGeoJson(feature: ol.geom.Geometry) {
+  formatGeoJson(feature: Geometry) {
     const geojson: object = this.geoJsonFormatter.writeGeometryObject(feature);
     // hack to add crs. todo: remove when https://github.com/openlayers/ol3/issues/2078 is fixed
     Object.defineProperty(geojson, 'crs', {
@@ -73,41 +100,41 @@ export abstract class BaseMap {
     const lowerleft = this.transformLatLonToPoint(boundingbox.lowerleft.lat, boundingbox.lowerleft.lon);
     const upperright = this.transformLatLonToPoint(boundingbox.upperright.lat, boundingbox.upperright.lon);
     return ([lowerleft.getCoordinates()[0], lowerleft.getCoordinates()[1],
-      upperright.getCoordinates()[0], upperright.getCoordinates()[1]] as ol.Extent);
+      upperright.getCoordinates()[0], upperright.getCoordinates()[1]] as Extent);
   }
 
   transformLatLonToPoint(lat: number, lon: number) {
-    const point: ol.geom.Point = new ol.geom.Point([lon, lat]);
-    return (point.transform('EPSG:4326', 'EPSG:31370') as ol.geom.Point);
+    const point: Point = new Point([lon, lat]);
+    return (point.transform('EPSG:4326', 'EPSG:31370') as Point);
   }
 
-  transformLambert72ToWebMercator(center: ol.Coordinate): ol.Coordinate {
-    const point: ol.geom.Point = new ol.geom.Point([center[0], center[1]]);
-    const transFormedPoint = (point.transform('EPSG:31370', 'EPSG:3857') as ol.geom.Point);
+  transformLambert72ToWebMercator(center: Coordinate): Coordinate {
+    const point: Point = new Point([center[0], center[1]]);
+    const transFormedPoint = (point.transform('EPSG:31370', 'EPSG:3857') as Point);
 
     return transFormedPoint.getCoordinates();
   }
 
   protected _createMap() {
     const target = this.mapnode;
-    this.map = new ol.Map({
+    this.map = new Map({
       layers: [],
       target: target,
-      view: new ol.View({
-        center: ol.extent.getCenter(this.mapProjection.getExtent()),
+      view: new View({
+        center: getCenter(this.mapProjection.getExtent()),
         projection: this.mapProjection,
         zoom: 2,
         maxZoom: 21
       }),
-      controls: ol.control.defaults({
+      controls: defaultControls({
         attribution: false,
         rotate: false,
         zoom: false
       })
     });
 
-    this.map.addControl(new ol.control.ScaleLine());
-    this.map.addControl(new ol.control.Attribution({
+    this.map.addControl(new ScaleLine());
+    this.map.addControl(new Attribution({
       collapsible: false
     }));
 
@@ -188,7 +215,7 @@ export abstract class BaseMap {
   }
 
   protected addZoomButton(className: string): void {
-    this.map.addControl(new ol.control.Zoom({
+    this.map.addControl(new Zoom({
       zoomInTipLabel: 'Zoom in',
       zoomOutTipLabel: 'Zoom uit',
       className: className
@@ -204,7 +231,7 @@ export abstract class BaseMap {
   }
 
   protected addZoomToExtentButton(className: string) {
-    this.map.addControl(new ol.control.ZoomToExtent({
+    this.map.addControl(new ZoomToExtent({
       extent: this.mapProjection.getExtent(),
       tipLabel: 'Zoom naar Vlaanderen',
       className: className,
@@ -213,7 +240,7 @@ export abstract class BaseMap {
   }
 
   protected addRotateButton(className: string): void {
-    this.map.addControl(new ol.control.Rotate({
+    this.map.addControl(new Rotate({
       tipLabel: 'Draai de kaart naar het noorden',
       className: className
     }));
@@ -236,13 +263,16 @@ export abstract class BaseMap {
       '+lat_0=50.797815 +lon_0=4.359215833333333 +x_0=649328 +y_0=665262 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 ' +
       '+units=m +no_defs');
 
-    ol.proj.setProj4(proj4); // define as global proj4 for OpenLayers
-    const projection: ol.proj.Projection = ol.proj.get('EPSG:31370');
+    register(proj4); // define as global proj4 for OpenLayers
+    const projection = getProjection('EPSG:31370');
+    if (!projection) {
+      throw new Error('Projection EPSG:31370 could not be created.');
+    }
     projection.setExtent(this.extentVlaanderen);
     this.mapProjection = projection;
 
-    this.geoJsonFormatter = new ol.format.GeoJSON({
-      defaultDataProjection: this.mapProjection,
+    this.geoJsonFormatter = new GeoJSON({
+      dataProjection: this.mapProjection,
       featureProjection: this.mapProjection
     });
   }
@@ -254,7 +284,7 @@ export abstract class BaseMap {
       .map((id) => ({ id, options: this.layerConfig.baseLayers[id] }))
       .filter((layer) => !layer.options.hidden)
       .map(({ id, options }) => this._createLayer(id, options, true))
-    const baseLayerGroup = new ol.layer.Group({ layers });
+    const baseLayerGroup = new GroupLayer({ layers });
     baseLayerGroup.set('title', 'Achtergrond kaart');
     this.map.addLayer(baseLayerGroup);
 
@@ -267,7 +297,7 @@ export abstract class BaseMap {
   }
 
   protected _createLayer(id: string, layerOptions: LayerOptions, isBaseLayer = false) {
-    let layer: ol.layer.Layer;
+    let layer: Layer<any>;
 
     if (layerOptions.type === LayerType.GRB || layerOptions.type === LayerType.DHMV || layerOptions.type === LayerType.OMWRGBMRVL) layer = this._createGrbLayer(id, layerOptions.type);
     else if (layerOptions.type === LayerType.GrbWMS) layer = this._createGrbWMSLayer(layerOptions);
@@ -288,23 +318,23 @@ export abstract class BaseMap {
   private _createGrbLayer(grbLayerId: string, type: LayerType) {
     const resolutions: number[] = [];
     const matrixIds: string[] = [];
-    const maxResolution = ol.extent.getWidth(this.mapProjection.getExtent()) / 256;
-    const origin = ol.extent.getTopLeft(this.mapProjection.getExtent())
+    const maxResolution = getWidth(this.mapProjection.getExtent()) / 256;
+    const origin = getTopLeft(this.mapProjection.getExtent());
 
     for (let i: number = 0; i < 16; i++) {
       matrixIds[i] = i.toString();
       resolutions[i] = maxResolution / Math.pow(2, i);
     }
 
-    return new ol.layer.Tile({
-      source: new ol.source.WMTS({
+    return new TileLayer({
+      source: new WMTSSource({
         url: '//geo.api.vlaanderen.be/' + type + '/wmts',
         layer: grbLayerId,
         matrixSet: 'BPL72VL',
         format: 'image/png',
         projection: this.mapProjection,
         style: '',
-        tileGrid: new ol.tilegrid.WMTS({ origin, resolutions, matrixIds }),
+        tileGrid: new WMTSTileGrid({ origin, resolutions, matrixIds }),
         attributions: '© <a href="https://www.vlaanderen.be/digitaal-vlaanderen" target="_blank" ' +
           'title="Informatie Vlaanderen" class="copyrightLink">Digitaal Vlaanderen</a>'
       }),
@@ -316,10 +346,10 @@ export abstract class BaseMap {
     const matrixIds = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
     const resolutions = [1058.3333333327998, 529.1666666663999, 211.66666666656, 132.29166666659998, 66.14583333344,
       26.45833333332, 13.22916666666, 6.614583333344, 2.6458333333319994, 1.3229166666659997, 0.6614583333343999];
-    const origin: ol.Coordinate = [450000, 800000];
+    const origin: Coordinate = [450000, 800000];
 
-    return new ol.layer.Tile({
-      source: new ol.source.WMTS({
+    return new TileLayer({
+      source: new WMTSSource({
         urls: ['https://cartoweb.wmts.ngi.be/1.0.0/{layer}/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png'],
         requestEncoding: 'REST',
         layer: layerId,
@@ -327,7 +357,7 @@ export abstract class BaseMap {
         format: 'image/png',
         projection: 'EPSG:3812',
         style: 'default',
-        tileGrid: new ol.tilegrid.WMTS({ origin, resolutions, matrixIds }),
+        tileGrid: new WMTSTileGrid({ origin, resolutions, matrixIds }),
         attributions: '© <a href="https://www.ngi.be/" target="_blank" title="Nationaal Geografisch Instituut" ' +
           'class="copyrightLink">NGI</a>'
       }),
@@ -336,7 +366,7 @@ export abstract class BaseMap {
     });
   }
 
-  private _createWmsLegend(baseUrl: string, layer: ol.layer.Tile, layerOptions: WmsLayerOptions) {
+  private _createWmsLegend(baseUrl: string, layer: TileLayer<TileWMS>, layerOptions: WmsLayerOptions) {
     if (layerOptions.showLegend) {
       const layers = layerOptions.wmsLayers.split(' ');
       const legendItems = layers.map((layer) =>
@@ -353,9 +383,9 @@ export abstract class BaseMap {
 
   private _createGrbWMSLayer(layerOptions: GrbWmsLayerOptions) {
     const url = '//geo.api.vlaanderen.be/' + LayerType.GRB + '/wms';
-    const layer = new ol.layer.Tile({
+    const layer = new TileLayer({
       extent: this.mapProjection.getExtent(),
-      source: new ol.source.TileWMS(({
+      source: new TileWMS(({
         url,
         params: { LAYERS: layerOptions.wmsLayers, TILED: true },
         serverType: 'geoserver'
@@ -368,9 +398,9 @@ export abstract class BaseMap {
   }
 
   private _createErfgoedWMSLayer(wmsLayers: string) {
-    return new ol.layer.Tile({
+    return new TileLayer({
       extent: this.mapProjection.getExtent(),
-      source: new ol.source.TileWMS(({
+      source: new TileWMS(({
         url: this.serviceConfig.beschermingenWMSUrl || 'https://geo.onroerenderfgoed.be/geoserver/wms',
         params: { LAYERS: wmsLayers, TILED: true },
         serverType: 'geoserver',
@@ -411,16 +441,16 @@ export abstract class BaseMap {
       this.map.removeLayer(existingLayer);
     }
 
-    const vectorSource: ol.source.Vector = new ol.source.Vector({});
+    const vectorSource = new VectorSource({});
     const textStyleFunction = (feature: any) => {
       const text = feature.get('name') ? feature.get('name') : '';
-      return new ol.style.Text({
+      return new Text({
         font: '10px Verdana',
         text: text,
-        fill: new ol.style.Fill({
+        fill: new Fill({
           color: options.style.stroke
         }),
-        stroke: new ol.style.Stroke({
+        stroke: new Stroke({
           color: '#fff',
           width: 3
         })
@@ -433,13 +463,13 @@ export abstract class BaseMap {
       if (options.style.hashed) {
         fillColor = this._createPattern(options.style.fill);
       }
-      const style = new ol.style.Style({
-        stroke: new ol.style.Stroke({
+      const style = new Style({
+        stroke: new Stroke({
           color: options.style.stroke,
           width: options.style.strokeWidth || 3,
           lineDash: options.style.lineDash
         }),
-        fill: new ol.style.Fill({
+        fill: new Fill({
           color: fillColor
         }),
         text: styleText
@@ -447,7 +477,7 @@ export abstract class BaseMap {
       return [style];
     };
 
-    const vLayer: ol.layer.Vector = new ol.layer.Vector({
+    const vLayer = new VectorLayer({
       source: vectorSource,
       style: styleFunction,
       visible: true

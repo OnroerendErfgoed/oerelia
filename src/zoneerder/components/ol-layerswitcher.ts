@@ -1,8 +1,9 @@
-import * as ol from 'openlayers';
+import Control from 'ol/control/Control';
+import BaseLayer from 'ol/layer/Base';
 import { Guid } from 'typescript-guid';
 import { LayerType } from '../models/layerConfig.enums';
 
-export class Layerswitcher extends ol.control.Control {
+export class Layerswitcher extends Control {
   public panel: HTMLDivElement;
   public closeButton: HTMLButtonElement;
   public button: HTMLButtonElement;
@@ -12,7 +13,7 @@ export class Layerswitcher extends ol.control.Control {
   public isShown: boolean = false;
   public tipLabel: string;
   public panelTitle: string;
-  public element: Element;
+  public element: HTMLElement;
   public options: any;
   
   constructor(optOptions: any) {
@@ -51,10 +52,7 @@ export class Layerswitcher extends ol.control.Control {
     this.button.onclick = () => self.showPanel();
     this.closeButton.onclick = () => self.hidePanel();
     
-    ol.control.Control.call(this, {
-      element: this.element,
-      target: this.options.target
-    });
+    super.setTarget(this.options.target);
   }
   
   /**
@@ -108,7 +106,7 @@ export class Layerswitcher extends ol.control.Control {
     }
     this.mapListeners.length = 0;
     // Wire up listeners etc. and store reference to new map
-    ol.control.Control.prototype.setMap.call(this, map);
+    super.setMap(map);
     if (map) {
       this.mapListeners.push(
         map.getLayers().on("propertychange", () => this.renderPanel()),
@@ -205,7 +203,7 @@ export class Layerswitcher extends ol.control.Control {
     return li;
   }
   
-  private addLegend(lyr: ol.layer.Base, li: Element, label: Element) {
+  private addLegend(lyr: BaseLayer, li: Element, label: Element) {
     const legendDiv = document.createElement('div');
     if (lyr.get('layerType') === LayerType.Vector) {
       legendDiv.style.backgroundColor = 'white';

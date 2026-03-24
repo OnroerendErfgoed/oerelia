@@ -1,49 +1,52 @@
-import * as ol from 'openlayers';
-import { olx } from 'openlayers';
-import FullScreenOptions = olx.control.FullScreenOptions;
+import Map from 'ol/Map';
+import Control from 'ol/control/Control';
 
-export class OeFullscreen extends ol.control.Control {
-  options: FullScreenOptions;
-  element: Element;
-  layer: ol.layer.Vector;
-  private watchId = null;
+interface FullScreenOptions {
+  className?: string;
+  label?: string;
+  tipLabel?: string;
+  target?: HTMLElement;
+  source?: string | Element;
+}
+
+export class OeFullscreen extends Control {
+  private readonly options: FullScreenOptions;
   private source: Element;
-  private changeType: string;
 
-  constructor(optOptions: FullScreenOptions) {
-    super(optOptions);
+  constructor(optOptions: FullScreenOptions = {}) {
+    const className = optOptions.className || 'full-screen';
+    const element = document.createElement('div');
+    element.className = `${className} ol-control ol-unselectable`;
+
+    const button = document.createElement('button');
+    const tipLabel = optOptions.tipLabel ? optOptions.tipLabel : 'Vergroot / verklein het scherm';
+    button.setAttribute('title', tipLabel);
+    button.className = 'full-screen-false';
+    element.appendChild(button);
+
+    super({
+      element,
+      target: optOptions.target
+    });
+
     this.options = optOptions || {};
-
-    const className = this.options.className || 'full-screen';
-    this.element = document.createElement('div');
-    this.element.className = `${className} ol-control ol-unselectable`;
 
     if (this.options.source instanceof Element) {
       this.source = this.options.source;
-    } else {
+    } else if (typeof this.options.source === 'string') {
       this.source = document.getElementById(this.options.source);
     }
 
-    const button = document.createElement('button');
-    const tipLabel = this.options.tipLabel ? this.options.tipLabel : 'Vergroot / verklein het scherm';
-    button.setAttribute('title', tipLabel);
-    button.className = 'full-screen-false';
     button.addEventListener('click', this.toggleFullscreen.bind(this), false);
-    this.element.appendChild(button);
-
-    ol.control.Control.call(this, {
-      element: this.element,
-      target: this.options.target
-    });
   }
 
-  setMap(map: ol.Map) {
+  setMap(map: Map) {
     super.setMap(map);
     if (!this.fullscreenSupported()) {
       return;
     }
-    const source = this.source || this.getMap().getTargetElement();
-    source.addEventListener("fullscreenchange", this.handleFullscreenChange.bind(this));
+    const source = this.source || map.getTargetElement();
+    source.addEventListener('fullscreenchange', this.handleFullscreenChange.bind(this));
   }
 
   private isFullScreen() {
@@ -54,7 +57,7 @@ export class OeFullscreen extends ol.control.Control {
   }
 
   private handleFullscreenChange() {
-    const button = this.element.firstElementChild;
+    const button = this.element.firstElementChild as HTMLElement;
     if (!this.isFullScreen()) {
       button.className = 'full-screen-false';
     } else if (button.className === 'full-screen-false') {
@@ -65,7 +68,7 @@ export class OeFullscreen extends ol.control.Control {
   }
 
   private toggleFullscreen() {
-    const button = this.element.firstElementChild;
+    const button = this.element.firstElementChild as HTMLElement;
     button.className === 'full-screen-false' ? this.openFullscreen() : this.closeFullscreen();
   }
 
@@ -78,7 +81,11 @@ export class OeFullscreen extends ol.control.Control {
   }
 
   private openFullscreen() {
-    const target = this.source || this.getMap().getTargetElement();
+    const map = this.getMap();
+    if (!map) {
+      return;
+    }
+    const target = this.source || map.getTargetElement();
     if (target.requestFullscreen) {
       void target.requestFullscreen();
     } else if (target['webkitRequestFullscreen']) { /* Safari */
@@ -96,22 +103,5 @@ export class OeFullscreen extends ol.control.Control {
     } else if (document['msExitFullscreen']) { /* IE11 */
       document['msExitFullscreen']();
     }
-  }
-
-  private getChangeType() {
-    if (this.changeType) {
-      return this.changeType;
-    }
-    const body = document.body;
-    if (body['webkitRequestFullscreen']) {
-      this.changeType = 'webkitfullscreenchange';
-    } else if (body['mozRequestFullScreen']) {
-      this.changeType = 'mozfullscreenchange';
-    } else if (body['msRequestFullscreen']) {
-      this.changeType = 'MSFullscreenChange';
-    } else if (body.requestFullscreen) {
-      this.changeType = 'fullscreenchange';
-    }
-    return this.changeType;
   }
 }

@@ -1,6 +1,8 @@
 import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
-import * as ol from 'openlayers';
+import WFS from 'ol/format/WFS';
+import { intersects } from 'ol/format/filter';
+import Point from 'ol/geom/Point';
 import { RestMessage } from '../utilities/message/restMessage';
 import { MessageParser } from '../utilities/message/messageParser';
 
@@ -48,13 +50,13 @@ export class GeozoekdienstApiService {
   }
 
   public searchPerceel(coordinate, srsname): Promise<any> {
-    const filter = new ol.format.filter.Intersects(
+    const filter = intersects(
       'SHAPE',
-      new ol.geom.Point(coordinate, 'XY'),
+      new Point(coordinate),
       'urn:x-ogc:def:crs:EPSG:31370'
     );
 
-    const featureRequest = new ol.format.WFS().writeGetFeature({
+    const featureRequest = new WFS().writeGetFeature({
       srsName: srsname,
       featureNS: 'https://geo.api.vlaanderen.be/GRB',
       featurePrefix: 'GRB',
@@ -76,13 +78,13 @@ export class GeozoekdienstApiService {
   }
 
   public searchGebouw(coordinate, srsname): Promise<any> {
-    const filter = new ol.format.filter.Intersects(
+    const filter = intersects(
       'SHAPE',
-      new ol.geom.Point(coordinate, 'XY'),
+      new Point(coordinate),
       'urn:x-ogc:def:crs:EPSG:31370'
     );
 
-    const featureRequest = new ol.format.WFS().writeGetFeature({
+    const featureRequest = new WFS().writeGetFeature({
       srsName: srsname,
       featureNS: 'https://geo.api.vlaanderen.be/GRB',
       featurePrefix: 'GRB',
@@ -104,13 +106,13 @@ export class GeozoekdienstApiService {
   }
 
   public searchKunstwerk(coordinate, srsname): Promise<any> {
-    const filter = new ol.format.filter.Intersects(
+    const filter = intersects(
       'SHAPE',
-      new ol.geom.Point(coordinate, 'XY'),
+      new Point(coordinate),
       'urn:x-ogc:def:crs:EPSG:31370'
     );
 
-    const featureRequest = new ol.format.WFS().writeGetFeature({
+    const featureRequest = new WFS().writeGetFeature({
       srsName: srsname,
       featureNS: 'https://geo.api.vlaanderen.be/GRB',
       featurePrefix: 'GRB',

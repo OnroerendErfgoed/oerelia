@@ -1,5 +1,14 @@
 import { bindable, LogManager, PLATFORM, autoinject } from 'aurelia-framework';
-import ol from 'openlayers';
+import Feature from 'ol/Feature';
+import Geolocation from 'ol/Geolocation';
+import WKT from 'ol/format/WKT';
+import Circle from 'ol/geom/Circle';
+import MultiPolygon from 'ol/geom/MultiPolygon';
+import { fromCircle } from 'ol/geom/Polygon';
+import Polygon from 'ol/geom/Polygon';
+import type VectorLayer from 'ol/layer/Vector';
+import Draw from 'ol/interaction/Draw';
+import VectorSource from 'ol/source/Vector';
 import { Contour, IAlignerResponse, IGeometryObject, ReferentielaagEnum, StrategieEnum } from '../models/contour';
 import { GeozoekdienstApiService } from '../../services/geozoekdienst.api-service';
 import { CrabService } from '../../services/crab.api-service';
@@ -39,13 +48,13 @@ export class OlMap extends BaseMap {
   protected selectKunstwerk: boolean = false;
 
   @bindable private apiService: GeozoekdienstApiService;
-  private drawLayer: ol.layer.Layer;
+  private drawLayer: VectorLayer<VectorSource>;
 
   private mapInteractions: any;
   private polygonIndex: number = 1;
   private circleIndex: number = 1;
   private totalArea = 0;
-  private wktFormat: ol.format.WKT;
+  private wktFormat: WKT;
 
   constructor(
     private element: Element,
@@ -55,7 +64,7 @@ export class OlMap extends BaseMap {
     super();
     log.debug('olMap::constructor', this.zone);
     this._defineProjections();
-    this.wktFormat = new ol.format.WKT();
+    this.wktFormat = new WKT();
   }
 
   attached() {
@@ -86,7 +95,7 @@ export class OlMap extends BaseMap {
       return;
     }
 
-    const drawSource = (this.drawLayer.getSource() as ol.source.Vector);
+    const drawSource = this.drawLayer.getSource();
     drawSource.getFeatures().forEach((f: any) => {
       drawSource.removeFeature(f);
     });
@@ -95,15 +104,15 @@ export class OlMap extends BaseMap {
       return;
     }
 
-    const polygons = this.zone.coordinates.map((coords) => new ol.geom.Polygon(coords));
+    const polygons = this.zone.coordinates.map((coords) => new Polygon(coords));
     polygons.forEach((polygon) => {
-      const feature = new ol.Feature({name, geometry: polygon});
+      const feature = new Feature({name, geometry: polygon});
       drawSource.addFeature(feature);
       this.totalArea += polygon.getArea();
     });
 
-    const multiPolygon = new ol.geom.MultiPolygon(polygons.map(polygon => polygon.getCoordinates()));
-    const feature = new ol.Feature({name, geometry: multiPolygon});
+    const multiPolygon = new MultiPolygon(polygons.map(polygon => polygon.getCoordinates()));
+    const feature = new Feature({name, geometry: multiPolygon});
     const wktString = this.wktFormat.writeFeature(feature);
 
     this.geometryObjectList = [{ name, wktString }];
@@ -121,10 +130,10 @@ export class OlMap extends BaseMap {
   }
 
   zoomToFeatures() {
-    this.zoomToExtent((this.drawLayer.getSource() as ol.source.Vector).getExtent());
+    this.zoomToExtent(this.drawLayer.getSource().getExtent());
   }
 
-  startDrawZone(type: ol.geom.GeometryType) {
+  startDrawZone(type: 'Polygon' | 'Circle') {
     this.resetSelect();
     this.toggleDrawZone(true, type);
     if (type === 'Polygon') {
@@ -139,9 +148,9 @@ export class OlMap extends BaseMap {
 
         // Convert the circle to a polygon
         const circleGeometry = evt.feature.getGeometry();
-        const polygonGeometry = ol.geom.Polygon.fromCircle(circleGeometry);
+        const polygonGeometry = fromCircle(circleGeometry as Circle);
         // Create a new feature with the polygon geometry for WKT conversion
-        const polygonFeature = new ol.Feature(polygonGeometry);
+        const polygonFeature = new Feature(polygonGeometry);
         const wktString = this.wktFormat.writeFeature(polygonFeature);
         this.geometryObjectList.push({
           name: evt.feature.getProperties().name,
@@ -158,7 +167,7 @@ export class OlMap extends BaseMap {
           this.geoJsonFormatter.readFeatures(result).forEach((perceel) => {
             const name = 'Adrespunten';
             perceel.set('name', name);
-            (this.drawLayer.getSource() as ol.source.Vector).addFeature(perceel);
+            this.drawLayer.getSource().addFeature(perceel as Feature);
             if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === name)) {
               this.geometryObjectList.push({name: name, wktString: ''});
             }
@@ -212,12 +221,12 @@ export class OlMap extends BaseMap {
     });
   }
 
-  drawPerceel(olFeature: ol.Feature) {
+  drawPerceel(olFeature: Feature) {
     if (olFeature) {
       const name = `Perceel ${olFeature.get('CAPAKEY')}`;
       if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === name)) {
         olFeature.set('name', name);
-        (this.drawLayer.getSource() as ol.source.Vector).addFeature(olFeature);
+        this.drawLayer.getSource().addFeature(olFeature);
         const wktString = this.wktFormat.writeFeature(olFeature);
         this.geometryObjectList.push({name: name, wktString: wktString});
       }
@@ -226,12 +235,12 @@ export class OlMap extends BaseMap {
     }
   }
 
-  drawGebouw(olFeature: ol.Feature) {
+  drawGebouw(olFeature: Feature) {
     if (olFeature) {
       const name = `Gebouw ${olFeature.get('OIDN')}`;
       if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === name)) {
         olFeature.set('name', name);
-        (this.drawLayer.getSource() as ol.source.Vector).addFeature(olFeature);
+        this.drawLayer.getSource().addFeature(olFeature);
         const wktString = this.wktFormat.writeFeature(olFeature);
         this.geometryObjectList.push({name: name, wktString: wktString});
       }
@@ -240,12 +249,12 @@ export class OlMap extends BaseMap {
     }
   }
 
-  drawKunstwerk(olFeature: ol.Feature) {
+  drawKunstwerk(olFeature: Feature) {
     if (olFeature) {
       const name = `Kunstwerk ${olFeature.get('OIDN')}`;
       if (!this.geometryObjectList.some((geometryObject) => geometryObject.name === name)) {
         olFeature.set('name', name);
-        (this.drawLayer.getSource() as ol.source.Vector).addFeature(olFeature);
+        this.drawLayer.getSource().addFeature(olFeature);
         const wktString = this.wktFormat.writeFeature(olFeature);
         this.geometryObjectList.push({name: name, wktString: wktString});
       }
@@ -254,14 +263,14 @@ export class OlMap extends BaseMap {
     }
   }
 
-  drawWKTzone(wkt: ol.Feature) {
+  drawWKTzone(wkt: string) {
     try {
       const featureFromWKT = this.wktFormat.readFeature(wkt);
       const name = `Polygoon ${this.polygonIndex++}`;
       featureFromWKT.setProperties({
         name: name
       });
-      (this.drawLayer.getSource() as ol.source.Vector).addFeature(featureFromWKT);
+      this.drawLayer.getSource().addFeature(featureFromWKT);
       this.geometryObjectList.push({name: name, wktString: this.WKTstring });
       this.zoomToFeatures();
       this.WKTstring = '';
@@ -271,7 +280,7 @@ export class OlMap extends BaseMap {
   }
 
   removeGeometryObject(name: string) {
-    const drawLayerSource = this.drawLayer.getSource() as ol.source.Vector;
+    const drawLayerSource = this.drawLayer.getSource();
     const featuresToRemove = drawLayerSource.getFeatures().filter((feature) =>
       feature.getProperties().name === name);
     featuresToRemove.forEach((featureToRemove) => {
@@ -288,7 +297,7 @@ export class OlMap extends BaseMap {
 
   geoLocationClick() {
     const view = this.map.getView();
-    const geolocation = new ol.Geolocation({
+    const geolocation = new Geolocation({
       projection: this.map.getView().getProjection(),
       trackingOptions: {
         enableHighAccuracy: true
@@ -316,21 +325,21 @@ export class OlMap extends BaseMap {
 
   private drawLayerToZone(name='Zone') {
     this.totalArea = 0;
-    const multiPolygon = new ol.geom.MultiPolygon([], 'XY');
-    const features: ol.Feature[] = (this.drawLayer.getSource() as ol.source.Vector).getFeatures();
+    const multiPolygon = new MultiPolygon([], 'XY');
+    const features: Feature[] = this.drawLayer.getSource().getFeatures();
 
-    features.forEach((feature: ol.Feature) => {
+    features.forEach((feature: Feature) => {
       const geom = feature.getGeometry();
-      if (geom instanceof ol.geom.Polygon) {
-        multiPolygon.appendPolygon(geom as ol.geom.Polygon);
+      if (geom instanceof Polygon) {
+        multiPolygon.appendPolygon(geom as Polygon);
         this.totalArea += geom.getArea();
-      } else if (geom instanceof ol.geom.MultiPolygon) {
-        geom.getPolygons().forEach((polygon: ol.geom.Polygon) => {
+      } else if (geom instanceof MultiPolygon) {
+        geom.getPolygons().forEach((polygon: Polygon) => {
           multiPolygon.appendPolygon(polygon);
           this.totalArea += polygon.getArea();
         });
-      } else if (geom instanceof ol.geom.Circle) {
-        multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
+      } else if (geom instanceof Circle) {
+        multiPolygon.appendPolygon(fromCircle(geom));
         this.totalArea += Math.PI * Math.pow(geom.getRadius(), 2);
       }
     });
@@ -355,7 +364,7 @@ export class OlMap extends BaseMap {
     (this.map as any).removeEventListener('click');
   }
 
-  private toggleDrawZone(bool: boolean, type?: ol.geom.GeometryType) {
+  private toggleDrawZone(bool: boolean, type?: 'Polygon' | 'Circle') {
     type ? this._createInteractions(type, bool) : this._createInteractions('Polygon', false);
 
     switch (type) {
@@ -381,15 +390,15 @@ export class OlMap extends BaseMap {
     }
   }
 
-  private _createInteractions(type: ol.geom.GeometryType, setActive: boolean) {
+  private _createInteractions(type: 'Polygon' | 'Circle', setActive: boolean) {
     log.debug('olMap::_createInteractions');
     // Zone interactions
 
     this.map.getInteractions().pop();
 
-    const drawZoneInteraction: ol.interaction.Draw = new ol.interaction.Draw({
+    const drawZoneInteraction = new Draw({
       type: (type),
-      source: this.drawLayer.getSource() as ol.source.Vector,
+      source: this.drawLayer.getSource(),
       freehand: false
     });
     this.map.addInteraction(drawZoneInteraction);
@@ -410,7 +419,7 @@ export class OlMap extends BaseMap {
       },
       title: 'Zone',
       visible: true
-    });
+    }) as VectorLayer<VectorSource>;
     this.map.addLayer(this.drawLayer);
   }
 

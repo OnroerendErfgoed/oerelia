@@ -1,7 +1,7 @@
-import * as ol from 'openlayers';
+import Control from 'ol/control/Control';
 
-export class Layerswitcher extends ol.control.Control {
-  public element: Element;
+export class Layerswitcher extends Control {
+  public element: HTMLElement;
   public openButton: HTMLButtonElement;
   public tipLabel: string;
   public panel: LayerswitcherPanel;
@@ -31,10 +31,7 @@ export class Layerswitcher extends ol.control.Control {
       }
     };
 
-    ol.control.Control.call(this, {
-      element: this.element,
-      target: this.options.target
-    });
+    super.setTarget(this.options.target);
   }
 
   private show() {
@@ -48,8 +45,8 @@ export class Layerswitcher extends ol.control.Control {
   }
 }
 
-export class LayerswitcherPanel extends ol.control.Control {
-  public element: Element;
+export class LayerswitcherPanel extends Control {
+  public element: HTMLElement;
   public openButton: HTMLButtonElement;
   public closeButton: HTMLButtonElement;
   public panelTitle: string;
@@ -65,10 +62,7 @@ export class LayerswitcherPanel extends ol.control.Control {
     this.element = document.createElement('div');
     this.element.className = 'ol-unselectable panel-container ol-control layer-switcher hide';
 
-    ol.control.Control.call(this, {
-      element: this.element,
-      target: this.options.target
-    });
+    super.setTarget(this.options.target);
   }
 
   public show() {
@@ -126,7 +120,7 @@ export class LayerswitcherPanel extends ol.control.Control {
     }
     this.mapListeners.length = 0;
     // Wire up listeners etc. and store reference to new map
-    ol.control.Control.prototype.setMap.call(this, map);
+    super.setMap(map);
     if (map) {
       this.mapListeners.push(map.on('pointerdown', () => {
         this.hide();
