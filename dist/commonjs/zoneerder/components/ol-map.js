@@ -143,9 +143,7 @@ var OlMap = (function (_super) {
         }
         else if (type === 'Point') {
             this.mapInteractions.drawZone.on('drawend', function (evt) {
-                evt.feature.setProperties({ name: "Punt ".concat(_this.polygonIndex++) });
-                var wktString = _this.wktFormat.writeFeature(evt.feature);
-                _this.geometryObjectList = [{ name: evt.feature.getProperties().name, wktString: wktString }];
+                console.log('Point drawn:', evt);
             });
         }
     };
