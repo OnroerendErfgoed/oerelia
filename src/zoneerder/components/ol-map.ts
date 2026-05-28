@@ -151,9 +151,10 @@ export class OlMap extends BaseMap {
       });
     } else if (type === 'Point') {
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-        evt.feature.setProperties({ name: `Punt ${this.polygonIndex++}` });
+        console.log('Point drawn:', evt);
+        /*evt.feature.setProperties({ name: `Punt ${this.polygonIndex++}` });
         const wktString = this.wktFormat.writeFeature(evt.feature);
-        this.geometryObjectList = [{name: evt.feature.getProperties().name, wktString: wktString}];
+        this.geometryObjectList = [{name: evt.feature.getProperties().name, wktString: wktString}];*/
       });
     }
   }
