@@ -34,6 +34,7 @@ export class OlMap extends BaseMap {
 
   protected isDrawing: boolean = false;
   protected isDrawingCircle: boolean = false;
+  protected isDrawingPoint: boolean = false;
   protected selectPerceel: boolean = false;
   protected selectGebouw: boolean = false;
   protected selectKunstwerk: boolean = false;
@@ -147,6 +148,12 @@ export class OlMap extends BaseMap {
           name: evt.feature.getProperties().name,
           wktString: wktString
         });
+      });
+    } else if (type === 'Point') {
+      this.mapInteractions.drawZone.on('drawend', (evt: any) => {
+        evt.feature.setProperties({ name: `Punt ${this.polygonIndex++}` });
+        const wktString = this.wktFormat.writeFeature(evt.feature);
+        this.geometryObjectList = [{name: evt.feature.getProperties().name, wktString: wktString}];
       });
     }
   }
@@ -362,16 +369,25 @@ export class OlMap extends BaseMap {
       case 'Polygon': {
         this.isDrawing = bool;
         this.isDrawingCircle = false;
+        this.isDrawingPoint = false;
         break;
       }
       case 'Circle': {
         this.isDrawing = false;
         this.isDrawingCircle = bool;
+        this.isDrawingPoint = false;
+        break;
+      }
+      case 'Point': {
+        this.isDrawing = false;
+        this.isDrawingCircle = false;
+        this.isDrawingPoint = bool;
         break;
       }
       default: {
         this.isDrawing = false;
         this.isDrawingCircle = false;
+        this.isDrawingPoint = false;
         break;
       }
     }

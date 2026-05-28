@@ -24,6 +24,7 @@ export declare class OlMap extends BaseMap {
     WKTstring: string;
     protected isDrawing: boolean;
     protected isDrawingCircle: boolean;
+    protected isDrawingPoint: boolean;
     protected selectPerceel: boolean;
     protected selectGebouw: boolean;
     protected selectKunstwerk: boolean;

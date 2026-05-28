@@ -48,6 +48,7 @@ var OlMap = (function (_super) {
         _this.geometryObjectList = [];
         _this.isDrawing = false;
         _this.isDrawingCircle = false;
+        _this.isDrawingPoint = false;
         _this.selectPerceel = false;
         _this.selectGebouw = false;
         _this.selectKunstwerk = false;
@@ -138,6 +139,13 @@ var OlMap = (function (_super) {
                     name: evt.feature.getProperties().name,
                     wktString: wktString
                 });
+            });
+        }
+        else if (type === 'Point') {
+            this.mapInteractions.drawZone.on('drawend', function (evt) {
+                evt.feature.setProperties({ name: "Punt ".concat(_this.polygonIndex++) });
+                var wktString = _this.wktFormat.writeFeature(evt.feature);
+                _this.geometryObjectList = [{ name: evt.feature.getProperties().name, wktString: wktString }];
             });
         }
     };
@@ -345,16 +353,25 @@ var OlMap = (function (_super) {
             case 'Polygon': {
                 this.isDrawing = bool;
                 this.isDrawingCircle = false;
+                this.isDrawingPoint = false;
                 break;
             }
             case 'Circle': {
                 this.isDrawing = false;
                 this.isDrawingCircle = bool;
+                this.isDrawingPoint = false;
+                break;
+            }
+            case 'Point': {
+                this.isDrawing = false;
+                this.isDrawingCircle = false;
+                this.isDrawingPoint = bool;
                 break;
             }
             default: {
                 this.isDrawing = false;
                 this.isDrawingCircle = false;
+                this.isDrawingPoint = false;
                 break;
             }
         }

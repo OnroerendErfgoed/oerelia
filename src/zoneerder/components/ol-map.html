@@ -20,6 +20,10 @@
       <div if.bind="!isCollapsed" style="overflow-y: auto;">
         <div class="toevoegen-aan">
           <h5>Toevoegen aan zone</h5>
+          <a click.delegate="!isDrawingPoint ? startDrawZone('Point') : toggleDrawZone(false)">
+            <span if.bind="!isDrawingPoint"><i class="fa fa-pencil"></i> Teken puntlocatie</span>
+            <span else><i class="fa fa-ban"></i> Annuleer tekenen</span>
+          </a>
           <a click.delegate="!isDrawing ? startDrawZone('Polygon') : toggleDrawZone(false)">
             <span if.bind="!isDrawing"><i class="fa fa-pencil"></i> Teken polygoon</span>
             <span else><i class="fa fa-ban"></i> Annuleer tekenen</span>
