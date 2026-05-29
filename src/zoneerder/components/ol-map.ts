@@ -100,9 +100,9 @@ export class OlMap extends BaseMap {
     this.drawLayer.getSource().on('addfeature', (featureEvent: any) => {
       const feature = featureEvent.feature;
       log.debug('olMap::drawLayer::addfeature', feature);
-      const geometry = feature.getGeometry();
+      //const geometry = feature.getGeometry();
 
-      if (geometry instanceof ol.geom.Point) {
+      /*if (geometry instanceof ol.geom.Point) {
         const extent = geometry.getExtent();
         const padding = 25;
         const paddedExtent: ol.Extent = [
@@ -113,7 +113,7 @@ export class OlMap extends BaseMap {
         ];
         this.zoomToExtent(paddedExtent);
         return;
-      }
+      }*/
 
       const name = feature.get('name');
       this.drawLayerToZone(name);

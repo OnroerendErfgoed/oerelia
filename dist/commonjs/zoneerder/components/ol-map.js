@@ -103,19 +103,6 @@ var OlMap = (function (_super) {
         this.drawLayer.getSource().on('addfeature', function (featureEvent) {
             var feature = featureEvent.feature;
             log.debug('olMap::drawLayer::addfeature', feature);
-            var geometry = feature.getGeometry();
-            if (geometry instanceof openlayers_1.default.geom.Point) {
-                var extent = geometry.getExtent();
-                var padding = 25;
-                var paddedExtent = [
-                    extent[0] - padding,
-                    extent[1] - padding,
-                    extent[2] + padding,
-                    extent[3] + padding
-                ];
-                _this.zoomToExtent(paddedExtent);
-                return;
-            }
             var name = feature.get('name');
             _this.drawLayerToZone(name);
             _this.zoomToExtent(_this.geoJsonFormatter.readGeometry(_this.zone).getExtent());
