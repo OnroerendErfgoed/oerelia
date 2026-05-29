@@ -11,6 +11,7 @@ type ZoneToolVisibility = {
     selectPerceel?: boolean;
     selectGebouw?: boolean;
     selectKunstwerk?: boolean;
+    drawWKT?: boolean;
 };
 export declare class OlMap extends BaseMap {
     private element;

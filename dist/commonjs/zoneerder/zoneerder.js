@@ -31,7 +31,8 @@ var Zoneerder = (function () {
             drawCircle: true,
             selectPerceel: true,
             selectGebouw: true,
-            selectKunstwerk: false
+            selectKunstwerk: false,
+            drawWKT: true
         };
         this.alignerAreaLimit = 100000;
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };

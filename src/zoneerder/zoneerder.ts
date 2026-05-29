@@ -29,7 +29,8 @@ export class Zoneerder {
     drawCircle: true,
     selectPerceel: true,
     selectGebouw: true,
-    selectKunstwerk: false
+    selectKunstwerk: false,
+    drawWKT: true
   };
   @bindable alignerAreaLimit = 100000;
 

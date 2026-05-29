@@ -47,7 +47,7 @@
           <a click.delegate="importAdrespunten()" if.bind="adrespunten && adrespunten.length > 0">
             <span><i class="fa fa-link"></i> Neem over van adrespunten</span>
           </a>
-          <div class="row collapse">
+          <div if.bind="visibleTools.drawWKT" class="row collapse">
             <div class="small-9 columns">
               <input type="text" value.bind="WKTstring" placeholder="WKT string (Lambert72)">
             </div>

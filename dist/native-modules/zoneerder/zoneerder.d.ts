@@ -27,6 +27,7 @@ export declare class Zoneerder {
         selectPerceel: boolean;
         selectGebouw: boolean;
         selectKunstwerk: boolean;
+        drawWKT: boolean;
     };
     alignerAreaLimit: number;
     protected suggest: {

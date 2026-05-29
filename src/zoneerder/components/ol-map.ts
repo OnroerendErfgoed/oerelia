@@ -20,6 +20,7 @@ type ZoneToolVisibility = {
   selectPerceel?: boolean;
   selectGebouw?: boolean;
   selectKunstwerk?: boolean;
+  drawWKT?: boolean;
 };
 
 const DEFAULT_TOOL_VISIBILITY = {
@@ -28,7 +29,8 @@ const DEFAULT_TOOL_VISIBILITY = {
   drawCircle: true,
   selectPerceel: true,
   selectGebouw: false,
-  selectKunstwerk: false
+  selectKunstwerk: false,
+  drawWKT: true
 };
 
 @autoinject
@@ -188,12 +190,11 @@ export class OlMap extends BaseMap {
         });
       });
     } else if (type === 'Point') {
-      this.mapInteractions.drawZone.on('drawstart', (evt: any) => {
-        console.log(evt);
+      this.mapInteractions.drawZone.on('drawstart', () => {
         (this.drawLayer.getSource() as ol.source.Vector).clear();
       });
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-        evt.feature.setProperties({ name: `Punt ${this.polygonIndex++}` });
+        evt.feature.setProperties({ name: 'Punt' });
         const wktString = this.wktFormat.writeFeature(evt.feature);
         this.geometryObjectList = [{name: evt.feature.getProperties().name, wktString: wktString}];
       });

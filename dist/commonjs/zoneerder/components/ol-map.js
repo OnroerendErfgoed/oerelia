@@ -54,7 +54,8 @@ var DEFAULT_TOOL_VISIBILITY = {
     drawCircle: true,
     selectPerceel: true,
     selectGebouw: false,
-    selectKunstwerk: false
+    selectKunstwerk: false,
+    drawWKT: true
 };
 var OlMap = (function (_super) {
     __extends(OlMap, _super);
@@ -182,12 +183,11 @@ var OlMap = (function (_super) {
             });
         }
         else if (type === 'Point') {
-            this.mapInteractions.drawZone.on('drawstart', function (evt) {
-                console.log(evt);
+            this.mapInteractions.drawZone.on('drawstart', function () {
                 _this.drawLayer.getSource().clear();
             });
             this.mapInteractions.drawZone.on('drawend', function (evt) {
-                evt.feature.setProperties({ name: "Punt ".concat(_this.polygonIndex++) });
+                evt.feature.setProperties({ name: 'Punt' });
                 var wktString = _this.wktFormat.writeFeature(evt.feature);
                 _this.geometryObjectList = [{ name: evt.feature.getProperties().name, wktString: wktString }];
             });
