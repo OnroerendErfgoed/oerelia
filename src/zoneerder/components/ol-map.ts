@@ -47,7 +47,7 @@ export class OlMap extends BaseMap {
   @bindable alignerAreaLimit: number;
   initialLaatstGealigneerd: string;
 
-  get visibleTools(): Required<ZoneToolVisibility> {
+  get visibleTools() {
     return {
     ...DEFAULT_TOOL_VISIBILITY,
     ...this.toolVisibility
@@ -100,20 +100,6 @@ export class OlMap extends BaseMap {
     this.drawLayer.getSource().on('addfeature', (featureEvent: any) => {
       const feature = featureEvent.feature;
       log.debug('olMap::drawLayer::addfeature', feature);
-      //const geometry = feature.getGeometry();
-
-      /*if (geometry instanceof ol.geom.Point) {
-        const extent = geometry.getExtent();
-        const padding = 25;
-        const paddedExtent: ol.Extent = [
-          extent[0] - padding,
-          extent[1] - padding,
-          extent[2] + padding,
-          extent[3] + padding
-        ];
-        this.zoomToExtent(paddedExtent);
-        return;
-      }*/
 
       const name = feature.get('name');
       this.drawLayerToZone(name);

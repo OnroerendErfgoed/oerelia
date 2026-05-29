@@ -28,7 +28,15 @@ export declare class OlMap extends BaseMap {
     toolVisibility?: ZoneToolVisibility;
     alignerAreaLimit: number;
     initialLaatstGealigneerd: string;
-    get visibleTools(): Required<ZoneToolVisibility>;
+    get visibleTools(): {
+        drawPoint: boolean;
+        drawPolygon: boolean;
+        drawCircle: boolean;
+        selectPerceel: boolean;
+        selectGebouw: boolean;
+        selectKunstwerk: boolean;
+        drawWKT: boolean;
+    };
     geometryObjectList: IGeometryObject[];
     WKTstring: string;
     protected isDrawing: boolean;
