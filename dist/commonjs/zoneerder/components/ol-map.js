@@ -372,6 +372,11 @@ var OlMap = (function (_super) {
                 multiPolygon.appendPolygon(openlayers_1.default.geom.Polygon.fromCircle(geom));
                 _this.totalArea += Math.PI * Math.pow(geom.getRadius(), 2);
             }
+            else if (geom instanceof openlayers_1.default.geom.Point) {
+                var pointAsPolygon = openlayers_1.default.geom.Polygon.fromCircle(new openlayers_1.default.geom.Circle(geom.getCoordinates(), 1));
+                multiPolygon.appendPolygon(pointAsPolygon);
+                _this.totalArea += Math.PI * Math.pow(1, 2);
+            }
         });
         var contour = this.formatGeoJson(multiPolygon);
         if (this.zone) {

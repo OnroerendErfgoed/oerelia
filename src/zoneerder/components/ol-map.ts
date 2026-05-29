@@ -382,6 +382,10 @@ export class OlMap extends BaseMap {
       } else if (geom instanceof ol.geom.Circle) {
         multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
         this.totalArea += Math.PI * Math.pow(geom.getRadius(), 2);
+      } else if (geom instanceof ol.geom.Point) {
+        const pointAsPolygon = ol.geom.Polygon.fromCircle(new ol.geom.Circle(geom.getCoordinates(), 1));
+        multiPolygon.appendPolygon(pointAsPolygon);
+        this.totalArea += Math.PI * Math.pow(1, 2);
       }
     });
 
