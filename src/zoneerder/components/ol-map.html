@@ -20,27 +20,27 @@
       <div if.bind="!isCollapsed" style="overflow-y: auto;">
         <div class="toevoegen-aan">
           <h5>Toevoegen aan zone</h5>
-          <a click.delegate="!isDrawingPoint ? startDrawZone('Point') : toggleDrawZone(false)">
+          <a if.bind="visibleTools.drawPoint" click.delegate="!isDrawingPoint ? startDrawZone('Point') : toggleDrawZone(false)">
             <span if.bind="!isDrawingPoint"><i class="fa fa-pencil"></i> Teken puntlocatie</span>
             <span else><i class="fa fa-ban"></i> Annuleer tekenen</span>
           </a>
-          <a click.delegate="!isDrawing ? startDrawZone('Polygon') : toggleDrawZone(false)">
+          <a if.bind="visibleTools.drawPolygon" click.delegate="!isDrawing ? startDrawZone('Polygon') : toggleDrawZone(false)">
             <span if.bind="!isDrawing"><i class="fa fa-pencil"></i> Teken polygoon</span>
             <span else><i class="fa fa-ban"></i> Annuleer tekenen</span>
           </a>
-          <a click.delegate="!isDrawingCircle ? startDrawZone('Circle') : toggleDrawZone(false)">
+          <a if.bind="visibleTools.drawCircle" click.delegate="!isDrawingCircle ? startDrawZone('Circle') : toggleDrawZone(false)">
             <span if.bind="!isDrawingCircle"><i class="fa fa-pencil"></i> Teken cirkel</span>
             <span else><i class="fa fa-ban"></i> Annuleer tekenen</span>
           </a>
-          <a click.delegate="!selectPerceel ? startPerceelSelect() : resetSelect()">
+          <a if.bind="visibleTools.selectPerceel" click.delegate="!selectPerceel ? startPerceelSelect() : resetSelect()">
             <span if.bind="!selectPerceel"><i class="fa fa-hand-pointer-o"></i> Selecteer perceel</span>
             <span else><i class="fa fa-ban"></i> Annuleer perceel</span>
           </a>
-          <a if.bind="showSelectGebouw" click.delegate="!selectGebouw ? startGebouwSelect() : resetSelect()">
+          <a if.bind="visibleTools.selectGebouw" click.delegate="!selectGebouw ? startGebouwSelect() : resetSelect()">
             <span if.bind="!selectGebouw"><i class="fa fa-hand-pointer-o"></i> Selecteer gebouw</span>
             <span else><i class="fa fa-ban"></i> Annuleer gebouw</span>
           </a>
-          <a if.bind="showSelectKunstwerk" click.delegate="!selectKunstwerk ? startKunstwerkSelect() : resetSelect()">
+          <a if.bind="visibleTools.selectKunstwerk" click.delegate="!selectKunstwerk ? startKunstwerkSelect() : resetSelect()">
             <span if.bind="!selectKunstwerk"><i class="fa fa-hand-pointer-o"></i> Selecteer kunstwerk</span>
             <span else><i class="fa fa-ban"></i> Annuleer kunstwerk</span>
           </a>

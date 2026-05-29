@@ -20,8 +20,14 @@ export declare class Zoneerder {
     showGrbTool?: boolean;
     alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
     laatstGealigneerd: string;
-    showSelectGebouw: boolean;
-    showSelectKunstwerk: boolean;
+    toolVisibility: {
+        drawPoint: boolean;
+        drawPolygon: boolean;
+        drawCircle: boolean;
+        selectPerceel: boolean;
+        selectGebouw: boolean;
+        selectKunstwerk: boolean;
+    };
     alignerAreaLimit: number;
     protected suggest: {
         suggest: Function;

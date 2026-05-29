@@ -14,6 +14,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -37,6 +48,14 @@ var aurelia_binding_1 = require("aurelia-binding");
 var moment = require("moment");
 var jsts = require("jsts");
 var log = aurelia_framework_1.LogManager.getLogger('ol-map');
+var DEFAULT_TOOL_VISIBILITY = {
+    drawPoint: false,
+    drawPolygon: true,
+    drawCircle: true,
+    selectPerceel: true,
+    selectGebouw: false,
+    selectKunstwerk: false
+};
 var OlMap = (function (_super) {
     __extends(OlMap, _super);
     function OlMap(element, crabService, dialogService) {
@@ -45,6 +64,7 @@ var OlMap = (function (_super) {
         _this.crabService = crabService;
         _this.dialogService = dialogService;
         _this.showGrbTool = false;
+        _this.toolVisibility = {};
         _this.geometryObjectList = [];
         _this.isDrawing = false;
         _this.isDrawingCircle = false;
@@ -60,6 +80,13 @@ var OlMap = (function (_super) {
         _this.wktFormat = new openlayers_1.default.format.WKT();
         return _this;
     }
+    Object.defineProperty(OlMap.prototype, "visibleTools", {
+        get: function () {
+            return __assign(__assign({}, DEFAULT_TOOL_VISIBILITY), this.toolVisibility);
+        },
+        enumerable: false,
+        configurable: true
+    });
     OlMap.prototype.attached = function () {
         var _this = this;
         this.initialLaatstGealigneerd = this.laatstGealigneerd;
@@ -155,8 +182,14 @@ var OlMap = (function (_super) {
             });
         }
         else if (type === 'Point') {
+            this.mapInteractions.drawZone.on('drawstart', function (evt) {
+                console.log(evt);
+                _this.drawLayer.getSource().clear();
+            });
             this.mapInteractions.drawZone.on('drawend', function (evt) {
-                console.log('Point drawn:', evt);
+                evt.feature.setProperties({ name: "Punt ".concat(_this.polygonIndex++) });
+                var wktString = _this.wktFormat.writeFeature(evt.feature);
+                _this.geometryObjectList = [{ name: evt.feature.getProperties().name, wktString: wktString }];
             });
         }
     };
@@ -486,12 +519,8 @@ var OlMap = (function (_super) {
     ], OlMap.prototype, "laatstGealigneerd", void 0);
     __decorate([
         aurelia_framework_1.bindable,
-        __metadata("design:type", Boolean)
-    ], OlMap.prototype, "showSelectGebouw", void 0);
-    __decorate([
-        aurelia_framework_1.bindable,
-        __metadata("design:type", Boolean)
-    ], OlMap.prototype, "showSelectKunstwerk", void 0);
+        __metadata("design:type", Object)
+    ], OlMap.prototype, "toolVisibility", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Number)

@@ -13,6 +13,23 @@ import * as moment from 'moment';
 import * as jsts from 'jsts';
 
 const log = LogManager.getLogger('ol-map');
+type ZoneToolVisibility = {
+  drawPoint?: boolean;
+  drawPolygon?: boolean;
+  drawCircle?: boolean;
+  selectPerceel?: boolean;
+  selectGebouw?: boolean;
+  selectKunstwerk?: boolean;
+};
+
+const DEFAULT_TOOL_VISIBILITY = {
+  drawPoint: false,
+  drawPolygon: true,
+  drawCircle: true,
+  selectPerceel: true,
+  selectGebouw: false,
+  selectKunstwerk: false
+};
 
 @autoinject
 export class OlMap extends BaseMap {
@@ -24,10 +41,16 @@ export class OlMap extends BaseMap {
   @bindable showGrbTool = false;
   @bindable alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
   @bindable laatstGealigneerd?: string;
-  @bindable showSelectGebouw: boolean;
-  @bindable showSelectKunstwerk: boolean;
+  @bindable toolVisibility?: ZoneToolVisibility = {};
   @bindable alignerAreaLimit: number;
   initialLaatstGealigneerd: string;
+
+  get visibleTools(): Required<ZoneToolVisibility> {
+    return {
+    ...DEFAULT_TOOL_VISIBILITY,
+    ...this.toolVisibility
+    };
+  }
 
   geometryObjectList: IGeometryObject[] = [];
   WKTstring!: string;
@@ -165,11 +188,14 @@ export class OlMap extends BaseMap {
         });
       });
     } else if (type === 'Point') {
+      this.mapInteractions.drawZone.on('drawstart', (evt: any) => {
+        console.log(evt);
+        (this.drawLayer.getSource() as ol.source.Vector).clear();
+      });
       this.mapInteractions.drawZone.on('drawend', (evt: any) => {
-        console.log('Point drawn:', evt);
-        /*evt.feature.setProperties({ name: `Punt ${this.polygonIndex++}` });
+        evt.feature.setProperties({ name: `Punt ${this.polygonIndex++}` });
         const wktString = this.wktFormat.writeFeature(evt.feature);
-        this.geometryObjectList = [{name: evt.feature.getProperties().name, wktString: wktString}];*/
+        this.geometryObjectList = [{name: evt.feature.getProperties().name, wktString: wktString}];
       });
     }
   }

@@ -4,6 +4,14 @@ import { CrabService } from '../../services/crab.api-service';
 import { IZoneerderServiceConfig } from 'exports';
 import { DialogService } from 'aurelia-dialog';
 import { BaseMap } from './base-map';
+type ZoneToolVisibility = {
+    drawPoint?: boolean;
+    drawPolygon?: boolean;
+    drawCircle?: boolean;
+    selectPerceel?: boolean;
+    selectGebouw?: boolean;
+    selectKunstwerk?: boolean;
+};
 export declare class OlMap extends BaseMap {
     private element;
     private crabService;
@@ -16,10 +24,10 @@ export declare class OlMap extends BaseMap {
     showGrbTool: boolean;
     alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
     laatstGealigneerd?: string;
-    showSelectGebouw: boolean;
-    showSelectKunstwerk: boolean;
+    toolVisibility?: ZoneToolVisibility;
     alignerAreaLimit: number;
     initialLaatstGealigneerd: string;
+    get visibleTools(): Required<ZoneToolVisibility>;
     geometryObjectList: IGeometryObject[];
     WKTstring: string;
     protected isDrawing: boolean;
@@ -62,3 +70,4 @@ export declare class OlMap extends BaseMap {
     private createMultiPolygon;
     formatDate(date: any): string;
 }
+export {};
