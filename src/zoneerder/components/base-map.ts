@@ -431,7 +431,8 @@ export abstract class BaseMap {
       const styleText = textStyleFunction(feature);
       let fillColor: string | CanvasPattern = options.style.fill;
       if (options.style.hashed) {
-        fillColor = this._createPattern(options.style.fill);
+        const pattern = this._createPattern(options.style.fill);
+        fillColor = pattern || options.style.fill;
       }
       const style = new ol.style.Style({
         stroke: new ol.style.Stroke({
@@ -441,6 +442,16 @@ export abstract class BaseMap {
         }),
         fill: new ol.style.Fill({
           color: fillColor
+        }),
+        image: new ol.style.Circle({
+          radius: 7,
+          fill: new ol.style.Fill({
+            color: options.style.fill
+          }),
+          stroke: new ol.style.Stroke({
+            color: options.style.stroke,
+            width: 2
+          })
         }),
         text: styleText
       });
