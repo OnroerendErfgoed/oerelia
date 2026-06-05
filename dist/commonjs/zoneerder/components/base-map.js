@@ -377,7 +377,8 @@ var BaseMap = (function () {
             var styleText = textStyleFunction(feature);
             var fillColor = options.style.fill;
             if (options.style.hashed) {
-                fillColor = _this._createPattern(options.style.fill);
+                var pattern = _this._createPattern(options.style.fill);
+                fillColor = pattern || options.style.fill;
             }
             var style = new openlayers_1.default.style.Style({
                 stroke: new openlayers_1.default.style.Stroke({
@@ -387,6 +388,16 @@ var BaseMap = (function () {
                 }),
                 fill: new openlayers_1.default.style.Fill({
                     color: fillColor
+                }),
+                image: new openlayers_1.default.style.Circle({
+                    radius: 7,
+                    fill: new openlayers_1.default.style.Fill({
+                        color: options.style.fill
+                    }),
+                    stroke: new openlayers_1.default.style.Stroke({
+                        color: options.style.stroke,
+                        width: 2
+                    })
                 }),
                 text: styleText
             });

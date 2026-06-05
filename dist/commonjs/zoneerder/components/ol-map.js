@@ -14,6 +14,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -37,6 +48,15 @@ var aurelia_binding_1 = require("aurelia-binding");
 var moment = require("moment");
 var jsts = require("jsts");
 var log = aurelia_framework_1.LogManager.getLogger('ol-map');
+var DEFAULT_TOOL_VISIBILITY = {
+    drawPoint: false,
+    drawPolygon: true,
+    drawCircle: true,
+    selectPerceel: true,
+    selectGebouw: false,
+    selectKunstwerk: false,
+    drawWKT: true
+};
 var OlMap = (function (_super) {
     __extends(OlMap, _super);
     function OlMap(element, crabService, dialogService) {
@@ -45,9 +65,11 @@ var OlMap = (function (_super) {
         _this.crabService = crabService;
         _this.dialogService = dialogService;
         _this.showGrbTool = false;
+        _this.toolVisibility = {};
         _this.geometryObjectList = [];
         _this.isDrawing = false;
         _this.isDrawingCircle = false;
+        _this.isDrawingPoint = false;
         _this.selectPerceel = false;
         _this.selectGebouw = false;
         _this.selectKunstwerk = false;
@@ -59,6 +81,13 @@ var OlMap = (function (_super) {
         _this.wktFormat = new openlayers_1.default.format.WKT();
         return _this;
     }
+    Object.defineProperty(OlMap.prototype, "visibleTools", {
+        get: function () {
+            return __assign(__assign({}, DEFAULT_TOOL_VISIBILITY), this.toolVisibility);
+        },
+        enumerable: false,
+        configurable: true
+    });
     OlMap.prototype.attached = function () {
         var _this = this;
         this.initialLaatstGealigneerd = this.laatstGealigneerd;
@@ -93,17 +122,15 @@ var OlMap = (function (_super) {
         if (!this.zone) {
             return;
         }
-        var wktString = '';
-        this.zone.coordinates.forEach(function (coords) {
-            var polygon = new openlayers_1.default.geom.Polygon(coords);
-            var feature = new openlayers_1.default.Feature({
-                name: name,
-                geometry: polygon
-            });
+        var polygons = this.zone.coordinates.map(function (coords) { return new openlayers_1.default.geom.Polygon(coords); });
+        polygons.forEach(function (polygon) {
+            var feature = new openlayers_1.default.Feature({ name: name, geometry: polygon });
             drawSource.addFeature(feature);
             _this.totalArea += polygon.getArea();
-            wktString += _this.wktFormat.writeFeature(feature);
         });
+        var multiPolygon = new openlayers_1.default.geom.MultiPolygon(polygons.map(function (polygon) { return polygon.getCoordinates(); }));
+        var feature = new openlayers_1.default.Feature({ name: name, geometry: multiPolygon });
+        var wktString = this.wktFormat.writeFeature(feature);
         this.geometryObjectList = [{ name: name, wktString: wktString }];
     };
     OlMap.prototype.zoneChanged = function () {
@@ -140,6 +167,16 @@ var OlMap = (function (_super) {
                     name: evt.feature.getProperties().name,
                     wktString: wktString
                 });
+            });
+        }
+        else if (type === 'Point') {
+            this.mapInteractions.drawZone.on('drawstart', function () {
+                _this.drawLayer.getSource().clear();
+            });
+            this.mapInteractions.drawZone.on('drawend', function (evt) {
+                evt.feature.setProperties({ name: 'Punt' });
+                var wktString = _this.wktFormat.writeFeature(evt.feature);
+                _this.geometryObjectList = [{ name: evt.feature.getProperties().name, wktString: wktString }];
             });
         }
     };
@@ -322,6 +359,11 @@ var OlMap = (function (_super) {
                 multiPolygon.appendPolygon(openlayers_1.default.geom.Polygon.fromCircle(geom));
                 _this.totalArea += Math.PI * Math.pow(geom.getRadius(), 2);
             }
+            else if (geom instanceof openlayers_1.default.geom.Point) {
+                var pointAsPolygon = openlayers_1.default.geom.Polygon.fromCircle(new openlayers_1.default.geom.Circle(geom.getCoordinates(), 1));
+                multiPolygon.appendPolygon(pointAsPolygon);
+                _this.totalArea += Math.PI * Math.pow(1, 2);
+            }
         });
         var contour = this.formatGeoJson(multiPolygon);
         if (this.zone) {
@@ -347,16 +389,25 @@ var OlMap = (function (_super) {
             case 'Polygon': {
                 this.isDrawing = bool;
                 this.isDrawingCircle = false;
+                this.isDrawingPoint = false;
                 break;
             }
             case 'Circle': {
                 this.isDrawing = false;
                 this.isDrawingCircle = bool;
+                this.isDrawingPoint = false;
+                break;
+            }
+            case 'Point': {
+                this.isDrawing = false;
+                this.isDrawingCircle = false;
+                this.isDrawingPoint = bool;
                 break;
             }
             default: {
                 this.isDrawing = false;
                 this.isDrawingCircle = false;
+                this.isDrawingPoint = false;
                 break;
             }
         }
@@ -460,12 +511,8 @@ var OlMap = (function (_super) {
     ], OlMap.prototype, "laatstGealigneerd", void 0);
     __decorate([
         aurelia_framework_1.bindable,
-        __metadata("design:type", Boolean)
-    ], OlMap.prototype, "showSelectGebouw", void 0);
-    __decorate([
-        aurelia_framework_1.bindable,
-        __metadata("design:type", Boolean)
-    ], OlMap.prototype, "showSelectKunstwerk", void 0);
+        __metadata("design:type", Object)
+    ], OlMap.prototype, "toolVisibility", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Number)

@@ -23,8 +23,15 @@ export class Zoneerder {
   @bindable showGrbTool?: boolean = false;
   @bindable alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
   @bindable laatstGealigneerd: string;
-  @bindable showSelectGebouw = true;
-  @bindable showSelectKunstwerk = false;
+  @bindable toolVisibility = {
+    drawPoint: false,
+    drawPolygon: true,
+    drawCircle: true,
+    selectPerceel: true,
+    selectGebouw: true,
+    selectKunstwerk: false,
+    drawWKT: true
+  };
   @bindable alignerAreaLimit = 100000;
 
   protected suggest: { suggest: Function };
