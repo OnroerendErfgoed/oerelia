@@ -374,7 +374,8 @@ var BaseMap = (function () {
             var styleText = textStyleFunction(feature);
             var fillColor = options.style.fill;
             if (options.style.hashed) {
-                fillColor = _this._createPattern(options.style.fill);
+                var pattern = _this._createPattern(options.style.fill);
+                fillColor = pattern || options.style.fill;
             }
             var style = new ol.style.Style({
                 stroke: new ol.style.Stroke({
@@ -384,6 +385,16 @@ var BaseMap = (function () {
                 }),
                 fill: new ol.style.Fill({
                     color: fillColor
+                }),
+                image: new ol.style.Circle({
+                    radius: 7,
+                    fill: new ol.style.Fill({
+                        color: options.style.fill
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: options.style.stroke,
+                        width: 2
+                    })
                 }),
                 text: styleText
             });

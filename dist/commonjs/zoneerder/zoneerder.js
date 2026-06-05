@@ -25,8 +25,15 @@ var Zoneerder = (function () {
         this.disabled = false;
         this.isCollapsed = true;
         this.showGrbTool = false;
-        this.showSelectGebouw = true;
-        this.showSelectKunstwerk = false;
+        this.toolVisibility = {
+            drawPoint: false,
+            drawPolygon: true,
+            drawCircle: true,
+            selectPerceel: true,
+            selectGebouw: true,
+            selectKunstwerk: false,
+            drawWKT: true
+        };
         this.alignerAreaLimit = 100000;
         this.suggest = { suggest: function (value) { return _this.crabService.suggestLocatie(value); } };
     }
@@ -98,11 +105,7 @@ var Zoneerder = (function () {
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Object)
-    ], Zoneerder.prototype, "showSelectGebouw", void 0);
-    __decorate([
-        aurelia_framework_1.bindable,
-        __metadata("design:type", Object)
-    ], Zoneerder.prototype, "showSelectKunstwerk", void 0);
+    ], Zoneerder.prototype, "toolVisibility", void 0);
     __decorate([
         aurelia_framework_1.bindable,
         __metadata("design:type", Object)

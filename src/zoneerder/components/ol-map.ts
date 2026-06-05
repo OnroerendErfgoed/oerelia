@@ -13,6 +13,25 @@ import * as moment from 'moment';
 import * as jsts from 'jsts';
 
 const log = LogManager.getLogger('ol-map');
+type ZoneToolVisibility = {
+  drawPoint?: boolean;
+  drawPolygon?: boolean;
+  drawCircle?: boolean;
+  selectPerceel?: boolean;
+  selectGebouw?: boolean;
+  selectKunstwerk?: boolean;
+  drawWKT?: boolean;
+};
+
+const DEFAULT_TOOL_VISIBILITY = {
+  drawPoint: false,
+  drawPolygon: true,
+  drawCircle: true,
+  selectPerceel: true,
+  selectGebouw: false,
+  selectKunstwerk: false,
+  drawWKT: true
+};
 
 @autoinject
 export class OlMap extends BaseMap {
@@ -24,16 +43,23 @@ export class OlMap extends BaseMap {
   @bindable showGrbTool = false;
   @bindable alignGrb?: (contour: Contour, referentielaagType: ReferentielaagEnum, openbaardomeinStrategy: StrategieEnum) => Promise<IAlignerResponse>;
   @bindable laatstGealigneerd?: string;
-  @bindable showSelectGebouw: boolean;
-  @bindable showSelectKunstwerk: boolean;
+  @bindable toolVisibility?: ZoneToolVisibility = {};
   @bindable alignerAreaLimit: number;
   initialLaatstGealigneerd: string;
+
+  get visibleTools() {
+    return {
+    ...DEFAULT_TOOL_VISIBILITY,
+    ...this.toolVisibility
+    };
+  }
 
   geometryObjectList: IGeometryObject[] = [];
   WKTstring!: string;
 
   protected isDrawing: boolean = false;
   protected isDrawingCircle: boolean = false;
+  protected isDrawingPoint: boolean = false;
   protected selectPerceel: boolean = false;
   protected selectGebouw: boolean = false;
   protected selectKunstwerk: boolean = false;
@@ -74,6 +100,7 @@ export class OlMap extends BaseMap {
     this.drawLayer.getSource().on('addfeature', (featureEvent: any) => {
       const feature = featureEvent.feature;
       log.debug('olMap::drawLayer::addfeature', feature);
+
       const name = feature.get('name');
       this.drawLayerToZone(name);
       this.zoomToExtent(this.geoJsonFormatter.readGeometry(this.zone).getExtent());
@@ -147,6 +174,15 @@ export class OlMap extends BaseMap {
           name: evt.feature.getProperties().name,
           wktString: wktString
         });
+      });
+    } else if (type === 'Point') {
+      this.mapInteractions.drawZone.on('drawstart', () => {
+        (this.drawLayer.getSource() as ol.source.Vector).clear();
+      });
+      this.mapInteractions.drawZone.on('drawend', (evt: any) => {
+        evt.feature.setProperties({ name: 'Punt' });
+        const wktString = this.wktFormat.writeFeature(evt.feature);
+        this.geometryObjectList = [{name: evt.feature.getProperties().name, wktString: wktString}];
       });
     }
   }
@@ -332,6 +368,10 @@ export class OlMap extends BaseMap {
       } else if (geom instanceof ol.geom.Circle) {
         multiPolygon.appendPolygon(ol.geom.Polygon.fromCircle(geom));
         this.totalArea += Math.PI * Math.pow(geom.getRadius(), 2);
+      } else if (geom instanceof ol.geom.Point) {
+        const pointAsPolygon = ol.geom.Polygon.fromCircle(new ol.geom.Circle(geom.getCoordinates(), 1));
+        multiPolygon.appendPolygon(pointAsPolygon);
+        this.totalArea += Math.PI * Math.pow(1, 2);
       }
     });
 
@@ -362,16 +402,25 @@ export class OlMap extends BaseMap {
       case 'Polygon': {
         this.isDrawing = bool;
         this.isDrawingCircle = false;
+        this.isDrawingPoint = false;
         break;
       }
       case 'Circle': {
         this.isDrawing = false;
         this.isDrawingCircle = bool;
+        this.isDrawingPoint = false;
+        break;
+      }
+      case 'Point': {
+        this.isDrawing = false;
+        this.isDrawingCircle = false;
+        this.isDrawingPoint = bool;
         break;
       }
       default: {
         this.isDrawing = false;
         this.isDrawingCircle = false;
+        this.isDrawingPoint = false;
         break;
       }
     }
