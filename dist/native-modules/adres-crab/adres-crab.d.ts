@@ -1,7 +1,7 @@
-import { ValidationController, ValidationControllerFactory } from 'aurelia-validation';
-import { AdresregisterService } from '../services/adresregister.api-service';
-import { IAdresCrabConfig } from './types/adres-crab-config';
-import { ICrabAdres, ILand } from '../models/public-models';
+import { ValidationController, ValidationControllerFactory } from "aurelia-validation";
+import { AdresregisterService } from "../services/adresregister.api-service";
+import { IAdresCrabConfig } from "./types/adres-crab-config";
+import { ICrabAdres, ILand, IStraat } from "../models/public-models";
 export declare class AdresCrab {
     controller: ValidationController;
     private controllerFactory;
@@ -20,6 +20,7 @@ export declare class AdresCrab {
     landChanged(): void;
     gemeenteChanged(): void;
     straatChanged(): void;
+    straatParser(value: string): IStraat;
     copyAdres(): void;
     pasteAdres(): void;
     private loadLanden;

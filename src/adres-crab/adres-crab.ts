@@ -1,14 +1,24 @@
-import { inject, bindable } from 'aurelia-framework';
-import { ValidationController, ValidationControllerFactory, ValidationRules } from 'aurelia-validation';
-import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
-import { AdresregisterService } from '../services/adresregister.api-service';
-import { autocompleteType } from '../autocomplete/models/autocomplete-type';
-import { IAdresCrabConfig } from './types/adres-crab-config';
-import { uniqBy } from 'lodash';
-import { Message } from '../utilities/message/message';
-import { IAdresregisterAdres, ICrabAdres, IGemeente, 
-  ILand, IPostcode, 
-  ParamsType} from '../models/public-models';
+import { inject, bindable } from "aurelia-framework";
+import {
+  ValidationController,
+  ValidationControllerFactory,
+  ValidationRules,
+} from "aurelia-validation";
+import { FoundationValidationRenderer } from "../foundation-validation-renderer/foundation-validation-renderer";
+import { AdresregisterService } from "../services/adresregister.api-service";
+import { autocompleteType } from "../autocomplete/models/autocomplete-type";
+import { IAdresCrabConfig } from "./types/adres-crab-config";
+import { uniqBy } from "lodash";
+import { Message } from "../utilities/message/message";
+import {
+  IAdresregisterAdres,
+  ICrabAdres,
+  IGemeente,
+  ILand,
+  IPostcode,
+  IStraat,
+  ParamsType,
+} from "../models/public-models";
 
 @inject(ValidationController, ValidationControllerFactory, AdresregisterService)
 export class AdresCrab {
@@ -18,49 +28,74 @@ export class AdresCrab {
     postcode: { required: true, autocompleteType: autocompleteType.Auto },
     straat: { required: true, autocompleteType: autocompleteType.Auto },
     huisnummer: { required: true, autocompleteType: autocompleteType.Auto },
-    busnummer: { required: false, autocompleteType: autocompleteType.Suggest }
+    busnummer: { required: false, autocompleteType: autocompleteType.Suggest },
   };
   @bindable copiedAdres: ICrabAdres;
   @bindable copyAvailable = false;
 
   public landen: ILand[] = [];
 
-  private vlaamseProvinciesNiscodes = ['10000', '70000', '40000', '20001', '30000'];
+  private vlaamseProvinciesNiscodes = [
+    "10000",
+    "70000",
+    "40000",
+    "20001",
+    "30000",
+  ];
   private suggest: any = {};
   private vrijAdres: boolean = false;
 
   constructor(
     public controller: ValidationController,
     private controllerFactory: ValidationControllerFactory,
-    private adresregisterService: AdresregisterService
+    private adresregisterService: AdresregisterService,
   ) {
     this.controller = this.controllerFactory.createForCurrentScope();
     this.controller.addRenderer(new FoundationValidationRenderer());
 
     this.loadLanden();
-    this.suggest.gemeenten = { suggest: (value: string) => this.loadGemeenten(value) };
+    this.suggest.gemeenten = {
+      suggest: (value: string) => this.loadGemeenten(value),
+    };
     this.suggest.postcodes = { suggest: (value) => this.loadPostcodes(value) };
     this.suggest.straten = { suggest: (value) => this.loadStraten(value) };
     this.suggest.huisnummers = { suggest: (value) => this.loadHuisnrs(value) };
     this.suggest.busnummers = { suggest: (value) => this.loadBusnrs(value) };
 
     ValidationRules.customRule(
-      'requiredHuisnummer',
+      "requiredHuisnummer",
       (value) => {
         return value && value.huisnummer;
-      }, ''
+      },
+      "",
     );
   }
 
   public bind() {
-    this.data.adres = this.data.adres || { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
+    this.data.adres = this.data.adres || {
+      id: undefined,
+      uri: undefined,
+      huisnummer: undefined,
+      busnummer: undefined,
+    };
 
-    ValidationRules
-      .ensure('land').required()
-      .ensure('gemeente').required()
-      .ensure('postcode').required()
-      .ensure('straat').required()
-      .ensure('adres').satisfiesRule('requiredHuisnummer').when(() => this.config.huisnummer.required)
+    if (this.data.straat && this.data.straat.naam) {
+      this.data.straat.straatLabel = this.data.straat.homoniem
+        ? `${this.data.straat.naam} (${this.data.straat.homoniem})`
+        : this.data.straat.naam;
+    }
+
+    ValidationRules.ensure("land")
+      .required()
+      .ensure("gemeente")
+      .required()
+      .ensure("postcode")
+      .required()
+      .ensure("straat")
+      .required()
+      .ensure("adres")
+      .satisfiesRule("requiredHuisnummer")
+      .when(() => this.config.huisnummer.required)
       .on(this.data);
 
     if (this.data.provincie && !this.isVlaamseProvincie(this.data.provincie)) {
@@ -68,7 +103,9 @@ export class AdresCrab {
       this.config.straat.autocompleteType = autocompleteType.Suggest;
     }
 
-    this.data.land = this.config.countryId ? { code: this.config.countryId } : this.data.land || { code: 'BE', naam: 'België' };
+    this.data.land = this.config.countryId
+      ? { code: this.config.countryId }
+      : this.data.land || { code: "BE", naam: "België" };
   }
 
   public landChanged() {
@@ -79,7 +116,11 @@ export class AdresCrab {
   }
 
   public gemeenteChanged() {
-    if (this.data.gemeente && this.data.gemeente.provincie && !this.isVlaamseProvincie(this.data.gemeente.provincie)) {
+    if (
+      this.data.gemeente &&
+      this.data.gemeente.provincie &&
+      !this.isVlaamseProvincie(this.data.gemeente.provincie)
+    ) {
       this.config.postcode.autocompleteType = autocompleteType.Suggest;
       this.config.straat.autocompleteType = autocompleteType.Suggest;
     } else {
@@ -93,6 +134,26 @@ export class AdresCrab {
 
   public straatChanged() {
     this.resetAdres();
+  }
+
+  public straatParser(value: string): IStraat {
+    value = value.trim();
+    // In deze functie is Autocomplete de scope
+    const scope = this as unknown as { value: IStraat };
+    const currentValue = scope.value;
+
+    if (currentValue && value === currentValue.naam?.trim()) {
+      return currentValue;
+    } else if (value) {
+      return {
+        id: null,
+        naam: value,
+        uri: null,
+        omschrijving: null,
+        straatLabel: value,
+      };
+    }
+    return undefined;
   }
 
   public copyAdres(): void {
@@ -112,16 +173,16 @@ export class AdresCrab {
       const landen = await this.adresregisterService.getLanden();
       if (landen) {
         const staticLanden: ILand[] = [
-          { code: 'BE', naam: 'België' },
-          { code: 'DE', naam: 'Duitsland' },
-          { code: 'FR', naam: 'Frankrijk' },
-          { code: 'GB', naam: 'Groot-Brittanië' },
-          { code: 'NL', naam: 'Nederland' },
-          { code: 'LU', naam: 'Luxemburg' },
-          { code: 'divider', naam: '─────────────────────────' }
+          { code: "BE", naam: "België" },
+          { code: "DE", naam: "Duitsland" },
+          { code: "FR", naam: "Frankrijk" },
+          { code: "GB", naam: "Groot-Brittanië" },
+          { code: "NL", naam: "Nederland" },
+          { code: "LU", naam: "Luxemburg" },
+          { code: "divider", naam: "─────────────────────────" },
         ];
         this.landen = staticLanden;
-        landen.forEach(land => {
+        landen.forEach((land) => {
           const exists = this.landen.find((obj) => obj.code === land.code);
           if (!exists) {
             this.landen.push(land);
@@ -130,8 +191,8 @@ export class AdresCrab {
       }
     } catch (error) {
       Message.error({
-        title: 'Er liep iets mis bij het ophalen van landen',
-        message: error.message
+        title: "Er liep iets mis bij het ophalen van landen",
+        message: error.message,
       });
     }
   }
@@ -142,14 +203,14 @@ export class AdresCrab {
       const adresGemeenten = gemeenten.map((gemeente: IGemeente) => ({
         naam: gemeente.naam,
         niscode: gemeente.niscode,
-        provincie: gemeente.provincie
+        provincie: gemeente.provincie,
       }));
-  
+
       return this.suggestFilter(adresGemeenten, value);
     } catch (error) {
       Message.error({
-        title: 'Er liep iets mis bij het ophalen van gemeenten',
-        message: error.message
+        title: "Er liep iets mis bij het ophalen van gemeenten",
+        message: error.message,
       });
     }
   }
@@ -163,19 +224,24 @@ export class AdresCrab {
 
     try {
       const postcodes = await this.adresregisterService.getPostinfo(gemeente);
-      const mappedPostcodes = postcodes.map((postcode) => ({ nummer: postcode.postcode, uri: postcode.uri } as IPostcode));
+      const mappedPostcodes = postcodes.map(
+        (postcode) =>
+          ({ nummer: postcode.postcode, uri: postcode.uri }) as IPostcode,
+      );
       return this.filterPostcodes(mappedPostcodes, value);
     } catch (error) {
       this.data.postcode = undefined;
       Message.error({
-        title: 'Er liep iets mis bij het ophalen van postcodes',
-        message: error.message
+        title: "Er liep iets mis bij het ophalen van postcodes",
+        message: error.message,
       });
     }
   }
 
   private async loadStraten(value: string) {
-    const gemeenteNiscode = this.data.gemeente ? this.data.gemeente.niscode : undefined;
+    const gemeenteNiscode = this.data.gemeente
+      ? this.data.gemeente.niscode
+      : undefined;
     const postcodeUri = this.data.postcode ? this.data.postcode.uri : undefined;
     if (!gemeenteNiscode || !postcodeUri) {
       this.vrijAdres = true;
@@ -185,12 +251,19 @@ export class AdresCrab {
       this.vrijAdres = false;
     }
     try {
-      const straten = await this.adresregisterService.getStraten(gemeenteNiscode);
-      return this.suggestFilter(straten, value);
+      const straten =
+        await this.adresregisterService.getStraten(gemeenteNiscode);
+      const stratenMetLabel = straten.map((straat) => ({
+        ...straat,
+        straatLabel: straat.homoniem
+          ? `${straat.naam} (${straat.homoniem})`
+          : straat.naam,
+      }));
+      return this.suggestFilter(stratenMetLabel, value);
     } catch (error) {
       Message.error({
-        title: 'Er liep iets mis bij het ophalen van straten',
-        message: error.message
+        title: "Er liep iets mis bij het ophalen van straten",
+        message: error.message,
       });
     }
   }
@@ -199,7 +272,9 @@ export class AdresCrab {
     const straatId = this.data.straat ? this.data.straat.id : undefined;
     if (
       this.vrijAdres ||
-      (this.data.gemeente.provincie && !this.isVlaamseProvincie(this.data.gemeente.provincie))) {
+      (this.data.gemeente.provincie &&
+        !this.isVlaamseProvincie(this.data.gemeente.provincie))
+    ) {
       return;
     }
     if (!straatId) {
@@ -213,8 +288,8 @@ export class AdresCrab {
       return this.filterHuisnummers(huisnrs, value);
     } catch (error) {
       Message.error({
-        title: 'Er liep iets mis bij het ophalen van huisnummers',
-        message: error.message
+        title: "Er liep iets mis bij het ophalen van huisnummers",
+        message: error.message,
       });
     }
   }
@@ -223,15 +298,20 @@ export class AdresCrab {
     const straatId = this.data.straat ? this.data.straat.id : undefined;
     const huisnummer = this.data.adres ? this.data.adres.huisnummer : undefined;
 
-    if (!this.data.adres.id || !huisnummer || this.vrijAdres) { return; }
+    if (!this.data.adres.id || !huisnummer || this.vrijAdres) {
+      return;
+    }
 
     try {
-      const huisnrs = await this.adresregisterService.getAdressen(straatId, huisnummer);
+      const huisnrs = await this.adresregisterService.getAdressen(
+        straatId,
+        huisnummer,
+      );
       return this.filterBusnummers(huisnrs, value);
     } catch (error) {
       Message.error({
-        title: 'Er liep iets mis bij het ophalen van busnummers',
-        message: error.message
+        title: "Er liep iets mis bij het ophalen van busnummers",
+        message: error.message,
       });
     }
   }
@@ -242,31 +322,54 @@ export class AdresCrab {
     });
   }
 
-  private filterPostcodes(postcodes: IPostcode[], searchPostcode: string): IPostcode[] | [] {
-    return postcodes.filter((postcode: IPostcode) => postcode.nummer.includes(searchPostcode));
+  private filterPostcodes(
+    postcodes: IPostcode[],
+    searchPostcode: string,
+  ): IPostcode[] | [] {
+    return postcodes.filter((postcode: IPostcode) =>
+      postcode.nummer.includes(searchPostcode),
+    );
   }
 
-  private filterHuisnummers(adressen: IAdresregisterAdres[], searchHuisnummer: string):
-    IAdresregisterAdres[] | [] {
-    const adresList = uniqBy(adressen
-      .filter((adres: IAdresregisterAdres) => adres.huisnummer
-        .includes(searchHuisnummer)),'huisnummer') as IAdresregisterAdres[];
-    return adresList.sort((a, b) => a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }));
+  private filterHuisnummers(
+    adressen: IAdresregisterAdres[],
+    searchHuisnummer: string,
+  ): IAdresregisterAdres[] | [] {
+    const adresList = uniqBy(
+      adressen.filter((adres: IAdresregisterAdres) =>
+        adres.huisnummer.includes(searchHuisnummer),
+      ),
+      "huisnummer",
+    ) as IAdresregisterAdres[];
+    return adresList.sort((a, b) =>
+      a.huisnummer.localeCompare(b.huisnummer, "en", { numeric: true }),
+    );
   }
 
-  private filterBusnummers(adressen: IAdresregisterAdres[], searchBusnummer: string):
-    IAdresregisterAdres[] | [] {
-    return adressen.filter((adres: IAdresregisterAdres) => adres.busnummer
-      .includes(searchBusnummer))
-      .sort((a, b) => a.busnummer.localeCompare(b.busnummer, 'en', { numeric: true }));
+  private filterBusnummers(
+    adressen: IAdresregisterAdres[],
+    searchBusnummer: string,
+  ): IAdresregisterAdres[] | [] {
+    return adressen
+      .filter((adres: IAdresregisterAdres) =>
+        adres.busnummer.includes(searchBusnummer),
+      )
+      .sort((a, b) =>
+        a.busnummer.localeCompare(b.busnummer, "en", { numeric: true }),
+      );
   }
 
   private resetAdres() {
-    this.data.adres = { id: undefined, uri: undefined, huisnummer: undefined, busnummer: undefined };
+    this.data.adres = {
+      id: undefined,
+      uri: undefined,
+      huisnummer: undefined,
+      busnummer: undefined,
+    };
   }
 
   private landCodeMatcher(a: { code: number }, b: { code: number }): boolean {
-    return (!!a && !!b) && (a.code === b.code);
+    return !!a && !!b && a.code === b.code;
   }
 
   private isVlaamseProvincie(provincie) {
