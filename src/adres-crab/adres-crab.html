@@ -51,13 +51,14 @@
           <div
             class="placeholder-container ${ !data.land || disabled ? 'placeholder-disabled' : '' }"
           >
-            <label
-              >Gemeente
+            <label>
+              Gemeente
               <span
                 title="Opgelet, enkel de hoofdgemeenten (en niet de deelgemeenten) kunnen ingevuld worden."
-                >(?)</span
-              ></label
-            >
+              >
+                (?)
+              </span>
+            </label>
             <autocomplete
               service.bind="suggest.gemeenten"
               value.bind="data.gemeente & validate"
@@ -154,13 +155,14 @@
           <div
             class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }"
           >
-            <label
-              >Gemeente
+            <label>
+              Gemeente
               <span
                 title="Opgelet, enkel de hoofdgemeenten (en niet de deelgemeenten) kunnen ingevuld worden."
-                >(?)</span
-              ></label
-            >
+              >
+                (?)
+              </span>
+            </label>
             <input
               type="text"
               value.bind="data.gemeente.naam"
