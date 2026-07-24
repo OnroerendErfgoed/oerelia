@@ -265,6 +265,8 @@ export interface IStraat {
     naam: string;
     uri: string;
     omschrijving: string;
+    homoniem?: string;
+    straatLabel?: string;
 }
 export interface IAdresregisterAdres {
     id?: string;
