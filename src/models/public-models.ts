@@ -14,15 +14,15 @@ export interface IErkenning {
 }
 
 export interface IErkenningNew {
-  id: number
-  erkenningsnummer: string
-  startdatum: string
-  einddatum: string
-  opmerkingen: string
+  id: number;
+  erkenningsnummer: string;
+  startdatum: string;
+  einddatum: string;
+  opmerkingen: string;
   type: string;
-  erkend_als: IErkendAls
-  reden_erkenning: IRedenErkenning
-  oorsprong_erkenning: IOorsprongErkenning
+  erkend_als: IErkendAls;
+  reden_erkenning: IRedenErkenning;
+  oorsprong_erkenning: IOorsprongErkenning;
 }
 
 export interface IOorsprongErkenning {
@@ -307,6 +307,8 @@ export interface IStraat {
   naam: string;
   uri: string;
   omschrijving: string;
+  homoniem?: string;
+  straatLabel?: string;
 }
 
 export interface IAdresregisterAdres {
