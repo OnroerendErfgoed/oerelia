@@ -159,11 +159,13 @@ var AdresCrab = (function () {
         this.resetAdres();
     };
     AdresCrab.prototype.straatParser = function (value) {
-        var _a;
+        var _a, _b;
         value = value.trim();
         var scope = this;
         var currentValue = scope.value;
-        if (currentValue && value === ((_a = currentValue.naam) === null || _a === void 0 ? void 0 : _a.trim())) {
+        var currentLabel = (_a = currentValue === null || currentValue === void 0 ? void 0 : currentValue.straatLabel) === null || _a === void 0 ? void 0 : _a.trim();
+        var currentName = (_b = currentValue === null || currentValue === void 0 ? void 0 : currentValue.naam) === null || _b === void 0 ? void 0 : _b.trim();
+        if (currentValue && (value === currentLabel || value === currentName)) {
             return currentValue;
         }
         else if (value) {

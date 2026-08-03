@@ -141,8 +141,10 @@ export class AdresCrab {
     // In deze functie is Autocomplete de scope
     const scope = this as unknown as { value: IStraat };
     const currentValue = scope.value;
+    const currentLabel = currentValue?.straatLabel?.trim();
+    const currentName = currentValue?.naam?.trim();
 
-    if (currentValue && value === currentValue.naam?.trim()) {
+    if (currentValue && (value === currentLabel || value === currentName)) {
       return currentValue;
     } else if (value) {
       return {
