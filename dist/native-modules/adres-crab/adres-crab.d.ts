@@ -34,6 +34,7 @@ export declare class AdresCrab {
     private filterHuisnummers;
     private filterBusnummers;
     private resetAdres;
+    private normalizeStraat;
     private landCodeMatcher;
     private isVlaamseProvincie;
 }

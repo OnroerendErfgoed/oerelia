@@ -79,11 +79,7 @@ export class AdresCrab {
       busnummer: undefined,
     };
 
-    if (this.data.straat && this.data.straat.naam) {
-      this.data.straat.straatLabel = this.data.straat.homoniem
-        ? `${this.data.straat.naam} (${this.data.straat.homoniem})`
-        : this.data.straat.naam;
-    }
+    this.data.straat = this.normalizeStraat(this.data.straat);
 
     ValidationRules.ensure("land")
       .required()
@@ -140,7 +136,7 @@ export class AdresCrab {
     value = value.trim();
     // In deze functie is Autocomplete de scope
     const scope = this as unknown as { value: IStraat };
-    const currentValue = scope.value;
+    const currentValue = this.normalizeStraat(scope.value);
     const currentLabel = currentValue?.straatLabel?.trim();
     const currentName = currentValue?.naam?.trim();
 
@@ -166,7 +162,7 @@ export class AdresCrab {
     this.data.land = this.copiedAdres.land;
     this.data.gemeente = this.copiedAdres.gemeente;
     this.data.postcode = this.copiedAdres.postcode;
-    this.data.straat = this.copiedAdres.straat;
+    this.data.straat = this.normalizeStraat(this.copiedAdres.straat);
     this.data.adres = this.copiedAdres.adres;
   }
 
@@ -255,12 +251,9 @@ export class AdresCrab {
     try {
       const straten =
         await this.adresregisterService.getStraten(gemeenteNiscode);
-      const stratenMetLabel = straten.map((straat) => ({
-        ...straat,
-        straatLabel: straat.homoniem
-          ? `${straat.naam} (${straat.homoniem})`
-          : straat.naam,
-      }));
+      const stratenMetLabel = straten.map((straat) =>
+        this.normalizeStraat(straat),
+      );
       return this.suggestFilter(stratenMetLabel, value);
     } catch (error) {
       Message.error({
@@ -367,6 +360,19 @@ export class AdresCrab {
       uri: undefined,
       huisnummer: undefined,
       busnummer: undefined,
+    };
+  }
+
+  private normalizeStraat(straat: IStraat): IStraat {
+    if (!straat || !straat.naam) {
+      return straat;
+    }
+
+    return {
+      ...straat,
+      straatLabel: straat.homoniem
+        ? `${straat.naam} (${straat.homoniem})`
+        : straat.naam,
     };
   }
 

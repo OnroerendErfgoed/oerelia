@@ -16,27 +16,27 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { bindingMode, observable } from 'aurelia-binding';
-import { bindable } from 'aurelia-templating';
-import { inject } from 'aurelia-dependency-injection';
-import { autocompleteType } from './models/autocomplete-type';
+import { bindingMode, observable } from "aurelia-binding";
+import { bindable } from "aurelia-templating";
+import { inject } from "aurelia-dependency-injection";
+import { autocompleteType } from "./models/autocomplete-type";
 var nextID = 0;
 var Autocomplete = (function () {
     function Autocomplete(element) {
-        this.inputValue = '';
-        this.placeholder = '';
+        this.inputValue = "";
+        this.placeholder = "";
         this.delay = 300;
-        this.label = 'name';
+        this.label = "name";
         this.minlength = 2;
         this.type = autocompleteType.Auto;
-        this.huisnummer = '';
-        this.field = '';
+        this.huisnummer = "";
+        this.field = "";
         this.expanded = false;
         this.updatingInput = false;
         this.suggestions = [];
         this.index = -1;
         this.suggestionsUL = null;
-        this.userInput = '';
+        this.userInput = "";
         this.element = null;
         this.loaded = false;
         this.element = element;
@@ -55,10 +55,19 @@ var Autocomplete = (function () {
     };
     Autocomplete.prototype.getName = function (suggestion) {
         if (suggestion == null) {
-            return '';
+            return "";
         }
         if (this.labelParser) {
             return this.labelParser(suggestion);
+        }
+        var configuredLabel = suggestion[this.label];
+        if (configuredLabel != null) {
+            return configuredLabel;
+        }
+        if (suggestion.naam != null) {
+            return suggestion.homoniem != null
+                ? "".concat(suggestion.naam, " (").concat(suggestion.homoniem, ")")
+                : suggestion.naam;
         }
         return suggestion[this.label];
     };
@@ -67,19 +76,19 @@ var Autocomplete = (function () {
         this.index = -1;
     };
     Autocomplete.prototype.select = function (suggestion) {
-        var displayName = '';
-        if (typeof suggestion === 'string') {
+        var displayName = "";
+        if (typeof suggestion === "string") {
             switch (this.field) {
-                case 'postcode':
+                case "postcode":
                     this.value = { nummer: suggestion };
                     break;
-                case 'straat':
+                case "straat":
                     this.value = { naam: suggestion };
                     break;
-                case 'huisnummer':
+                case "huisnummer":
                     this.value = { huisnummer: suggestion };
                     break;
-                case 'busnummer':
+                case "busnummer":
                     this.value = { huisnummer: this.huisnummer, busnummer: suggestion };
                     break;
             }
@@ -103,14 +112,13 @@ var Autocomplete = (function () {
             return;
         }
         this.userInput = value;
-        if (value === '') {
+        if (value === "") {
             this.value = null;
             this.collapse();
             return;
         }
         if (value.length >= this.minlength) {
-            this.service.suggest(value)
-                .then(function (suggestions) {
+            this.service.suggest(value).then(function (suggestions) {
                 var _a;
                 _this.index = -1;
                 if (!suggestions) {
@@ -118,7 +126,8 @@ var Autocomplete = (function () {
                 }
                 else {
                     (_a = _this.suggestions).splice.apply(_a, __spreadArray([0, _this.suggestions.length], suggestions, false));
-                    if (suggestions.length === 1 && _this.type !== autocompleteType.Suggest) {
+                    if (suggestions.length === 1 &&
+                        _this.type !== autocompleteType.Suggest) {
                         _this.select(suggestions[0]);
                     }
                     else if (suggestions.length === 0) {
@@ -192,13 +201,16 @@ var Autocomplete = (function () {
         return true;
     };
     Autocomplete.prototype.blur = function () {
-        if ((this.getName(this.value) === this.inputValue) || (this.type !== autocompleteType.Suggest)) {
+        if (this.getName(this.value) === this.inputValue ||
+            this.type !== autocompleteType.Suggest) {
             this.select(this.value);
-            var event_1 = new CustomEvent('blur');
+            var event_1 = new CustomEvent("blur");
             this.element.dispatchEvent(event_1);
             return;
         }
-        var customValue = this.parser ? this.parser(this.inputValue) : this.defaultParser(this.inputValue);
+        var customValue = this.parser
+            ? this.parser(this.inputValue)
+            : this.defaultParser(this.inputValue);
         this.select(customValue);
     };
     Autocomplete.prototype.suggestionClicked = function (suggestion) {
@@ -208,7 +220,7 @@ var Autocomplete = (function () {
         this.element.firstElementChild.focus();
     };
     Autocomplete.prototype.resetUserInput = function () {
-        this.userInput = '';
+        this.userInput = "";
     };
     Autocomplete.prototype.defaultParser = function (value) {
         return value.trim();

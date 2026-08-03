@@ -109,11 +109,7 @@ var AdresCrab = (function () {
             huisnummer: undefined,
             busnummer: undefined,
         };
-        if (this.data.straat && this.data.straat.naam) {
-            this.data.straat.straatLabel = this.data.straat.homoniem
-                ? "".concat(this.data.straat.naam, " (").concat(this.data.straat.homoniem, ")")
-                : this.data.straat.naam;
-        }
+        this.data.straat = this.normalizeStraat(this.data.straat);
         aurelia_validation_1.ValidationRules.ensure("land")
             .required()
             .ensure("gemeente")
@@ -162,7 +158,7 @@ var AdresCrab = (function () {
         var _a, _b;
         value = value.trim();
         var scope = this;
-        var currentValue = scope.value;
+        var currentValue = this.normalizeStraat(scope.value);
         var currentLabel = (_a = currentValue === null || currentValue === void 0 ? void 0 : currentValue.straatLabel) === null || _a === void 0 ? void 0 : _a.trim();
         var currentName = (_b = currentValue === null || currentValue === void 0 ? void 0 : currentValue.naam) === null || _b === void 0 ? void 0 : _b.trim();
         if (currentValue && (value === currentLabel || value === currentName)) {
@@ -186,7 +182,7 @@ var AdresCrab = (function () {
         this.data.land = this.copiedAdres.land;
         this.data.gemeente = this.copiedAdres.gemeente;
         this.data.postcode = this.copiedAdres.postcode;
-        this.data.straat = this.copiedAdres.straat;
+        this.data.straat = this.normalizeStraat(this.copiedAdres.straat);
         this.data.adres = this.copiedAdres.adres;
     };
     AdresCrab.prototype.loadLanden = function () {
@@ -296,6 +292,7 @@ var AdresCrab = (function () {
     AdresCrab.prototype.loadStraten = function (value) {
         return __awaiter(this, void 0, void 0, function () {
             var gemeenteNiscode, postcodeUri, straten, stratenMetLabel, error_4;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -316,9 +313,9 @@ var AdresCrab = (function () {
                         return [4, this.adresregisterService.getStraten(gemeenteNiscode)];
                     case 2:
                         straten = _a.sent();
-                        stratenMetLabel = straten.map(function (straat) { return (__assign(__assign({}, straat), { straatLabel: straat.homoniem
-                                ? "".concat(straat.naam, " (").concat(straat.homoniem, ")")
-                                : straat.naam })); });
+                        stratenMetLabel = straten.map(function (straat) {
+                            return _this.normalizeStraat(straat);
+                        });
                         return [2, this.suggestFilter(stratenMetLabel, value)];
                     case 3:
                         error_4 = _a.sent();
@@ -432,6 +429,14 @@ var AdresCrab = (function () {
             huisnummer: undefined,
             busnummer: undefined,
         };
+    };
+    AdresCrab.prototype.normalizeStraat = function (straat) {
+        if (!straat || !straat.naam) {
+            return straat;
+        }
+        return __assign(__assign({}, straat), { straatLabel: straat.homoniem
+                ? "".concat(straat.naam, " (").concat(straat.homoniem, ")")
+                : straat.naam });
     };
     AdresCrab.prototype.landCodeMatcher = function (a, b) {
         return !!a && !!b && a.code === b.code;
