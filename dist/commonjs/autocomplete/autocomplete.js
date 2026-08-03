@@ -26,20 +26,20 @@ var autocomplete_type_1 = require("./models/autocomplete-type");
 var nextID = 0;
 var Autocomplete = (function () {
     function Autocomplete(element) {
-        this.inputValue = "";
-        this.placeholder = "";
+        this.inputValue = '';
+        this.placeholder = '';
         this.delay = 300;
-        this.label = "name";
+        this.label = 'name';
         this.minlength = 2;
         this.type = autocomplete_type_1.autocompleteType.Auto;
-        this.huisnummer = "";
-        this.field = "";
+        this.huisnummer = '';
+        this.field = '';
         this.expanded = false;
         this.updatingInput = false;
         this.suggestions = [];
         this.index = -1;
         this.suggestionsUL = null;
-        this.userInput = "";
+        this.userInput = '';
         this.element = null;
         this.loaded = false;
         this.element = element;
@@ -58,7 +58,7 @@ var Autocomplete = (function () {
     };
     Autocomplete.prototype.getName = function (suggestion) {
         if (suggestion == null) {
-            return "";
+            return '';
         }
         if (this.labelParser) {
             return this.labelParser(suggestion);
@@ -79,19 +79,19 @@ var Autocomplete = (function () {
         this.index = -1;
     };
     Autocomplete.prototype.select = function (suggestion) {
-        var displayName = "";
-        if (typeof suggestion === "string") {
+        var displayName = '';
+        if (typeof suggestion === 'string') {
             switch (this.field) {
-                case "postcode":
+                case 'postcode':
                     this.value = { nummer: suggestion };
                     break;
-                case "straat":
+                case 'straat':
                     this.value = { naam: suggestion };
                     break;
-                case "huisnummer":
+                case 'huisnummer':
                     this.value = { huisnummer: suggestion };
                     break;
-                case "busnummer":
+                case 'busnummer':
                     this.value = { huisnummer: this.huisnummer, busnummer: suggestion };
                     break;
             }
@@ -115,7 +115,7 @@ var Autocomplete = (function () {
             return;
         }
         this.userInput = value;
-        if (value === "") {
+        if (value === '') {
             this.value = null;
             this.collapse();
             return;
@@ -207,7 +207,7 @@ var Autocomplete = (function () {
         if (this.getName(this.value) === this.inputValue ||
             this.type !== autocomplete_type_1.autocompleteType.Suggest) {
             this.select(this.value);
-            var event_1 = new CustomEvent("blur");
+            var event_1 = new CustomEvent('blur');
             this.element.dispatchEvent(event_1);
             return;
         }
@@ -223,7 +223,7 @@ var Autocomplete = (function () {
         this.element.firstElementChild.focus();
     };
     Autocomplete.prototype.resetUserInput = function () {
-        this.userInput = "";
+        this.userInput = '';
     };
     Autocomplete.prototype.defaultParser = function (value) {
         return value.trim();

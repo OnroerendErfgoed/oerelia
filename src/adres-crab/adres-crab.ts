@@ -1,15 +1,15 @@
-import { inject, bindable } from "aurelia-framework";
+import { inject, bindable } from 'aurelia-framework';
 import {
   ValidationController,
   ValidationControllerFactory,
   ValidationRules,
-} from "aurelia-validation";
-import { FoundationValidationRenderer } from "../foundation-validation-renderer/foundation-validation-renderer";
-import { AdresregisterService } from "../services/adresregister.api-service";
-import { autocompleteType } from "../autocomplete/models/autocomplete-type";
-import { IAdresCrabConfig } from "./types/adres-crab-config";
-import { uniqBy } from "lodash";
-import { Message } from "../utilities/message/message";
+} from 'aurelia-validation';
+import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
+import { AdresregisterService } from '../services/adresregister.api-service';
+import { autocompleteType } from '../autocomplete/models/autocomplete-type';
+import { IAdresCrabConfig } from './types/adres-crab-config';
+import { uniqBy } from 'lodash';
+import { Message } from '../utilities/message/message';
 import {
   IAdresregisterAdres,
   ICrabAdres,
@@ -18,7 +18,7 @@ import {
   IPostcode,
   IStraat,
   ParamsType,
-} from "../models/public-models";
+} from '../models/public-models';
 
 @inject(ValidationController, ValidationControllerFactory, AdresregisterService)
 export class AdresCrab {
@@ -36,11 +36,11 @@ export class AdresCrab {
   public landen: ILand[] = [];
 
   private vlaamseProvinciesNiscodes = [
-    "10000",
-    "70000",
-    "40000",
-    "20001",
-    "30000",
+    '10000',
+    '70000',
+    '40000',
+    '20001',
+    '30000',
   ];
   private suggest: any = {};
   private vrijAdres: boolean = false;
@@ -63,11 +63,11 @@ export class AdresCrab {
     this.suggest.busnummers = { suggest: (value) => this.loadBusnrs(value) };
 
     ValidationRules.customRule(
-      "requiredHuisnummer",
+      'requiredHuisnummer',
       (value) => {
         return value && value.huisnummer;
       },
-      "",
+      '',
     );
   }
 
@@ -81,16 +81,16 @@ export class AdresCrab {
 
     this.data.straat = this.normalizeStraat(this.data.straat);
 
-    ValidationRules.ensure("land")
+    ValidationRules.ensure('land')
       .required()
-      .ensure("gemeente")
+      .ensure('gemeente')
       .required()
-      .ensure("postcode")
+      .ensure('postcode')
       .required()
-      .ensure("straat")
+      .ensure('straat')
       .required()
-      .ensure("adres")
-      .satisfiesRule("requiredHuisnummer")
+      .ensure('adres')
+      .satisfiesRule('requiredHuisnummer')
       .when(() => this.config.huisnummer.required)
       .on(this.data);
 
@@ -101,7 +101,7 @@ export class AdresCrab {
 
     this.data.land = this.config.countryId
       ? { code: this.config.countryId }
-      : this.data.land || { code: "BE", naam: "België" };
+      : this.data.land || { code: 'BE', naam: 'België' };
   }
 
   public landChanged() {
@@ -171,13 +171,13 @@ export class AdresCrab {
       const landen = await this.adresregisterService.getLanden();
       if (landen) {
         const staticLanden: ILand[] = [
-          { code: "BE", naam: "België" },
-          { code: "DE", naam: "Duitsland" },
-          { code: "FR", naam: "Frankrijk" },
-          { code: "GB", naam: "Groot-Brittanië" },
-          { code: "NL", naam: "Nederland" },
-          { code: "LU", naam: "Luxemburg" },
-          { code: "divider", naam: "─────────────────────────" },
+          { code: 'BE', naam: 'België' },
+          { code: 'DE', naam: 'Duitsland' },
+          { code: 'FR', naam: 'Frankrijk' },
+          { code: 'GB', naam: 'Groot-Brittanië' },
+          { code: 'NL', naam: 'Nederland' },
+          { code: 'LU', naam: 'Luxemburg' },
+          { code: 'divider', naam: '─────────────────────────' },
         ];
         this.landen = staticLanden;
         landen.forEach((land) => {
@@ -189,7 +189,7 @@ export class AdresCrab {
       }
     } catch (error) {
       Message.error({
-        title: "Er liep iets mis bij het ophalen van landen",
+        title: 'Er liep iets mis bij het ophalen van landen',
         message: error.message,
       });
     }
@@ -207,7 +207,7 @@ export class AdresCrab {
       return this.suggestFilter(adresGemeenten, value);
     } catch (error) {
       Message.error({
-        title: "Er liep iets mis bij het ophalen van gemeenten",
+        title: 'Er liep iets mis bij het ophalen van gemeenten',
         message: error.message,
       });
     }
@@ -230,7 +230,7 @@ export class AdresCrab {
     } catch (error) {
       this.data.postcode = undefined;
       Message.error({
-        title: "Er liep iets mis bij het ophalen van postcodes",
+        title: 'Er liep iets mis bij het ophalen van postcodes',
         message: error.message,
       });
     }
@@ -257,7 +257,7 @@ export class AdresCrab {
       return this.suggestFilter(stratenMetLabel, value);
     } catch (error) {
       Message.error({
-        title: "Er liep iets mis bij het ophalen van straten",
+        title: 'Er liep iets mis bij het ophalen van straten',
         message: error.message,
       });
     }
@@ -283,7 +283,7 @@ export class AdresCrab {
       return this.filterHuisnummers(huisnrs, value);
     } catch (error) {
       Message.error({
-        title: "Er liep iets mis bij het ophalen van huisnummers",
+        title: 'Er liep iets mis bij het ophalen van huisnummers',
         message: error.message,
       });
     }
@@ -305,7 +305,7 @@ export class AdresCrab {
       return this.filterBusnummers(huisnrs, value);
     } catch (error) {
       Message.error({
-        title: "Er liep iets mis bij het ophalen van busnummers",
+        title: 'Er liep iets mis bij het ophalen van busnummers',
         message: error.message,
       });
     }
@@ -334,10 +334,10 @@ export class AdresCrab {
       adressen.filter((adres: IAdresregisterAdres) =>
         adres.huisnummer.includes(searchHuisnummer),
       ),
-      "huisnummer",
+      'huisnummer',
     ) as IAdresregisterAdres[];
     return adresList.sort((a, b) =>
-      a.huisnummer.localeCompare(b.huisnummer, "en", { numeric: true }),
+      a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true }),
     );
   }
 
@@ -350,7 +350,7 @@ export class AdresCrab {
         adres.busnummer.includes(searchBusnummer),
       )
       .sort((a, b) =>
-        a.busnummer.localeCompare(b.busnummer, "en", { numeric: true }),
+        a.busnummer.localeCompare(b.busnummer, 'en', { numeric: true }),
       );
   }
 

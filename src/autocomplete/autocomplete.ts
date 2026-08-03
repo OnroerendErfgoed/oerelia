@@ -1,36 +1,36 @@
 /*
 original source: https://gist.github.com/jdanyow/abe2b8c1587f1853106079dc74701aeb
 * */
-import { bindingMode, observable } from "aurelia-binding";
-import { bindable } from "aurelia-templating";
-import { inject } from "aurelia-dependency-injection";
-import { autocompleteType } from "./models/autocomplete-type";
+import { bindingMode, observable } from 'aurelia-binding';
+import { bindable } from 'aurelia-templating';
+import { inject } from 'aurelia-dependency-injection';
+import { autocompleteType } from './models/autocomplete-type';
 
 let nextID: number = 0;
 
 @inject(Element)
 export class Autocomplete {
-  @observable public inputValue: string = "";
+  @observable public inputValue: string = '';
   @bindable public service: any;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public value: any;
-  @bindable public placeholder: string = "";
+  @bindable public placeholder: string = '';
   @bindable public delay: number = 300;
-  @bindable public label: string = "name";
+  @bindable public label: string = 'name';
   @bindable public disabled: boolean;
   @bindable public labelParser: Function;
   @bindable public onEnter: Function;
   @bindable public minlength: number = 2;
   @bindable public type: autocompleteType = autocompleteType.Auto;
   @bindable public parser;
-  @bindable public huisnummer: string = "";
-  @bindable public field: string = "";
+  @bindable public huisnummer: string = '';
+  @bindable public field: string = '';
   public id: number;
   public expanded: boolean = false;
   public updatingInput: boolean = false;
   public suggestions: string[] = [];
   public index: number = -1;
   public suggestionsUL = null;
-  public userInput: string = "";
+  public userInput: string = '';
   public element: Element = null;
 
   private loaded: boolean = false;
@@ -56,7 +56,7 @@ export class Autocomplete {
 
   public getName(suggestion) {
     if (suggestion == null) {
-      return "";
+      return '';
     }
     if (this.labelParser) {
       return this.labelParser(suggestion);
@@ -82,19 +82,19 @@ export class Autocomplete {
   }
 
   public select(suggestion) {
-    let displayName = "";
-    if (typeof suggestion === "string") {
+    let displayName = '';
+    if (typeof suggestion === 'string') {
       switch (this.field) {
-        case "postcode":
+        case 'postcode':
           this.value = { nummer: suggestion };
           break;
-        case "straat":
+        case 'straat':
           this.value = { naam: suggestion };
           break;
-        case "huisnummer":
+        case 'huisnummer':
           this.value = { huisnummer: suggestion };
           break;
-        case "busnummer":
+        case 'busnummer':
           this.value = { huisnummer: this.huisnummer, busnummer: suggestion };
           break;
       }
@@ -119,7 +119,7 @@ export class Autocomplete {
       return;
     }
     this.userInput = value;
-    if (value === "") {
+    if (value === '') {
       this.value = null;
       this.collapse();
       return;
@@ -220,7 +220,7 @@ export class Autocomplete {
       this.type !== autocompleteType.Suggest
     ) {
       this.select(this.value);
-      const event = new CustomEvent("blur");
+      const event = new CustomEvent('blur');
       this.element.dispatchEvent(event);
       return;
     }
@@ -240,7 +240,7 @@ export class Autocomplete {
   }
 
   public resetUserInput() {
-    this.userInput = "";
+    this.userInput = '';
   }
 
   private defaultParser(value) {

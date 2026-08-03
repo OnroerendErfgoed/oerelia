@@ -1,4 +1,4 @@
-import { HttpResponseMessage } from "aurelia-http-client";
+import { HttpResponseMessage } from 'aurelia-http-client';
 export interface IErkenning {
     erkend_als: string;
     erkend_voor: string;
