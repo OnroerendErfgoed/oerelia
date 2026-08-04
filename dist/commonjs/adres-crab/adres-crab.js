@@ -79,11 +79,11 @@ var AdresCrab = (function () {
         this.copyAvailable = false;
         this.landen = [];
         this.vlaamseProvinciesNiscodes = [
-            "10000",
-            "70000",
-            "40000",
-            "20001",
-            "30000",
+            '10000',
+            '70000',
+            '40000',
+            '20001',
+            '30000',
         ];
         this.suggest = {};
         this.vrijAdres = false;
@@ -97,9 +97,9 @@ var AdresCrab = (function () {
         this.suggest.straten = { suggest: function (value) { return _this.loadStraten(value); } };
         this.suggest.huisnummers = { suggest: function (value) { return _this.loadHuisnrs(value); } };
         this.suggest.busnummers = { suggest: function (value) { return _this.loadBusnrs(value); } };
-        aurelia_validation_1.ValidationRules.customRule("requiredHuisnummer", function (value) {
+        aurelia_validation_1.ValidationRules.customRule('requiredHuisnummer', function (value) {
             return value && value.huisnummer;
-        }, "");
+        }, '');
     }
     AdresCrab.prototype.bind = function () {
         var _this = this;
@@ -109,21 +109,17 @@ var AdresCrab = (function () {
             huisnummer: undefined,
             busnummer: undefined,
         };
-        if (this.data.straat && this.data.straat.naam) {
-            this.data.straat.straatLabel = this.data.straat.homoniem
-                ? "".concat(this.data.straat.naam, " (").concat(this.data.straat.homoniem, ")")
-                : this.data.straat.naam;
-        }
-        aurelia_validation_1.ValidationRules.ensure("land")
+        this.data.straat = this.normalizeStraat(this.data.straat);
+        aurelia_validation_1.ValidationRules.ensure('land')
             .required()
-            .ensure("gemeente")
+            .ensure('gemeente')
             .required()
-            .ensure("postcode")
+            .ensure('postcode')
             .required()
-            .ensure("straat")
+            .ensure('straat')
             .required()
-            .ensure("adres")
-            .satisfiesRule("requiredHuisnummer")
+            .ensure('adres')
+            .satisfiesRule('requiredHuisnummer')
             .when(function () { return _this.config.huisnummer.required; })
             .on(this.data);
         if (this.data.provincie && !this.isVlaamseProvincie(this.data.provincie)) {
@@ -132,7 +128,7 @@ var AdresCrab = (function () {
         }
         this.data.land = this.config.countryId
             ? { code: this.config.countryId }
-            : this.data.land || { code: "BE", naam: "België" };
+            : this.data.land || { code: 'BE', naam: 'België' };
     };
     AdresCrab.prototype.landChanged = function () {
         this.data.gemeente = undefined;
@@ -159,11 +155,13 @@ var AdresCrab = (function () {
         this.resetAdres();
     };
     AdresCrab.prototype.straatParser = function (value) {
-        var _a;
+        var _a, _b;
         value = value.trim();
         var scope = this;
-        var currentValue = scope.value;
-        if (currentValue && value === ((_a = currentValue.naam) === null || _a === void 0 ? void 0 : _a.trim())) {
+        var currentValue = this.normalizeStraat(scope.value);
+        var currentLabel = (_a = currentValue === null || currentValue === void 0 ? void 0 : currentValue.straatLabel) === null || _a === void 0 ? void 0 : _a.trim();
+        var currentName = (_b = currentValue === null || currentValue === void 0 ? void 0 : currentValue.naam) === null || _b === void 0 ? void 0 : _b.trim();
+        if (currentValue && (value === currentLabel || value === currentName)) {
             return currentValue;
         }
         else if (value) {
@@ -184,7 +182,7 @@ var AdresCrab = (function () {
         this.data.land = this.copiedAdres.land;
         this.data.gemeente = this.copiedAdres.gemeente;
         this.data.postcode = this.copiedAdres.postcode;
-        this.data.straat = this.copiedAdres.straat;
+        this.data.straat = this.normalizeStraat(this.copiedAdres.straat);
         this.data.adres = this.copiedAdres.adres;
     };
     AdresCrab.prototype.loadLanden = function () {
@@ -200,13 +198,13 @@ var AdresCrab = (function () {
                         landen = _a.sent();
                         if (landen) {
                             staticLanden = [
-                                { code: "BE", naam: "België" },
-                                { code: "DE", naam: "Duitsland" },
-                                { code: "FR", naam: "Frankrijk" },
-                                { code: "GB", naam: "Groot-Brittanië" },
-                                { code: "NL", naam: "Nederland" },
-                                { code: "LU", naam: "Luxemburg" },
-                                { code: "divider", naam: "─────────────────────────" },
+                                { code: 'BE', naam: 'België' },
+                                { code: 'DE', naam: 'Duitsland' },
+                                { code: 'FR', naam: 'Frankrijk' },
+                                { code: 'GB', naam: 'Groot-Brittanië' },
+                                { code: 'NL', naam: 'Nederland' },
+                                { code: 'LU', naam: 'Luxemburg' },
+                                { code: 'divider', naam: '─────────────────────────' },
                             ];
                             this.landen = staticLanden;
                             landen.forEach(function (land) {
@@ -220,7 +218,7 @@ var AdresCrab = (function () {
                     case 2:
                         error_1 = _a.sent();
                         message_1.Message.error({
-                            title: "Er liep iets mis bij het ophalen van landen",
+                            title: 'Er liep iets mis bij het ophalen van landen',
                             message: error_1.message,
                         });
                         return [3, 3];
@@ -248,7 +246,7 @@ var AdresCrab = (function () {
                     case 2:
                         error_2 = _a.sent();
                         message_1.Message.error({
-                            title: "Er liep iets mis bij het ophalen van gemeenten",
+                            title: 'Er liep iets mis bij het ophalen van gemeenten',
                             message: error_2.message,
                         });
                         return [3, 3];
@@ -282,7 +280,7 @@ var AdresCrab = (function () {
                         error_3 = _a.sent();
                         this.data.postcode = undefined;
                         message_1.Message.error({
-                            title: "Er liep iets mis bij het ophalen van postcodes",
+                            title: 'Er liep iets mis bij het ophalen van postcodes',
                             message: error_3.message,
                         });
                         return [3, 4];
@@ -294,6 +292,7 @@ var AdresCrab = (function () {
     AdresCrab.prototype.loadStraten = function (value) {
         return __awaiter(this, void 0, void 0, function () {
             var gemeenteNiscode, postcodeUri, straten, stratenMetLabel, error_4;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -314,14 +313,14 @@ var AdresCrab = (function () {
                         return [4, this.adresregisterService.getStraten(gemeenteNiscode)];
                     case 2:
                         straten = _a.sent();
-                        stratenMetLabel = straten.map(function (straat) { return (__assign(__assign({}, straat), { straatLabel: straat.homoniem
-                                ? "".concat(straat.naam, " (").concat(straat.homoniem, ")")
-                                : straat.naam })); });
+                        stratenMetLabel = straten.map(function (straat) {
+                            return _this.normalizeStraat(straat);
+                        });
                         return [2, this.suggestFilter(stratenMetLabel, value)];
                     case 3:
                         error_4 = _a.sent();
                         message_1.Message.error({
-                            title: "Er liep iets mis bij het ophalen van straten",
+                            title: 'Er liep iets mis bij het ophalen van straten',
                             message: error_4.message,
                         });
                         return [3, 4];
@@ -357,7 +356,7 @@ var AdresCrab = (function () {
                     case 3:
                         error_5 = _a.sent();
                         message_1.Message.error({
-                            title: "Er liep iets mis bij het ophalen van huisnummers",
+                            title: 'Er liep iets mis bij het ophalen van huisnummers',
                             message: error_5.message,
                         });
                         return [3, 4];
@@ -387,7 +386,7 @@ var AdresCrab = (function () {
                     case 3:
                         error_6 = _a.sent();
                         message_1.Message.error({
-                            title: "Er liep iets mis bij het ophalen van busnummers",
+                            title: 'Er liep iets mis bij het ophalen van busnummers',
                             message: error_6.message,
                         });
                         return [3, 4];
@@ -409,9 +408,9 @@ var AdresCrab = (function () {
     AdresCrab.prototype.filterHuisnummers = function (adressen, searchHuisnummer) {
         var adresList = (0, lodash_1.uniqBy)(adressen.filter(function (adres) {
             return adres.huisnummer.includes(searchHuisnummer);
-        }), "huisnummer");
+        }), 'huisnummer');
         return adresList.sort(function (a, b) {
-            return a.huisnummer.localeCompare(b.huisnummer, "en", { numeric: true });
+            return a.huisnummer.localeCompare(b.huisnummer, 'en', { numeric: true });
         });
     };
     AdresCrab.prototype.filterBusnummers = function (adressen, searchBusnummer) {
@@ -420,7 +419,7 @@ var AdresCrab = (function () {
             return adres.busnummer.includes(searchBusnummer);
         })
             .sort(function (a, b) {
-            return a.busnummer.localeCompare(b.busnummer, "en", { numeric: true });
+            return a.busnummer.localeCompare(b.busnummer, 'en', { numeric: true });
         });
     };
     AdresCrab.prototype.resetAdres = function () {
@@ -430,6 +429,14 @@ var AdresCrab = (function () {
             huisnummer: undefined,
             busnummer: undefined,
         };
+    };
+    AdresCrab.prototype.normalizeStraat = function (straat) {
+        if (!straat || !straat.naam) {
+            return straat;
+        }
+        return __assign(__assign({}, straat), { straatLabel: straat.homoniem
+                ? "".concat(straat.naam, " (").concat(straat.homoniem, ")")
+                : straat.naam });
     };
     AdresCrab.prototype.landCodeMatcher = function (a, b) {
         return !!a && !!b && a.code === b.code;

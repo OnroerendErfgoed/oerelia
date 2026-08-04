@@ -1,16 +1,16 @@
 /*
 original source: https://gist.github.com/jdanyow/abe2b8c1587f1853106079dc74701aeb
 * */
-import {bindingMode, observable} from 'aurelia-binding';
-import {bindable} from 'aurelia-templating';
-import {inject} from 'aurelia-dependency-injection';
-import {autocompleteType} from './models/autocomplete-type';
+import { bindingMode, observable } from 'aurelia-binding';
+import { bindable } from 'aurelia-templating';
+import { inject } from 'aurelia-dependency-injection';
+import { autocompleteType } from './models/autocomplete-type';
 
 let nextID: number = 0;
 
 @inject(Element)
 export class Autocomplete {
-  @observable public inputValue: string  = '';
+  @observable public inputValue: string = '';
   @bindable public service: any;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) public value: any;
   @bindable public placeholder: string = '';
@@ -61,6 +61,18 @@ export class Autocomplete {
     if (this.labelParser) {
       return this.labelParser(suggestion);
     }
+    const configuredLabel = suggestion[this.label];
+
+    if (configuredLabel != null) {
+      return configuredLabel;
+    }
+
+    if (suggestion.naam != null) {
+      return suggestion.homoniem != null
+        ? `${suggestion.naam} (${suggestion.homoniem})`
+        : suggestion.naam;
+    }
+
     return suggestion[this.label];
   }
 
@@ -80,10 +92,10 @@ export class Autocomplete {
           this.value = { naam: suggestion };
           break;
         case 'huisnummer':
-          this.value = { huisnummer: suggestion};
+          this.value = { huisnummer: suggestion };
           break;
         case 'busnummer':
-          this.value = { huisnummer: this.huisnummer, busnummer: suggestion};
+          this.value = { huisnummer: this.huisnummer, busnummer: suggestion };
           break;
       }
       displayName = suggestion;
@@ -113,22 +125,24 @@ export class Autocomplete {
       return;
     }
     if (value.length >= this.minlength) {
-      this.service.suggest(value)
-        .then(suggestions => {
-          this.index = -1;
-          if (!suggestions) {
+      this.service.suggest(value).then((suggestions) => {
+        this.index = -1;
+        if (!suggestions) {
+          this.collapse();
+        } else {
+          this.suggestions.splice(0, this.suggestions.length, ...suggestions);
+          if (
+            suggestions.length === 1 &&
+            this.type !== autocompleteType.Suggest
+          ) {
+            this.select(suggestions[0]);
+          } else if (suggestions.length === 0) {
             this.collapse();
           } else {
-            this.suggestions.splice(0, this.suggestions.length, ...suggestions);
-            if (suggestions.length === 1 && this.type !== autocompleteType.Suggest) {
-              this.select(suggestions[0]);
-            } else if (suggestions.length === 0) {
-              this.collapse();
-            } else {
-              this.expanded = true;
-            }
+            this.expanded = true;
           }
-        });
+        }
+      });
     }
   }
 
@@ -201,14 +215,19 @@ export class Autocomplete {
   }
 
   public blur() {
-    if ((this.getName(this.value) === this.inputValue) || (this.type !== autocompleteType.Suggest)) {
+    if (
+      this.getName(this.value) === this.inputValue ||
+      this.type !== autocompleteType.Suggest
+    ) {
       this.select(this.value);
       const event = new CustomEvent('blur');
       this.element.dispatchEvent(event);
       return;
     }
 
-    const customValue = this.parser ? this.parser(this.inputValue) : this.defaultParser(this.inputValue);
+    const customValue = this.parser
+      ? this.parser(this.inputValue)
+      : this.defaultParser(this.inputValue);
     this.select(customValue);
   }
 
@@ -217,7 +236,7 @@ export class Autocomplete {
   }
 
   public focus() {
-    (<HTMLElement> this.element.firstElementChild).focus();
+    (<HTMLElement>this.element.firstElementChild).focus();
   }
 
   public resetUserInput() {
