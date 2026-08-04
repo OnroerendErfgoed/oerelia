@@ -60,6 +60,15 @@ var Autocomplete = (function () {
         if (this.labelParser) {
             return this.labelParser(suggestion);
         }
+        var configuredLabel = suggestion[this.label];
+        if (configuredLabel != null) {
+            return configuredLabel;
+        }
+        if (suggestion.naam != null) {
+            return suggestion.homoniem != null
+                ? "".concat(suggestion.naam, " (").concat(suggestion.homoniem, ")")
+                : suggestion.naam;
+        }
         return suggestion[this.label];
     };
     Autocomplete.prototype.collapse = function () {
@@ -109,8 +118,7 @@ var Autocomplete = (function () {
             return;
         }
         if (value.length >= this.minlength) {
-            this.service.suggest(value)
-                .then(function (suggestions) {
+            this.service.suggest(value).then(function (suggestions) {
                 var _a;
                 _this.index = -1;
                 if (!suggestions) {
@@ -118,7 +126,8 @@ var Autocomplete = (function () {
                 }
                 else {
                     (_a = _this.suggestions).splice.apply(_a, __spreadArray([0, _this.suggestions.length], suggestions, false));
-                    if (suggestions.length === 1 && _this.type !== autocompleteType.Suggest) {
+                    if (suggestions.length === 1 &&
+                        _this.type !== autocompleteType.Suggest) {
                         _this.select(suggestions[0]);
                     }
                     else if (suggestions.length === 0) {
@@ -192,13 +201,16 @@ var Autocomplete = (function () {
         return true;
     };
     Autocomplete.prototype.blur = function () {
-        if ((this.getName(this.value) === this.inputValue) || (this.type !== autocompleteType.Suggest)) {
+        if (this.getName(this.value) === this.inputValue ||
+            this.type !== autocompleteType.Suggest) {
             this.select(this.value);
             var event_1 = new CustomEvent('blur');
             this.element.dispatchEvent(event_1);
             return;
         }
-        var customValue = this.parser ? this.parser(this.inputValue) : this.defaultParser(this.inputValue);
+        var customValue = this.parser
+            ? this.parser(this.inputValue)
+            : this.defaultParser(this.inputValue);
         this.select(customValue);
     };
     Autocomplete.prototype.suggestionClicked = function (suggestion) {
