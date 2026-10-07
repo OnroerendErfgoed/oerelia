@@ -19,7 +19,7 @@
     "d3": "^7.9.0",
     "jsts": "2.0.2",
     "lodash": "^4.17.21",
-    "moment": "^2.29.4",
+    "moment": "^2.31.0",
     "openlayers": "^4.2.0",
     "pikaday": "^1.8.2",
     "primer-tooltips": "^2.0.0",
