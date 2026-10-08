@@ -18,6 +18,7 @@ export declare class AdresCrab {
     constructor(controller: ValidationController, controllerFactory: ValidationControllerFactory, adresregisterService: AdresregisterService);
     bind(): void;
     landChanged(): void;
+    get freeInput(): boolean;
     gemeenteChanged(): void;
     straatChanged(): void;
     straatParser(value: string): IStraat;
@@ -36,5 +37,5 @@ export declare class AdresCrab {
     private resetAdres;
     private normalizeStraat;
     private landCodeMatcher;
-    private isVlaamseProvincie;
+    private isVlaamseGemeente;
 }

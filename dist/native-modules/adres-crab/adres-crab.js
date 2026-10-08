@@ -54,7 +54,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { inject, bindable } from 'aurelia-framework';
+import { inject, bindable, computedFrom } from 'aurelia-framework';
 import { ValidationController, ValidationControllerFactory, ValidationRules, } from 'aurelia-validation';
 import { FoundationValidationRenderer } from '../foundation-validation-renderer/foundation-validation-renderer';
 import { AdresregisterService } from '../services/adresregister.api-service';
@@ -119,10 +119,6 @@ var AdresCrab = (function () {
             .satisfiesRule('requiredHuisnummer')
             .when(function () { return _this.config.huisnummer.required; })
             .on(this.data);
-        if (this.data.provincie && !this.isVlaamseProvincie(this.data.provincie)) {
-            this.config.postcode.autocompleteType = autocompleteType.Suggest;
-            this.config.straat.autocompleteType = autocompleteType.Suggest;
-        }
         this.data.land = this.config.countryId
             ? { code: this.config.countryId }
             : this.data.land || { code: 'BE', naam: 'België' };
@@ -133,17 +129,16 @@ var AdresCrab = (function () {
         this.data.postcode = undefined;
         this.resetAdres();
     };
+    Object.defineProperty(AdresCrab.prototype, "freeInput", {
+        get: function () {
+            var _a, _b;
+            return (((_b = (_a = this.data) === null || _a === void 0 ? void 0 : _a.land) === null || _b === void 0 ? void 0 : _b.code) !== 'BE' ||
+                (!!this.data.gemeente && !this.isVlaamseGemeente(this.data.gemeente)));
+        },
+        enumerable: false,
+        configurable: true
+    });
     AdresCrab.prototype.gemeenteChanged = function () {
-        if (this.data.gemeente &&
-            this.data.gemeente.provincie &&
-            !this.isVlaamseProvincie(this.data.gemeente.provincie)) {
-            this.config.postcode.autocompleteType = autocompleteType.Suggest;
-            this.config.straat.autocompleteType = autocompleteType.Suggest;
-        }
-        else {
-            this.config.postcode.autocompleteType = autocompleteType.Auto;
-            this.config.straat.autocompleteType = autocompleteType.Auto;
-        }
         this.data.straat = undefined;
         this.data.postcode = undefined;
         this.straatChanged();
@@ -333,9 +328,7 @@ var AdresCrab = (function () {
                 switch (_a.label) {
                     case 0:
                         straatId = this.data.straat ? this.data.straat.id : undefined;
-                        if (this.vrijAdres ||
-                            (this.data.gemeente.provincie &&
-                                !this.isVlaamseProvincie(this.data.gemeente.provincie))) {
+                        if (this.vrijAdres || this.freeInput) {
                             return [2];
                         }
                         if (!straatId) {
@@ -438,8 +431,15 @@ var AdresCrab = (function () {
     AdresCrab.prototype.landCodeMatcher = function (a, b) {
         return !!a && !!b && a.code === b.code;
     };
-    AdresCrab.prototype.isVlaamseProvincie = function (provincie) {
-        return this.vlaamseProvinciesNiscodes.includes(provincie.niscode);
+    AdresCrab.prototype.isVlaamseGemeente = function (gemeente) {
+        var _a;
+        if ((_a = gemeente.provincie) === null || _a === void 0 ? void 0 : _a.niscode) {
+            return this.vlaamseProvinciesNiscodes.includes(gemeente.provincie.niscode);
+        }
+        if (gemeente.niscode) {
+            return /^(1|23|24|3|4|7)/.test(String(gemeente.niscode));
+        }
+        return true;
     };
     __decorate([
         bindable,
@@ -461,6 +461,11 @@ var AdresCrab = (function () {
         bindable,
         __metadata("design:type", Object)
     ], AdresCrab.prototype, "copyAvailable", void 0);
+    __decorate([
+        computedFrom('data.land', 'data.gemeente'),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [])
+    ], AdresCrab.prototype, "freeInput", null);
     AdresCrab = __decorate([
         inject(ValidationController, ValidationControllerFactory, AdresregisterService),
         __metadata("design:paramtypes", [ValidationController,

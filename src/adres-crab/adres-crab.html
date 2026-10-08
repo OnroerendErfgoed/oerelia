@@ -72,6 +72,29 @@
               </template>
             </autocomplete>
           </div>
+        </div>
+        <div if.bind="data.land.code !== 'BE'">
+          <div
+            class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }"
+          >
+            <label>
+              Gemeente
+              <span
+                title="Opgelet, enkel de hoofdgemeenten (en niet de deelgemeenten) kunnen ingevuld worden."
+              >
+                (?)
+              </span>
+            </label>
+            <input
+              type="text"
+              value.bind="data.gemeente.naam"
+              placeholder="gemeente"
+              disabled.bind="disabled"
+            />
+            <input type="hidden" model.bind="data.gemeente & validate" />
+          </div>
+        </div>
+        <div if.bind="!freeInput">
           <div
             class="placeholder-container ${ !data.gemeente || disabled ? 'placeholder-disabled' : '' }"
           >
@@ -151,26 +174,7 @@
             </autocomplete>
           </div>
         </div>
-        <div if.bind="data.land.code !== 'BE'">
-          <div
-            class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }"
-          >
-            <label>
-              Gemeente
-              <span
-                title="Opgelet, enkel de hoofdgemeenten (en niet de deelgemeenten) kunnen ingevuld worden."
-              >
-                (?)
-              </span>
-            </label>
-            <input
-              type="text"
-              value.bind="data.gemeente.naam"
-              placeholder="gemeente"
-              disabled.bind="disabled"
-            />
-            <input type="hidden" model.bind="data.gemeente & validate" />
-          </div>
+        <div if.bind="freeInput">
           <div
             class="placeholder-container ${ disabled ? 'placeholder-disabled' : '' }"
           >
