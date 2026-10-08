@@ -1,4 +1,4 @@
-import { inject, bindable } from 'aurelia-framework';
+import { inject, bindable, computedFrom } from 'aurelia-framework';
 import {
   ValidationController,
   ValidationControllerFactory,
@@ -94,11 +94,6 @@ export class AdresCrab {
       .when(() => this.config.huisnummer.required)
       .on(this.data);
 
-    if (this.data.provincie && !this.isVlaamseProvincie(this.data.provincie)) {
-      this.config.postcode.autocompleteType = autocompleteType.Suggest;
-      this.config.straat.autocompleteType = autocompleteType.Suggest;
-    }
-
     this.data.land = this.config.countryId
       ? { code: this.config.countryId }
       : this.data.land || { code: 'BE', naam: 'België' };
@@ -111,18 +106,15 @@ export class AdresCrab {
     this.resetAdres();
   }
 
+  @computedFrom('data.land', 'data.gemeente')
+  public get freeInput(): boolean {
+    return (
+      this.data?.land?.code !== 'BE' ||
+      (!!this.data.gemeente && !this.isVlaamseGemeente(this.data.gemeente))
+    );
+  }
+
   public gemeenteChanged() {
-    if (
-      this.data.gemeente &&
-      this.data.gemeente.provincie &&
-      !this.isVlaamseProvincie(this.data.gemeente.provincie)
-    ) {
-      this.config.postcode.autocompleteType = autocompleteType.Suggest;
-      this.config.straat.autocompleteType = autocompleteType.Suggest;
-    } else {
-      this.config.postcode.autocompleteType = autocompleteType.Auto;
-      this.config.straat.autocompleteType = autocompleteType.Auto;
-    }
     this.data.straat = undefined;
     this.data.postcode = undefined;
     this.straatChanged();
@@ -265,11 +257,7 @@ export class AdresCrab {
 
   private async loadHuisnrs(value: string) {
     const straatId = this.data.straat ? this.data.straat.id : undefined;
-    if (
-      this.vrijAdres ||
-      (this.data.gemeente.provincie &&
-        !this.isVlaamseProvincie(this.data.gemeente.provincie))
-    ) {
+    if (this.vrijAdres || this.freeInput) {
       return;
     }
     if (!straatId) {
@@ -380,7 +368,13 @@ export class AdresCrab {
     return !!a && !!b && a.code === b.code;
   }
 
-  private isVlaamseProvincie(provincie) {
-    return this.vlaamseProvinciesNiscodes.includes(provincie.niscode);
+  private isVlaamseGemeente(gemeente: IGemeente): boolean {
+    if (gemeente.provincie?.niscode) {
+      return this.vlaamseProvinciesNiscodes.includes(gemeente.provincie.niscode);
+    }
+    if (gemeente.niscode) {
+      return /^(1|23|24|3|4|7)/.test(String(gemeente.niscode));
+    }
+    return true;
   }
 }
