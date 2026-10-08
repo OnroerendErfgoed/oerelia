@@ -122,10 +122,6 @@ var AdresCrab = (function () {
             .satisfiesRule('requiredHuisnummer')
             .when(function () { return _this.config.huisnummer.required; })
             .on(this.data);
-        if (this.data.provincie && !this.isVlaamseProvincie(this.data.provincie)) {
-            this.config.postcode.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
-            this.config.straat.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
-        }
         this.data.land = this.config.countryId
             ? { code: this.config.countryId }
             : this.data.land || { code: 'BE', naam: 'België' };
@@ -136,17 +132,16 @@ var AdresCrab = (function () {
         this.data.postcode = undefined;
         this.resetAdres();
     };
+    Object.defineProperty(AdresCrab.prototype, "freeInput", {
+        get: function () {
+            var _a, _b;
+            return (((_b = (_a = this.data) === null || _a === void 0 ? void 0 : _a.land) === null || _b === void 0 ? void 0 : _b.code) !== 'BE' ||
+                (!!this.data.gemeente && !this.isVlaamseGemeente(this.data.gemeente)));
+        },
+        enumerable: false,
+        configurable: true
+    });
     AdresCrab.prototype.gemeenteChanged = function () {
-        if (this.data.gemeente &&
-            this.data.gemeente.provincie &&
-            !this.isVlaamseProvincie(this.data.gemeente.provincie)) {
-            this.config.postcode.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
-            this.config.straat.autocompleteType = autocomplete_type_1.autocompleteType.Suggest;
-        }
-        else {
-            this.config.postcode.autocompleteType = autocomplete_type_1.autocompleteType.Auto;
-            this.config.straat.autocompleteType = autocomplete_type_1.autocompleteType.Auto;
-        }
         this.data.straat = undefined;
         this.data.postcode = undefined;
         this.straatChanged();
@@ -336,9 +331,7 @@ var AdresCrab = (function () {
                 switch (_a.label) {
                     case 0:
                         straatId = this.data.straat ? this.data.straat.id : undefined;
-                        if (this.vrijAdres ||
-                            (this.data.gemeente.provincie &&
-                                !this.isVlaamseProvincie(this.data.gemeente.provincie))) {
+                        if (this.vrijAdres || this.freeInput) {
                             return [2];
                         }
                         if (!straatId) {
@@ -441,8 +434,15 @@ var AdresCrab = (function () {
     AdresCrab.prototype.landCodeMatcher = function (a, b) {
         return !!a && !!b && a.code === b.code;
     };
-    AdresCrab.prototype.isVlaamseProvincie = function (provincie) {
-        return this.vlaamseProvinciesNiscodes.includes(provincie.niscode);
+    AdresCrab.prototype.isVlaamseGemeente = function (gemeente) {
+        var _a;
+        if ((_a = gemeente.provincie) === null || _a === void 0 ? void 0 : _a.niscode) {
+            return this.vlaamseProvinciesNiscodes.includes(gemeente.provincie.niscode);
+        }
+        if (gemeente.niscode) {
+            return /^(1|23|24|3|4|7)/.test(String(gemeente.niscode));
+        }
+        return true;
     };
     __decorate([
         aurelia_framework_1.bindable,
@@ -464,6 +464,11 @@ var AdresCrab = (function () {
         aurelia_framework_1.bindable,
         __metadata("design:type", Object)
     ], AdresCrab.prototype, "copyAvailable", void 0);
+    __decorate([
+        (0, aurelia_framework_1.computedFrom)('data.land', 'data.gemeente'),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [])
+    ], AdresCrab.prototype, "freeInput", null);
     AdresCrab = __decorate([
         (0, aurelia_framework_1.inject)(aurelia_validation_1.ValidationController, aurelia_validation_1.ValidationControllerFactory, adresregister_api_service_1.AdresregisterService),
         __metadata("design:paramtypes", [aurelia_validation_1.ValidationController,
