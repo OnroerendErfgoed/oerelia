@@ -1,4 +1,4 @@
-import { IStatus, ISystemFields } from 'models/public-models';
+import { IStatus, ISystemFields } from "models/public-models";
 export declare class Systemfields {
     systemfields: ISystemFields;
     status: IStatus;
